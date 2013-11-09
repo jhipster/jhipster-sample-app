@@ -1,0 +1,6 @@
+{
+  "generator-jhipster": {
+    "packageName": "com.mycompany.myapp",
+    "packageFolder": "com/mycompany/myapp"
+  }
+}
