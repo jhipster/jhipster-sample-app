@@ -24,12 +24,6 @@ jhipsterApp.factory('Metrics', function($resource){
     });
 });
 
-jhipsterApp.factory('HealthChecks', function($resource){
-    return $resource('/metrics/healthcheck', {}, {
-        'get': { method: 'GET'}
-    });
-});
-
 jhipsterApp.factory('AuthenticationSharedService', function($rootScope) {
     var authenticationSharedService = {};
 

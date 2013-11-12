@@ -2,7 +2,7 @@
 
 /* App Module */
 
-var jhipsterApp = angular.module('jhipsterApp', ['ngResource']);
+var jhipsterApp = angular.module('jhipsterApp', ['ngResource', 'ngRoute']);
 
 jhipsterApp
     .config(function ($routeProvider) {

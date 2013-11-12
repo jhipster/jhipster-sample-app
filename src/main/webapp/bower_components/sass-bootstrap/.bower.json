@@ -17,7 +17,7 @@
   "_resolution": {
     "type": "version",
     "tag": "v3.0.2",
-    "commit": "1980291db60582a9d9290c0e96c41e631e6dffbc"
+    "commit": "efd13cf8bf77c623cd38c927ad14a30eb1a1384b"
   },
   "_source": "git://github.com/jlong/sass-bootstrap.git",
   "_target": "~3.0.0",
