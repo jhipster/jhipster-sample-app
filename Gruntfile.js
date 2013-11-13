@@ -1,4 +1,4 @@
-// Generated on 2013-11-12 using generator-jhipster 0.0.21
+// Generated on 2013-11-13 using generator-jhipster 0.0.21
 'use strict';
 
 // # Globbing
