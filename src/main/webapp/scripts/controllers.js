@@ -103,7 +103,7 @@ jhipsterApp.controller('MetricsController', function MetricsController($scope, $
     };
 });
 
-jhipsterApp.controller('LogoutController', function LoginController($scope, $http, $location, AuthenticationSharedService) {
+jhipsterApp.controller('LogoutController', function LogoutController($scope, $http, $location, AuthenticationSharedService) {
     $http.get('/app/logout')
         .success(function (data, status, headers, config) {
             AuthenticationSharedService.prepForBroadcast("logout");
@@ -112,4 +112,29 @@ jhipsterApp.controller('LogoutController', function LoginController($scope, $htt
         error(function (data, status, headers, config) {
             $location.path('');
         });
+});
+
+jhipsterApp.controller('LogsController', function LogsController($scope, LogsService) {
+    $scope.findAll = function () {
+        LogsService.findAll().
+            success(function (loggers) {
+                $scope.loggers = loggers;
+            })
+            .error(function (resp) {
+                console.log("Error with LogsService.findAll" + resp);
+            });
+    }
+
+    $scope.changeLevel = function(loggerName, newLevel) {
+        LogsService.changeLevel(loggerName, newLevel).
+            success(function(loggers) {
+                console.log("Success changing Level for " + loggerName + " to " + newLevel);
+                $scope.findAll();
+            }).
+            error(function(resp) {
+                console.log("Error with LogsService.changeLevel : " + resp)
+            });
+    }
+
+    $scope.findAll();
 });

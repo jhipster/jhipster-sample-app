@@ -28,7 +28,7 @@
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> <span>Home</span></a></li>
                     <li class="dropdown pointer">
-                        <a data-toggle="dropdown" class="dropdown-toggle">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
                                 <span>
                                     <span class="glyphicon glyphicon-user"></span>
                                     <span class="hidden-tablet">
@@ -46,6 +46,8 @@
                                 Sessions</a></li>
                             <li ng-show="authenticated"><a href="#/metrics"><span class="glyphicon glyphicon-dashboard"></span>
                                 Metrics</a></li>
+                            <li ng-show="authenticated"><a href="#/logs"><span class="glyphicon glyphicon-tasks"></span>
+                                Logs</a></li>
                             <li ng-show="authenticated"><a href="#/logout"><span class="glyphicon glyphicon-log-out"></span>
                                 Log out</a></li>
                             <li ng-hide="authenticated"><a href="#/login"><span class="glyphicon glyphicon-log-in"> Authenticate</span></a></li>
