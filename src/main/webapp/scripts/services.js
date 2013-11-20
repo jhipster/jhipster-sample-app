@@ -2,28 +2,27 @@
 
 /* Services */
 
-jhipsterApp.factory('Account', function($resource){
-        return $resource('app/rest/account', {}, {
-        });
+jhipsterApp.factory('Account', function($resource){ 
+    return $resource('app/rest/account', {}, {
     });
+});
 
-jhipsterApp.factory('Password', function($resource){
+jhipsterApp.factory('Password', function($resource) {
     return $resource('app/rest/account/change_password', {}, {
     });
 });
 
-jhipsterApp.factory('Sessions', function($resource){
+jhipsterApp.factory('Sessions', function($resource) {
     return $resource('app/rest/account/sessions/:series', {}, {
         'get': { method: 'GET', isArray: true}
     });
 });
 
-jhipsterApp.factory('Metrics', function($resource){
+jhipsterApp.factory('Metrics', function($resource) {
     return $resource('/metrics/metrics', {}, {
         'get': { method: 'GET'}
     });
 });
-
 
 jhipsterApp.factory('AuthenticationSharedService', function($rootScope, $http) {
     return {
