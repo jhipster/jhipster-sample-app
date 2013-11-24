@@ -37,6 +37,14 @@ jhipsterApp.controller('LoginController', function LoginController($scope, $loca
     };
 });
 
+jhipsterApp.controller('LogoutController', function LogoutController($location, AuthenticationSharedService) {
+    AuthenticationSharedService.logout({
+        success:function () {
+            $location.path('');
+        }
+    });
+});
+
 jhipsterApp.controller('SettingsController', function SettingsController($scope, Account) {
     $scope.success = null;
     $scope.error = null;
@@ -101,17 +109,6 @@ jhipsterApp.controller('MetricsController', function MetricsController($scope, $
     $scope.init = function () {
         $scope.metrics = Metrics.get();
     };
-});
-
-jhipsterApp.controller('LogoutController', function LogoutController($scope, $http, $location, AuthenticationSharedService) {
-    $http.get('/app/logout')
-        .success(function (data, status, headers, config) {
-            AuthenticationSharedService.prepForBroadcast("logout");
-            $location.path('');
-        }).
-        error(function (data, status, headers, config) {
-            $location.path('');
-        });
 });
 
 jhipsterApp.controller('LogsController', function LogsController($scope, LogsService) {

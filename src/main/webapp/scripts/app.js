@@ -5,7 +5,7 @@
 var jhipsterApp = angular.module('jhipsterApp', ['ngResource', 'ngRoute']);
 
 jhipsterApp
-    .config(function ($routeProvider) {
+    .config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: 'views/login.html',
@@ -40,4 +40,23 @@ jhipsterApp
                 controller: 'MainController'
             })
 
+        // Handle the 401 error
+        var unauthorizedInterceptor = ['$rootScope', '$q', '$location', function(scope, $q, $location) {
+            function success(response) {
+                return response;
+            }
+
+            function error(response) {
+                var status = response.status;
+                if (status == 401) {
+                    $location.path('/login').replace();
+                }
+                return $q.reject(response);
+            }
+
+            return function(promise) {
+                return promise.then(success, error);
+            }
+        }];
+        $httpProvider.responseInterceptors.push(unauthorizedInterceptor);
     });
