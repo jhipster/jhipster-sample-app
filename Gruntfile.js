@@ -1,4 +1,4 @@
-// Generated on 2013-11-24 using generator-jhipster 0.0.25
+// Generated on 2013-11-25 using generator-jhipster 0.0.25
 'use strict';
 
 // # Globbing
@@ -269,7 +269,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
-            'styles/fonts/*'
+            'fonts/*'
           ]
         }, {
           expand: true,
