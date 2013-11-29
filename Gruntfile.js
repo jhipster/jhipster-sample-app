@@ -1,4 +1,4 @@
-// Generated on 2013-11-25 using generator-jhipster 0.0.25
+// Generated on 2013-11-29 using generator-jhipster 0.0.28
 'use strict';
 
 // # Globbing
@@ -17,14 +17,10 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'dist'
+      dist: 'src/main/webapp/dist'
     },
     watch: {
-      compass: {
-        files: ['src/main/webapp/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
-      },
-      styles: {
+    styles: {
         files: ['src/main/webapp/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
@@ -151,27 +147,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    compass: {
-      options: {
-        sassDir: 'src/main/scss',
-        cssDir: 'src/main/webapp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: 'src/main/webapp/images',
-        javascriptsDir: 'src/main/webapp/scripts',
-        fontsDir: 'src/main/webapp/styles/fonts',
-        importPath: 'src/main/webapp/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false
-      },
-      dist: {},
-      server: {
-        options: {
-          debugInfo: true
-        }
-      }
-    },
     // not used since Uglify task does concat,
     // but still available if needed
     /*concat: {
@@ -184,7 +159,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/styles/fonts/*'
+            '<%= yeoman.dist %>/fonts/*'
           ]
         }
       }
@@ -289,26 +264,17 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: [
-        'compass:server',
         'copy:styles'
       ],
       test: [
-        'compass',
         'copy:styles'
       ],
       dist: [
-        'compass:dist',
         'copy:styles',
         'imagemin',
         'svgmin',
         'htmlmin'
       ]
-    },
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
     },
     cdnify: {
       dist: {
@@ -355,8 +321,7 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'autoprefixer',
-    'connect:test',
-    'karma'
+    'connect:test'
   ]);
 
   grunt.registerTask('build', [
@@ -366,7 +331,6 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'copy:dist',
-    'cdnify',
     'ngmin',
     'cssmin',
     'uglify',
@@ -375,7 +339,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'jshint',
     'test',
     'build'
   ]);

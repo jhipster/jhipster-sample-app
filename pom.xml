@@ -9,13 +9,13 @@
 
     <profiles>
         <profile>
-            <id>development</id>
+            <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <!-- Spring profile to use -->
-                <spring.profiles.active>development</spring.profiles.active>
+                <spring.profiles.active>dev</spring.profiles.active>
                 <!-- i18n resource files reloading -->
                 <message.reloading.enabled>true</message.reloading.enabled>
                 <!-- log configuration -->
@@ -41,6 +41,7 @@
                 <mail.password></mail.password>
                 <mail.tls></mail.tls>
                 <mail.from>jhipster@localhost</mail.from>
+                <jetty-maven-plugin.scan-interval-seconds>1</jetty-maven-plugin.scan-interval-seconds>
             </properties>
             <dependencies>
                 <dependency>
@@ -51,10 +52,10 @@
             </dependencies>
         </profile>
         <profile>
-            <id>production</id>
+            <id>prod</id>
             <properties>
                 <!-- Spring profile to use -->
-                <spring.profiles.active>production</spring.profiles.active>
+                <spring.profiles.active>prod</spring.profiles.active>
                 <!-- i18n resource files reloading -->
                 <message.reloading.enabled>false</message.reloading.enabled>
                 <!-- log configuration -->
@@ -81,6 +82,7 @@
                 <mail.password></mail.password>
                 <mail.tls></mail.tls>
                 <mail.from>jhipster@localhost</mail.from>
+                <jetty-maven-plugin.scan-interval-seconds>0</jetty-maven-plugin.scan-interval-seconds>
             </properties>
             <dependencies>
                 <dependency>
@@ -89,6 +91,27 @@
                     <version>5.1.26</version>
                 </dependency>
             </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.trecloux</groupId>
+                        <artifactId>yeoman-maven-plugin</artifactId>
+                        <version>0.1</version>
+                        <configuration>
+                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>run-grunt</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>        
     </profiles>
     
@@ -476,26 +499,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp/WEB-INF</directory>
-                            <targetPath>WEB-INF</targetPath>
-                            <includes>
-                                <include>web.xml</include>
-                            </includes>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
-                </configuration>
+                <version>2.4</version>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
     			<artifactId>jetty-maven-plugin</artifactId>
     			<version>9.1.0.v20131115</version>
                 <configuration>
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
+                    <scanIntervalSeconds>${jetty-maven-plugin.scan-interval-seconds}</scanIntervalSeconds>
                     <stopKey>stop-jetty</stopKey>
                     <stopPort>9999</stopPort>
                     <systemProperties>
@@ -505,7 +516,7 @@
                         </systemProperty>
                         <systemProperty>
                             <name>spring.profiles.active</name>
-                            <value>development</value>
+                            <value>${spring.profiles.active}</value>
                         </systemProperty>
                     </systemProperties>
                     <jvmArgs>-javaagent:spring_loaded/springloaded-1.1.4.jar -noverify</jvmArgs>
@@ -523,7 +534,7 @@
                     <contextReloadable>true</contextReloadable>
                     <protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
                     <systemProperties>
-                        <spring.profiles.active>development</spring.profiles.active>
+                        <spring.profiles.active>${spring.profiles.active}</spring.profiles.active>
                     </systemProperties>
                 </configuration>
             </plugin>
