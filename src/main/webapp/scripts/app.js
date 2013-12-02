@@ -2,11 +2,11 @@
 
 /* App Module */
 
-var jhipsterApp = angular.module('jhipsterApp', ['ngResource', 'ngRoute']);
+var jhipsterApp = angular.module('jhipsterApp', ['ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 jhipsterApp
-    .config(['$routeProvider', '$httpProvider',
-        function ($routeProvider, $httpProvider) {
+    .config(['$routeProvider', '$httpProvider', '$translateProvider',
+        function ($routeProvider, $httpProvider, $translateProvider) {
             $routeProvider
                 .when('/login', {
                     templateUrl: 'views/login.html',
@@ -60,4 +60,15 @@ jhipsterApp
                 }
             }];
             $httpProvider.responseInterceptors.push(unauthorizedInterceptor);
+
+            // Initialize angular-translate
+            $translateProvider.useStaticFilesLoader({
+                prefix: '/i18n/',
+                suffix: '.json'
+            });
+
+            $translateProvider.preferredLanguage('en');
+
+            // remember language
+            $translateProvider.useCookieStorage();
         }]);
