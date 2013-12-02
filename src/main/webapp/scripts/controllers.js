@@ -2,17 +2,15 @@
 
 /* Controllers */
 
-jhipsterApp.controller('MainController', ['$scope', '$translate',
-    function ($scope, $translate) {
-        $scope.changeLanguage = function (langKey) {
-            $translate.uses(langKey);
-        };
+jhipsterApp.controller('MainController', ['$scope',
+    function ($scope) {
+    }]);
 
-        $scope.applyLanguageClass = function (langKey) {
-            if ($translate.preferredLanguage() == 'en') {
-                return 'active'
-            }
-        }
+jhipsterApp.controller('LanguageController', ['$scope', '$translate',
+    function ($scope, $translate) {
+        $scope.changeLanguage = function (languageKey) {
+            $translate.uses(languageKey);
+        };
     }]);
 
 jhipsterApp.controller('MenuController', ['$rootScope', '$scope', '$location', 'Account',

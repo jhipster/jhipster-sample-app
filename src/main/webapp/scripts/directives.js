@@ -16,9 +16,7 @@ angular.module('jhipsterApp')
                         element.removeClass('active');
                     }
                 });
-
             }
-
         };
     }])
     .directive('activeLink', ['$location', function(location) {
@@ -37,7 +35,6 @@ angular.module('jhipsterApp')
                     }
                 });
             }
-
         };
-
     }]);
+    
