@@ -123,7 +123,7 @@
         <!-- Librairies versions -->
         <spring.version>3.2.5.RELEASE</spring.version>  
         <spring.security.version>3.1.4.RELEASE</spring.security.version>
-        <hibernate.version>4.2.7.SP1</hibernate.version>
+        <hibernate.version>4.2.7.Final</hibernate.version>
         <codahale.metrics.version>3.0.1</codahale.metrics.version>
     </properties>
 
