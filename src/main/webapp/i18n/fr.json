@@ -49,6 +49,11 @@
             "password.placeholder": "Votre mot de passe",
             "rememberme": "Garder ma connexion ouverte",
             "button": "Connexion"
+        },
+        "messages": {
+            "error": {
+                "authentication": "<strong>Erreur d'authentification!</strong> Veuillez vérifier vos identifiants de connexion."
+            }
         }
     },
     "settings": {
@@ -185,7 +190,7 @@
         },
         "ehcache": {
             "title": "Statistiques Ehcache",
-            "cachename": "Nom de la cache",
+            "cachename": "Nom du cache",
             "objects": "Objets",
             "hits": "Données existantes",
             "misses": "Données non existantes",
