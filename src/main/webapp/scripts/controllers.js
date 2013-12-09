@@ -55,19 +55,18 @@ jhipsterApp.controller('LogoutController', ['$location', 'AuthenticationSharedSe
         });
     }]);
 
-jhipsterApp.controller('SettingsController', ['$scope', 'Account',
-    function ($scope, Account) {
+jhipsterApp.controller('SettingsController', ['$scope', 'resolvedAccount', 'Account',
+    function ($scope, resolvedAccount, Account) {
         $scope.success = null;
         $scope.error = null;
-        $scope.init = function () {
-            $scope.settingsAccount = Account.get();
-        };
+        $scope.settingsAccount = resolvedAccount;
+
         $scope.save = function () {
             Account.save($scope.settingsAccount,
                 function (value, responseHeaders) {
                     $scope.error = null;
                     $scope.success = 'OK';
-                    $scope.init();
+                    $scope.settingsAccount = Account.get();
                 },
                 function (httpResponse) {
                     $scope.success = null;
@@ -99,11 +98,11 @@ jhipsterApp.controller('PasswordController', ['$scope', 'Password',
         };
     }]);
 
-jhipsterApp.controller('SessionsController', ['$scope', 'Sessions',
-    function ($scope, Sessions) {
+jhipsterApp.controller('SessionsController', ['$scope', 'resolvedSessions', 'Sessions',
+    function ($scope, resolvedSessions, Sessions) {
         $scope.success = null;
         $scope.error = null;
-        $scope.sessions = Sessions.get();
+        $scope.sessions = resolvedSessions;
         $scope.invalidate = function (series) {
             Sessions.delete({series: encodeURIComponent(series)},
                 function (value, responseHeaders) {
@@ -118,16 +117,14 @@ jhipsterApp.controller('SessionsController', ['$scope', 'Sessions',
         };
     }]);
 
-jhipsterApp.controller('MetricsController', ['$scope', 'Metrics',
-    function ($scope, Metrics) {
-        $scope.init = function () {
-            $scope.metrics = Metrics.get();
-        };
+jhipsterApp.controller('MetricsController', ['$scope', 'resolvedMetrics',
+    function ($scope, resolvedMetrics) {
+        $scope.metrics = resolvedMetrics;
     }]);
 
-jhipsterApp.controller('LogsController', ['$scope', 'LogsService',
-    function ($scope, LogsService) {
-        $scope.loggers = LogsService.findAll();
+jhipsterApp.controller('LogsController', ['$scope', 'resolvedLogs', 'LogsService',
+    function ($scope, resolvedLogs, LogsService) {
+        $scope.loggers = resolvedLogs;
 
         $scope.changeLevel = function (name, level) {
             LogsService.changeLevel({name: name, level: level}, function () {
