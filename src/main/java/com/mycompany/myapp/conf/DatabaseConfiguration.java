@@ -68,10 +68,10 @@ public class DatabaseConfiguration {
         jpaProperties.put("hibernate.cache.use_query_cache", false);
         jpaProperties.put("hibernate.generate_statistics",
                 env.getProperty("hibernate.generate_statistics", Boolean.class));
-
+        
         jpaProperties.put("hibernate.cache.region.factory_class",
                 "org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory");
-
+        
         lcemfb.setJpaProperties(jpaProperties);
 
         lcemfb.setPackagesToScan("com.mycompany.myapp.domain");

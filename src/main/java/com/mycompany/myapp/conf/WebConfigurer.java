@@ -8,7 +8,7 @@ import com.codahale.metrics.servlets.HealthCheckServlet;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
-import net.sf.ehcache.constructs.web.filter.GzipFilter;
+import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -20,6 +20,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -49,7 +51,6 @@ public class WebConfigurer implements ServletContextListener {
         initSpring(servletContext, rootContext);
         initSpringSecurity(servletContext, disps);
         initMetrics(servletContext, disps);
-        initGzipFilter(servletContext, disps);
 
         if (WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext)
@@ -60,25 +61,32 @@ public class WebConfigurer implements ServletContextListener {
             initCachingHttpHeadersFilter(servletContext, disps);
         }
 
+        initGzipFilter(servletContext, disps);
+
         log.debug("Web application fully configured");
     }
+
+    
 
     /**
      * Initializes the GZip filter.
      */
     private void initGzipFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Registering GZip Filter");
-        FilterRegistration.Dynamic gzipFilter = servletContext.addFilter("gzipFilter",
-                new GzipFilter());
 
-        gzipFilter.addMappingForServletNames(disps, true, "dispatcher");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
-        gzipFilter.addMappingForUrlPatterns(disps, true, "/views/*");
-        gzipFilter.setAsyncSupported(true);
+        FilterRegistration.Dynamic compressingFilter = servletContext.addFilter("gzipFilter", new GZipServletFilter());
+        Map<String, String> parameters = new HashMap<String, String>();
+
+        compressingFilter.setInitParameters(parameters);
+
+        compressingFilter.addMappingForUrlPatterns(disps, true, "*.css");
+        compressingFilter.addMappingForUrlPatterns(disps, true, "*.json");
+        compressingFilter.addMappingForUrlPatterns(disps, true, "*.html");
+        compressingFilter.addMappingForUrlPatterns(disps, true, "*.js");
+        compressingFilter.addMappingForUrlPatterns(disps, true, "/app/rest/*");
+        compressingFilter.addMappingForUrlPatterns(disps, true, "/metrics/*");
+
+        compressingFilter.setAsyncSupported(true);
     }
 
     /**

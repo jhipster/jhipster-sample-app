@@ -36,43 +36,41 @@ jhipsterApp.factory('LogsService', ['$resource',
         });
     }]);
 
-jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http',
-    function ($rootScope, $http) {
+jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', 'authService',
+    function ($rootScope, $http, authService) {
         return {
-            message: '',
-            prepForBroadcast: function(msg) {
-                this.message = msg;
-                this.broadcastItem();
-            },
-            broadcastItem: function() {
-                $rootScope.$broadcast("authenticationEvent");
+            authenticate: function() {
+                $http.get('/app/rest/authenticate')
+                    .success(function (data, status, headers, config) {
+                        $rootScope.$broadcast('event:auth-authConfirmed');
+                    })
             },
             login: function (param) {
-                var that = this;
                 var data ="j_username=" + param.username +"&j_password=" + param.password +"&_spring_security_remember_me=" + param.rememberMe +"&submit=Login";
                 $http.post('/app/authentication', data, {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
-                    }
+                    },
+                    ignoreAuthModule: 'ignoreAuthModule'
                 }).success(function (data, status, headers, config) {
-                        $rootScope.authenticationError = false;
-                        that.prepForBroadcast("login");
-                        if(param.success){
-                            param.success(data, status, headers, config);
-                        }
-                    }).error(function (data, status, headers, config) {
-                        $rootScope.authenticationError = true;
-                        if(param.error){
-                            param.error(data, status, headers, config);
-                        }
-                    });
+                    $rootScope.authenticationError = false;
+                    authService.loginConfirmed();
+                    if(param.success){
+                        param.success(data, status, headers, config);
+                    }
+                }).error(function (data, status, headers, config) {
+                    console.log("auth error");
+                    $rootScope.authenticationError = true;
+                    if(param.error){
+                        param.error(data, status, headers, config);
+                    }
+                });
             },
             logout: function () {
                 $rootScope.authenticationError = false;
-                var that = this;
                 $http.get('/app/logout')
                     .success(function (data, status, headers, config) {
-                        that.prepForBroadcast("logout");
+                        authService.loginCancelled();
                     });
             }
         };

@@ -2,51 +2,56 @@ package com.mycompany.myapp.conf;
 
 import com.codahale.metrics.ehcache.InstrumentedEhcache;
 import net.sf.ehcache.Cache;
-import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Ehcache; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import javax.annotation.PreDestroy;
 
 @Configuration
 @EnableCaching
 public class CacheConfiguration {
+  
 
-    private static final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
+  private static final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
+  
+  private net.sf.ehcache.CacheManager cacheManager; 
+  @PreDestroy
+  public void destroy() {
+      log.info("Closing Cache manager");
+      cacheManager.shutdown();
+  }
 
-    private net.sf.ehcache.CacheManager cacheManager;
+  @Bean
+  public CacheManager cacheManager() {
+      log.debug("Starting Ehcache");
+      cacheManager = net.sf.ehcache.CacheManager.create();
 
-    @PreDestroy
-    public void destroy() {
-        log.info("Closing Ehcache");
-        cacheManager.shutdown();
-    }
+      log.debug("Registring Ehcache Metrics gauges");
+      Cache userCache = cacheManager.getCache("com.mycompany.myapp.domain.User");
+      Ehcache decoratedStatusCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, userCache);
+      cacheManager.replaceCacheWithDecoratedCache(userCache, decoratedStatusCache);
 
-    @Bean
-    public CacheManager cacheManager() {
-        log.debug("Starting Ehcache");
-        cacheManager = net.sf.ehcache.CacheManager.create();
+      Cache authoritiesCache = cacheManager.getCache("com.mycompany.myapp.domain.Authority");
+      Ehcache decoratedAuthoritiesCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, authoritiesCache);
+      cacheManager.replaceCacheWithDecoratedCache(authoritiesCache, decoratedAuthoritiesCache);
 
-        log.debug("Registring Ehcache Metrics gauges");
-        Cache userCache = cacheManager.getCache("com.mycompany.myapp.domain.User");
-        Ehcache decoratedStatusCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, userCache);
-        cacheManager.replaceCacheWithDecoratedCache(userCache, decoratedStatusCache);
+      Cache persistentTokenCache = cacheManager.getCache("com.mycompany.myapp.domain.PersistentToken");
+      Ehcache decoratedPersistentTokenCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, persistentTokenCache);
+      cacheManager.replaceCacheWithDecoratedCache(persistentTokenCache, decoratedPersistentTokenCache);
 
-        Cache authoritiesCache = cacheManager.getCache("com.mycompany.myapp.domain.Authority");
-        Ehcache decoratedAuthoritiesCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, authoritiesCache);
-        cacheManager.replaceCacheWithDecoratedCache(authoritiesCache, decoratedAuthoritiesCache);
+      EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
+      ehCacheManager.setCacheManager(cacheManager);
+      return ehCacheManager;
+  }
 
-        Cache persistentTokenCache = cacheManager.getCache("com.mycompany.myapp.domain.PersistentToken");
-        Ehcache decoratedPersistentTokenCache = InstrumentedEhcache.instrument(WebConfigurer.METRIC_REGISTRY, persistentTokenCache);
-        cacheManager.replaceCacheWithDecoratedCache(persistentTokenCache, decoratedPersistentTokenCache);
+  
+  
+  
+  
 
-        EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
-        ehCacheManager.setCacheManager(cacheManager);
-        return ehCacheManager;
-    }
 }
