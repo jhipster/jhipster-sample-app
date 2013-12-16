@@ -66,8 +66,6 @@ public class WebConfigurer implements ServletContextListener {
         log.debug("Web application fully configured");
     }
 
-    
-
     /**
      * Initializes the GZip filter.
      */
@@ -101,6 +99,7 @@ public class WebConfigurer implements ServletContextListener {
                         new StaticResourcesProductionFilter());
 
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
