@@ -6,4 +6,4 @@
 // https://github.com/NielsLeenheer/html5test/blob/549f6eac866aa861d9649a0707ff2c0157895706/scripts/engine.js#L2083
 
 Modernizr.addTest('contenteditable',
-        'contentEditable' in document.documentElement);
+    'contentEditable' in document.documentElement);

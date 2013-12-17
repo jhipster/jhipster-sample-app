@@ -1,5 +1,5 @@
 // By @mathias, based on http://mths.be/axh
-Modernizr.addTest('details', function() {
+Modernizr.addTest('details', function () {
     var doc = document,
         el = doc.createElement('details'),
         fake,
@@ -8,7 +8,7 @@ Modernizr.addTest('details', function() {
     if (!('open' in el)) { // return early if possible; thanks @aFarkas!
         return false;
     }
-    root = doc.body || (function() {
+    root = doc.body || (function () {
         var de = doc.documentElement;
         fake = true;
         return de.insertBefore(doc.createElement('body'), de.firstElementChild || de.firstChild);

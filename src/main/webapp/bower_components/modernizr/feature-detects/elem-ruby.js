@@ -17,10 +17,10 @@ Modernizr.addTest('ruby', function () {
     docElement.appendChild(ruby);
 
     // browsers that support <ruby> hide the <rp> via "display:none"
-    if ( getStyle(rp, displayStyleProperty) == 'none' ||                                                       // for non-IE browsers
-    // but in IE browsers <rp> has "display:inline" so, the test needs other conditions:
+    if (getStyle(rp, displayStyleProperty) == 'none' ||                                                       // for non-IE browsers
+        // but in IE browsers <rp> has "display:inline" so, the test needs other conditions:
         getStyle(ruby, displayStyleProperty) == 'ruby' && getStyle(rt, displayStyleProperty) == 'ruby-text' || // for IE8 & IE9
-        getStyle(rp, fontSizeStyleProperty) == '6pt' && getStyle(rt, fontSizeStyleProperty) == '6pt' ) {       // for IE6 & IE7
+        getStyle(rp, fontSizeStyleProperty) == '6pt' && getStyle(rt, fontSizeStyleProperty) == '6pt') {       // for IE6 & IE7
 
         cleanUp();
         return true;
@@ -30,12 +30,12 @@ Modernizr.addTest('ruby', function () {
         return false;
     }
 
-    function getStyle( element, styleProperty ) {
+    function getStyle(element, styleProperty) {
         var result;
 
-        if ( window.getComputedStyle ) {     // for non-IE browsers
-            result = document.defaultView.getComputedStyle(element,null).getPropertyValue(styleProperty);
-        } else if ( element.currentStyle ) { // for IE
+        if (window.getComputedStyle) {     // for non-IE browsers
+            result = document.defaultView.getComputedStyle(element, null).getPropertyValue(styleProperty);
+        } else if (element.currentStyle) { // for IE
             result = element.currentStyle[styleProperty];
         }
 

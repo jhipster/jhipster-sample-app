@@ -5,11 +5,11 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
 .ng-cloak, .x-ng-cloak,
 .ng-hide {
-  display: none !important;
+    display: none !important;
 }
 
 ng\:form {
-  display: block;
+    display: block;
 }
 
 /* The styles below ensure that the CSS transition will ALWAYS
@@ -20,5 +20,12 @@ ng\:form {
  * animations. The border-spacing (!ie) and zoom (ie) CSS properties are
  * used below since they trigger a transition without making the browser
  * animate anything and they're both highly underused CSS properties */
-.ng-animate-start { border-spacing:1px 1px; -ms-zoom:1.0001; }
-.ng-animate-active { border-spacing:0px 0px; -ms-zoom:1; }
+.ng-animate-start {
+    border-spacing: 1px 1px;
+    -ms-zoom: 1.0001;
+}
+
+.ng-animate-active {
+    border-spacing: 0px 0px;
+    -ms-zoom: 1;
+}

@@ -5,14 +5,14 @@
 // // Based on http://trac.webkit.org/browser/trunk/LayoutTests/fast/forms/script-tests/input-number-keyoperation.js?rev=80096#L9
 // // By Peter Janes
 
-Modernizr.addTest('localizedNumber', function() {
+Modernizr.addTest('localizedNumber', function () {
     var doc = document,
         el = document.createElement('div'),
         fake,
         root,
         input,
         diff;
-    root = doc.body || (function() {
+    root = doc.body || (function () {
         var de = doc.documentElement;
         fake = true;
         return de.insertBefore(doc.createElement('body'), de.firstElementChild || de.firstChild);
@@ -23,7 +23,7 @@ Modernizr.addTest('localizedNumber', function() {
     input.focus();
     try {
         doc.execCommand('InsertText', false, '1,1');
-    } catch(e) { // prevent warnings in IE
+    } catch (e) { // prevent warnings in IE
     }
     diff = input.type === 'number' && input.valueAsNumber === 1.1 && input.checkValidity();
     root.removeChild(el);

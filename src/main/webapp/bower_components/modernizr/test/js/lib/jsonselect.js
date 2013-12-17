@@ -2,20 +2,20 @@
 /*
  * This is the JSONSelect reference implementation, in javascript.
  */
-(function(exports) {
+(function (exports) {
 
     var // localize references
-    toString = Object.prototype.toString;
+        toString = Object.prototype.toString;
 
     function jsonParse(str) {
-      try {
-          if(JSON && JSON.parse){
-              return JSON.parse(str);
-          }
-          return (new Function("return " + str))();
-      } catch(e) {
-        te("ijs");
-      }
+        try {
+            if (JSON && JSON.parse) {
+                return JSON.parse(str);
+            }
+            return (new Function("return " + str))();
+        } catch (e) {
+            te("ijs");
+        }
     }
 
     // emitted error codes.
@@ -50,7 +50,7 @@
         if (!off) off = 0;
         var m = pat.exec(str.substr(off));
         if (!m) return undefined;
-        off+=m[0].length;
+        off += m[0].length;
         var a;
         if (m[1]) a = [off, " "];
         else if (m[2]) a = [off, m[0]];
@@ -60,7 +60,7 @@
         else if (m[6]) te("upc");
         else if (m[7]) a = [off, toks.str, jsonParse(m[0])];
         else if (m[8]) te("ujs");
-        else if (m[9]) a = [off, toks.str, m[0].replace(/\\([^\r\n\f0-9a-fA-F])/g,"$1")];
+        else if (m[9]) a = [off, toks.str, m[0].replace(/\\([^\r\n\f0-9a-fA-F])/g, "$1")];
         return a;
     };
 
@@ -90,12 +90,15 @@
         return am ? am : a;
     };
 
-    var parse_selector = function(str, off) {
+    var parse_selector = function (str, off) {
         var soff = off;
         var s = { };
         var l = lex(str, off);
         // skip space
-        if (l && l[1] === " ") { soff = off = l[0]; l = lex(str, off); }
+        if (l && l[1] === " ") {
+            soff = off = l[0];
+            l = lex(str, off);
+        }
         if (l && l[1] === toks.typ) {
             s.type = l[2];
             l = lex(str, (off = l[0]));
@@ -129,7 +132,7 @@
                     s.pc = l[2];
                 }
             } else if (l[1] === toks.psf) {
-                if (s.pc || s.pf ) te("mpc");
+                if (s.pc || s.pf) te("mpc");
                 s.pf = l[2];
                 var m = exprPat.exec(str.substr(l[0]));
                 if (!m) te("mepf");
@@ -140,8 +143,8 @@
                     s.a = 0;
                     s.b = parseInt(m[6], 10);
                 } else {
-                    s.a = parseInt((m[1] ? m[1] : "+") + (m[2] ? m[2] : "1"),10);
-                    s.b = m[3] ? parseInt(m[3] + m[4],10) : 0;
+                    s.a = parseInt((m[1] ? m[1] : "+") + (m[2] ? m[2] : "1"), 10);
+                    s.b = m[3] ? parseInt(m[3] + m[4], 10) : 0;
                 }
                 l[0] += m[0].length;
             } else {
@@ -159,8 +162,8 @@
     // THE EVALUATOR
 
     function isArray(o) {
-        return Array.isArray ? Array.isArray(o) : 
-          toString.call(o) === "[object Array]";
+        return Array.isArray ? Array.isArray(o) :
+            toString.call(o) === "[object Array]";
     }
 
     function mytypeof(o) {
@@ -184,7 +187,7 @@
             } else {
                 mod = ((num - cs.b) % cs.a);
 
-                m = (!mod && ((num*cs.a + cs.b) >= 0));
+                m = (!mod && ((num * cs.a + cs.b) >= 0));
             }
         }
 
@@ -193,8 +196,16 @@
 
         if (m) {
             // is there a fragment that we should pass down?
-            if (sel[0] === ">") { if (sel.length > 2) { m = false; sels.push(sel.slice(2)); } }
-            else if (sel.length > 1) { m = false; sels.push(sel.slice(1)); }
+            if (sel[0] === ">") {
+                if (sel.length > 2) {
+                    m = false;
+                    sels.push(sel.slice(2));
+                }
+            }
+            else if (sel.length > 1) {
+                m = false;
+                sels.push(sel.slice(1));
+            }
         }
 
         return [m, sels];
@@ -202,9 +213,9 @@
 
     function forEach(sel, obj, fun, id, num, tot) {
         var a = (sel[0] === ",") ? sel.slice(1) : [sel],
-        a0 = [],
-        call = false,
-        i = 0, j = 0, l = 0, k, x;
+            a0 = [],
+            call = false,
+            i = 0, j = 0, l = 0, k, x;
         for (i = 0; i < a.length; i++) {
             x = mn(obj, a[i], id, num, tot);
             if (x[0]) {
@@ -248,7 +259,7 @@
 
     function match(sel, obj) {
         var a = [];
-        forEach(sel, obj, function(x) {
+        forEach(sel, obj, function (x) {
             a.push(x);
         });
         return a;
@@ -257,10 +268,10 @@
     function compile(sel) {
         return {
             sel: parse(sel),
-            match: function(obj){
+            match: function (obj) {
                 return match(this.sel, obj);
             },
-            forEach: function(obj, fun) {
+            forEach: function (obj, fun) {
                 return forEach(this.sel, obj, fun);
             }
         };
@@ -271,7 +282,7 @@
     exports.match = function (sel, obj) {
         return compile(sel).match(obj);
     };
-    exports.forEach = function(sel, obj, fun) {
+    exports.forEach = function (sel, obj, fun) {
         return compile(sel).forEach(obj, fun);
     };
     exports.compile = compile;

@@ -1,5 +1,3 @@
-
-
 // lol. we already have a test for datalist built in! silly you.
 
 
@@ -9,4 +7,4 @@
 // http://miketaylr.com/test/datalist.html
 // http://miketaylr.com/code/datalist.html
 
-Modernizr.addTest('datalistelem', Modernizr.input.list );
+Modernizr.addTest('datalistelem', Modernizr.input.list);

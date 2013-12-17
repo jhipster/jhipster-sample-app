@@ -2,12 +2,13 @@
 // Should fail in Safari: http://stackoverflow.com/questions/9739955/feature-detecting-support-for-svg-filters.
 // detect by erik dahlstrom
 
-Modernizr.addTest('svgfilters', function(){
-	var result = false;
+Modernizr.addTest('svgfilters', function () {
+    var result = false;
     try {
-      result = typeof SVGFEColorMatrixElement !== undefined &&
-               SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
+        result = typeof SVGFEColorMatrixElement !== undefined &&
+            SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
     }
-    catch(e) {}
+    catch (e) {
+    }
     return result;
 });
