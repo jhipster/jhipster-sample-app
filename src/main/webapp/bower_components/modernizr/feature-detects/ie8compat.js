@@ -1,3 +1,4 @@
+
 // IE8 compat mode aka Fake IE7
 // by Erich Ocean
 
@@ -6,6 +7,6 @@
 // related:
 // james.padolsey.com/javascript/detect-ie-in-js-using-conditional-comments/
 
-Modernizr.addTest('ie8compat', function () {
+Modernizr.addTest('ie8compat',function(){
     return (!window.addEventListener && document.documentMode && document.documentMode === 7);
 });

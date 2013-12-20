@@ -1,4 +1,4 @@
-// Generated on 2013-12-17 using generator-jhipster 0.4.0
+// Generated on 2013-12-20 using generator-jhipster 0.5.1
 'use strict';
 
 // # Globbing
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
         files: ['src/main/webapp/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
-      livereload: {
+    livereload: {
         options: {
           livereload: 35729
         },
@@ -275,6 +275,12 @@ module.exports = function (grunt) {
         'htmlmin'
       ]
     },
+    karma: {
+      unit: {
+        configFile: 'src/test/javascript/karma.conf.js',
+        singleRun: true
+      }
+    },
     cdnify: {
       dist: {
         html: ['<%= yeoman.dist %>/*.html']
@@ -320,7 +326,8 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'autoprefixer',
-    'connect:test'
+    'connect:test',
+    'karma'
   ]);
 
   grunt.registerTask('build', [

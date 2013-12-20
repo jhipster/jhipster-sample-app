@@ -1,15 +1,15 @@
 /*global module */
-module.exports = function (grunt) {
+module.exports = function( grunt ) {
     'use strict';
 
     grunt.initConfig({
         meta: {
-            version: '2.7.0',
-            banner: '/*!\n' +
-                ' * Modernizr v<%= meta.version %>\n' +
-                ' * www.modernizr.com\n *\n' +
-                ' * Copyright (c) Faruk Ates, Paul Irish, Alex Sexton\n' +
-                ' * Available under the BSD and MIT licenses: www.modernizr.com/license/\n */'
+          version: '2.7.1',
+          banner: '/*!\n' +
+            ' * Modernizr v<%= meta.version %>\n' +
+            ' * www.modernizr.com\n *\n' +
+            ' * Copyright (c) Faruk Ates, Paul Irish, Alex Sexton\n' +
+            ' * Available under the BSD and MIT licenses: www.modernizr.com/license/\n */'
         },
         qunit: {
             files: ['test/index.html']
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                 Modernizr: true,
                 DocumentTouch: true,
                 TEST: true,
-                SVGFEColorMatrixElement: true,
+                SVGFEColorMatrixElement : true,
                 Blob: true
             }
         }
