@@ -138,7 +138,7 @@
 
         <!-- Librairies versions -->
         <spring.version>4.0.0.RELEASE </spring.version>
-        <spring.security.version>3.1.4.RELEASE</spring.security.version>
+        <spring.security.version>3.2.0.RELEASE</spring.security.version>
         <hibernate.version>4.2.7.Final</hibernate.version>
         <codahale.metrics.version>3.0.1</codahale.metrics.version>
         
@@ -242,6 +242,11 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>

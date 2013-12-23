@@ -15,11 +15,11 @@ import java.io.IOException;
         "com.mycompany.myapp.service",
         "com.mycompany.myapp.security"})
 @Import(value = {
+        SecurityConfiguration.class,
         AsyncConfiguration.class,
         CacheConfiguration.class,
         DatabaseConfiguration.class,
         MailConfiguration.class})
-@ImportResource("classpath:META-INF/spring/applicationContext-*.xml")
 public class ApplicationConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfiguration.class);
