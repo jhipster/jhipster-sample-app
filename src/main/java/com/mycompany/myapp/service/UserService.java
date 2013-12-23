@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class UserService {
         log.debug("Changed Information for User: {}", currentUser);
     }
 
+    @RolesAllowed("BOO")
     public void changePassword(String password) {
         User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
         String encryptedPassword = passwordEncoder.encode(password);

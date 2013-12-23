@@ -5,7 +5,6 @@ import com.mycompany.myapp.domain.Foo;
 import com.mycompany.myapp.repository.FooRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * REST controller for managing Foo.
  */
-@Controller
+@RestController
 public class FooResource {
 
     private static final Logger log = LoggerFactory.getLogger(FooResource.class);
@@ -23,13 +22,12 @@ public class FooResource {
     @Inject
     private FooRepository fooRepository;
 
-/**
+    /**
      * POST  /rest/foos -> Create a new foo.
      */
     @RequestMapping(value = "/rest/foos",
             method = RequestMethod.POST,
             produces = "application/json")
-    @ResponseBody
     @Timed
     public void create(@RequestBody Foo foo) {
         fooRepository.save(foo);
@@ -41,7 +39,6 @@ public class FooResource {
     @RequestMapping(value = "/rest/foos",
             method = RequestMethod.GET,
             produces = "application/json")
-    @ResponseBody
     @Timed
     public List<Foo> getAll() {
         return fooRepository.findAll();
@@ -53,7 +50,6 @@ public class FooResource {
     @RequestMapping(value = "/rest/foos/{id}",
             method = RequestMethod.GET,
             produces = "application/json")
-    @ResponseBody
     @Timed
     public Foo get(@PathVariable Long id, HttpServletResponse response) {
         log.debug("REST request to get Foo : {}", id);
@@ -70,7 +66,6 @@ public class FooResource {
     @RequestMapping(value = "/rest/foos/{id}",
             method = RequestMethod.DELETE,
             produces = "application/json")
-    @ResponseBody
     @Timed
     public void delete(@PathVariable Long id, HttpServletResponse response) {
         fooRepository.delete(id);
