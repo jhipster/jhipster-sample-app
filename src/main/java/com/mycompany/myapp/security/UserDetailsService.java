@@ -22,14 +22,14 @@ import java.util.Collection;
 @Component("userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
+    private final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
 
     @Inject
     private UserRepository userRepository;
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase();
 

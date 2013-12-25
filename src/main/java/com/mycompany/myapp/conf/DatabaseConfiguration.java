@@ -7,7 +7,6 @@ import org.hibernate.ejb.HibernatePersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -32,7 +31,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     @Inject
     private Environment env;

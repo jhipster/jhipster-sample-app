@@ -17,7 +17,7 @@ import java.util.SortedSet;
 @EnableCaching
 public class CacheConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
+    private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
     
     private net.sf.ehcache.CacheManager cacheManager; 
     
