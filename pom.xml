@@ -26,13 +26,13 @@
                 
                 
                 <!-- development database configuration -->
-                <datasource.datasourceclassname>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</datasource.datasourceclassname>
-                <datasource.url>jdbc:mysql://localhost:3306/jhipster</datasource.url>
+                <datasource.datasourceclassname>org.hsqldb.jdbc.JDBCDataSource</datasource.datasourceclassname>
+                <datasource.url>jdbc:hsqldb:mem:jhipster</datasource.url>
                 <datasource.databaseName></datasource.databaseName>
                 <datasource.serverName></datasource.serverName>
-                <datasource.username>root</datasource.username>
+                <datasource.username></datasource.username>
                 <datasource.password></datasource.password>
-                <hibernate.dialect>org.hibernate.dialect.MySQLInnoDBDialect</hibernate.dialect>
+                <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
                 <hibernate.show_sql>true</hibernate.show_sql>
                 <hibernate.generate_statistics>true</hibernate.generate_statistics>
                 <!-- email configuration -->
@@ -45,9 +45,9 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>5.1.27</version>
+                    <groupId>org.hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <version>2.3.1</version>
                 </dependency>
             </dependencies>
         </profile>

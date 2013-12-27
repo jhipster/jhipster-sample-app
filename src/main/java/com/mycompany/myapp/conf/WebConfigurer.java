@@ -100,6 +100,7 @@ public class WebConfigurer implements ServletContextListener {
 
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/images/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
@@ -118,9 +119,10 @@ public class WebConfigurer implements ServletContextListener {
                 servletContext.addFilter("cachingHttpHeadersFilter",
                         new CachingHttpHeadersFilter());
 
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/images/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/fonts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/styles/*");
         cachingHttpHeadersFilter.setAsyncSupported(true);
     }
 
@@ -151,7 +153,6 @@ public class WebConfigurer implements ServletContextListener {
         FilterRegistration.Dynamic springSecurityFilter = servletContext.addFilter("springSecurityFilterChain",
                 new DelegatingFilterProxy());
 
-        springSecurityFilter.setAsyncSupported(true);
         springSecurityFilter.addMappingForUrlPatterns(disps, false, "/*");
         springSecurityFilter.setAsyncSupported(true);
     }
@@ -173,6 +174,7 @@ public class WebConfigurer implements ServletContextListener {
                 new InstrumentedFilter());
 
         metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
+        metricsFilter.setAsyncSupported(true);
 
         log.debug("Registering Metrics Admin Servlet");
         ServletRegistration.Dynamic metricsAdminServlet =
