@@ -97,16 +97,17 @@
                         <version>0.1</version>
                         <configuration>
                             <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>run-grunt</id>
-                                    <phase>generate-resources</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                    </goals>
-                              </execution>
-                          </executions>
+                            <bowerInstallArgs>install --no-color --allow-root</bowerInstallArgs>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>run-grunt</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
