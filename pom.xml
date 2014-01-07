@@ -97,7 +97,6 @@
                         <version>0.1</version>
                         <configuration>
                             <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                            <bowerInstallArgs>install --no-color --allow-root</bowerInstallArgs>
                         </configuration>
                         <executions>
                             <execution>
