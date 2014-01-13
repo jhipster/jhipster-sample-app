@@ -9,11 +9,13 @@
                 "settings": "Settings",
                 "password": "Password",
                 "sessions": "Sessions",
+                "tracker": "User tracker",
                 "metrics": "Metrics",
                 "logs": "Logs",
                 "login": "Authenticate",
                 "logout": "Log out"
             },
+            "admin": "Administration",
             "language": "Language"
         },
         "language": {
@@ -131,6 +133,16 @@
             "error": "<strong>An error has occured!</strong> The session could not be invalidated."
         }
 
+    },
+    "tracker": {
+        "title": "Real-time user activities",
+        "table": {
+            "userlogin": "User",
+            "ipaddress": "IP Address",
+            "userAgent": "User agent",
+            "page": "Current page",
+            "time": "Time"
+        }
     },
     "metrics": {
         "title": "Application Metrics",

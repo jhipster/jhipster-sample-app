@@ -9,11 +9,13 @@
                 "settings": "Profil",
                 "password": "Mot de passe",
                 "sessions": "Sessions",
+                "tracker": "Suivi des utilisateurs",
                 "metrics": "Métriques",
                 "logs": "Logs",
                 "login": "S'authentifier",
                 "logout": "Déconnexion"
             },
+            "admin": "Administration",
             "language": "Langue"
         },
         "language": {
@@ -132,6 +134,16 @@
         "messages": {
             "success": "<strong>Session a été invalidée!</strong>",
             "error": "<strong>Une erreur est survenue!</strong> La session ne peut pas être invalidée."
+        }
+    },
+    "tracker": {
+        "title": "Activité des utilisateurs en temps réél",
+        "table": {
+            "userlogin": "Utilisateur",
+            "ipaddress": "Adresse IP",
+            "userAgent": "User agent",
+            "page": "Page en cours",
+            "time": "Heure"
         }
     },
     "metrics": {

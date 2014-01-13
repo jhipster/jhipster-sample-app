@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.7-build.2022+sha.c31df32
+ * @license AngularJS v1.2.9-build.2122+sha.34fee06
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -211,7 +211,7 @@ var validAttrs = angular.extend({}, uriAttrs, makeMap(
     'abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,'+
     'color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,'+
     'ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,'+
-    'scope,scrolling,shape,span,start,summary,target,title,type,'+
+    'scope,scrolling,shape,size,span,start,summary,target,title,type,'+
     'valign,value,vspace,width'));
 
 function makeMap(str) {

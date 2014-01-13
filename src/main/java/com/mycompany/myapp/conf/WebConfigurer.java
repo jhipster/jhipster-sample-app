@@ -9,6 +9,8 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
 import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
+import org.atmosphere.cache.UUIDBroadcasterCache;
+import org.atmosphere.cpr.AtmosphereServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -49,8 +51,8 @@ public class WebConfigurer implements ServletContextListener {
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
 
         initSpring(servletContext, rootContext);
-        initSpringSecurity(servletContext, disps);
         initMetrics(servletContext, disps);
+        initAtmosphereServlet(servletContext);
 
         if (WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext)
@@ -61,6 +63,7 @@ public class WebConfigurer implements ServletContextListener {
             initCachingHttpHeadersFilter(servletContext, disps);
         }
 
+        initSpringSecurity(servletContext, disps);
         initGzipFilter(servletContext, disps);
 
         log.debug("Web application fully configured");
@@ -182,6 +185,25 @@ public class WebConfigurer implements ServletContextListener {
 
         metricsAdminServlet.addMapping("/metrics/*");
         metricsAdminServlet.setLoadOnStartup(2);
+    }
+
+    /**
+     * Initializes Atmosphere.
+     */
+    private void initAtmosphereServlet(ServletContext servletContext) {
+        log.debug("Registering Atmosphere Servlet");
+        ServletRegistration.Dynamic atmosphereServlet =
+                servletContext.addServlet("atmosphereServlet", new AtmosphereServlet());
+
+        atmosphereServlet.setInitParameter("org.atmosphere.cpr.packages", "com.mycompany.myapp.web.websocket");
+        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcasterCacheClass", UUIDBroadcasterCache.class.getName());
+        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.shareableThreadPool", "true");
+        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.maxProcessingThreads", "10");
+        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads", "10");
+
+        atmosphereServlet.addMapping("/websocket/*");
+        atmosphereServlet.setLoadOnStartup(3);
+        atmosphereServlet.setAsyncSupported(true);
     }
 
     @Override

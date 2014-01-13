@@ -9,11 +9,13 @@
                 "settings": "Einstellungen",
                 "password": "Passwort",
                 "sessions": "Sitzungen",
+                "tracker": "User tracker",
                 "metrics": "Metriken",
                 "logs": "Protokoll",
                 "login": "Anmelden",
                 "logout": "Abmelden"
             },
+            "admin": "Administration",
             "language": "Sprache"
         },
         "language": {
@@ -131,6 +133,16 @@
             "error": "<strong>Es ist ein Fehler aufgetreten!</strong> Die Sitzung konnte nicht geschlossen werden."
         }
 
+    },
+    "tracker": {
+        "title": "Real-time user activities",
+        "table": {
+            "userlogin": "User",
+            "ipaddress": "IP Address",
+            "userAgent": "User agent",
+            "page": "Current page",
+            "time": "Time"
+        }
     },
     "metrics": {
         "title": "Anwendungs-Metriken",
