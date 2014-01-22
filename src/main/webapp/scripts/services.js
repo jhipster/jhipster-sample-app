@@ -28,6 +28,21 @@ jhipsterApp.factory('Metrics', ['$resource',
         });
     }]);
 
+jhipsterApp.factory('HealthCheckService', ['$rootScope', '$http',
+    function ($rootScope, $http) {
+        return {
+            check: function() {
+                $http.get('/metrics/healthcheck')
+                    .success(function(data, status, headers, config) {
+                        $rootScope.healthCheck = data;
+                    })
+                    .error(function(data, status, headers, config) {
+                        $rootScope.healthCheck = data;
+                    })
+            }
+        };
+    }]);
+
 jhipsterApp.factory('LogsService', ['$resource',
     function ($resource) {
         return $resource('app/rest/logs', {}, {
@@ -43,7 +58,11 @@ jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', 'auth
                 $http.get('/app/rest/authenticate')
                     .success(function (data, status, headers, config) {
                         $rootScope.login = data;
-                        $rootScope.$broadcast('event:auth-authConfirmed');
+                        if (data == '') {
+                            $rootScope.$broadcast('event:auth-loginRequired');
+                        } else {
+                            $rootScope.$broadcast('event:auth-authConfirmed');
+                        }
                     })
             },
             login: function (param) {

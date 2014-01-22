@@ -1,4 +1,4 @@
 /**
  * Spring Framework configuration files.
  */
-package com.mycompany.myapp.conf;
+package com.mycompany.myapp.config;

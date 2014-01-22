@@ -1,4 +1,4 @@
-package com.mycompany.myapp.conf;
+package com.mycompany.myapp.config;
 
 import com.mycompany.myapp.security.*;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public RememberMeAuthenticationProvider rememberMeAuthenticationProvider() {
-        return new RememberMeAuthenticationProvider(env.getProperty("security.rememberme.key"));
+        return new RememberMeAuthenticationProvider(env.getProperty("jhipster.security.rememberme.key"));
     }
 
     @Bean
@@ -72,46 +72,47 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/bower_components/**")
-                .antMatchers("/fonts/**")
-                .antMatchers("/images/**")
-                .antMatchers("/scripts/**")
-                .antMatchers("/styles/**")
-                .antMatchers("/view/**");
+            .antMatchers("/bower_components/**")
+            .antMatchers("/fonts/**")
+            .antMatchers("/images/**")
+            .antMatchers("/scripts/**")
+            .antMatchers("/styles/**")
+            .antMatchers("/view/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint)
-                    .and()
-                .rememberMe()
-                    .rememberMeServices(rememberMeServices())
-                    .key(env.getProperty("security.rememberme.key"))
-                    .and()
-                .formLogin()
-                    .loginProcessingUrl("/app/authentication")
-                    .successHandler(ajaxAuthenticationSuccessHandler)
-                    .failureHandler(ajaxAuthenticationFailureHandler)
-                    .usernameParameter("j_username")
-                    .passwordParameter("j_password")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .logoutUrl("/app/logout")
-                    .logoutSuccessHandler(ajaxLogoutSuccessHandler)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll()
-                    .and()
-                .csrf()
-                    .disable()
-                .authorizeRequests()
-                    .antMatchers("/*").permitAll()
-                    .antMatchers("/app/rest/logs/**").hasRole("ADMIN")
-                    .antMatchers("/app/**").authenticated()
-                    .antMatchers("/websocket/tracker").hasRole("ADMIN")
-                    .antMatchers("/websocket/**").permitAll()
-                    .antMatchers("/metrics/**").hasRole("ADMIN");
+            .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+            .rememberMe()
+                .rememberMeServices(rememberMeServices())
+                .key(env.getProperty("jhipster.security.rememberme.key"))
+                .and()
+            .formLogin()
+                .loginProcessingUrl("/app/authentication")
+                .successHandler(ajaxAuthenticationSuccessHandler)
+                .failureHandler(ajaxAuthenticationFailureHandler)
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/app/logout")
+                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
+            .csrf()
+                .disable()
+            .authorizeRequests()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/app/rest/authenticate").permitAll()
+                .antMatchers("/app/rest/logs/**").hasRole("ADMIN")
+                .antMatchers("/app/**").authenticated()
+                .antMatchers("/websocket/tracker").hasRole("ADMIN")
+                .antMatchers("/websocket/**").permitAll()
+                .antMatchers("/metrics/**").hasRole("ADMIN");
     }
 }

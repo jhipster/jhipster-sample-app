@@ -1,4 +1,4 @@
-package com.mycompany.myapp.conf;
+package com.mycompany.myapp.config;
 
 /**
  * Application constants.

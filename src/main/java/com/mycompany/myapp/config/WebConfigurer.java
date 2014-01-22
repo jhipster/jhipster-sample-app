@@ -1,25 +1,24 @@
-package com.mycompany.myapp.conf;
+package com.mycompany.myapp.config;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.AdminServlet;
-import com.codahale.metrics.servlets.HealthCheckServlet;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
 import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
+import com.mycompany.myapp.web.servlet.HealthCheckServlet;
 import org.atmosphere.cache.UUIDBroadcasterCache;
 import org.atmosphere.cpr.AtmosphereServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -28,32 +27,25 @@ import java.util.Map;
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
-public class WebConfigurer implements ServletContextListener {
+@Configuration
+@AutoConfigureAfter(CacheConfiguration.class)
+public class WebConfigurer implements ServletContextInitializer {
 
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
-    public static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
+    @Inject
+    private MetricRegistry metricRegistry;
 
-    public static final HealthCheckRegistry HEALTH_CHECK_REGISTRY = new HealthCheckRegistry();
+    @Inject
+    private HealthCheckRegistry healthCheckRegistry;
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        ServletContext servletContext = sce.getServletContext();
+    public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Web application configuration");
-
-        log.debug("Configuring Spring root application context");
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(ApplicationConfiguration.class);
-        rootContext.refresh();
-
-        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, rootContext);
-
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-
-        initSpring(servletContext, rootContext);
+        
         initMetrics(servletContext, disps);
         initAtmosphereServlet(servletContext);
-
         if (WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext)
                 .getBean(Environment.class)
@@ -62,8 +54,6 @@ public class WebConfigurer implements ServletContextListener {
             initStaticResourcesProductionFilter(servletContext, disps);
             initCachingHttpHeadersFilter(servletContext, disps);
         }
-
-        initSpringSecurity(servletContext, disps);
         initGzipFilter(servletContext, disps);
 
         log.debug("Web application fully configured");
@@ -116,48 +106,16 @@ public class WebConfigurer implements ServletContextListener {
      */
     private void initCachingHttpHeadersFilter(ServletContext servletContext,
                                               EnumSet<DispatcherType> disps) {
-
         log.debug("Registering Cachig HTTP Headers Filter");
         FilterRegistration.Dynamic cachingHttpHeadersFilter =
                 servletContext.addFilter("cachingHttpHeadersFilter",
                         new CachingHttpHeadersFilter());
 
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/images/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/fonts/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/styles/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/images/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
         cachingHttpHeadersFilter.setAsyncSupported(true);
-    }
-
-
-    /**
-     * Initializes Spring and Spring MVC.
-     */
-    private ServletRegistration.Dynamic initSpring(ServletContext servletContext, AnnotationConfigWebApplicationContext rootContext) {
-        log.debug("Configuring Spring Web application context");
-        AnnotationConfigWebApplicationContext dispatcherServletConfiguration = new AnnotationConfigWebApplicationContext();
-        dispatcherServletConfiguration.setParent(rootContext);
-        dispatcherServletConfiguration.register(DispatcherServletConfiguration.class);
-
-        log.debug("Registering Spring MVC Servlet");
-        ServletRegistration.Dynamic dispatcherServlet = servletContext.addServlet("dispatcher", new DispatcherServlet(
-                dispatcherServletConfiguration));
-        dispatcherServlet.addMapping("/app/*");
-        dispatcherServlet.setLoadOnStartup(1);
-        dispatcherServlet.setAsyncSupported(true);
-        return dispatcherServlet;
-    }
-
-    /**
-     * Initializes Spring Security.
-     */
-    private void initSpringSecurity(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Registering Spring Security Filter");
-        FilterRegistration.Dynamic springSecurityFilter = servletContext.addFilter("springSecurityFilterChain",
-                new DelegatingFilterProxy());
-
-        springSecurityFilter.addMappingForUrlPatterns(disps, false, "/*");
-        springSecurityFilter.setAsyncSupported(true);
     }
 
     /**
@@ -166,11 +124,11 @@ public class WebConfigurer implements ServletContextListener {
     private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Initializing Metrics registries");
         servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE,
-                METRIC_REGISTRY);
+                metricRegistry);
         servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
-                METRIC_REGISTRY);
+                metricRegistry);
         servletContext.setAttribute(HealthCheckServlet.HEALTH_CHECK_REGISTRY,
-                HEALTH_CHECK_REGISTRY);
+                healthCheckRegistry);
 
         log.debug("Registering Metrics Filter");
         FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
@@ -179,12 +137,21 @@ public class WebConfigurer implements ServletContextListener {
         metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
         metricsFilter.setAsyncSupported(true);
 
-        log.debug("Registering Metrics Admin Servlet");
+        log.debug("Registering Metrics Servlet");
         ServletRegistration.Dynamic metricsAdminServlet =
-                servletContext.addServlet("metricsAdminServlet", new AdminServlet());
+                servletContext.addServlet("metricsServlet", new MetricsServlet());
 
-        metricsAdminServlet.addMapping("/metrics/*");
+        metricsAdminServlet.addMapping("/metrics/metrics/*");
+        metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
+
+        log.debug("Registering HealthCheck Servlet");
+        ServletRegistration.Dynamic healthCheckServlet =
+                servletContext.addServlet("healthCheckServlet", new HealthCheckServlet());
+
+        healthCheckServlet.addMapping("/metrics/healthcheck/*");
+        healthCheckServlet.setAsyncSupported(true);
+        healthCheckServlet.setLoadOnStartup(2);
     }
 
     /**
@@ -204,14 +171,5 @@ public class WebConfigurer implements ServletContextListener {
         atmosphereServlet.addMapping("/websocket/*");
         atmosphereServlet.setLoadOnStartup(3);
         atmosphereServlet.setAsyncSupported(true);
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        log.info("Destroying Web application");
-        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(sce.getServletContext());
-        AnnotationConfigWebApplicationContext gwac = (AnnotationConfigWebApplicationContext) ac;
-        gwac.close();
-        log.debug("Web application destroyed");
     }
 }

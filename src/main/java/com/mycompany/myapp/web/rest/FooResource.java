@@ -15,9 +15,10 @@ import java.util.List;
  * REST controller for managing Foo.
  */
 @RestController
+@RequestMapping("/app")
 public class FooResource {
 
-    private static final Logger log = LoggerFactory.getLogger(FooResource.class);
+    private final Logger log = LoggerFactory.getLogger(FooResource.class);
 
     @Inject
     private FooRepository fooRepository;

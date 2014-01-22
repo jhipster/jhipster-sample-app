@@ -1,19 +1,18 @@
 package com.mycompany.myapp.service;
 
+import com.mycompany.myapp.Application;
 import com.mycompany.myapp.domain.PersistentToken;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PersistentTokenRepository;
 import com.mycompany.myapp.repository.UserRepository;
-import com.mycompany.myapp.test.ApplicationTestConfiguration;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
 
@@ -25,15 +24,11 @@ import static org.junit.Assert.assertEquals;
  * @see UserService
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy({
-        @ContextConfiguration(
-                name = "root",
-                classes = ApplicationTestConfiguration.class)
-})
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ActiveProfiles("dev")
 public class UserServiceTest {
-
-    private final Logger log = LoggerFactory.getLogger(UserServiceTest.class);
 
     @Inject
     private PersistentTokenRepository persistentTokenRepository;

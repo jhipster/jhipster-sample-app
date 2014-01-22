@@ -3,7 +3,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="1" author="jdubois">
@@ -70,17 +70,17 @@
                                  referencedTableName="T_USER"/>
 
         <loadData encoding="UTF-8"
-                  file="META-INF/liquibase/users.csv"
+                  file="config/liquibase/users.csv"
                   separator=";"
                   tableName="T_USER"/>
 
         <loadData encoding="UTF-8"
-                  file="META-INF/liquibase/authorities.csv"
+                  file="config/liquibase/authorities.csv"
                   separator=";"
                   tableName="T_AUTHORITY"/>
 
         <loadData encoding="UTF-8"
-                  file="META-INF/liquibase/users_authorities.csv"
+                  file="config/liquibase/users_authorities.csv"
                   separator=";"
                   tableName="T_USER_AUTHORITY"/>
 
