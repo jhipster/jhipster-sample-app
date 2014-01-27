@@ -108,14 +108,6 @@
         <java.version>1.7</java.version>
 
         
-        <!-- Override spring boot librairies version -->
-        <spring.version>4.0.0.RELEASE</spring.version>
-        <spring-data-jpa.version>1.4.2.RELEASE</spring-data-jpa.version>
-        <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
-        <spring-security.version>3.2.0.RELEASE</spring-security.version>
-        <liquibase.version>3.1.1</liquibase.version>
-        <codahale-metrics.version>3.0.1</codahale-metrics.version>
-        <jackson.version>2.3.1</jackson.version>
     </properties>
 
     <repositories>
@@ -198,7 +190,6 @@
         <dependency>
             <groupId>com.codahale.metrics</groupId>
             <artifactId>metrics-core</artifactId>
-            <version>${codahale-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>com.codahale.metrics</groupId>
@@ -208,7 +199,6 @@
         <dependency>
             <groupId>com.codahale.metrics</groupId>
             <artifactId>metrics-graphite</artifactId>
-            <version>${codahale-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>com.codahale.metrics</groupId>
@@ -223,7 +213,6 @@
         <dependency>
             <groupId>com.codahale.metrics</groupId>
             <artifactId>metrics-servlets</artifactId>
-            <version>${codahale-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -294,7 +283,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate-entitymanager.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -304,7 +292,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.0.2.Final</version>
         </dependency>
         <dependency>
             <groupId>org.jadira.usertype</groupId>
@@ -320,12 +307,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.27</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.3.1</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -397,7 +382,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
                 <configuration>
                     <argLine>-XX:MaxPermSize=128m -Xmx256m</argLine>
                     <forkCount>1</forkCount>
@@ -409,7 +393,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
                 <configuration>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
