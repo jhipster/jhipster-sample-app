@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.11-build.2186+sha.766b3d5
+ * @license AngularJS v1.2.11-build.2189+sha.95f0bf9
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -1954,7 +1954,7 @@ if(window.jasmine || window.mocha) {
 
   var currentSpec = null,
       isSpecRunning = function() {
-        return currentSpec && (window.mocha || currentSpec.queue.running);
+        return !!currentSpec;
       };
 
 
