@@ -67,7 +67,7 @@ jhipsterApp
 
             // Initialize angular-translate
             $translateProvider.useStaticFilesLoader({
-                prefix: '../i18n/',
+                prefix: 'i18n/',
                 suffix: '.json'
             });
 
