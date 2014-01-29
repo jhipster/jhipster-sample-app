@@ -1,4 +1,4 @@
-// Generated on 2014-01-28 using generator-jhipster 0.8.2
+// Generated on 2014-01-29 using generator-jhipster 0.8.2
 'use strict';
 
 // # Globbing
@@ -296,6 +296,16 @@ module.exports = function (grunt) {
         }]
       }
     },
+    replace: {
+      dist: {
+        src: ['<%= yeoman.dist %>/index.html'],
+          overwrite: true,                 // overwrite matched source files
+          replacements: [{
+            from: '<div class="development"></div>',
+            to: ''
+          }]
+        }
+      },
     uglify: {
       dist: {
         files: {
@@ -339,6 +349,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'ngmin',
     'cssmin',
+    'replace',
     'uglify',
     'rev',
     'usemin'
