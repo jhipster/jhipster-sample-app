@@ -128,7 +128,7 @@ jhipsterApp
                 $rootScope.websocketSubSocket;
                 $rootScope.websocketTransport = 'websocket';
 
-                $rootScope.websocketRequest = { url: '/websocket/activity',
+                $rootScope.websocketRequest = { url: 'websocket/activity',
                     contentType : "application/json",
                     transport : $rootScope.websocketTransport ,
                     trackMessageLength : true,

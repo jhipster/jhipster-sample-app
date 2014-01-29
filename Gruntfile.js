@@ -1,4 +1,4 @@
-// Generated on 2014-01-29 using generator-jhipster 0.8.2
+// Generated on 2014-01-29 using generator-jhipster 0.8.3
 'use strict';
 
 // # Globbing
@@ -165,7 +165,7 @@ module.exports = function (grunt) {
       }
     },
     useminPrepare: {
-      html: 'src/main/webapp/index.html',
+      html: 'src/main/webapp/{,*/}*.html',
       options: {
         dest: '<%= yeoman.dist %>'
       }
