@@ -28,10 +28,7 @@ describe('Services Tests ', function () {
             //set up some data for the http call to return and test later.
             var returnData = { result: 'ok' };
             //expectGET to make sure this is called once.
-            httpBackend.expectGET('app/logout').respond(returnData);
-            // Redirect to the login page
-            httpBackend.expectGET('app/rest/authenticate').respond(400, '');
-            httpBackend.expectGET('views/main.html').respond(200, '');         
+            httpBackend.expectGET('app/logout').respond(returnData);        
 
             //Set spy
             spyOn(authServiceSpied, 'loginCancelled');

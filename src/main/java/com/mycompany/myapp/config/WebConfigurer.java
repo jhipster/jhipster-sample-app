@@ -8,9 +8,6 @@ import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
 import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
 import com.mycompany.myapp.web.servlet.HealthCheckServlet;
-import org.atmosphere.cache.UUIDBroadcasterCache;
-import org.atmosphere.cpr.AtmosphereFramework;
-import org.atmosphere.cpr.AtmosphereServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -48,10 +45,8 @@ public class WebConfigurer implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Web application configuration, using profiles: {}", env.getActiveProfiles());
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-        
 
         initMetrics(servletContext, disps);
-        initAtmosphereServlet(servletContext);
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
             initStaticResourcesProductionFilter(servletContext, disps);
             initCachingHttpHeadersFilter(servletContext, disps);
@@ -154,46 +149,5 @@ public class WebConfigurer implements ServletContextInitializer {
         healthCheckServlet.addMapping("/metrics/healthcheck/*");
         healthCheckServlet.setAsyncSupported(true);
         healthCheckServlet.setLoadOnStartup(2);
-    }
-
-    /**
-     * Initializes Atmosphere.
-     */
-    private void initAtmosphereServlet(ServletContext servletContext) {
-        log.debug("Registering Atmosphere Servlet");
-        AtmosphereServlet servlet = new AtmosphereServlet();
-        Field frameworkField = ReflectionUtils.findField(AtmosphereServlet.class, "framework");
-        ReflectionUtils.makeAccessible(frameworkField);
-        ReflectionUtils.setField(frameworkField, servlet, new NoAnalyticsAtmosphereFramework());
-        ServletRegistration.Dynamic atmosphereServlet =
-                servletContext.addServlet("atmosphereServlet", servlet);
-
-        atmosphereServlet.setInitParameter("org.atmosphere.cpr.packages", "com.mycompany.myapp.web.websocket");
-        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcasterCacheClass", UUIDBroadcasterCache.class.getName());
-        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.shareableThreadPool", "true");
-        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.maxProcessingThreads", "10");
-        atmosphereServlet.setInitParameter("org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads", "10");
-
-        atmosphereServlet.addMapping("/websocket/*");
-        atmosphereServlet.setLoadOnStartup(3);
-        atmosphereServlet.setAsyncSupported(true);
-    }
-
-    /**
-     * Atmosphere sends tracking data to Google Analytics, which is a potential security issue.
-     * <p>
-     * If you want to send this data, please use directly the AtmosphereFramework class.
-     * </p>
-     */
-    public class NoAnalyticsAtmosphereFramework extends AtmosphereFramework {
-
-        public NoAnalyticsAtmosphereFramework() {
-            super();
-        }
-
-        @Override
-        protected void analytics() {
-            // noop
-        }
     }
 }
