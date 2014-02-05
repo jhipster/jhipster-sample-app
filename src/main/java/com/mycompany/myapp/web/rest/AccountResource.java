@@ -49,14 +49,6 @@ public class AccountResource {
         return request.getRemoteUser();
     }
 
-    @RequestMapping(value = "/rest/boom",
-            method = RequestMethod.GET,
-            produces = "application/json")
-    @Timed
-    public String boom(HttpServletRequest request) {
-        return "sans déconner?";
-    }
-
     /**
      * GET  /rest/account -> get the current user.
      */
