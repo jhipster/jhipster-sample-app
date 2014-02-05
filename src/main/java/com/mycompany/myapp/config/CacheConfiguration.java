@@ -36,7 +36,7 @@ public class CacheConfiguration {
     private MetricRegistry metricRegistry;
 
     private net.sf.ehcache.CacheManager cacheManager;
-    
+
     @PreDestroy
     public void destroy() {
         log.info("Remove Cache Manager metrics");

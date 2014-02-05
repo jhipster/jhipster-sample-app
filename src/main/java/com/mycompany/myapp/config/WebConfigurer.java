@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.util.ReflectionUtils;
 
 import javax.inject.Inject;
@@ -50,6 +49,7 @@ public class WebConfigurer implements ServletContextInitializer {
         log.info("Web application configuration, using profiles: {}", env.getActiveProfiles());
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
         
+
         initMetrics(servletContext, disps);
         initAtmosphereServlet(servletContext);
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {

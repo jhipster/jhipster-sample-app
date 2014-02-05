@@ -30,7 +30,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
     private static final Logger log = LoggerFactory.getLogger(MetricsConfiguration.class);
 
     private static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
-    
+
     private static final HealthCheckRegistry HEALTH_CHECK_REGISTRY = new HealthCheckRegistry();
 
     private RelaxedPropertyResolver propertyResolver;
@@ -60,13 +60,9 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
         METRIC_REGISTRY.register("jvm.threads", new ThreadStatesGaugeSet());
         METRIC_REGISTRY.register("jvm.files", new FileDescriptorRatioGauge());
         METRIC_REGISTRY.register("jvm.buffers", new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
-    }
-
-    @Override
-    public void configureReporters(MetricRegistry metricRegistry) {
         if (propertyResolver.getProperty("jmx.enabled", Boolean.class, false)) {
             log.info("Initializing Metrics JMX reporting");
-            final JmxReporter jmxReporter = JmxReporter.forRegistry(metricRegistry).build();
+            final JmxReporter jmxReporter = JmxReporter.forRegistry(METRIC_REGISTRY).build();
             jmxReporter.start();
         }
     }
@@ -97,8 +93,6 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
                         .convertDurationsTo(TimeUnit.MILLISECONDS)
                         .build(graphite);
                 graphiteReporter.start(1, TimeUnit.MINUTES);
-            } else {
-                log.warn("Graphite server is not configured, unable to send any data to Graphite");
             }
         }
     }

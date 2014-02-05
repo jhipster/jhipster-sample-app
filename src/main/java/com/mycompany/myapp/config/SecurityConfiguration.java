@@ -61,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new  com.mycompany.myapp.security.UserDetailsService();
+        return new com.mycompany.myapp.security.UserDetailsService();
     }
 
     @Override
