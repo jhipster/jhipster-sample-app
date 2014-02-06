@@ -19,6 +19,7 @@ import org.springframework.util.ReflectionUtils;
 import javax.inject.Inject;
 import javax.servlet.*;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class WebConfigurer implements ServletContextInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        log.info("Web application configuration, using profiles: {}", env.getActiveProfiles());
+        log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
 
         initMetrics(servletContext, disps);
@@ -63,7 +64,7 @@ public class WebConfigurer implements ServletContextInitializer {
         log.debug("Registering GZip Filter");
 
         FilterRegistration.Dynamic compressingFilter = servletContext.addFilter("gzipFilter", new GZipServletFilter());
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
 
         compressingFilter.setInitParameters(parameters);
 

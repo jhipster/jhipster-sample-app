@@ -1,5 +1,6 @@
 package com.mycompany.myapp.service;
 
+import com.mycompany.myapp.domain.Authority;
 import com.mycompany.myapp.domain.PersistentToken;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PersistentTokenRepository;
@@ -49,6 +50,16 @@ public class UserService {
         currentUser.setPassword(encryptedPassword);
         userRepository.save(currentUser);
         log.debug("Changed password for User: {}", currentUser);
+    }
+
+    public User getUserWithAuthorities() {
+        User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
+
+        if (currentUser == null) {
+            return null;
+        }
+
+        return currentUser;
     }
 
     /**
