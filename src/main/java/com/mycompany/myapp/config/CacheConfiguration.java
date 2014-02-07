@@ -11,13 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.core.env.Environment;
+
 import javax.inject.Inject;
 import javax.annotation.PreDestroy;
-import java.util.SortedSet;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Configuration
 @EnableCaching
@@ -25,7 +26,7 @@ import java.util.Set;
 public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
-    
+
     @PersistenceContext
     private EntityManager entityManager;
 
