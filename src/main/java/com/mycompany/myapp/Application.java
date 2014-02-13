@@ -1,20 +1,22 @@
 package com.mycompany.myapp;
 
 import com.mycompany.myapp.config.Constants;
+import com.mycompany.myapp.config.reload.JHipsterPluginManagerReloadPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
+import org.springsource.loaded.agent.SpringLoadedAgent;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.Arrays;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
@@ -55,7 +57,14 @@ public class Application {
         // Fallback to set the list of liquibase package list .
         addLiquibaseScanPackages();
 
-        app.run(args);
+        ConfigurableApplicationContext applicationContext = app.run(args);
+        try {
+            SpringLoadedAgent.getInstrumentation();
+            log.info("Spring Loaded is running, registering hot reloading features");
+            JHipsterPluginManagerReloadPlugin.register(applicationContext);
+        } catch (UnsupportedOperationException uoe) {
+            log.info("Spring Loaded is not running, hot reloading is not enabled");
+        }
     }
 
     /**
@@ -63,7 +72,7 @@ public class Application {
      */
     private static void addDefaultProfile(SpringApplication app, SimpleCommandLinePropertySource source) {
         if (!source.containsProperty("spring.profiles.active")) {
-            app.setAdditionalProfiles(Arrays.asList(Constants.SPRING_PROFILE_DEVELOPMENT));
+            app.setAdditionalProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
         }
     }
 
