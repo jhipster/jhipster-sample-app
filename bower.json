@@ -6,14 +6,14 @@
     "jquery-atmosphere": "~2.1.2",
     "sass-bootstrap": "~3.0.0",
     "modernizr": "~2.7.0",
-    "jquery": "~2.1.0",
+    "jquery": "2.0.3",
     "angular": "~1.2.12",
     "json3": "~3.3.0",
     "angular-route": "~1.2.12",
     "angular-resource": "~1.2.12",
     "angular-cookies": "~1.2.12",
     "angular-sanitize": "~1.2.12",
-    "angular-translate": "~1.1.1",
+    "angular-translate": "~2.0.0",
     "angular-translate-storage-cookie": "~0.1.6",
     "angular-translate-loader-static-files": "~0.1.6"
   },
@@ -22,7 +22,6 @@
     "angular-scenario": "~1.2.12"
   },
   "resolutions": {
-    "angular": "~1.2.12",
-    "angular-cookies": "~1.2.12"
+    "angular": "~1.2.12"
   }
 }

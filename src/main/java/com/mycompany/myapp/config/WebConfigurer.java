@@ -12,8 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.JstlView;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -39,6 +42,11 @@ public class WebConfigurer implements ServletContextInitializer {
 
     @Inject
     private HealthCheckRegistry healthCheckRegistry;
+
+    @Bean(name = "error")
+    public View defaultErrorView() {
+        return new JstlView("/500.html");
+    }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
