@@ -28,6 +28,11 @@ spring:
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
             
 
+    thymeleaf:
+        mode: XHTML
+        cache: true
+
+
 metrics:
     jmx.enabled: true
     graphite:

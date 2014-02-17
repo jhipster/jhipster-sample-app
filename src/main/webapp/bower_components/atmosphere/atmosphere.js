@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2013 Jeanfrancois Arcand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,29 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Atmosphere.js
- * https://github.com/Atmosphere/atmosphere-javascript
- * 
- * API reference
- * https://github.com/Atmosphere/atmosphere/wiki/jQuery.atmosphere.js-API
- * 
- * Highly inspired by 
- * - Portal by Donghwan Kim http://flowersinthesand.github.io/portal/
+/*
+ * Highly inspired by Portal v1.0
+ * http://github.com/flowersinthesand/portal
+ *
+ * Copyright 2011-2013, Donghwan Kim
+ * Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
-(function(root, factory) {
-    if (typeof define === "function" && define.amd) {
-        // AMD
-        define(factory);
-    } else {
-        // Browser globals, Window
-        root.atmosphere = factory();
-    }
-}(this, function() {
+/**
+ * Official documentation of this library: https://github.com/Atmosphere/atmosphere/wiki/jQuery.atmosphere.js-API
+ */
+(function () {
 
     "use strict";
 
-    var version = "2.1.4-javascript",
+    var version = "2.1.2-javascript",
         atmosphere = {},
         guid,
         requests = [],
@@ -286,7 +279,6 @@
                 // Wait to be sure we have the full message before closing.
                 if (_response.partialMessage === "" && (rq.transport === 'streaming') && (ajaxRequest.responseText.length > rq.maxStreamingLength)) {
                     _response.messages = [];
-                    rq.reconnectingOnLength = true;
                     _invokeClose(true);
                     _disconnect();
                     _clearState();
@@ -1559,7 +1551,7 @@
 
                 if (rq.contentType !== '') {
                     //Eurk!
-                    url += "&Content-Type=" + (rq.transport === 'websocket' ? rq.contentType : encodeURIComponent(rq.contentType));
+                    url += "&Content-Type=" + rq.transport === 'websocket' ? rq.contentType : encodeURIComponent(rq.contentType);
                 }
 
                 if (rq.enableProtocol) {
@@ -1680,9 +1672,6 @@
                         var update = false;
 
                         if (rq.transport === 'streaming' && rq.readyState > 2 && ajaxRequest.readyState === 4) {
-                            if (rq.reconnectingOnLength) {
-                                return;
-                            }
                             _clearState();
                             reconnectF();
                             return;
@@ -1891,7 +1880,7 @@
             function _reconnect(ajaxRequest, request, reconnectInterval) {
                 if (request.reconnect || (request.suspend && _subscribed)) {
                     var status = 0;
-                    if (ajaxRequest && ajaxRequest.readyState > 1) {
+                    if (ajaxRequest && ajaxRequest.readyState !== 0) {
                         status = ajaxRequest.status > 1000 ? 0 : ajaxRequest.status;
                     }
                     _response.status = status === 0 ? 204 : status;
@@ -3027,7 +3016,7 @@
         // Trident is the layout engine of the Internet Explorer
         // IE 11 has no "MSIE: 11.0" token
         if (atmosphere.util.browser.trident) {
-            atmosphere.util.browser.msie = true;
+        	atmosphere.util.browser.msie = true;
         }
 
         // The storage event of Internet Explorer and Firefox 3 works strangely
@@ -3046,7 +3035,7 @@
     atmosphere.util.on(window, "keypress", function (event) {
         if (event.charCode === 27 || event.keyCode === 27) {
             if (event.preventDefault) {
-                event.preventDefault();
+            	event.preventDefault();
             }
         }
     });
@@ -3054,7 +3043,6 @@
     atmosphere.util.on(window, "offline", function () {
         atmosphere.unsubscribe();
     });
-    
-    return atmosphere;
-}));
+    window.atmosphere = atmosphere;
+})();
 /* jshint eqnull:true, noarg:true, noempty:true, eqeqeq:true, evil:true, laxbreak:true, undef:true, browser:true, indent:false, maxerr:50 */

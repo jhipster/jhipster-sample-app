@@ -1,5 +1,6 @@
 # Disable the spring security default configuration from spring-boot-actuator
-management.security.enabled: false
+management.security.enabled: true
+security.basic.enabled: false
 
 # Disable Jolokia - An http/json bridge for remote JMX access
 endpoints.jolokia.enabled: false
@@ -21,3 +22,7 @@ spring:
         protocol: smtp
         tls: false
         auth: false
+
+    messageSource:
+        cacheSeconds: 1
+

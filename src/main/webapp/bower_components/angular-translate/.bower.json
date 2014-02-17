@@ -7,9 +7,9 @@
   "_resolution": {
     "type": "version",
     "tag": "2.0.0",
-    "commit": "6ea1400968cc03f60f1806b1797b79b7ae4d6493"
+    "commit": "e16a2b25c329a9b35d1b8c05a4c687a73b53a597"
   },
   "_source": "git://github.com/PascalPrecht/bower-angular-translate.git",
-  "_target": "~2.0.0",
+  "_target": "2.0.0",
   "_originalSource": "angular-translate"
 }

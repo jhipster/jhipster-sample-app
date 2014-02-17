@@ -27,6 +27,10 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
 
+    thymeleaf:
+        mode: XHTML
+        cache: false
+
 metrics:
     jmx.enabled: true
 

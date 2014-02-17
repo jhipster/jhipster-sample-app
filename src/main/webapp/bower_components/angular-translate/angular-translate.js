@@ -1,5 +1,5 @@
 /**
- * angular-translate - v1.1.1 - 2014-02-15
+ * angular-translate - v2.0.0 - 2014-02-16
  * http://github.com/PascalPrecht/angular-translate
  * Copyright (c) 2014 ; Licensed 
  */
@@ -616,8 +616,6 @@ angular.module('pascalprecht.translate').provider('$translate', [
               if ($translationTable[possibleLangKey][translationId]) {
                 result = determineTranslationInstant(translationId, interpolateParams, interpolationId);
               }
-            } else {
-              loadAsync(possibleLangKey);
             }
           }
           if (!result) {

@@ -1,0 +1,25 @@
+{
+  "name": "angular-dynamic-locale",
+  "version": "0.1.1",
+  "description": "A minimal module that adds the ability to dynamically change the locale",
+  "license": "MIT License, http://www.opensource.org/licenses/MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.4.1",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-concat": "0.3.0",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-contrib-jshint": "0.6.1",
+    "grunt-contrib-uglify": "0.2.2",
+    "grunt-contrib-watch": "0.5.1",
+    "grunt-karma": "0.4.5",
+    "karma": "~0.9.4",
+    "karma-jasmine": "~0.0.1",
+    "karma-chrome-launcher": "~0.0.2",
+    "karma-firefox-launcher": "~0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lgalfaso/angular-dynamic-locale.git"
+  }
+}

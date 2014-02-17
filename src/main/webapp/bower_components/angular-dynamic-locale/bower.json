@@ -1,0 +1,12 @@
+{
+  "author": "Lucas Galfaso",
+  "name": "angular-dynamic-locale",
+  "description": "Angular Dynamic Locale",
+  "version": "0.1.1",
+  "devDependencies": {
+    "angular-mocks": "1.2.8",
+    "angular": "1.2.8",
+    "angular-cookies": "1.2.8",
+    "angular-i18n": "1.2.8"
+  }
+}

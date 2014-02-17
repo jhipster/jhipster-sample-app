@@ -2,11 +2,12 @@
 
 /* App Module */
 
-var jhipsterApp = angular.module('jhipsterApp', ['http-auth-interceptor', 'ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
+var jhipsterApp = angular.module('jhipsterApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
+    'ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 jhipsterApp
-    .config(['$routeProvider', '$httpProvider', '$translateProvider',
-        function ($routeProvider, $httpProvider, $translateProvider) {
+    .config(['$routeProvider', '$httpProvider', '$translateProvider',  'tmhDynamicLocaleProvider',
+        function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider) {
             $routeProvider
                 .when('/login', {
                     templateUrl: 'views/login.html',
@@ -14,12 +15,7 @@ jhipsterApp
                 })
                 .when('/settings', {
                     templateUrl: 'views/settings.html',
-                    controller: 'SettingsController',
-                    resolve:{
-                        resolvedAccount:['Account', function (Account) {
-                            return Account.get();
-                        }]
-                    }
+                    controller: 'SettingsController'
                 })
                 .when('/password', {
                     templateUrl: 'views/password.html',
@@ -52,6 +48,10 @@ jhipsterApp
                         }]
                     }
                 })
+                .when('/audits', {
+                    templateUrl: 'views/audits.html',
+                    controller: 'AuditsController'
+                })
                 .when('/logout', {
                     templateUrl: 'views/main.html',
                     controller: 'LogoutController'
@@ -69,8 +69,10 @@ jhipsterApp
 
             $translateProvider.preferredLanguage('en');
 
-            // remember language
             $translateProvider.useCookieStorage();
+
+            tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
+            tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
         }])
         .run(['$rootScope', '$location', 'AuthenticationSharedService', 'Account',
             function($rootScope, $location, AuthenticationSharedService, Account) {
@@ -92,8 +94,20 @@ jhipsterApp
 
             $rootScope.$on("$routeChangeStart", function(event, next, current) {
                 // Check if the status of the user. Is it authenticated or not?
-                AuthenticationSharedService.authenticate({}, function() {
-                    $rootScope.authenticated = true;
+                AuthenticationSharedService.authenticate().then(function(response) {
+                    if (response.data == '') {
+                        $rootScope.$broadcast('event:auth-loginRequired');
+                    } else {
+                        $rootScope.authenticated = true;
+                        $rootScope.login = response.data;
+                        $rootScope.account = Account.get();
+
+                        // If the login page has been requested and the user is already logged in
+                        // the user is redirected to the home page
+                        if ($location.path() === "/login") {
+                            $location.path('/').replace();
+                        }
+                    }
                 });
             });
 
@@ -105,27 +119,9 @@ jhipsterApp
                 }
             });
 
-            // Call when the user is authenticated
-           $rootScope.$on('event:auth-authConfirmed', function() {
-               $rootScope.authenticated = true;
-               $rootScope.account = Account.get();
-
-               // If the login page has been requested and the user is already logged in
-               // the user is redirected to the home page
-               if ($location.path() === "/login") {
-                   $location.path('/').replace();
-               }
-            });
-
-            // Call when the user logs in
-            $rootScope.$on('event:auth-loginConfirmed', function() {
-                $rootScope.authenticated = true;
-                $rootScope.account = Account.get();
-                $location.path('').replace();
-            });
-
             // Call when the user logs out
             $rootScope.$on('event:auth-loginCancelled', function() {
+                $rootScope.login = null;
                 $rootScope.authenticated = false;
                 $location.path('');
             });

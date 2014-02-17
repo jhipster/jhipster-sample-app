@@ -5,9 +5,13 @@ import java.util.Map;
 public class UserDTO {
 
     private final String login;
+    
     private final String firstName;
+    
     private final String lastName;
+    
     private final String email;
+
     private final Map<String, Boolean> roles;
 
     public UserDTO(String login, String firstName, String lastName, String email, Map<String, Boolean> roles) {
@@ -37,6 +41,14 @@ public class UserDTO {
     public Map<String, Boolean> getRoles() {
         return roles;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
-
-
