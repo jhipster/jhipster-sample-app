@@ -5,16 +5,16 @@ server:
 spring:
     profiles: dev
     datasource:
-        dataSourceClassName: org.hsqldb.jdbc.JDBCDataSource
-        url: jdbc:hsqldb:mem:jhipster
+        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+        url: jdbc:h2:mem:jhipster
         databaseName: 
         serverName: 
         username: 
         password:
 
     jpa:
-        database-platform: org.hibernate.dialect.HSQLDialect
-        database: HSQL
+        database-platform: org.hibernate.dialect.H2Dialect
+        database: H2
         openInView: false
         show_sql: true
         generate-ddl: false
@@ -33,8 +33,19 @@ spring:
 
 metrics:
     jmx.enabled: true
+    graphite:
+        enabled: false
+        host:
+        port:
 
 cache:
     timeToLiveSeconds: 3600
     ehcache:
         maxBytesLocalHeap: 16M
+
+# You can add as many as folders to watch
+# You just need to add a dash + the directory to watch
+hotReload:
+  enabled: true
+  watchdir:
+    - target/classes

@@ -61,12 +61,18 @@ public class Foo implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Foo foo = (Foo) o;
 
-        if (id != foo.id) return false;
+        if (id != foo.id) {
+            return false;
+        }
 
         return true;
     }

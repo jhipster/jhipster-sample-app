@@ -31,6 +31,7 @@ public class FooResource {
             produces = "application/json")
     @Timed
     public void create(@RequestBody Foo foo) {
+        log.debug("REST request to save Foo : {}", foo);
         fooRepository.save(foo);
     }
 
@@ -42,6 +43,7 @@ public class FooResource {
             produces = "application/json")
     @Timed
     public List<Foo> getAll() {
+        log.debug("REST request to get all Foos");
         return fooRepository.findAll();
     }
 
@@ -69,6 +71,7 @@ public class FooResource {
             produces = "application/json")
     @Timed
     public void delete(@PathVariable Long id, HttpServletResponse response) {
+        log.debug("REST request to delete Foo : {}", id);
         fooRepository.delete(id);
     }
 }

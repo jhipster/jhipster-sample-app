@@ -1,4 +1,4 @@
-package com.mycompany.myapp.config.reload;
+package com.mycompany.myapp.config.reload.reloader;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import java.util.Collection;
  */
 public class JacksonReloader {
 
-    private static final Logger log = LoggerFactory.getLogger(JacksonReloader.class);
+    private final Logger log = LoggerFactory.getLogger(JacksonReloader.class);
 
     private ConfigurableApplicationContext applicationContext;
 
@@ -33,25 +33,8 @@ public class JacksonReloader {
         this.applicationContext = applicationContext;
     }
 
-    public void reloadEvent(String typename, Class<?> clazz) {
-        log.debug("Hot reloading - checking if this is a Jackson class: " + typename);
-
-        if (typename.startsWith("com.mycompany.myapp.domain")) {
-            log.trace("This class is in the JPA package, checking if it is an entity");
-            Annotation annotation = AnnotationUtils.findAnnotation(clazz, Entity.class);
-            if (annotation != null) {
-                log.debug("This is a JPA Entity, invalidating Jackson cache");
-                invalidateJacksonCaches();
-            }
-        } else if (typename.startsWith("com.mycompany.myapp.web.rest.dto")) {
-            log.debug("This is a REST DTO, invalidating Jackson cache");
-            invalidateJacksonCaches();
-        } else {
-            log.debug("This class is not a JPA entity or a DTO, the Jackson cache is not invalidated");
-        }
-    }
-
-    private void invalidateJacksonCaches() {
+    public void reloadEvent() {
+        log.debug("Hot reloading Jackson classes");
         try {
             ConfigurableListableBeanFactory beanFactory = applicationContext.getBeanFactory();
             Collection<ObjectMapper> mappers = BeanFactoryUtils
