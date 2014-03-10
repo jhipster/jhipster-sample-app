@@ -21,11 +21,23 @@ jhipsterApp.factory('Sessions', ['$resource',
         });
     }]);
 
-jhipsterApp.factory('Metrics', ['$resource',
+jhipsterApp.factory('MetricsService', ['$resource',
     function ($resource) {
         return $resource('metrics/metrics', {}, {
             'get': { method: 'GET'}
         });
+    }]);
+
+jhipsterApp.factory('ThreadDumpService', ['$http',
+    function ($http) {
+        return {
+            dump: function() {
+                var promise = $http.get('dump').then(function(response){
+                    return response.data;
+                });
+                return promise;
+            }
+        };
     }]);
 
 jhipsterApp.factory('HealthCheckService', ['$rootScope', '$http',
