@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.core.env.Environment;
+import org.springframework.util.Assert;
 
 import javax.inject.Inject;
 import javax.annotation.PreDestroy;
@@ -22,7 +23,7 @@ import java.util.SortedSet;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(MetricsConfiguration.class)
+@AutoConfigureAfter(value = {MetricsConfiguration.class, DatabaseConfiguration.class})
 public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
@@ -57,7 +58,13 @@ public class CacheConfiguration {
         log.debug("Registring Ehcache Metrics gauges");
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
         for (EntityType<?> entity : entities) {
-            String name = entity.getJavaType().getName();
+            
+            String name = entity.getName();
+            if ( name == null ) {
+                name = entity.getJavaType().getName();
+            }
+            Assert.notNull(name, "entity cannot exist without a identifier");
+            
             net.sf.ehcache.Cache cache = cacheManager.getCache(name);
             if (cache != null) {
                 cache.getCacheConfiguration().setTimeToLiveSeconds(env.getProperty("cache.timeToLiveSeconds", Integer.class, 3600));

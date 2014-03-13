@@ -7,7 +7,6 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
 import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
-import com.mycompany.myapp.web.servlet.HealthCheckServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -124,8 +123,6 @@ public class WebConfigurer implements ServletContextInitializer {
                 metricRegistry);
         servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
                 metricRegistry);
-        servletContext.setAttribute(HealthCheckServlet.HEALTH_CHECK_REGISTRY,
-                healthCheckRegistry);
 
         log.debug("Registering Metrics Filter");
         FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
@@ -141,14 +138,6 @@ public class WebConfigurer implements ServletContextInitializer {
         metricsAdminServlet.addMapping("/metrics/metrics/*");
         metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
-
-        log.debug("Registering HealthCheck Servlet");
-        ServletRegistration.Dynamic healthCheckServlet =
-                servletContext.addServlet("healthCheckServlet", new HealthCheckServlet());
-
-        healthCheckServlet.addMapping("/metrics/healthcheck/*");
-        healthCheckServlet.setAsyncSupported(true);
-        healthCheckServlet.setLoadOnStartup(2);
     }
     /**
      * Initializes H2 console
