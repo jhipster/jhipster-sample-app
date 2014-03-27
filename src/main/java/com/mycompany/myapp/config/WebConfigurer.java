@@ -1,7 +1,6 @@
 package com.mycompany.myapp.config;
 
 import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
@@ -35,9 +34,6 @@ public class WebConfigurer implements ServletContextInitializer {
 
     @Inject
     private MetricRegistry metricRegistry;
-
-    @Inject
-    private HealthCheckRegistry healthCheckRegistry;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {

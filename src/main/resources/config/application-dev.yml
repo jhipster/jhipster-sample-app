@@ -46,6 +46,13 @@ cache:
 # You can add as many as folders to watch
 # You just need to add a dash + the directory to watch
 hotReload:
-  enabled: true
-  watchdir:
-    - target/classes
+    enabled: true
+    package:
+      project: com.mycompany.myapp
+      domain: com.mycompany.myapp.domain
+      restdto: com.mycompany.myapp.web.rest.dto
+    liquibase:
+      defaultCatalogName: 
+      defaultSchema: public
+    watchdir:
+      - target/classes
