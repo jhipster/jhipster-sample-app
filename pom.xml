@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.0.0.RC5</version>
+        <version>1.0.1.RELEASE</version>
     </parent>
 
     <profiles>
@@ -85,10 +85,6 @@
     </profiles>
 
     <properties>
-        <!-- Bug fix spring security issue (https://github.com/spring-projects/spring-security/issues/78) -
-        will be removed once a new version of spring boot will be released-->
-        <spring-security.version>3.2.3.RELEASE</spring-security.version>
-
         <!-- Maven build properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -107,7 +103,8 @@
         <assertj-core.version>1.5.0</assertj-core.version>
         <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
         <sonar-maven-plugin.version>2.2</sonar-maven-plugin.version>
-        <jhipsterloaded.version>0.3</jhipsterloaded.version>
+        <jhipsterloaded.version>0.4</jhipsterloaded.version>
+        <liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
     </properties>
 
     <repositories>
@@ -364,6 +361,11 @@
             <artifactId>core</artifactId>
             <version>${jhipsterloaded.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.mangofactory</groupId>
+            <artifactId>swagger-springmvc</artifactId>
+            <version>0.8.2</version>
+        </dependency>
 
         <!-- Database dependencies-->
         <dependency>
@@ -399,6 +401,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mattbertolini</groupId>
+            <artifactId>liquibase-slf4j</artifactId>
+            <version>${liquibase-slf4j.version}</version>
         </dependency>
     </dependencies>
     <build>

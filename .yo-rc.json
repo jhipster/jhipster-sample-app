@@ -3,6 +3,12 @@
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
     "baseName": "jhipster",
-    "hibernateCache": "ehcache"
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "javaVersion": "7"
   }
 }

@@ -1,4 +1,4 @@
-// Generated on 2014-03-28 using generator-jhipster 0.12.0
+// Generated on 2014-04-10 using generator-jhipster 0.13.0
 'use strict';
 
 // # Globbing
@@ -256,7 +256,7 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'images/{,*/}*.{gif,webp}',
+            'images/{,*/}*.{png,gif,webp}',
             'fonts/*'
           ]
         }, {

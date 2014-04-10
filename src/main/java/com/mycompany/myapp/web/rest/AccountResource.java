@@ -67,10 +67,11 @@ public class AccountResource {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
-        List<String> roles = new ArrayList<>();
-        for (Authority authority : user.getAuthorities()) {
-            roles.add(authority.getName());
-        }
+		List<String> roles = new ArrayList<>();
+		for (Authority authority : user.getAuthorities()) {
+		    roles.add(authority.getName());
+		}
+
         return new UserDTO(user.getLogin(), user.getFirstName(), user.getLastName(),
                 user.getEmail(), roles);
     }
@@ -118,6 +119,16 @@ public class AccountResource {
 
     /**
      * DELETE  /rest/account/sessions?series={series} -> invalidate an existing session.
+     *
+     * - You can only delete your own sessions, not any other user's session
+     * - If you delete one of your existing sessions, and that you are currently logged in on that session, you will
+     *   still be able to use that session, until you quit your browser: it does not work in real time (there is
+     *   no API for that), it only removes the "remember me" cookie
+     * - This is also true if you invalidate your current session: you will still be able to use it until you close
+     *   your browser or that the session times out. But automatic login (the "remember me" cookie) will not work
+     *   anymore.
+     *   There is an API to invalidate the current session, but there is no API to check which session uses which
+     *   cookie.
      */
     @RequestMapping(value = "/rest/account/sessions/{series}",
             method = RequestMethod.DELETE)
@@ -125,18 +136,12 @@ public class AccountResource {
     public void invalidateSession(@PathVariable String series, HttpServletRequest request) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
 
-        // Check if the session to invalidate if the current user session.
-        // If so, the security session will be invalidated too
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
-        final List<PersistentToken> persistentTokens = persistentTokenRepository.findByUser(user);
-
+        List<PersistentToken> persistentTokens = persistentTokenRepository.findByUser(user);
         for (PersistentToken persistentToken : persistentTokens) {
-            if (StringUtils.equals(persistentToken.getSeries(), decodedSeries)) {
-                request.getSession().invalidate();
-                SecurityContextHolder.clearContext();
-            }
+		    if (StringUtils.equals(persistentToken.getSeries(), decodedSeries)) {
+                persistentTokenRepository.delete(decodedSeries);
+			}
         }
-
-        persistentTokenRepository.delete(decodedSeries);
     }
 }

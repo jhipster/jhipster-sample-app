@@ -81,6 +81,12 @@ jhipsterApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/docs', {
+                    templateUrl: 'views/docs.html',
+                    access: {
+                        authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
                 .otherwise({
                     templateUrl: 'views/main.html',
                     controller: 'MainController',
@@ -102,8 +108,8 @@ jhipsterApp
             tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
             tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
         }])
-        .run(['$rootScope', '$location', 'AuthenticationSharedService', 'Session', 'USER_ROLES',
-            function($rootScope, $location, AuthenticationSharedService, Session, USER_ROLES) {
+        .run(['$rootScope', '$location', '$http', 'AuthenticationSharedService', 'Session', 'USER_ROLES',
+            function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
                 $rootScope.$on('$routeChangeStart', function (event, next) {
                     $rootScope.authenticated = AuthenticationSharedService.isAuthenticated();
                     $rootScope.isAuthorized = AuthenticationSharedService.isAuthorized;
@@ -120,6 +126,10 @@ jhipsterApp
                             // user is not logged in
                             $rootScope.$broadcast("event:auth-loginRequired");
                         }
+                    } else {
+                        // Check if the customer is still authenticated on the server
+                        // Try to load a protected 1 pixel image.
+                        $http({method: 'GET', url: 'protected/transparent.gif'});
                     }
                 });
 
@@ -133,6 +143,7 @@ jhipsterApp
                 // Call when the 401 response is returned by the server
                 $rootScope.$on('event:auth-loginRequired', function(rejection) {
                     Session.destroy();
+                    $rootScope.authenticated = false;
                     if ($location.path() !== "/" && $location.path() !== "") {
                         $location.path('/login').replace();
                     }
