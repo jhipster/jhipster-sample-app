@@ -16,6 +16,13 @@ jhipsterApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/project', {
+                    templateUrl: 'views/projects.html',
+                    controller: 'ProjectController',
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
                 .when('/error', {
                     templateUrl: 'views/error.html',
                     access: {

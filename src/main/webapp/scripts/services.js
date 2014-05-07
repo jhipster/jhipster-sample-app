@@ -1,6 +1,15 @@
 'use strict';
 
-/* Services */
+/* Custom Services */
+
+jhipsterApp.factory('ProjectService', ['$resource',
+    function ($resource) {
+        return $resource('app/rest/project', {}, {
+        	'get': { method: 'GET', isArray: true}
+        });
+    }]);
+
+/* Default Services */
 
 jhipsterApp.factory('Account', ['$resource',
     function ($resource) {

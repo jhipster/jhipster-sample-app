@@ -15,7 +15,7 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         database: H2
-        openInView: false
+        openInView: true
         show_sql: true
         generate-ddl: false
         hibernate:

@@ -1,15 +1,25 @@
 package com.mycompany.myapp.web.rest;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.LoggerContext;
-import com.codahale.metrics.annotation.Timed;
-import com.mycompany.myapp.web.rest.dto.LoggerDTO;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
+
+import com.codahale.metrics.annotation.Timed;
+import com.mycompany.myapp.repository.ProjectRepository;
+import com.mycompany.myapp.web.rest.dto.LoggerDTO;
 
 /**
  * Controller for view and managing Log Level at runtime.
@@ -17,8 +27,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/app")
 public class LogsResource {
+	
+	private final Logger log = LoggerFactory.getLogger(LogsResource.class);
 
-    @RequestMapping(value = "/rest/logs",
+	@Inject
+	private ProjectRepository projectRepository;
+
+	@RequestMapping(value = "/rest/logs",
             method = RequestMethod.GET,
             produces = "application/json")
     @Timed
