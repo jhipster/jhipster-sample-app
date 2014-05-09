@@ -8,6 +8,27 @@ jhipsterApp.factory('ProjectService', ['$resource',
         	'get': { method: 'GET', isArray: true}
         });
     }]);
+    
+jhipsterApp.factory('ProjectService', ['$resource',
+   function ($resource) {
+       return $resource('app/rest/project', {}, {
+       	'get': { method: 'GET', isArray: true}
+       });
+   }]);
+
+jhipsterApp.factory('SuiteService', ['$http',
+      function ($http) {
+          return {
+        	  findById: function(suiteId) {
+                  var suite = $http.get('app/rest/suite/' + suiteId)
+                  	.then(function (response) {
+                      return response.data;
+                  });
+                  return suite;
+              }
+          }
+      }]);
+
 
 /* Default Services */
 

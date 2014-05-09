@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,13 +28,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 @Entity
 @Table(name = "T_PROJECT")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+// @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @JsonInclude(Include.NON_NULL)
 public class Project implements Serializable {
 
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy="uuid")
+	// @GeneratedValue(generator="system-uuid")
+	// @GenericGenerator(name="system-uuid", strategy="uuid")
 	@Column(name = "project_id")
 	private UUID projectId;
 
@@ -42,8 +44,7 @@ public class Project implements Serializable {
 	private String projectName;
 
 	// entity suites in this side is inverse and owner resides in Suite
-	@OneToMany(mappedBy = "project")
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@OneToMany(mappedBy = "project", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JsonManagedReference
 	private List<Suite> suites;
 

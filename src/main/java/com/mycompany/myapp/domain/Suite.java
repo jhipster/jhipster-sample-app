@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,12 +22,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "T_SUITE")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+// @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Suite implements Serializable {
 
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy="uuid")
+	// @GeneratedValue(generator="system-uuid")
+	// @GenericGenerator(name="system-uuid", strategy="uuid")
 	@Column(name = "suite_id")
 	private UUID suiteId;
 
@@ -35,7 +36,7 @@ public class Suite implements Serializable {
 	@Size(min = 0, max = 100)
 	private String suiteName;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	@JsonBackReference
 	private Project project;

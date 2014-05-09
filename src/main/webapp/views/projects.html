@@ -1,6 +1,7 @@
 <div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
 
 <div id="projects">
+<!--  stick to RIQ project for now
   <div ng-repeat="project in projects">
 	  <table>
 	    <thead>
@@ -31,6 +32,7 @@
 	    </tbody>
 	  </table>
     </div>
+-->	
 
 <form class="form-horizontal">
 
@@ -83,36 +85,36 @@
 </form>
 
 <hr />
-<h3>Railway Stations List</h3>
-<div class="alert alert-info" ng-show="railwaystations.length == 0">No Railway Stations found</div>
-<table class="table table-bordered table-striped" ng-show="railwaystations.length > 0">
+<h3>Suite List</h3>
+<div class="alert alert-info" ng-show="suites.length == 0">No Suites found</div>
+<table class="table table-bordered table-striped" ng-show="suites.length > 0">
 	<thead>
 		<tr>
-			<th style="text-align: center; width: 25px;">Id</th>
+			<th style="text-align: center; width: 25px;">Project</th>
  			<th style="text-align: center;">Name</th>
-			<th style="text-align: center;">Speed</th>
-			<th style="text-align: center;">Diesel</th>
- 			<th style="text-align: center;">Action</th>
+			<th style="text-align: center;">ID</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="item in railwaystations | orderBy:predicate">
-			<td style="text-align: center;">{{item.id}}</td>
-			<td>{{item.name}}</td>
-			<td>{{item.train.speed}}</td>
+		<tr ng-repeat="item in suites | orderBy:suiteName">
+			<td style="text-align: center;">{{project.projectName}}</td>
+			<td>{{item.suiteName}}</td>
+			<td>{{item.suiteId}}</td>
+			<td><a href="#suite/{{item.suiteId}}" >Tests</a></td>
+			<!--
 			<td style="text-align: center; width: 20px;"><span
 				ng-show="item.train.diesel" class="icon-ok"></span></td>
+			-->
 				
 			<td style="width: 100px; text-align: center;">
 				<button class="btn btn-mini btn-danger"
-					ng-click="removeRailwayStation(item.id)">Remove</button>
-				<button class="btn btn-mini btn-success" ng-click="editRailwayStation(item)">Edit</button>
+					ng-click="removeSuite(suite.suiteName)">Remove</button>
+				<button class="btn btn-mini btn-success" ng-click="editSuite(suite.suiteName)">Edit</button>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<button class="btn btn-danger" ng-show="railwaystations.length > 1"
-	ng-click="removeAllRailwayStations()">Remove All stations</button>
-
+<button class="btn btn-danger" ng-show="suites.length > 1"
+	ng-click="removeAllSuites()">Remove All Suites</button>
 
 </div>
