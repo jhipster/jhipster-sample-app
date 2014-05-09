@@ -1,0 +1,88 @@
+<div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
+
+<div id="suites">
+
+<form class="form-horizontal">
+
+	<div class="control-group">
+		<label class="control-label" for="projectName">Project Name</label>
+
+		<div class="controls">
+			<input type="text" id="projectName" ng-model="suite.project.projectName"
+				placeholder="Project Name" required min="2" onchange="angular.element(this).scope().updateProjectId()" >
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="suiteName">Suite Name</label>
+
+		<div class="controls">
+			<input type="text" id="suiteName" ng-model="suite.suiteName"
+				placeholder="Suite Name" required min="2">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="projectId">Project ID</label>
+
+		<div class="controls">
+			<input class="span3" type="text" id="projectId" disabled="disabled"
+				ng-model="suite.project.projectId" >
+			<span class="add-on">Auto completes</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<!--  
+		<div class="controls">
+			<label class="checkbox"> <input type="checkbox"
+				ng-model="rs.train.diesel"> Is Diesel
+			</label>
+		</div>
+		-->
+		<hr />
+		<div class="controls">
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!suite.project.projectName || !suite.suiteName" ng-hide="editMode"
+				ng-click="addSuite(suite)">Add Suite</button>
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!suite.project.projectName || !suite.suiteName" ng-show="editMode"
+				ng-click="saveSuite(suite)">Save Suite</button>
+			<button type="button" class="btn" ng-click="resetSuite()">Reset</button>
+		</div>
+	</div>
+</form>
+
+<hr />
+<h3>Suite List</h3>
+<div class="alert alert-info" ng-show="suites.length == 0">No Suites found</div>
+<table class="table table-bordered table-striped" ng-show="suites.length > 0">
+	<thead>
+		<tr>
+			<th style="text-align: center; width: 25px;">Project</th>
+ 			<th style="text-align: center;">Name</th>
+			<th style="text-align: center;">ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in suites | orderBy:suiteName">
+			<td style="text-align: center;">{{project.projectName}}</td>
+			<td>{{item.suiteName}}</td>
+			<td>{{item.suiteId}}</td>
+			
+			<!--
+			<td style="text-align: center; width: 20px;"><span
+				ng-show="item.train.diesel" class="icon-ok"></span></td>
+			-->
+				
+			<td style="width: 100px; text-align: center;">
+				<button class="btn btn-mini btn-danger"
+					ng-click="removeSuite(suite.suiteName)">Remove</button>
+				<button class="btn btn-mini btn-success" ng-click="editSuite(suite.suiteName)">Edit</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<button class="btn btn-danger" ng-show="suites.length > 1"
+	ng-click="removeAllSuites()">Remove All Suites</button>
+
+</div>
