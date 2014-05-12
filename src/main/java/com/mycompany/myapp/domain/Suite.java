@@ -1,24 +1,23 @@
 package com.mycompany.myapp.domain;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "T_SUITE")
@@ -36,10 +35,23 @@ public class Suite implements Serializable {
 	@Size(min = 0, max = 100)
 	private String suiteName;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	@JsonBackReference
 	private Project project;
+
+	@OneToMany(mappedBy = "suite", cascade = CascadeType.ALL, 
+			fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<Test> tests;
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
+	}
 
 	public UUID getSuiteId() {
 		return suiteId;
