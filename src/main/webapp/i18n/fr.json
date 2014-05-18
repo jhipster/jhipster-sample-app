@@ -1,6 +1,6 @@
 {
     "global": {
-        "title": "JHipster",
+        "title": "jhipster",
         "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
         "menu": {
             "home": "Accueil",
@@ -25,7 +25,8 @@
             "en": "Anglais",
             "fr": "Français",
             "de": "Allemand",
-            "pl": "Polonais"
+            "pl": "Polonais",
+            "ru": "Russe"
         }
     },
     "index": {

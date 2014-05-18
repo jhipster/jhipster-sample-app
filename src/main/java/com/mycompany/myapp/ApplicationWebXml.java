@@ -24,11 +24,11 @@ public class ApplicationWebXml extends SpringBootServletInitializer {
      * Set a default profile if it has not been set.
      * <p/>
      * <p>
-     * Please use -Dspring.active.profile=dev
+     * Please use -Dspring.profiles.active=dev
      * </p>
      */
     private String addDefaultProfile() {
-        String profile = System.getProperty("spring.active.profile");
+        String profile = System.getProperty("spring.profiles.active");
         if (profile != null) {
             log.info("Running with Spring profile(s) : {}", profile);
             return profile;

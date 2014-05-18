@@ -12,13 +12,12 @@ import com.mycompany.myapp.web.rest.dto.UserDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -61,19 +60,23 @@ public class AccountResource {
             method = RequestMethod.GET,
             produces = "application/json")
     @Timed
-    public UserDTO getAccount(HttpServletResponse response) {
+    public ResponseEntity<UserDTO> getAccount() {
         User user = userService.getUserWithAuthorities();
         if (user == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return null;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-		List<String> roles = new ArrayList<>();
-		for (Authority authority : user.getAuthorities()) {
-		    roles.add(authority.getName());
-		}
-
-        return new UserDTO(user.getLogin(), user.getFirstName(), user.getLastName(),
-                user.getEmail(), roles);
+        List<String> roles = new ArrayList<>();
+        for (Authority authority : user.getAuthorities()) {
+            roles.add(authority.getName());
+        }
+        return new ResponseEntity<>(
+            new UserDTO(
+                user.getLogin(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                roles),
+            HttpStatus.OK);
     }
 
     /**
@@ -83,7 +86,7 @@ public class AccountResource {
             method = RequestMethod.POST,
             produces = "application/json")
     @Timed
-    public void saveAccount(@RequestBody UserDTO userDTO) throws IOException {
+    public void saveAccount(@RequestBody UserDTO userDTO) {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
     }
 
@@ -94,12 +97,12 @@ public class AccountResource {
             method = RequestMethod.POST,
             produces = "application/json")
     @Timed
-    public void changePassword(@RequestBody String password, HttpServletResponse response) throws IOException {
-        if (password == null || password.equals("")) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Password should not be empty");
-        } else {
-            userService.changePassword(password);
+    public ResponseEntity<?> changePassword(@RequestBody String password) {
+        if (StringUtils.isEmpty(password)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        userService.changePassword(password);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -109,12 +112,14 @@ public class AccountResource {
             method = RequestMethod.GET,
             produces = "application/json")
     @Timed
-    public List<PersistentToken> getCurrentSessions(HttpServletResponse response) {
+    public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
         if (user == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return persistentTokenRepository.findByUser(user);
+        return new ResponseEntity<>(
+            persistentTokenRepository.findByUser(user),
+            HttpStatus.OK);
     }
 
     /**
@@ -133,15 +138,14 @@ public class AccountResource {
     @RequestMapping(value = "/rest/account/sessions/{series}",
             method = RequestMethod.DELETE)
     @Timed
-    public void invalidateSession(@PathVariable String series, HttpServletRequest request) throws UnsupportedEncodingException {
+    public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
-
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
         List<PersistentToken> persistentTokens = persistentTokenRepository.findByUser(user);
         for (PersistentToken persistentToken : persistentTokens) {
-		    if (StringUtils.equals(persistentToken.getSeries(), decodedSeries)) {
+            if (StringUtils.equals(persistentToken.getSeries(), decodedSeries)) {
                 persistentTokenRepository.delete(decodedSeries);
-			}
+            }
         }
     }
 }

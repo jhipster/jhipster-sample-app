@@ -1,14 +1,14 @@
 {
   "name": "swagger-ui",
   "homepage": "https://github.com/wordnik/swagger-ui",
-  "version": "2.0.14",
-  "_release": "2.0.14",
+  "version": "2.0.16",
+  "_release": "2.0.16",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.14",
-    "commit": "2abdedf01e1bf89380aa393ed9a3fff619931750"
+    "tag": "v2.0.16",
+    "commit": "ad6177ed3e7e166a87d3d2ab3c70a64ce6246105"
   },
   "_source": "git://github.com/wordnik/swagger-ui.git",
-  "_target": "2.0.14",
+  "_target": "2.0.16",
   "_originalSource": "swagger-ui"
 }

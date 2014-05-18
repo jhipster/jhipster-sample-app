@@ -26,6 +26,7 @@ spring:
     messageSource:
         cacheSeconds: 1
 
+
 swagger:
     apiDocsLocation: http://localhost:8080
     title: jhipster API

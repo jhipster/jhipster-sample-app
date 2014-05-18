@@ -24,8 +24,7 @@ public class LogsResource {
     @Timed
     public List<LoggerDTO> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-
-        List<LoggerDTO> loggers = new ArrayList<LoggerDTO>();
+        List<LoggerDTO> loggers = new ArrayList<>();
         for (ch.qos.logback.classic.Logger logger : context.getLoggerList()) {
             loggers.add(new LoggerDTO(logger));
         }

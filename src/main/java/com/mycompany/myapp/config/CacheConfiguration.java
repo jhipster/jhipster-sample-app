@@ -13,8 +13,8 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
-import javax.inject.Inject;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
@@ -60,7 +60,7 @@ public class CacheConfiguration {
         for (EntityType<?> entity : entities) {
             
             String name = entity.getName();
-            if ( name == null ) {
+            if (name == null || entity.getJavaType() != null) {
                 name = entity.getJavaType().getName();
             }
             Assert.notNull(name, "entity cannot exist without a identifier");

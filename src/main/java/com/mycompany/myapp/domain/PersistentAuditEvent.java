@@ -4,7 +4,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -26,16 +25,14 @@ public class PersistentAuditEvent  {
     private long id;
 
     @NotNull
-    @Column(name = "principal")
     private String principal;
 
     @Column(name = "event_date")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime auditEventDate;
-
+    
     @Column(name = "event_type")
     private String auditEventType;
-
 
     @ElementCollection
     @MapKeyColumn(name="name")

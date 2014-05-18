@@ -14,6 +14,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
+import com.mycompany.myapp.async.ExceptionHandlingAsyncTaskExecutor;
+
 @Configuration
 @EnableAsync
 @EnableScheduling
@@ -37,6 +39,6 @@ public class AsyncConfiguration implements AsyncConfigurer, EnvironmentAware {
         executor.setMaxPoolSize(propertyResolver.getProperty("maxPoolSize", Integer.class, 50));
         executor.setQueueCapacity(propertyResolver.getProperty("queueCapacity", Integer.class, 10000));
         executor.setThreadNamePrefix("jhipster-Executor-");
-        return executor;
+        return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 }

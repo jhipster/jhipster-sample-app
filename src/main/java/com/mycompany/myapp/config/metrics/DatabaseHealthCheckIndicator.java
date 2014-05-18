@@ -2,6 +2,7 @@ package com.mycompany.myapp.config.metrics;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +22,7 @@ public class DatabaseHealthCheckIndicator extends HealthCheckIndicator {
     public static final String DATABASE_HEALTH_INDICATOR = "database";
 	
     private final Logger log = LoggerFactory.getLogger(DatabaseHealthCheckIndicator.class);
-
+    
     private static Map<String, String> queries = new HashMap<>();
 
     static {
@@ -41,7 +42,7 @@ public class DatabaseHealthCheckIndicator extends HealthCheckIndicator {
 
     public DatabaseHealthCheckIndicator() {
     }
-
+    
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

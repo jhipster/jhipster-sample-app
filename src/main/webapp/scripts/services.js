@@ -78,8 +78,8 @@ jhipsterApp.factory('AuditsService', ['$http',
         }
     }]);
 
-jhipsterApp.factory('Session', ['$cookieStore',
-    function ($cookieStore) {
+jhipsterApp.factory('Session', [
+    function () {
         this.create = function (login, firstName, lastName, email, userRoles) {
             this.login = login;
             this.firstName = firstName;
@@ -87,13 +87,12 @@ jhipsterApp.factory('Session', ['$cookieStore',
             this.email = email;
             this.userRoles = userRoles;
         };
-        this.destroy = function () {
+        this.invalidate = function () {
             this.login = null;
             this.firstName = null;
             this.lastName = null;
             this.email = null;
-            this.roles = null;
-            $cookieStore.remove('account');
+            this.userRoles = null;
         };
         return this;
     }]);
@@ -104,8 +103,8 @@ jhipsterApp.constant('USER_ROLES', {
         user: 'ROLE_USER'
     });
 
-jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$cookieStore', 'authService', 'Session', 'Account',
-    function ($rootScope, $http, $cookieStore, authService, Session, Account) {
+jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', 'authService', 'Session', 'Account',
+    function ($rootScope, $http, authService, Session, Account) {
         return {
             login: function (param) {
                 var data ="j_username=" + param.username +"&j_password=" + param.password +"&_spring_security_remember_me=" + param.rememberMe +"&submit=Login";
@@ -117,24 +116,37 @@ jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$coo
                 }).success(function (data, status, headers, config) {
                     Account.get(function(data) {
                         Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
-                        $cookieStore.put('account', JSON.stringify(Session));
+                        $rootScope.account = Session;
                         authService.loginConfirmed(data);
                     });
                 }).error(function (data, status, headers, config) {
-                    Session.destroy();
+                    $rootScope.authenticationError = true;
+                    Session.invalidate();
                 });
             },
-            isAuthenticated: function () {
-                if (!Session.login) {
-                    // check if the user has a cookie
-                    if ($cookieStore.get('account') != null) {
-                        var account = JSON.parse($cookieStore.get('account'));
-                        Session.create(account.login, account.firstName, account.lastName,
-                            account.email, account.userRoles);
-                        $rootScope.account = Session;
+            valid: function (authorizedRoles) {
+
+                $http.get('protected/transparent.gif', {
+                    ignoreAuthModule: 'ignoreAuthModule'
+                }).success(function (data, status, headers, config) {
+                    if (!!Session.login) {
+                        Account.get(function(data) {
+                            Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
+                            $rootScope.account = Session;
+
+                            if (!$rootScope.isAuthorized(authorizedRoles)) {
+                                event.preventDefault();
+                                // user is not allowed
+                                $rootScope.$broadcast("event:auth-notAuthorized");
+                            }
+
+                            $rootScope.authenticated = true;
+                        });
                     }
-                }
-                return !!Session.login;
+                    $rootScope.authenticated = !!Session.login;
+                }).error(function (data, status, headers, config) {
+                    $rootScope.authenticated = false;
+                });
             },
             isAuthorized: function (authorizedRoles) {
                 if (!angular.isArray(authorizedRoles)) {
@@ -146,7 +158,6 @@ jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$coo
                 }
 
                 var isAuthorized = false;
-
                 angular.forEach(authorizedRoles, function(authorizedRole) {
                     var authorized = (!!Session.login &&
                         Session.userRoles.indexOf(authorizedRole) !== -1);
@@ -160,11 +171,12 @@ jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$coo
             },
             logout: function () {
                 $rootScope.authenticationError = false;
-                $http.get('app/logout')
-                    .success(function (data, status, headers, config) {
-                        Session.destroy();
-                        authService.loginCancelled();
-                    });
+                $rootScope.authenticated = false;
+                $rootScope.account = null;
+
+                $http.get('app/logout');
+                Session.invalidate();
+                authService.loginCancelled();
             }
         };
     }]);

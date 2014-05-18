@@ -1,9 +1,9 @@
 server:
     port: 8080
-    address: localhost
 
 spring:
     profiles: prod
+    
     datasource:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         url: jdbc:mysql://localhost:3306/jhipster
@@ -37,8 +37,8 @@ metrics:
     jmx.enabled: true
     graphite:
         enabled: false
-        host:
-        port:
+        host: localhost
+        port: 2003
 
 cache:
     timeToLiveSeconds: 3600

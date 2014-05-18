@@ -14,7 +14,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,11 +28,11 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
-    @Inject
-    private Environment env;
+    private Environment environment;
 
     @Override
     public void setEnvironment(Environment environment) {
+        this.environment = environment;
         this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
     }
 
@@ -43,7 +42,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
                     "cannot start. Please check your Spring profile, current profiles are: {}",
-                    Arrays.toString(env.getActiveProfiles()));
+                    Arrays.toString(environment.getActiveProfiles()));
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
         }

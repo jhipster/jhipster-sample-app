@@ -28,21 +28,14 @@ jhipsterApp.controller('LoginController', ['$scope', '$location', 'Authenticatio
             AuthenticationSharedService.login({
                 username: $scope.username,
                 password: $scope.password,
-                rememberMe: $scope.rememberMe,
-                success: function () {
-                    $location.path('');
-                }
+                rememberMe: $scope.rememberMe
             })
         }
     }]);
 
 jhipsterApp.controller('LogoutController', ['$location', 'AuthenticationSharedService',
     function ($location, AuthenticationSharedService) {
-        AuthenticationSharedService.logout({
-            success: function () {
-                $location.path('');
-            }
-        });
+        AuthenticationSharedService.logout();
     }]);
 
 jhipsterApp.controller('SettingsController', ['$scope', 'Account',
@@ -122,7 +115,7 @@ jhipsterApp.controller('SessionsController', ['$scope', 'resolvedSessions', 'Ses
                 $scope.servicesStats = {};
                 $scope.cachesStats = {};
                 angular.forEach(items.timers, function(value, key) {
-                    if (key.indexOf("web.rest") != -1) {
+                    if (key.indexOf("web.rest") != -1 || key.indexOf("service") != -1) {
                         $scope.servicesStats[key] = value;
                     }
 
