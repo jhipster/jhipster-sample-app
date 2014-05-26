@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "T_USER")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User implements Serializable {
+public class User extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Size(min = 0, max = 50)
@@ -40,6 +40,17 @@ public class User implements Serializable {
     @Size(min = 0, max = 100)
     private String email;
 
+    @NotNull
+    private Boolean activated = false;
+
+    @Size(min = 2, max = 5)
+    @Column(name = "lang_key")
+    private String langKey;
+
+    @Size(min = 0, max = 20)
+    @Column(name = "activation_key")
+    private String activationKey;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -50,7 +61,7 @@ public class User implements Serializable {
     private Set<Authority> authorities;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens;
 
@@ -92,6 +103,30 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getLangKey() {
+        return langKey;
+    }
+
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
     }
 
     public Set<Authority> getAuthorities() {
@@ -141,6 +176,9 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", activated='" + activated + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", activationKey='" + activationKey + '\'' +
                 "}";
     }
 }

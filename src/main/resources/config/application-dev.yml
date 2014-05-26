@@ -27,6 +27,9 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
 
+    mail:
+        baseUrl: http://localhost:8080
+
     thymeleaf:
         mode: XHTML
         cache: false

@@ -2,6 +2,19 @@
 
 /* Services */
 
+jhipsterApp.factory('Register', ['$resource',
+    function ($resource) {
+        return $resource('app/rest/register', {}, {
+        });
+    }]);
+
+jhipsterApp.factory('Activate', ['$resource',
+    function ($resource) {
+        return $resource('app/rest/activate', {}, {
+            'get': { method: 'GET', params: {}, isArray: false}
+        });
+    }]);
+
 jhipsterApp.factory('Account', ['$resource',
     function ($resource) {
         return $resource('app/rest/account', {}, {
@@ -129,7 +142,7 @@ jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', 'auth
                 $http.get('protected/transparent.gif', {
                     ignoreAuthModule: 'ignoreAuthModule'
                 }).success(function (data, status, headers, config) {
-                    if (!!Session.login) {
+                    if (!Session.login) {
                         Account.get(function(data) {
                             Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
                             $rootScope.account = Session;
