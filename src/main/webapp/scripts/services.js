@@ -16,19 +16,76 @@ jhipsterApp.factory('ProjectService', ['$resource',
        });
    }]);
 
-jhipsterApp.factory('SuiteService', ['$http',
-      function ($http) {
+/*jhipsterApp.factory('Sessions', ['$resource',
+     function ($resource) {
+         return $resource('app/rest/account/sessions/:series', {}, {
+             'get': { method: 'GET', isArray: true}
+         });
+     }]);*/
+
+
+jhipsterApp.factory('SuiteService', ['$rootScope', '$http', '$resource',
+      function ($rootScope, $http, $resource) {
           return {
         	  findById: function(suiteId) {
                   var suite = $http.get('app/rest/suite/' + suiteId)
-                  	.then(function (response) {
+                  	.success(function (data) {
+                	    console.log("$scope.suite() applied, refreshing tests");
+                	    $rootScope.suite = data;
+                	    $rootScope.tests = $rootScope.suite.tests;
+	                   	console.log("$scope.tests available as:");
+	                   	console.log($rootScope.tests);
+                  });
+                  /*.then(function (response) {
                       return response.data;
                   });
-                  return suite;
+                  return suite;*/
+        	  },
+              findAll: function() {
+            	   var data = $http.get('app/rest/suite/')
+            	   	.then(function (response){
+            	   		return response.data;
+            	   });
+            	   return data;
               }
-          }
+          };
       }]);
 
+
+/*jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$cookieStore', 'authService', 'Session', 'Account',
+    function ($rootScope, $http, $cookieStore, authService, Session, Account) {
+        return {
+            login: function (param) {
+                var data ="j_username=" + param.username +"&j_password=" + param.password +"&_spring_security_remember_me=" + param.rememberMe +"&submit=Login";
+                $http.post('app/authentication', data, {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    ignoreAuthModule: 'ignoreAuthModule'
+                }).success(function (data, status, headers, config) {
+                    Account.get(function(data) {
+                        Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
+                        $cookieStore.put('account', JSON.stringify(Session));
+                        authService.loginConfirmed(data);
+                    });
+                }).error(function (data, status, headers, config) {
+                    Session.destroy();
+                });
+            },
+            isAuthenticated: function () {
+                if (!Session.login) {
+                    // check if the user has a cookie
+                    if ($cookieStore.get('account') != null) {
+                        var account = JSON.parse($cookieStore.get('account'));
+                        Session.create(account.login, account.firstName, account.lastName,
+                            account.email, account.userRoles);
+                        $rootScope.account = Session;
+                    }
+                }
+                return !!Session.login;
+            }
+        };
+	}]);*/
 
 /* Default Services */
 

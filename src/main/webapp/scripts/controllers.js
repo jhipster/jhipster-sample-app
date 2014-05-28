@@ -9,6 +9,7 @@ jhipsterApp.controller('ProjectController', ['$scope', '$http', 'ProjectService'
 	$scope.updateProjectId = function() {
 		console.log("updateProjectId called");
 		angular.forEach($scope.projects,function(value,index){
+			console.log("$scope.projects applied");
 			if(value.projectName.trim().toUpperCase() == $scope.suite.project.projectName.trim().toUpperCase()){
 				$scope.suite.project.projectId = value.projectId;
 				console.log(value.projectId);
@@ -47,27 +48,48 @@ jhipsterApp.controller('ProjectController', ['$scope', '$http', 'ProjectService'
 jhipsterApp.controller('SuiteController', ['$scope', '$http', '$routeParams', 'SuiteService',
      function ($scope, $http, $routeParams, SuiteService) {
 	
-	$scope.suiteId = $routeParams.suiteId
- 	
- 	$scope.refresh = function() {
-         // TODO: hard code RIQ project as current project for now
-         $scope.suite = SuiteService.findById($scope.suiteId);
+	$scope.suiteId = $routeParams.suiteId;
+	
+	$scope.updateSuiteId = function() {
+		console.log("updateSuiteId called");
+		$scope.suites = SuiteService.get();
+		
+		// when suites gets evaluated, then find and match the suiteName
+		$scope.suites.$promise.then(function(items){
+			console.log("$scope.suites() applied, refreshing suite Id");
+     		// for each suite
+			angular.forEach(items,function(value,index){
+				if(value.suiteName.trim().toUpperCase() == $scope.suite.suiteName.trim().toUpperCase()){
+					$scope.suite = value;
+					$scope.suite.suiteId = value.suiteId;
+					console.log(value.suiteId);
+					
+					$scope.apply();
+					$scope.refresh();	// get tests for this suite
+				}
+	        });
+		});
+	};
+	
+	$scope.refresh = function() {
+		console.log("suite refresh(), getting tests for this suite");
+		SuiteService.findById($scope.suiteId);
+		
+		/*$scope.suite = SuiteService.findById($scope.suite.suiteId);
          
          // Angular does not populate projects yet, so promise is empty and resolved is false
-         $scope.projects.$promise.then(function(items){
-         	angular.forEach(items,function(value,index){
-     			if(value.projectName.trim().toUpperCase() == 'RIQ'){
-     				$scope.project=value;
-     				$scope.suites=value.suites;
-     			}
-             });
+         $scope.suite.$promise.then(function(items){
+        	console.log("$scope.suite() applied, refreshing tests");
+     		$scope.tests = $scope.suite.tests;
+         	console.log("$scope.tests available as:");
+         	console.log($scope.tests);
          });
-     };
-
-     $scope.refresh();
- }])
-
-
+         
+         $scope.apply();*/
+    };
+    
+    $scope.refresh();
+ }]);
 
 /* Default Controllers */
 

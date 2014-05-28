@@ -97,7 +97,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="item in suites | orderBy:suiteName">
-			<td style="text-align: center;">{{project.projectName}}</td>
+			<td style="text-align: center;">{{item.project.projectName}}</td>
 			<td>{{item.suiteName}}</td>
 			<td>{{item.suiteId}}</td>
 			<td><a href="#suite/{{item.suiteId}}" >Tests</a></td>

@@ -30,6 +30,13 @@ jhipsterApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/test/:testId', {
+                    templateUrl: 'views/test.html',
+                    controller: 'TestController',
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
                 .when('/error', {
                     templateUrl: 'views/error.html',
                     access: {

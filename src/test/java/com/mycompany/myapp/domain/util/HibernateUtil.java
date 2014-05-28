@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.domain.Project;
 import com.mycompany.myapp.domain.Suite;
 import com.mycompany.myapp.domain.Test;
@@ -153,11 +155,15 @@ public class HibernateUtil {
 	}
 	
 	@org.junit.Test
-	public void test2AssertEntries(){
+	public void test2AssertEntries() throws JsonProcessingException{
 		Test test = getType(Test.class, TEST_ID);
 		TestConfig config = getType(TestConfig.class, TEST_ID);
 		Assert.assertFalse(config.getEnvironment().isEmpty());
 		Assert.assertFalse(config.getAssertions().isEmpty());
 		Assert.assertNotNull(config.getInputBody());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(mapper.writeValueAsString(test));
+		
 	}
 }

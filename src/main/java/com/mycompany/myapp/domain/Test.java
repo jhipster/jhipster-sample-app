@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * A project.
@@ -52,6 +53,7 @@ public class Test implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
+	@JsonManagedReference
 	private TestConfig testConfig;
 
 	/* @ManyToOne

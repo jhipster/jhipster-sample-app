@@ -15,9 +15,19 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+/**
+ * For a RestTest, TestConfig will contain
+ * 	each test has 
+ * 	 environment variables and headers
+ * 	 input and output as JSON or XML, strings in Java
+ * 	 assertions
+ * @author rproddaturi
+ *
+ */
 @Entity
-@Table(name = "T_TESTCONFIG")
+@Table(name = "T_TEST_CONFIG")
 public class TestConfig {
 
 	@Id
@@ -27,13 +37,9 @@ public class TestConfig {
 	private UUID testId;
 
 	@OneToOne(mappedBy = "testConfig", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Test test;
 	
-	// each test has (as JsonObject for customization)
-	// environment variables and headers
-	// input and output as JSON or XML
-	// assertions
-
 	@Column
 	@Type(type="com.mycompany.myapp.domain.type.MapAsJsonType")
 	private Map<String, String> environment;

@@ -57,6 +57,26 @@
             <column name="suite_name" type="varchar(100)" />
             <column name="project_id" type="uuid" />
         </createTable>
+        
+        <createTable tableName="T_TEST">
+            <column name="test_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="test_type" type="varchar(100)" />
+            <column name="test_name" type="varchar(100)" />
+            <column name="suite_id" type="uuid" />
+        </createTable>
+        
+        <createTable tableName="T_TEST_CONFIG">
+            <column name="test_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="environment" type="varchar(2000)" />
+            <column name="headers" type="varchar(2000)" />
+            <column name="inputBody" type="varchar(5000)" />
+            <column name="outputBody" type="varchar(5000)" />
+            <column name="assertions" type="varchar(5000)" />
+        </createTable>
 
         <createTable tableName="HIBERNATE_SEQUENCES">
             <column name="sequence_name" type="varchar(255)"/>
@@ -111,7 +131,12 @@
         <loadData encoding="UTF-8"
                   file="config/liquibase/suites.csv"
                   separator=";"
-                  tableName="T_SUITE"/>                 
+                  tableName="T_SUITE"/>
+         
+         <loadData encoding="UTF-8"
+                  file="config/liquibase/tests.csv"
+                  separator=";"
+                  tableName="T_TEST"/>                        
     </changeSet>
 
     <!-- Manage the new Springboot actuator Audit event -->

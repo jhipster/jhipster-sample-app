@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import org.assertj.core.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,23 @@ public class ProjectSuiteResource {
 		
 		Suite suite = suiteRepository.findOne(suiteId);
 		return suite;
+	}
+	
+	@RequestMapping(value = "/rest/suite", 
+			method = RequestMethod.GET, 
+			produces = "application/json")
+	@Timed
+	public List<Suite> getSuites(
+			@RequestBody Suite suite,
+			HttpServletResponse response) {
+		log.debug("getting suite");
+		
+		List<Suite> suites = suiteRepository.findAll();
+		if (suites == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		}
+		
+		return suites;
 	}
 	
 	@RequestMapping(value = "/rest/suite", 
