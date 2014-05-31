@@ -44,7 +44,8 @@
 				placeholder="Project Name" required min="2" onchange="angular.element(this).scope().updateProjectId()" >
 		</div>
 	</div>
-
+	
+	<!-- use this for save or update Suite with Environment -->
 	<div class="control-group">
 		<label class="control-label" for="suiteName">Suite Name</label>
 
@@ -85,6 +86,33 @@
 </form>
 
 <hr />
+<h3>Environment List</h3>
+<div class="alert alert-info" ng-show="projectEnvironments.length == 0">No Environments found</div>
+<table class="table table-bordered table-striped" ng-show="suites.length > 0">
+	<thead>
+		<tr>
+			<th style="text-align: center; width: 25px;">Project</th>
+ 			<th style="text-align: center;">Environment Name</th>
+			<th style="text-align: center;">ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in suite.project.projectEnvironments | orderBy:environmentName">
+			<td style="text-align: center;">{{item.project.projectName}}</td>
+			<td>{{item.environmentName}}</td>
+			<td>{{item.environmentId}}</td>
+			<td><a href="#project_environment/{{item.environmentId}}">details</a></td>
+				
+			<td style="width: 100px; text-align: center;">
+				<button class="btn btn-mini btn-danger"
+					ng-click="removeEnvironment(projectEnvironment.environmentName)">Remove</button>
+				<button class="btn btn-mini btn-success" ng-click="editEnvironment(projectEnvironment.environmentName)">Edit</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
 <h3>Suite List</h3>
 <div class="alert alert-info" ng-show="suites.length == 0">No Suites found</div>
 <table class="table table-bordered table-striped" ng-show="suites.length > 0">
@@ -114,6 +142,7 @@
 		</tr>
 	</tbody>
 </table>
+
 <button class="btn btn-danger" ng-show="suites.length > 1"
 	ng-click="removeAllSuites()">Remove All Suites</button>
 

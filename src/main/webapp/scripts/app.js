@@ -23,6 +23,13 @@ jhipsterApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/project_environment', {
+                    templateUrl: 'views/project_environments.html',
+                    controller: 'ProjectController',
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
                 .when('/suite/:suiteId', {
                     templateUrl: 'views/suites.html',
                     controller: 'SuiteController',
@@ -31,7 +38,7 @@ jhipsterApp
                     }
                 })
                 .when('/test/:testId', {
-                    templateUrl: 'views/test.html',
+                    templateUrl: 'views/resttest.html',
                     controller: 'TestController',
                     access: {
                         authorizedRoles: [USER_ROLES.all]

@@ -91,7 +91,20 @@ jhipsterApp.controller('SuiteController', ['$scope', '$http', '$routeParams', 'S
     $scope.refresh();
  }]);
 
-/* Default Controllers */
+jhipsterApp.controller('TestController', ['$scope', '$http', '$routeParams', 'TestService',
+       function ($scope, $http, $routeParams, TestService) {
+  	
+  	$scope.testId = $routeParams.testId;
+  	
+  	$scope.refresh = function() {
+  		console.log("test refresh(), getting test for this suite");
+  		TestService.findById($scope.testId);
+      };
+      
+      $scope.refresh();
+   }]);
+
+/************ Default Controllers *************/
 
 jhipsterApp.controller('MainController', ['$scope',
     function ($scope) {

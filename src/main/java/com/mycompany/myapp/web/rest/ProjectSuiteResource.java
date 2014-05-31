@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-import org.assertj.core.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Project;
+import com.mycompany.myapp.domain.ProjectEnvironment;
 import com.mycompany.myapp.domain.Suite;
+import com.mycompany.myapp.repository.ProjectEnvironmentRepository;
 import com.mycompany.myapp.repository.ProjectRepository;
 import com.mycompany.myapp.repository.SuiteRepository;
 
@@ -32,6 +33,9 @@ public class ProjectSuiteResource {
 
 	@Inject
 	private ProjectRepository projectRepository;
+
+	@Inject
+	private ProjectEnvironmentRepository projectEnvironmentRepository;
 
 	@Inject
 	private SuiteRepository suiteRepository;
@@ -49,6 +53,10 @@ public class ProjectSuiteResource {
 		}
 		return projects;
 	}
+	
+	/********************************************************** 
+	 * SUITE APIs 
+	 **********************************************************/
 	
 	@RequestMapping(value = "/rest/suite/{suiteId}", 
 			method = RequestMethod.GET, 
@@ -109,6 +117,71 @@ public class ProjectSuiteResource {
 		log.debug("deleting suite");
 		
 		suiteRepository.deleteBySuiteId(suiteId);
+	}
+	
+	/********************************************************** 
+	 * PROJECT_ENVIRONMENT APIs 
+	 **********************************************************/
+	
+	@RequestMapping(value = "/rest/project_environment/{environmentId}", 
+			method = RequestMethod.GET, 
+			produces = "application/json")
+	@Timed
+	public ProjectEnvironment getProjectEnvironment(
+			@PathVariable UUID environmentId,
+			HttpServletResponse response) {
+		log.debug("getting suite with environmentId: " + environmentId);
+		
+		ProjectEnvironment suite = projectEnvironmentRepository.findOne(environmentId);
+		return suite;
+	}
+	
+	@RequestMapping(value = "/rest/project_environment", 
+			method = RequestMethod.GET, 
+			produces = "application/json")
+	@Timed
+	public List<ProjectEnvironment> getProjectEnvironments(
+			@RequestBody ProjectEnvironment suite,
+			HttpServletResponse response) {
+		log.debug("getting suite");
+		
+		List<ProjectEnvironment> suites = projectEnvironmentRepository.findAll();
+		if (suites == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		}
+		
+		return suites;
+	}
+	
+	@RequestMapping(value = "/rest/project_environment", 
+			method = RequestMethod.POST, 
+			produces = "application/json")
+	@Timed
+	public ProjectEnvironment createProjectEnvironment(
+			@RequestBody ProjectEnvironment projectEnvironment,
+			HttpServletResponse response) {
+		log.debug("creating suite");
+		
+		Project project = projectRepository.findOne(projectEnvironment.getProject().getProjectId());
+		projectEnvironment.setProject(project);
+		projectEnvironment.setEnvironmentId(UUID.randomUUID());
+		projectEnvironmentRepository.save(projectEnvironment);
+		
+		log.debug("new ProjectEnvironment created with environmentId: " + projectEnvironment.getEnvironmentId() 
+				+ " for suiteName: " + projectEnvironment.getEnvironmentName());
+		return projectEnvironment;
+	}
+	
+	@RequestMapping(value = "/rest/project_environment/{environmentId}", 
+		method = RequestMethod.DELETE, 
+		produces = "application/json")
+	@Timed
+	public void deleteProjectEnvironment(
+		@PathVariable UUID environmentId,
+		HttpServletResponse response) {
+		log.debug("deleting suite");
+		
+		projectEnvironmentRepository.deleteByEnvironmentId(environmentId);
 	}
 	
 }

@@ -9,20 +9,6 @@ jhipsterApp.factory('ProjectService', ['$resource',
         });
     }]);
     
-jhipsterApp.factory('ProjectService', ['$resource',
-   function ($resource) {
-       return $resource('app/rest/project', {}, {
-       	'get': { method: 'GET', isArray: true}
-       });
-   }]);
-
-/*jhipsterApp.factory('Sessions', ['$resource',
-     function ($resource) {
-         return $resource('app/rest/account/sessions/:series', {}, {
-             'get': { method: 'GET', isArray: true}
-         });
-     }]);*/
-
 
 jhipsterApp.factory('SuiteService', ['$rootScope', '$http', '$resource',
       function ($rootScope, $http, $resource) {
@@ -51,6 +37,25 @@ jhipsterApp.factory('SuiteService', ['$rootScope', '$http', '$resource',
           };
       }]);
 
+jhipsterApp.factory('TestService', ['$resource',
+    function ($rootScope, $http, $resource) {
+	    return {
+	  	  findById: function(testId) {
+	            var suite = $http.get('app/rest/test/' + suiteId)
+	            	.success(function (data) {
+	          	    console.log("$scope.test() applied, refreshing test");
+	          	    $rootScope.test = data;
+	            });
+	  	  },
+	      findAll: function() {
+	      	   var data = $http.get('app/rest/test/name')
+	      	   	.then(function (response){
+	      	   		return response.data;
+	      	   });
+	      	   return data;
+	      }
+	    };
+	}]);               
 
 /*jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$cookieStore', 'authService', 'Session', 'Account',
     function ($rootScope, $http, $cookieStore, authService, Session, Account) {

@@ -50,6 +50,15 @@
             <column name="project_name" type="varchar(100)" />
         </createTable>
         
+        <createTable tableName="T_PROJECT_ENVIRONMENT">
+            <column name="environment_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_id" type="uuid" />
+            <column name="environment_name" type="varchar(100)" />
+            <column name="environment" type="varchar(2000)" />
+        </createTable>
+        
         <createTable tableName="T_SUITE">
             <column name="suite_id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>

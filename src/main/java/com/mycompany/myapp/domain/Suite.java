@@ -40,6 +40,10 @@ public class Suite implements Serializable {
 	@JsonBackReference
 	private Project project;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "environment_id")
+	private ProjectEnvironment projectEnvironment;
+
 	@OneToMany(mappedBy = "suite", cascade = CascadeType.ALL, 
 			fetch = FetchType.LAZY)
 	@JsonManagedReference
@@ -75,6 +79,14 @@ public class Suite implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public ProjectEnvironment getProjectEnvironment() {
+		return projectEnvironment;
+	}
+
+	public void setProjectEnvironment(ProjectEnvironment projectEnvironment) {
+		this.projectEnvironment = projectEnvironment;
 	}
 
 }

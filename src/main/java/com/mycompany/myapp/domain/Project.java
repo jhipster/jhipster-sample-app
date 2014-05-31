@@ -8,20 +8,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * A project.
@@ -47,7 +42,15 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy = "project", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JsonManagedReference
 	private List<Suite> suites;
-
+	
+	// A project can have multiple environments
+	// A suite can have only one environment
+	// A test can override a suite's environment via testConfig.environment
+	
+	@OneToMany(mappedBy = "project", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JsonManagedReference
+	private List<ProjectEnvironment> projectEnvironments;
+	
 	public UUID getProjectId() {
 		return projectId;
 	}
@@ -71,5 +74,15 @@ public class Project implements Serializable {
 	public void setSuites(List<Suite> suites) {
 		this.suites = suites;
 	}
+
+	public List<ProjectEnvironment> getProjectEnvironments() {
+		return projectEnvironments;
+	}
+
+	public void setProjectEnvironments(List<ProjectEnvironment> projectEnvironments) {
+		this.projectEnvironments = projectEnvironments;
+	}
+	
+	
 
 }
