@@ -1,0 +1,88 @@
+<div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
+
+<div id="resttest">
+
+<form class="form-horizontal">
+
+	<!-- show a chained link to project->suite->test -->
+	
+	<div class="control-group">
+		<label class="control-label" for="requestHelperType">Request Type: Normal, Basic Digest, Digest Oauth</label>
+
+		<!-- support for more request types such as Basic Oauth and others 
+		<div class="controls">
+			<input type="text" id="requestType" ng-model="test.suite.suiteName"
+				placeholder="Test Name" required min="2" onchange="angular.element(this).scope().updateSuiteId()" >
+		</div>
+		-->
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="testName">Test Name</label>
+
+		<div class="controls">
+			<input type="text" id="testName" ng-model="test.testName"
+				placeholder="Test Name" required min="2">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="suiteId">Suite ID</label>
+
+		<div class="controls">
+			<input class="span3" type="text" id="test.suite.suiteId" disabled="disabled"
+				ng-model="test.suite.suiteId" >
+			<span class="add-on">Auto completes</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<!--  
+		<div class="controls">
+			<label class="checkbox"> <input type="checkbox"
+				ng-model="rs.train.diesel"> Is Diesel
+			</label>
+		</div>
+		-->
+		<hr />
+		<div class="controls">
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!test.suite.suiteName || !test.testName" ng-hide="editMode"
+				ng-click="addTest(test)">Add Test</button>
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!test.suite.suiteName || !test.testName" ng-show="editMode"
+				ng-click="saveTest(test)">Save Test</button>
+			<button type="button" class="btn" ng-click="resetTest()">Reset</button>
+		</div>
+	</div>
+</form>
+
+<hr />
+<h3>Test List</h3>
+<div class="alert alert-info" ng-show="suite.tests.length == 0">No Tests found</div>
+<table class="table table-bordered table-striped" ng-show="suite.tests.length > 0">
+	<thead>
+		<tr>
+			<th style="text-align: center; width: 25px;">Suite</th>
+ 			<th style="text-align: center;">Name</th>
+			<th style="text-align: center;">ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in suite.tests">
+			<td style="text-align: center;">{{item.suite.suiteName}}</td>
+			<td>{{item.testName}}</td>
+			<td>{{item.testId}}</td>
+			<td><a href="#test/{{test.testId}}" >Test</a></td>
+			
+			<td style="width: 100px; text-align: center;">
+				<button class="btn btn-mini btn-danger"
+					ng-click="removeTest(test.testId)">Remove</button>
+				<button class="btn btn-mini btn-success" ng-click="editSuite(suite.suiteName)">Edit</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<button class="btn btn-danger" ng-show="suite.tests.length > 1"
+	ng-click="removeAllTests()">Remove All Tests</button>
+
+</div>

@@ -1,0 +1,118 @@
+<div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
+
+<div id="projects">
+<!--  stick to RIQ project for now -->
+
+<form class="form-horizontal">
+
+	<div class="control-group">
+		<label class="control-label" for="projectName">Project Name</label>
+
+		<div class="controls">
+			<input type="text" id="projectName" ng-model="suite.project.projectName"
+				placeholder="Project Name" required min="2" onchange="angular.element(this).scope().updateProjectId()" >
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="projectId">Project ID</label>
+
+		<div class="controls">
+			<input class="span3" type="text" id="projectId" disabled="disabled"
+				ng-model="suite.project.projectId" >
+			<span class="add-on">Auto completes</span>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="environmentName">Environment Name</label>
+
+		<div class="controls">
+			<input type="text" id="environmentName" ng-model="environment.environmentName"
+				placeholder="Environment Name" required min="2" onchange="angular.element(this).scope().updateEnvironmentId()">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="environmentId">Environment ID</label>
+
+		<div class="controls">
+			<input class="span3" type="text" id="environmentId" disabled="disabled"
+				ng-model="environmentId">
+			<span class="add-on">Auto completes</span>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="key">Key</label>
+
+		<div class="controls">
+			<input type="text" id="key" ng-model="key"
+				placeholder="Key" required min="2">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="value">Value</label>
+
+		<div class="controls">
+			<input type="text" id="value" ng-model="value"
+				placeholder="Value" required min="2">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<!--  
+		<div class="controls">
+			<label class="checkbox"> <input type="checkbox"
+				ng-model="rs.train.diesel"> Is Diesel
+			</label>
+		</div>
+		-->
+		<hr />
+		<div class="controls">
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!projectEnvironment.project.projectName || !projectEnvironment.environmentName" ng-hide="editMode"
+				ng-click="addProjectEnvironment(environment)">Add Environment</button>
+			<button type="button" class="btn btn-primary"
+				ng-disabled="!projectEnvironment.project.projectName || !projectEnvironment.environmentName" ng-show="editMode"
+				ng-click="saveProjectEnvironment(environment)">Save Environment</button>
+			<button type="button" class="btn" ng-click="resetProjectEnvironment()">Reset</button>
+		</div>
+	</div>
+</form>
+
+<hr />
+<h3>Environment List</h3>
+<div class="alert alert-info" ng-show="environment.length == 0">Empty Environment</div>
+<table class="table table-bordered table-striped" ng-show="suites.length > 0">
+	<thead>
+		<tr>
+			<th style="text-align: center; width: 25px;">Environment Name</th>
+ 			<th style="text-align: center;">Key</th>
+			<th style="text-align: center;">Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in environment | orderBy:environmentName">
+			<td style="text-align: center;">{{item.project.projectName}}</td>
+			<td>{{item.environmentName}}</td>
+			<td>{{item.environmentId}}</td>
+			<!--
+			<td style="text-align: center; width: 20px;"><span
+				ng-show="item.train.diesel" class="icon-ok"></span></td>
+			-->
+				
+			<td style="width: 100px; text-align: center;">
+				<button class="btn btn-mini btn-danger"
+					ng-click="removeEnvironment(projectEnvironment.environmentName)">Remove</button>
+				<button class="btn btn-mini btn-success" ng-click="editEnvironment(projectEnvironment.environmentName)">Edit</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<button class="btn btn-danger" ng-show="projectEnvironments.length > 1"
+	ng-click="removeAllEnvironments()">Remove All Environments</button>
+
+</div>
