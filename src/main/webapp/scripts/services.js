@@ -37,15 +37,44 @@ jhipsterApp.factory('SuiteService', ['$rootScope', '$http', '$resource',
           };
       }]);
 
-jhipsterApp.factory('TestService', ['$resource',
+/*
+ * Using http://stackoverflow.com/questions/12505760/angularjs-processing-http-response-in-service/12513509#12513509
+ * example to return a promise service
+ * and be able to pass a function from controller side to handle response
+ * as discussed in http://stackoverflow.com/questions/15666048/angular-js-service-vs-provider-vs-factory
+ */
+jhipsterApp.factory('TestService', ['$rootScope', '$http', '$resource',
     function ($rootScope, $http, $resource) {
-	    return {
-	  	  findById: function(testId) {
-	            var suite = $http.get('app/rest/test/' + suiteId)
-	            	.success(function (data) {
+		var testService = {
+			findById: function(testId) {
+				var promise = $http.get('app/rest/test/' + testId)
+					.then(function(response){
+						console.log(response);
+						return response.data;
+				});
+				return promise;
+			}
+		};
+		return testService;
+	}]);               
+			
+		/*function(testId) {
+			this.test = $http.get('app/rest/test/' + testId)
+            	.success(function (data) {
 	          	    console.log("$scope.test() applied, refreshing test");
-	          	    $rootScope.test = data;
+	          	    return data;
+			});
+            return this.test;
+		};*/
+		
+	    /*return {
+	  	  findById: function(testId) {
+	            var test = $http.get('app/rest/test/' + testId)
+	            	.success(function (data) {
+		          	    console.log("$scope.test() applied, refreshing test");
+		          	    return data;
 	            });
+	            return test;
 	  	  },
 	      findAll: function() {
 	      	   var data = $http.get('app/rest/test/name')
@@ -54,45 +83,11 @@ jhipsterApp.factory('TestService', ['$resource',
 	      	   });
 	      	   return data;
 	      }
-	    };
-	}]);               
+	    };*/
 
-/*jhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$cookieStore', 'authService', 'Session', 'Account',
-    function ($rootScope, $http, $cookieStore, authService, Session, Account) {
-        return {
-            login: function (param) {
-                var data ="j_username=" + param.username +"&j_password=" + param.password +"&_spring_security_remember_me=" + param.rememberMe +"&submit=Login";
-                $http.post('app/authentication', data, {
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    ignoreAuthModule: 'ignoreAuthModule'
-                }).success(function (data, status, headers, config) {
-                    Account.get(function(data) {
-                        Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
-                        $cookieStore.put('account', JSON.stringify(Session));
-                        authService.loginConfirmed(data);
-                    });
-                }).error(function (data, status, headers, config) {
-                    Session.destroy();
-                });
-            },
-            isAuthenticated: function () {
-                if (!Session.login) {
-                    // check if the user has a cookie
-                    if ($cookieStore.get('account') != null) {
-                        var account = JSON.parse($cookieStore.get('account'));
-                        Session.create(account.login, account.firstName, account.lastName,
-                            account.email, account.userRoles);
-                        $rootScope.account = Session;
-                    }
-                }
-                return !!Session.login;
-            }
-        };
-	}]);*/
-
-/* Default Services */
+/*************************** 
+ *     Default Services 
+ * *************************/
 
 jhipsterApp.factory('Account', ['$resource',
     function ($resource) {

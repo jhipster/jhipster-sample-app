@@ -65,6 +65,7 @@
             </column>
             <column name="suite_name" type="varchar(100)" />
             <column name="project_id" type="uuid" />
+            <column name="environment_id" type="uuid" />
         </createTable>
         
         <createTable tableName="T_TEST">
@@ -81,6 +82,8 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="environment" type="varchar(2000)" />
+            <column name="url" type="varchar(600)" />
+            <column name="http_method" type="varchar(10)" />
             <column name="headers" type="varchar(2000)" />
             <column name="inputBody" type="varchar(5000)" />
             <column name="outputBody" type="varchar(5000)" />
@@ -137,15 +140,25 @@
                   separator=";"
                   tableName="T_PROJECT"/>
         
+ 		<loadData encoding="UTF-8"
+                  file="config/liquibase/project_environments.csv"
+                  separator=";"
+                  tableName="T_PROJECT_ENVIRONMENT"/>
+        
         <loadData encoding="UTF-8"
                   file="config/liquibase/suites.csv"
                   separator=";"
                   tableName="T_SUITE"/>
          
-         <loadData encoding="UTF-8"
-                  file="config/liquibase/tests.csv"
+        <loadData encoding="UTF-8"
+                 file="config/liquibase/tests.csv"
+                 separator=";"
+                 tableName="T_TEST"/>  
+                 
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/testconfigs.csv"
                   separator=";"
-                  tableName="T_TEST"/>                        
+                  tableName="T_TEST_CONFIG"/>                                
     </changeSet>
 
     <!-- Manage the new Springboot actuator Audit event -->

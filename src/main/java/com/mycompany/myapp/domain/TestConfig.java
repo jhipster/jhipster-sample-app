@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -40,10 +41,28 @@ public class TestConfig {
 	@JsonBackReference
 	private Test test;
 	
+	@Column(name="url")
+	private String url;
+	
+	/**
+	 * Dropdown and capital case method such as GET, POST, DELETE
+	 */
+	@Column(name="http_method")
+	//@Type(type="org.springframework.http.HttpMethod")
+	//private HttpMethod httpMethod;
+	private String httpMethod;
+	
+	/**
+	 * environment are the properties that will be replaced using
+	 * the placeholders in headers, url and as well as BODY
+	 */
 	@Column
 	@Type(type="com.mycompany.myapp.domain.type.MapAsJsonType")
 	private Map<String, String> environment;
 
+	/**
+	 * HTTP headers for the request
+	 */
 	@Column
 	@Type(type="com.mycompany.myapp.domain.type.MapAsJsonType")
 	private Map<String, String> headers;
@@ -51,12 +70,31 @@ public class TestConfig {
 	@Column
 	private String inputBody;
 
+	/**
+	 * Can be used for outputBody validation
+	 */
 	@Column
 	private String outputBody;
 
 	@Column
 	@Type(type="com.mycompany.myapp.domain.type.MapAsJsonType")
 	private Map<String, String> assertions;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getHttpMethod() {
+		return httpMethod;
+	}
+
+	public void setHttpMethod(String httpMethod) {
+		this.httpMethod = httpMethod;
+	}
 
 	public UUID getTestId() {
 		return testId;

@@ -11,7 +11,7 @@
 
 		<div class="controls">
 			<input type="text" id="suiteName" ng-model="test.suite.suiteName"
-				placeholder="Test Name" required min="2" onchange="angular.element(this).scope().updateSuiteId()" >
+				placeholder="Suite Name" required min="2" onchange="angular.element(this).scope().updateSuiteId()" >
 		</div>
 	</div>
 
@@ -63,7 +63,7 @@
 			<th style="text-align: center; width: 25px;">Suite</th>
  			<th style="text-align: center;">Name</th>
 			<th style="text-align: center;">ID</th>
-			<th style="text-align: center;">Tests</th>
+			<th style="text-align: center;">Test</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -71,7 +71,7 @@
 			<td style="text-align: center;">{{item.suite.suiteName}}</td>
 			<td>{{item.testName}}</td>
 			<td>{{item.testId}}</td>
-			<td><a href="#test/{{item.testId}}" >Tests</a></td>
+			<td><a href="#test/{{item.testId}}" >Test</a></td>
 			
 			<td style="width: 100px; text-align: center;">
 				<button class="btn btn-mini btn-danger"

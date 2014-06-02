@@ -26,6 +26,7 @@
 		</div>
 	</div>
 	
+	<!--  
 	<div class="control-group">
 		<label class="control-label" for="suiteId">Suite ID</label>
 
@@ -35,44 +36,99 @@
 			<span class="add-on">Auto completes</span>
 		</div>
 	</div>
+	-->
+	
+	<!-- environment -->
 	<div class="control-group">
-		<!--  
-		<div class="controls">
-			<label class="checkbox"> <input type="checkbox"
-				ng-model="rs.train.diesel"> Is Diesel
-			</label>
+		<label class="control-label" for="suiteId">Environment</label>
+	
+		<div ng-repeat="(key, val) in test.testConfig.environment">
+			<div class="controls">
+				<input class="span3" type="text" id="key" value="{{key}}"
+					>
+				<input class="span3" type="text" id="val"  value="{{val}}"
+					>
+			</div>
 		</div>
-		-->
-		<hr />
+	</div>
+	
+	<!-- URL and post/get type -->
+	<div class="control-group">
+		<div class="controls">
+			<label class="control-label" for="suiteId">URL</label>
+			<label class="control-label" for="suiteId">Type</label>
+		</div>
+		<div class="controls">
+			<input type="text" id="testName" ng-model="test.testConfig.url"
+				placeholder="URL" required min="2">
+			<input type="text" id="testName" ng-model="test.testConfig.httpMethod"
+				placeholder="URL" required min="2">
+		</div>
+	</div>
+	
+	<!-- Headers -->
+	<div class="control-group">
+		<label class="control-label" for="suiteId">Headers</label>
+	
+		<div ng-repeat="(key, val) in test.testConfig.headers">
+			<div class="controls">
+				<input class="span3" type="text" id="key" value="{{key}}"
+					>
+				<input class="span3" type="text" id="val"  value="{{val}}"
+					>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Input Body -->
+	<div class="control-group">
+		<label class="control-label" for="suiteId">Input</label>
+	
+		<div class="controls">
+			<input class="span3" type="text" id="key" ng-model="test.testConfig.inputBody">
+		</div>
+	</div>
+	
+	<!-- Output Body -->
+	<div class="control-group">
+		<label class="control-label" for="suiteId">Output</label>
+	
+		<div class="controls">
+			<input class="span3" type="text" id="key" ng-model="test.testConfig.oututBody">
+		</div>
+	</div>
+	
+	
+	<div class="control-group">
 		<div class="controls">
 			<button type="button" class="btn btn-primary"
 				ng-disabled="!test.suite.suiteName || !test.testName" ng-hide="editMode"
-				ng-click="addTest(test)">Add Test</button>
+				ng-click="addTest(test)">Execute</button>
 			<button type="button" class="btn btn-primary"
 				ng-disabled="!test.suite.suiteName || !test.testName" ng-show="editMode"
-				ng-click="saveTest(test)">Save Test</button>
+				ng-click="saveTest(test)">Reset</button>
 			<button type="button" class="btn" ng-click="resetTest()">Reset</button>
 		</div>
 	</div>
+	
 </form>
 
 <hr />
 <h3>Test List</h3>
-<div class="alert alert-info" ng-show="suite.tests.length == 0">No Tests found</div>
-<table class="table table-bordered table-striped" ng-show="suite.tests.length > 0">
+<div class="alert alert-info" ng-show="test.testConfig.environment.length == 0">No Tests found</div>
+<table class="table table-bordered table-striped" ng-show="test.testConfig.environment.length > 0">
 	<thead>
 		<tr>
-			<th style="text-align: center; width: 25px;">Suite</th>
- 			<th style="text-align: center;">Name</th>
+			<th style="text-align: center; width: 25px;">Key</th>
+ 			<th style="text-align: center;">Value</th>
 			<th style="text-align: center;">ID</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="item in suite.tests">
-			<td style="text-align: center;">{{item.suite.suiteName}}</td>
-			<td>{{item.testName}}</td>
-			<td>{{item.testId}}</td>
-			<td><a href="#test/{{test.testId}}" >Test</a></td>
+		<tr ng-repeat="(key, val) in test.testConfig.environment">
+			<td style="text-align: center;">{{key}}</td>
+			<td>{{val}}</td>
+			<td>{{key_val}}</td>
 			
 			<td style="width: 100px; text-align: center;">
 				<button class="btn btn-mini btn-danger"

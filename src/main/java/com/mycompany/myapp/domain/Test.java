@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * A project.
+ * Eventually create a base class for Test that can be extensible
+ * for example by RestTest or CustomTest and so on
+ * 
  */
 @Entity
 @Table(name = "T_TEST")

@@ -98,11 +98,15 @@ jhipsterApp.controller('TestController', ['$scope', '$http', '$routeParams', 'Te
   	
   	$scope.refresh = function() {
   		console.log("test refresh(), getting test for this suite");
-  		TestService.findById($scope.testId);
-      };
+  		TestService.findById($scope.testId)
+  			.then(function(data){
+  				$scope.test = data;
+  		  		console.log($scope.test);
+  			});
+     };
       
-      $scope.refresh();
-   }]);
+    $scope.refresh();
+ }]);
 
 /************ Default Controllers *************/
 
@@ -136,8 +140,8 @@ jhipsterApp.controller('LoginController', ['$scope', '$location', 'Authenticatio
                 success: function () {
                     $location.path('');
                 }
-            })
-        }
+            });
+        };
     }]);
 
 jhipsterApp.controller('LogoutController', ['$location', 'AuthenticationSharedService',

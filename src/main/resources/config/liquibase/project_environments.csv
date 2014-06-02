@@ -1,0 +1,3 @@
+environment_id;project_id;environment_name;environment
+959bcef0-e918-11e3-ac10-0800200c9a66;5c283680-d4e7-11e3-9c1a-0800200c9a66;DEV;{"URL":"dev.coupons.com","test":"test_value"};
+9b6548c0-e918-11e3-ac10-0800200c9a66;5c283680-d4e7-11e3-9c1a-0800200c9a66;PROD;{"URL":"prod.coupons.com","test":"test_value"};

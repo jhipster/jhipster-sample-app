@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain.util;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import org.junit.runners.MethodSorters;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.domain.Project;
+import com.mycompany.myapp.domain.ProjectEnvironment;
 import com.mycompany.myapp.domain.Suite;
 import com.mycompany.myapp.domain.Test;
 import com.mycompany.myapp.domain.TestConfig;
@@ -31,6 +33,7 @@ public class HibernateUtil {
 
 	// hacks for Junit to share variables at test level
 	private static UUID PROJECT_ID;
+	private static UUID PROJECT_ENVIRONMENT_ID;
 	private static UUID SUITE_ID;
 	private static UUID TEST_ID;
 	private static Session SESSION;
@@ -45,6 +48,7 @@ public class HibernateUtil {
 					.addAnnotatedClass(Suite.class)
 					.addAnnotatedClass(Test.class)
 					.addAnnotatedClass(TestConfig.class)
+					.addAnnotatedClass(ProjectEnvironment.class)
 					.setProperty("hibernate.connection.driver_class","org.h2.Driver")
 					.setProperty("hibernate.connection.url", "jdbc:h2:mem:jhipster")
 					.setProperty("hibernate.connection.username", "")
@@ -108,6 +112,14 @@ public class HibernateUtil {
 	@org.junit.Test
 	public void test1CreatEntries(){
 		Project project = createProject(UUID.randomUUID(), "projectName");
+		ProjectEnvironment projectEnvironment = createProjectEnvironment(
+				UUID.randomUUID(), "environmentName", 
+				new HashMap<String,String>(){{
+					put("URL", "dev.coupons.com");
+					put("test", "test_value");
+				}}, project);
+		PROJECT_ENVIRONMENT_ID = projectEnvironment.getEnvironmentId();
+		
 		Suite suite = createSuite(UUID.randomUUID(), "suiteName", project);
 		
 		// Project project = getProject(UUID.fromString("5c283680-d4e7-11e3-9c1a-0800200c9a66"));
@@ -123,26 +135,33 @@ public class HibernateUtil {
 		// both one to one shared primary key association
 		test.setTestConfig(config);
 		config.setTest(test);
-		
+		config.setUrl("http://172.28.36.22:8080/coupons-nextgen-rest-provider/offers/recommended;");
+		// config.setHttpMethod(HttpMethod.GET);
+		config.setHttpMethod("POST");
 		config.setEnvironment(new HashMap<String, String>(){{
 			put("URL", "sso.coupons.com");
 			put("test", "test_value");
 		}});
-		config.setInputBody("{\n" + 
-				"  \"array\": [\n" + 
-				"    1,\n" + 
-				"    2,\n" + 
-				"    3\n" + 
-				"  ],\n" + 
-				"  \"boolean\": true,\n" + 
-				"  \"null\": null,\n" + 
-				"  \"number\": 123,\n" + 
-				"  \"object\": {\n" + 
-				"    \"a\": \"b\",\n" + 
-				"    \"c\": \"d\",\n" + 
-				"    \"e\": \"f\"\n" + 
-				"  },\n" + 
-				"  \"string\": \"Hello World\"\n" + 
+		config.setHeaders(new HashMap<String, String>(){{
+			put("Accept", "application/xml");
+			put("Content-Type", "application/json");
+		}});
+		
+		config.setInputBody("{" + 
+				"  \"array\": [" + 
+				"    1," + 
+				"    2," + 
+				"    3" + 
+				"  ]," + 
+				"  \"boolean\": true," + 
+				"  \"null\": null," + 
+				"  \"number\": 123," + 
+				"  \"object\": {" + 
+				"    \"a\": \"b\"," + 
+				"    \"c\": \"d\"," + 
+				"    \"e\": \"f\"" + 
+				"  }," + 
+				"  \"string\": \"Hello World\"" + 
 				"}");
 		config.setAssertions(new HashMap<String, String>(){{
 			put("array", "[1,2,3]");
@@ -155,14 +174,45 @@ public class HibernateUtil {
 	}
 	
 	@org.junit.Test
+	public void test3ReadProject() throws IOException{
+		Project project = getType(Project.class, PROJECT_ID);
+		System.out.println(project);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String projectAsJson = mapper.writeValueAsString(project);
+		System.out.println(projectAsJson);
+		
+		project = mapper.readValue(projectAsJson, Project.class);
+		
+	}
+	
+	private ProjectEnvironment createProjectEnvironment(
+			UUID uuid, String environmentName, HashMap<String, String> environment, 
+			Project project) {
+		ProjectEnvironment projectEnvironment = new ProjectEnvironment();
+		projectEnvironment.setEnvironmentId(uuid);
+		projectEnvironment.setProject(project);
+		projectEnvironment.setEnvironmentName(environmentName);
+		projectEnvironment.setEnvironment(environment);
+		
+		projectEnvironment = saveTypeAndFlush(projectEnvironment);
+		return projectEnvironment;
+	}
+
+	@org.junit.Test
 	public void test2AssertEntries() throws JsonProcessingException{
+		ObjectMapper mapper = new ObjectMapper();
+		
+		ProjectEnvironment projectEnvironment = getType(ProjectEnvironment.class, PROJECT_ENVIRONMENT_ID);
+		Assert.assertTrue(!projectEnvironment.getEnvironment().isEmpty());
+		System.out.println(mapper.writeValueAsString(projectEnvironment.getEnvironment()));
+				
 		Test test = getType(Test.class, TEST_ID);
 		TestConfig config = getType(TestConfig.class, TEST_ID);
 		Assert.assertFalse(config.getEnvironment().isEmpty());
 		Assert.assertFalse(config.getAssertions().isEmpty());
 		Assert.assertNotNull(config.getInputBody());
 		
-		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(mapper.writeValueAsString(test));
 		
 	}

@@ -1,0 +1,2 @@
+test_id;url;http_method;environment;headers;inputBody;outputBody;assertions
+496ebfc5-55f3-4967-86eb-3740f3655b66;http://172.28.36.22:8080/coupons-nextgen-rest-provider/offers/recommended;POST;{"test":"test_value","URL":"sso.coupons.com"};{"Content-Type":"application/json","Accept":"application/xml"};{"array":[1,2,3],"boolean":true,"null":null,"number":123,"object":{"a":"b","c":"d","e":"f"},"string":"Hello World"};;{"boolean":"true","array":"[1,2,3]"}}
