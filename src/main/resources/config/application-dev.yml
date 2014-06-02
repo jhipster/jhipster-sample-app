@@ -57,5 +57,6 @@ hotReload:
     liquibase:
       defaultCatalogName: 
       defaultSchema: public
+      excludeTables: 
     watchdir:
       - target/classes

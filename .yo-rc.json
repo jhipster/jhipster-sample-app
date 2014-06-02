@@ -12,6 +12,7 @@
     "javaVersion": "7",
     "authenticationType": "cookie",
     "databaseType": "sql",
-    "frontendBuilder": "grunt"
+    "frontendBuilder": "grunt",
+    "buildTool": "maven"
   }
 }
