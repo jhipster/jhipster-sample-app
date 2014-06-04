@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,27 +22,28 @@ import org.hibernate.annotations.Type;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
- * For a RestTest, TestConfig will contain
- * 	each test has 
+ * For a RestTest, TestResult is same as TestConfig
+ * 	whose values are evaluated after String replacement
  * 	 environment variables and headers
  * 	 input and output as JSON or XML, strings in Java
  * 	 assertions
+ * 
+ * TODO: extend and reuse TEST_CONFIG here
  * @author rproddaturi
- *
  */
 @Entity
-@Table(name = "T_TEST_CONFIG")
-public class TestConfig {
+@Table(name = "T_TEST_RESULT")
+public class TestResult implements Serializable {
 
 	@Id
-	@Column(name = "test_id", nullable = false)
+	@Column(name = "test_history_id", nullable = false)
 	@GeneratedValue(generator = "gen")
-	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "test"))
+	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "testResult"))
 	private UUID testId;
 
-	@OneToOne(mappedBy = "testConfig", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "testResult", cascade = CascadeType.ALL)
 	@JsonBackReference
-	private Test test;
+	private TestResult testResult;
 	
 	@Column(name="url")
 	private String url;
@@ -68,7 +70,7 @@ public class TestConfig {
 	@Column
 	@Type(type="com.mycompany.myapp.domain.type.MapAsJsonType")
 	private Map<String, String> headers;
-
+	
 	/**
 	 * Map to MediaType 
 	 */
@@ -197,5 +199,13 @@ public class TestConfig {
 	public void setAssertions(List<Assertion> assertions) {
 		this.assertions = assertions;
 	}
+
+	public TestResult getTestResult() {
+		return testResult;
+	}
+
+	public void setTestResult(TestResult testResult) {
+		this.testResult = testResult;
+	}	
 
 }

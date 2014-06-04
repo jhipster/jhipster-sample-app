@@ -29,7 +29,7 @@ import com.mycompany.myapp.domain.type.TestType;
  * Utility class to test Hibernate entities in memory
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)	// yucky hack
-public class HibernateUtil {
+public class HibernateIntegrationTest {
 
 	// hacks for Junit to share variables at test level
 	private static UUID PROJECT_ID;
@@ -171,6 +171,11 @@ public class HibernateUtil {
 		// save the primary side with cascade to oneToOne config
 		test = saveTypeAndFlush(test);
 		TEST_ID = test.getTestId();
+		
+		
+		// on TestExecution
+		// save TestHistory
+		
 	}
 	
 	@org.junit.Test
