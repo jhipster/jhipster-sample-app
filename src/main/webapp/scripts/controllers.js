@@ -93,7 +93,36 @@ jhipsterApp.controller('SuiteController', ['$scope', '$http', '$routeParams', 'S
 
 jhipsterApp.controller('TestController', ['$scope', '$http', '$routeParams', 'TestService',
        function ($scope, $http, $routeParams, TestService) {
-  	
+	$scope.editorOptions = {
+        lineWrapping : true,
+        lineNumbers: true,
+        mode: 'xml',
+    };
+	
+	$scope.removeEnvironment = function(key){
+		console.log(key);
+		delete $scope.test.testConfig.environment[key];
+	};
+	
+  	$scope.addEnvironment = function(newEnvironment){
+		console.log(newEnvironment);
+		$scope.test.testConfig.environment[newEnvironment.key] = newEnvironment.val;
+		newEnvironment.key="";
+		newEnvironment.val="";
+	};
+	
+	$scope.removeHeader = function(key){
+		console.log(key);
+		delete $scope.test.testConfig.headers[key];
+	};
+	
+  	$scope.addHeader = function(newHeader){
+		console.log(newHeader);
+		$scope.test.testConfig.headers[newHeader.key] = newHeader.val;
+		newHeader.key="";
+		newHeader.val="";
+	};
+	
   	$scope.testId = $routeParams.testId;
   	
   	$scope.refresh = function() {

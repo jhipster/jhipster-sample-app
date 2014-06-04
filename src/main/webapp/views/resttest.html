@@ -1,7 +1,6 @@
 <div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
 
 <div id="resttest">
-
 <form class="form-horizontal">
 
 	<!-- show a chained link to project->suite->test -->
@@ -20,8 +19,8 @@
 	<div class="control-group">
 		<label class="control-label" for="testName">Test Name</label>
 
-		<div class="controls">
-			<input type="text" id="testName" ng-model="test.testName"
+		<div class="keyvalueeditor-key ui-autocomplete-input">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="testName" ng-model="test.testName"
 				placeholder="Test Name" required min="2">
 		</div>
 	</div>
@@ -44,11 +43,16 @@
 	
 		<div ng-repeat="(key, val) in test.testConfig.environment">
 			<div class="controls">
-				<input class="span3" type="text" id="key" value="{{key}}"
-					>
-				<input class="span3" type="text" id="val"  value="{{val}}"
-					>
+				<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key" value="{{key}}">
+				<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="val"  value="{{val}}">
+				<button type="button" ng-click="removeEnvironment(key)" >-</button>
 			</div>
+		</div>
+		
+		<div class="controls">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key" placeholder="KEY" ng-model="newEnvironment.key">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="val" placeholder="VALUE" ng-model="newEnvironment.val">
+			<button type="button" ng-click="addEnvironment(newEnvironment)" >+</button>
 		</div>
 	</div>
 	
@@ -59,9 +63,9 @@
 			<label class="control-label" for="suiteId">Type</label>
 		</div>
 		<div class="controls">
-			<input type="text" id="testName" ng-model="test.testConfig.url"
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="testName" ng-model="test.testConfig.url"
 				placeholder="URL" required min="2">
-			<input type="text" id="testName" ng-model="test.testConfig.httpMethod"
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="testName" ng-model="test.testConfig.httpMethod"
 				placeholder="URL" required min="2">
 		</div>
 	</div>
@@ -72,21 +76,45 @@
 	
 		<div ng-repeat="(key, val) in test.testConfig.headers">
 			<div class="controls">
-				<input class="span3" type="text" id="key" value="{{key}}"
-					>
-				<input class="span3" type="text" id="val"  value="{{val}}"
-					>
+				<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key_{{key}}" value="{{key}}">
+				<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="val_{{val}}"  value="{{val}}">
+				<button type="button" ng-click="removeHeader(key)" style="size: 200 px;">-</button>
 			</div>
+		</div>
+		<div class="controls">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key" placeholder="KEY" ng-model="newHeader.key">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="val" placeholder="VALUE" ng-model="newHeader.val">
+			<button type="button" ng-click="addHeader(newHeader)" style="size: 20 px;">+</button>
 		</div>
 	</div>
 	
 	<!-- Input Body -->
 	<div class="control-group">
 		<label class="control-label" for="suiteId">Input</label>
-	
-		<div class="controls">
-			<input class="span3" type="text" id="key" ng-model="test.testConfig.inputBody">
-		</div>
+		<!--  TOGGLE between XML and JSON editors based on the content type
+		<div ui-codemirror ui-codemirror-opts="editorOptions"></div>
+		-->
+		<div id="jsoneditor" style="width: 800px; height: 400px;"></div>
+			<script>
+				var container = document.getElementById("jsoneditor");
+				var options = {
+				    mode: 'code',
+				    modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+				    error: function (err) {
+				      alert(err.toString());
+				    }
+				};
+				var json = {
+		            "Array": [1, 2, 3],
+		            "Boolean": true,
+		            "Null": null,
+		            "Number": 123,
+		            "Object": {"a": "b", "c": "d"},
+		            "String": "Hello World"
+		        };
+				var editor = new JSONEditor(container, options);
+				editor.set(json);
+			</script>
 	</div>
 	
 	<!-- Output Body -->
@@ -94,7 +122,8 @@
 		<label class="control-label" for="suiteId">Output</label>
 	
 		<div class="controls">
-			<input class="span3" type="text" id="key" ng-model="test.testConfig.oututBody">
+			<input class="keyvalueeditor-key ui-autocomplete-input" 
+				type="text" id="key" ng-model="test.testConfig.oututBody">
 		</div>
 	</div>
 	

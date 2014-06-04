@@ -2,7 +2,9 @@
 
 /* App Module */
 
-var jhipsterApp = angular.module('jhipsterApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
+var jhipsterApp = angular.module('jhipsterApp', [
+    'ui.codemirror',
+    'http-auth-interceptor', 'tmh.dynamicLocale',
     'ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 jhipsterApp
