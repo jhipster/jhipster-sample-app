@@ -177,7 +177,7 @@
                   tableName="T_TEST_CONFIG"/>  
                   
         <loadData encoding="UTF-8"
-        		  file="config/liquibase/testhistoryconfigs.csv"
+        		  file="config/liquibase/testhistory.csv"
         		  separator=";"
         		  tableName="T_TEST_HISTORY"/>                              
     </changeSet>

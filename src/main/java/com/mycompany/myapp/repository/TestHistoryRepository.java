@@ -10,6 +10,6 @@ import com.mycompany.myapp.domain.TestHistory;
 
 public interface TestHistoryRepository extends JpaRepository<Test, UUID> {
 
-	@Query("select * from Test where testId = ?1")
+	@Query("select * from TestHistory where testId = ?1")
 	TestHistory findByTestId(UUID testHistoryId);
 }
