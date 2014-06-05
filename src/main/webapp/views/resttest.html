@@ -4,10 +4,8 @@
 <form class="form-horizontal">
 
 	<!-- show a chained link to project->suite->test -->
-	
 	<div class="control-group">
 		<label class="control-label" for="requestHelperType">Request Type: Normal, Basic Digest, Digest Oauth</label>
-
 		<!-- support for more request types such as Basic Oauth and others 
 		<div class="controls">
 			<input type="text" id="requestType" ng-model="test.suite.suiteName"
@@ -60,13 +58,13 @@
 	<div class="control-group">
 		<div class="controls">
 			<label class="control-label" for="suiteId">URL</label>
-			<label class="control-label" for="suiteId">Type</label>
 		</div>
 		<div class="controls">
 			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="testName" ng-model="test.testConfig.url"
 				placeholder="URL" required min="2">
-			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="testName" ng-model="test.testConfig.httpMethod"
-				placeholder="URL" required min="2">
+			<select class="keyvalueeditor-key ui-autocomplete-input" 
+				ng-model="test.testConfig.constants.httpMethod"
+				ng-options="o for o in test.testConfig.constants.HTTP_METHODS"></select>
 		</div>
 	</div>
 	
@@ -82,18 +80,29 @@
 			</div>
 		</div>
 		<div class="controls">
-			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key" placeholder="KEY" ng-model="newHeader.key">
+			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="key" placeholder="HEADER" ng-model="newHeader.key">
 			<input class="keyvalueeditor-key ui-autocomplete-input" type="text" id="val" placeholder="VALUE" ng-model="newHeader.val">
 			<button type="button" ng-click="addHeader(newHeader)" style="size: 20 px;">+</button>
 		</div>
 	</div>
 	
 	<!-- Input Body -->
+	<!-- TOGGLE between XML and JSON editors based on the content type -->
 	<div class="control-group">
-		<label class="control-label" for="suiteId">Input</label>
-		<!--  TOGGLE between XML and JSON editors based on the content type
+		<label class="control-label" for="suiteId">Input Type:</label>
+		
+		<label class="control-label" for="suiteId" ng-repeat="mediaType in test.testConfig.constants.MEDIA_TYPES">
+			<input type="radio" value="{{mediaType}}" ng-model="test.testConfig.inputMediaType"> {{mediaType}}
+		</label>
+		
+		<!--  XML -->
 		<div ui-codemirror ui-codemirror-opts="editorOptions"></div>
-		-->
+		<div class="controls">
+			<ui-codemirror ui-codemirror-opts="editorOptions">
+			</ui-codemirror>
+		</div>
+		
+		<!-- JSON -->
 		<div id="jsoneditor" style="width: 800px; height: 400px;"></div>
 			<script>
 				var container = document.getElementById("jsoneditor");

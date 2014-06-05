@@ -12,6 +12,8 @@ public class Assertion {
 	private String key;
 
 	private String value;
+	
+	private MediaType inputMediaType = MediaType.JSON;
 
 	private boolean isRegEx;
 
@@ -20,6 +22,20 @@ public class Assertion {
 	private String message;
 
 	private String exception;
+	
+	public Assertion() {		
+	}
+
+	public Assertion(String key, String value) {
+		this(key, value, false);
+	}
+	
+	public Assertion(String key, String value, boolean isRegEx) {
+		super();
+		this.key = key;
+		this.value = value;
+		this.isRegEx = isRegEx;
+	}
 
 	/**
 	 * key is the assertion that needs to be evaluated
@@ -51,6 +67,14 @@ public class Assertion {
 
 	public void setRegEx(boolean isRegEx) {
 		this.isRegEx = isRegEx;
+	}
+	
+	public MediaType getInputMediaType() {
+		return inputMediaType;
+	}
+
+	public void setInputMediaType(MediaType inputMediaType) {
+		this.inputMediaType = inputMediaType;
 	}
 
 	public Status getStatus() {

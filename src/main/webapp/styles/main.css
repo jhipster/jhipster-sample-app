@@ -43,11 +43,12 @@ body {
   display: inline-block;
   width: 463px;
   height: 640px;
-  background-image: url("../images/hipster.jpg");
+  background-image: url("../images/coupons-hack.jpg");
   background-position: center center;
   background-repeat: no-repeat;
 }
-
+/*hipster.jpg
+*/
 .hand {
     cursor: pointer;
 }

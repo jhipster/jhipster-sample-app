@@ -77,6 +77,18 @@
             <column name="suite_id" type="uuid" />
         </createTable>
         
+        <createTable tableName="T_TEST_HISTORY">
+        	<column name="test_history_id" type="uuid">
+        		<constraints primaryKey="true" nullable="false"/>
+        	</column>
+        	<column name="test_id" type="uuid"/>
+        	<column name="schedule_time" type="date"/>
+        	<column name="start_time" type="date"/>
+        	<column name="end_time" type="date"/>
+        	<column name="execution_time_in_ms" type="long"/>
+        	<column name="exception" type="varchar(5000)"/>
+        </createTable>
+        
         <createTable tableName="T_TEST_CONFIG">
             <column name="test_id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
@@ -162,7 +174,12 @@
         <loadData encoding="UTF-8"
                   file="config/liquibase/testconfigs.csv"
                   separator=";"
-                  tableName="T_TEST_CONFIG"/>                                
+                  tableName="T_TEST_CONFIG"/>  
+                  
+        <loadData encoding="UTF-8"
+        		  file="config/liquibase/testhistoryconfigs.csv"
+        		  separator=";"
+        		  tableName="T_TEST_HISTORY"/>                              
     </changeSet>
 
     <!-- Manage the new Springboot actuator Audit event -->

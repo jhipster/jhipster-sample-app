@@ -2,6 +2,9 @@ server:
     port: 8080
     address: localhost
 
+# http://stackoverflow.com/questions/4162557/timeout-error-trying-to-lock-table-in-h2
+# url: jdbc:h2:mem:jhipster;LOCK_TIMEOUT=10000;MVCC=true
+# url: jdbc:h2:jhipster;LOCK_TIMEOUT=10000;MVCC=true
 spring:
     profiles: dev
     datasource:

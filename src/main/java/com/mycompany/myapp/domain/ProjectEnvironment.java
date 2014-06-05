@@ -35,16 +35,16 @@ public class ProjectEnvironment implements Serializable {
 	@Column(name = "environment_id")
 	private UUID environmentId;
 
-	@NotNull
-	@Column(name = "environment_name")
-	@Size(min = 0, max = 100)
-	private String environmentName;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	@JsonBackReference
 	private Project project;
 	
+	@NotNull
+	@Column(name = "environment_name")
+	@Size(min = 0, max = 100)
+	private String environmentName;
+
 	// A project can have multiple environments
 	// A suite can have only one environment
 	// A test can override a suite's environment via testConfig.environment

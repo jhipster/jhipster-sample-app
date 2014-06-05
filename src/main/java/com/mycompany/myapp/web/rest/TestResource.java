@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Test;
+import com.mycompany.myapp.domain.TestHistory;
 import com.mycompany.myapp.repository.ProjectRepository;
 import com.mycompany.myapp.repository.SuiteRepository;
+import com.mycompany.myapp.repository.TestHistoryRepository;
 import com.mycompany.myapp.repository.TestRepository;
 
 /**
@@ -30,6 +32,9 @@ public class TestResource {
 
 	@Inject
 	private TestRepository testRepository;
+	
+	@Inject
+	private TestHistoryRepository testHistoryRepository;
 	
 	@RequestMapping(value = "/rest/test/{testId}", 
 			method = RequestMethod.GET, 
@@ -59,6 +64,19 @@ public class TestResource {
 		}
 		
 		return tests;
+	}
+	
+	@RequestMapping(value = "/rest/history/{testId}",
+			method = RequestMethod.GET,
+			produces = "application/json")
+	@Timed
+	public TestHistory getTestHistory(
+			@PathVariable UUID testId,
+			HttpServletResponse resonse) {
+		log.debug("getting test history with testId:" + testId);
+		
+		TestHistory testHistory = testHistoryRepository.findByTestId(testId);
+		return testHistory;
 	}
 	
 }
