@@ -16,10 +16,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
+import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.domain.Assertion;
+import com.mycompany.myapp.domain.MediaType;
 import com.mycompany.myapp.domain.Project;
 import com.mycompany.myapp.domain.ProjectEnvironment;
 import com.mycompany.myapp.domain.Suite;
@@ -138,8 +140,7 @@ public class HibernateIntegrationTest {
 		test.setTestConfig(config);
 		config.setTest(test);
 		config.setUrl("http://172.28.36.22:8080/coupons-nextgen-rest-provider/offers/recommended;");
-		// config.setHttpMethod(HttpMethod.GET);
-		config.setHttpMethod("POST");
+		config.setHttpMethod(HttpMethod.POST);
 		config.setEnvironment(new HashMap<String, String>(){{
 			put("URL", "sso.coupons.com");
 			put("test", "test_value");
@@ -149,6 +150,7 @@ public class HibernateIntegrationTest {
 			put("Content-Type", "application/json");
 		}});
 		
+		config.setInputMediaType(MediaType.JSON);
 		config.setInputJSONBody("{" + 
 				"  \"array\": [" + 
 				"    1," + 
@@ -165,9 +167,12 @@ public class HibernateIntegrationTest {
 				"  }," + 
 				"  \"string\": \"Hello World\"" + 
 				"}");
+		config.setOutputMediaType(MediaType.XML);
+		config.setOutputXMLBody(" <test><another>now</another></test> ");
+		
 		config.setAssertions(Arrays.asList(
-			new Assertion(),
-			new Assertion()
+			new Assertion("test/something/also", "test", false),
+			new Assertion("test/something/also", "maybe", true)
 		));
 		
 		// save the primary side with cascade to oneToOne config
@@ -180,6 +185,39 @@ public class HibernateIntegrationTest {
 		
 	}
 	
+
+
+	@org.junit.Test
+	public void test2AssertEntries() throws IOException{
+		ObjectMapper mapper = new ObjectMapper();
+		
+		ProjectEnvironment projectEnvironment = getType(ProjectEnvironment.class, PROJECT_ENVIRONMENT_ID);
+		Assert.assertTrue(!projectEnvironment.getEnvironment().isEmpty());
+		System.out.println(mapper.writeValueAsString(projectEnvironment.getEnvironment()));
+				
+		Test test = getType(Test.class, TEST_ID);
+		TestConfig config = getType(TestConfig.class, TEST_ID);
+		Assert.assertFalse(config.getEnvironment().isEmpty());
+		Assert.assertFalse(config.getAssertions().isEmpty());
+		Assert.assertNotNull(config.getInputJSONBody());
+		
+		System.out.println("Test: ");
+		String testAsString = mapper.writeValueAsString(test);
+		System.out.println(testAsString);
+		test = mapper.readValue(testAsString, Test.class);
+		System.out.println("Test as object: ");
+		System.out.println(test);
+		
+		String configAsString = mapper.writeValueAsString(config);
+		System.out.println("TestConfig: ");
+		System.out.println(configAsString);
+		
+		config = mapper.readValue(configAsString, TestConfig.class);
+		System.out.println("TestConfig as object: ");
+		System.out.println(config);
+		
+	}
+	
 	@org.junit.Test
 	public void test3ReadProject() throws IOException{
 		Project project = getType(Project.class, PROJECT_ID);
@@ -187,6 +225,7 @@ public class HibernateIntegrationTest {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String projectAsJson = mapper.writeValueAsString(project);
+		System.out.println("Project: ");
 		System.out.println(projectAsJson);
 		
 		project = mapper.readValue(projectAsJson, Project.class);
@@ -204,23 +243,5 @@ public class HibernateIntegrationTest {
 		
 		projectEnvironment = saveTypeAndFlush(projectEnvironment);
 		return projectEnvironment;
-	}
-
-	@org.junit.Test
-	public void test2AssertEntries() throws JsonProcessingException{
-		ObjectMapper mapper = new ObjectMapper();
-		
-		ProjectEnvironment projectEnvironment = getType(ProjectEnvironment.class, PROJECT_ENVIRONMENT_ID);
-		Assert.assertTrue(!projectEnvironment.getEnvironment().isEmpty());
-		System.out.println(mapper.writeValueAsString(projectEnvironment.getEnvironment()));
-				
-		Test test = getType(Test.class, TEST_ID);
-		TestConfig config = getType(TestConfig.class, TEST_ID);
-		Assert.assertFalse(config.getEnvironment().isEmpty());
-		Assert.assertFalse(config.getAssertions().isEmpty());
-		Assert.assertNotNull(config.getInputJSONBody());
-		
-		System.out.println(mapper.writeValueAsString(test));
-		
 	}
 }

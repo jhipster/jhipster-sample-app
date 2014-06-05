@@ -12,3 +12,5 @@ node_modules
 .DS_Store
 src/main/webapp/dist
 /.tern-project
+/jhipster.h2.db
+/jhipster.trace.db

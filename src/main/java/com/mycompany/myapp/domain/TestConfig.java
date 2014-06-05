@@ -13,12 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.mycompany.myapp.domain.util.TestConstants;
 
 /**
  * For a RestTest, TestConfig will contain
@@ -32,6 +35,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "T_TEST_CONFIG")
 public class TestConfig {
+	
+	// serialize as JSON but not persist it
+	@Transient // for some reason static is not Json Serialized?
+	public final TestConstants constants = new TestConstants();
 
 	@Id
 	@Column(name = "test_id", nullable = false)
@@ -50,9 +57,8 @@ public class TestConfig {
 	 * Dropdown and capital case method such as GET, POST, DELETE
 	 */
 	@Column(name="http_method")
-	//@Type(type="org.springframework.http.HttpMethod")
-	//private HttpMethod httpMethod;
-	private String httpMethod;
+	@Enumerated(EnumType.STRING)
+	private HttpMethod httpMethod = HttpMethod.GET;
 	
 	/**
 	 * environment are the properties that will be replaced using
@@ -73,7 +79,7 @@ public class TestConfig {
 	 * Map to MediaType: XML/JSON
 	 */
 	@Column
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private MediaType inputMediaType;
 
 	// TODO: XML and JSON
@@ -87,7 +93,7 @@ public class TestConfig {
 	 * Map to MediaType 
 	 */
 	@Column
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private MediaType outputMediaType;
 
 	/**
@@ -118,12 +124,11 @@ public class TestConfig {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-	public String getHttpMethod() {
+	public HttpMethod getHttpMethod() {
 		return httpMethod;
 	}
 
-	public void setHttpMethod(String httpMethod) {
+	public void setHttpMethod(HttpMethod httpMethod) {
 		this.httpMethod = httpMethod;
 	}
 

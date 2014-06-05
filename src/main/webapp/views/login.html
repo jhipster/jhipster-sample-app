@@ -10,12 +10,11 @@
             <form class="form" role="form">
                 <div class="form-group">
                     <label for="username" translate="login.form.username">Login</label>
-                    <input type="text" class="form-control" id="username" placeholder="{{'login.form.username.placeholder' | translate}}" ng-model="username" value="admin">
+                    <input type="text" class="form-control" id="username" placeholder="{{'login.form.username.placeholder' | translate}}" ng-model="username" ng-init="username='admin'">
                 </div>
                 <div class="form-group">
                     <label for="password" translate="login.form.password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="{{'login.form.password.placeholder' | translate}}"  value="admin"
-                           ng-model="password">
+                    <input type="password" class="form-control" id="password" placeholder="{{'login.form.password.placeholder' | translate}}" ng-model="password"  ng-init="password='admin'" >
                 </div>
                 <div class="form-group">
                     <label for="rememberMe" translate="login.form.rememberme">Automatic login</label>

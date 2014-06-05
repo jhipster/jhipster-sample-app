@@ -14,11 +14,19 @@
         <link rel="stylesheet" href="styles/bootstrap.css">
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/famfamfam-flags.css">
+        
+        <!-- rest client stylesheet for formatting values -->
         <link rel="stylesheet" href="styles/keyvalueeditor.css">
         <link rel="stylesheet" href="styles/keyvalueeditor.css">
+        
+        <!-- codemirror css for XML -->
         <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+        <!-- codemirror css for XML END -->
+        
+        <!-- jsoneditor css -->
         <link rel="stylesheet" type="text/css" href="jsoneditor/jsoneditor.min.css">
-		<!-- endbuild -->
+		<!-- jsoneditor css ENDs-->
+        <!-- endbuild -->
     </head>
     <body ng-app="jhipsterApp" ng-controller="MainController">
         <!--[if lt IE 10]>
@@ -163,13 +171,19 @@
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/collapse.js"></script>
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
+        
+        <!-- codemirror xml plugin -->
         <script src="bower_components/codemirror/lib/codemirror.js"></script>
         <script src="bower_components/codemirror/lib/xml.js"></script>
         <script src="bower_components/codemirror/lib/javascript.js"></script>
         <script src="bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+        <!-- codemirror xml plugin END -->
+        
+        <!-- jsoneditor json plugin -->
         <script type="text/javascript" src="jsoneditor/jsoneditor.min.js"></script>
         <script type="text/javascript" src="jsoneditor/asset/jsonlint/jsonlint.js"></script>
         <script type="text/javascript" src="jsoneditor/asset/ace/ace.js"></script>
+        <!-- jsoneditor json plugin END -->
         <!-- endbuild -->
 </body>
 </html>
