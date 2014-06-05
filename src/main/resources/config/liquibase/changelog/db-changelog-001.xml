@@ -85,8 +85,12 @@
             <column name="url" type="varchar(600)" />
             <column name="http_method" type="varchar(10)" />
             <column name="headers" type="varchar(2000)" />
-            <column name="inputBody" type="varchar(5000)" />
-            <column name="outputBody" type="varchar(5000)" />
+            <column name="inputMediaType" type="varchar(30)" />
+            <column name="inputXMLBody" type="varchar(5000)" />
+            <column name="inputJSONBody" type="varchar(5000)" />
+            <column name="outputMediaType" type="varchar(30)" />
+            <column name="outputXMLBody" type="varchar(5000)" />
+            <column name="outputJSONBody" type="varchar(5000)" />
             <column name="assertions" type="varchar(5000)" />
         </createTable>
 

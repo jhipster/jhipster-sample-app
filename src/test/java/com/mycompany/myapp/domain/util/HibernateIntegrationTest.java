@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain.util;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import org.junit.runners.MethodSorters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.myapp.domain.Assertion;
 import com.mycompany.myapp.domain.Project;
 import com.mycompany.myapp.domain.ProjectEnvironment;
 import com.mycompany.myapp.domain.Suite;
@@ -147,7 +149,7 @@ public class HibernateIntegrationTest {
 			put("Content-Type", "application/json");
 		}});
 		
-		config.setInputBody("{" + 
+		config.setInputJSONBody("{" + 
 				"  \"array\": [" + 
 				"    1," + 
 				"    2," + 
@@ -163,10 +165,10 @@ public class HibernateIntegrationTest {
 				"  }," + 
 				"  \"string\": \"Hello World\"" + 
 				"}");
-		config.setAssertions(new HashMap<String, String>(){{
-			put("array", "[1,2,3]");
-			put("boolean", "true");
-		}});
+		config.setAssertions(Arrays.asList(
+			new Assertion(),
+			new Assertion()
+		));
 		
 		// save the primary side with cascade to oneToOne config
 		test = saveTypeAndFlush(test);
@@ -216,7 +218,7 @@ public class HibernateIntegrationTest {
 		TestConfig config = getType(TestConfig.class, TEST_ID);
 		Assert.assertFalse(config.getEnvironment().isEmpty());
 		Assert.assertFalse(config.getAssertions().isEmpty());
-		Assert.assertNotNull(config.getInputBody());
+		Assert.assertNotNull(config.getInputJSONBody());
 		
 		System.out.println(mapper.writeValueAsString(test));
 		
