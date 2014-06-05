@@ -38,12 +38,12 @@ public class TestResult implements Serializable {
 	@Id
 	@Column(name = "test_history_id", nullable = false)
 	@GeneratedValue(generator = "gen")
-	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "testResult"))
+	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "testHistory"))
 	private UUID testId;
 
 	@OneToOne(mappedBy = "testResult", cascade = CascadeType.ALL)
 	@JsonBackReference
-	private TestResult testResult;
+	private TestHistory testHistory;
 	
 	@Column(name="url")
 	private String url;
@@ -72,7 +72,7 @@ public class TestResult implements Serializable {
 	private Map<String, String> headers;
 	
 	/**
-	 * Map to MediaType 
+	 * Map to MediaType: XML/JSON
 	 */
 	@Column
 	@Enumerated(EnumType.ORDINAL)
@@ -102,6 +102,7 @@ public class TestResult implements Serializable {
 	private String outputJSONBody;
 
 	@Column
+	@Type(type="com.mycompany.myapp.domain.type.ListAsJsonType")
 	private List<Assertion> assertions;
 
 	public String getUrl() {
@@ -200,12 +201,12 @@ public class TestResult implements Serializable {
 		this.assertions = assertions;
 	}
 
-	public TestResult getTestResult() {
-		return testResult;
+	public TestHistory getTestHistory() {
+		return testHistory;
 	}
 
-	public void setTestResult(TestResult testResult) {
-		this.testResult = testResult;
-	}	
+	public void setTestHistory(TestHistory testHistory) {
+		this.testHistory = testHistory;
+	}
 
 }

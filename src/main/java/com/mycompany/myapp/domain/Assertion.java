@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Assertion {
 
-	/** evaluating the assertion key 
+   /** evaluating the assertion key 
 	* gives you an assertion value
 	*/
 	private String key;

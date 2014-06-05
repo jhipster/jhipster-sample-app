@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,6 +19,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * A project. Eventually create a base class for Test that can be extensible for
@@ -33,9 +38,15 @@ public class TestHistory implements Serializable {
 	@Column(name = "test_history_id")
 	private UUID testHistoryId;
 
+	@ManyToOne
 	@JoinColumn(name = "test_id")
 	private Test test;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	@JsonManagedReference
+	private TestResult testResult;
+	
 	@Temporal(TemporalType.TIME)
 	@Column(name = "schedule_time")
 	private Date scheduleTime;

@@ -70,7 +70,7 @@ public class TestConfig {
 	private Map<String, String> headers;
 
 	/**
-	 * Map to MediaType 
+	 * Map to MediaType: XML/JSON
 	 */
 	@Column
 	@Enumerated(EnumType.ORDINAL)
@@ -100,7 +100,16 @@ public class TestConfig {
 	private String outputJSONBody;
 
 	@Column
+	@Type(type="com.mycompany.myapp.domain.type.ListAsJsonType")
 	private List<Assertion> assertions;
+
+	public Test getTest() {
+		return test;
+	}
+
+	public void setTest(Test test) {
+		this.test = test;
+	}
 
 	public String getUrl() {
 		return url;
