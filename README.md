@@ -1,6 +1,8 @@
 jhipster-sample-app
 ===================
 
+modified for rest-nesse
+
 [![Build Status](https://drone.io/github.com/jhipster/jhipster-sample-app/status.png)](https://drone.io/github.com/jhipster/jhipster-sample-app/latest)
 
 This is a sample application created with [JHipster](https://github.com/jdubois/generator-jhipster).
