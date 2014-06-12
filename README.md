@@ -13,4 +13,6 @@ If you want to run the app, it's as simple as using Maven:
 mvn spring-boot:run
 ```
 
+And open [http://localhost:8080/](http://localhost:8080/)
+
 Of course, if you are a true Java hipster, you should use the [Yeoman generator](https://github.com/jdubois/generator-jhipster)!
