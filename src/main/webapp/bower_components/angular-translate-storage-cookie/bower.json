@@ -1,8 +1,8 @@
 {
   "name": "angular-translate-storage-cookie",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "main": "./angular-translate-storage-cookie.js",
   "dependencies": {
-    "angular-translate": "~2.0.0"
+    "angular-translate": "~2.2.0"
   }
 }

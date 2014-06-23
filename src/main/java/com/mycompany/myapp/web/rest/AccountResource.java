@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.IWebContext;
@@ -65,7 +66,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/register",
             method = RequestMethod.POST,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request,
                                              HttpServletResponse response) {
@@ -86,7 +87,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/activate",
             method = RequestMethod.GET,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
         User user = userService.activateRegistration(key);
@@ -101,7 +102,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/authenticate",
             method = RequestMethod.GET,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
@@ -113,7 +114,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/account",
             method = RequestMethod.GET,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         User user = userService.getUserWithAuthorities();
@@ -127,7 +128,7 @@ public class AccountResource {
         return new ResponseEntity<>(
             new UserDTO(
                 user.getLogin(),
-                user.getPassword(),
+                null,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
@@ -141,7 +142,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/account",
             method = RequestMethod.POST,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public void saveAccount(@RequestBody UserDTO userDTO) {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
@@ -152,7 +153,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/account/change_password",
             method = RequestMethod.POST,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> changePassword(@RequestBody String password) {
         if (StringUtils.isEmpty(password)) {
@@ -167,7 +168,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/rest/account/sessions",
             method = RequestMethod.GET,
-            produces = "application/json")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());

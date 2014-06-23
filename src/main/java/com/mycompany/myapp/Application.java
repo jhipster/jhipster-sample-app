@@ -70,7 +70,7 @@ public class Application {
             app.setAdditionalProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
         }
     }
-
+    
     /**
      * Set the liquibases.scan.packages to avoid an exception from ServiceLocator
      * <p/>
