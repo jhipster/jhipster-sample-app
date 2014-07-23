@@ -28,7 +28,6 @@ spring:
 
 
 swagger:
-    apiDocsLocation: http://localhost:8080
     title: jhipster API
     description: jhipster applications and beyond!
     termsOfServiceUrl: http://jhipster.github.io/

@@ -16,18 +16,21 @@
                 "login": "S'authentifier",
                 "logout": "Déconnexion",
                 "apidocs": "API",
-                "register": "Register"
+                "register": "Créer un compte"
             },
             "admin": "Administration",
             "language": "Langue"
         },
         "language": {
-            "da": "Danois",
-            "en": "Anglais",
-            "fr": "Français",
             "de": "Allemand",
+            "en": "Anglais",
+            "kr": "Coréen",
+            "da": "Danois",
+            "es": "Espagnol",
+            "fr": "Français",
             "pl": "Polonais",
-            "ru": "Russe"
+            "ru": "Russe",
+            "tr": "Turc"
         },
         "form": {
             "username": "Nom d'utilisateur",

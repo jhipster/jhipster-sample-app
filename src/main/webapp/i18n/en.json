@@ -26,8 +26,11 @@
             "en": "English",
             "fr": "French",
             "de": "German",
+            "kr": "Korean",
             "pl": "Polish",
-            "ru": "Russian"
+            "ru": "Russian",
+            "es": "Spanish",
+            "tr": "Turkish"
         },
         "form": {
             "username": "Login",
@@ -41,7 +44,7 @@
         },
         "messages": {
             "info": {
-                "authenticated": "If you want to <a href=\"#/login\">authenticate</a>, you can try the default accounts:<br/>- Admnistrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\").",
+                "authenticated": "If you want to <a href=\"#/login\">authenticate</a>, you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\").",
                 "register": "You don't have an account yet? <a href=\"#/register\">Register a new account</a>"
             },
             "error": {
@@ -188,7 +191,7 @@
         "title": "Application Metrics",
         "refresh.button": "Refresh",
         "health": {
-            "title": "Heath checks",
+            "title": "Health checks",
             "database": "Database: ",
             "email": "Email: ",
             "stacktrace": "Stacktrace"

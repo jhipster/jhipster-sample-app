@@ -33,6 +33,7 @@ spring:
     thymeleaf:
         mode: XHTML
         cache: false
+        viewNames: error
 
 metrics:
     jmx.enabled: true
@@ -57,6 +58,6 @@ hotReload:
     liquibase:
       defaultCatalogName: 
       defaultSchema: public
-      excludeTables: 
+      excludeTables: T_AUTHORITY,T_PERSISTENT_AUDIT_EVENT,T_PERSISTENT_AUDIT_EVENT_DATA,T_PERSISTENT_TOKEN,T_USER,T_USER_AUTHORITY
     watchdir:
       - target/classes

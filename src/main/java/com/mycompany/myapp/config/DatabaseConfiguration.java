@@ -1,5 +1,6 @@
 package com.mycompany.myapp.config;
 
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
@@ -76,6 +77,11 @@ public class DatabaseConfiguration implements EnvironmentAware {
         liquibase.setChangeLog("classpath:config/liquibase/master.xml");
         liquibase.setContexts("development, production");
         return liquibase;
+    }
+
+    @Bean
+    public Hibernate4Module hibernate4Module() {
+        return new Hibernate4Module();
     }
 }
 

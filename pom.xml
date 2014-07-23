@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.3.RELEASE</version>
+        <version>1.1.4.RELEASE</version>
     </parent>
 
     <profiles>
@@ -106,11 +106,11 @@
         <geronimo-javamail_1.4_mail.version>1.8.3</geronimo-javamail_1.4_mail.version>
         <hibernate-entitymanager.version>4.3.5.Final</hibernate-entitymanager.version>
         <HikariCP.version>1.3.8</HikariCP.version>
-        <jhipster-loaded.version>0.8</jhipster-loaded.version>
-        <liquibase_hibernate_version>3.4</liquibase_hibernate_version>
+        <jhipster-loaded.version>0.10</jhipster-loaded.version>
+        <liquibase_hibernate_version>3.3</liquibase_hibernate_version>
         <liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
         <metrics-spring.version>3.0.1</metrics-spring.version>
-        <swagger-springmvc.version>0.8.2</swagger-springmvc.version>
+        <swagger-springmvc.version>0.8.5</swagger-springmvc.version>
         <usertype.core.version>3.2.0.GA</usertype.core.version>
     </properties>
 
@@ -230,6 +230,11 @@
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate4</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         <dependency>
@@ -310,6 +315,12 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-servlet</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.liquibase.ext</groupId>
@@ -321,6 +332,11 @@
                     <artifactId>hibernate-jpa-2.0-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.mattbertolini</groupId>
+            <artifactId>liquibase-slf4j</artifactId>
+            <version>${liquibase-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -402,7 +418,6 @@
             <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -413,11 +428,6 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mattbertolini</groupId>
-            <artifactId>liquibase-slf4j</artifactId>
-            <version>${liquibase-slf4j.version}</version>
         </dependency>
     </dependencies>
     <build>

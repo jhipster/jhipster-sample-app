@@ -22,12 +22,15 @@
             "language": "Język"
         },
         "language": {
-            "da": "Duński",
             "en": "Angielski",
+            "da": "Duński",
             "fr": "Francuski",
+            "es": "Hiszpański",
+            "kr": "Koreański",
             "de": "Niemiecki",
             "pl": "Polski",
-            "ru": "Rosyjski"
+            "ru": "Rosyjski",
+            "tr": "Turecki"
         },
         "form": {
             "username": "Login",
@@ -41,7 +44,7 @@
         },
         "messages": {
             "info": {
-                "authenticated": "Jeśli chcek <a href=\"#/login\">zalogować się</a>, możesz spróbować domyślnego konta:<br/>- Admnistrator (login=\"admin\" i hasło=\"admin\") <br/>- Użytkownik (login=\"user\" i hasło=\"user\").",
+                "authenticated": "Jeśli chcek <a href=\"#/login\">zalogować się</a>, możesz spróbować domyślnego konta:<br/>- Administrator (login=\"admin\" i hasło=\"admin\") <br/>- Użytkownik (login=\"user\" i hasło=\"user\").",
                 "register": "You don't have an account yet? <a href=\"#/register\">Register a new account</a>"
             },
             "error": {
