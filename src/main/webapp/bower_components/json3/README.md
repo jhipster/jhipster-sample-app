@@ -2,12 +2,12 @@
 
 ![JSON 3 Logo](http://bestiejs.github.io/json3/page/logo.png)
 
-[![Build Status](https://secure.travis-ci.org/bestiejs/json3.png)](http://travis-ci.org/bestiejs/json3)
+[![Build Status](https://secure.travis-ci.org/bestiejs/json3.png?branch=gh-pages)](http://travis-ci.org/bestiejs/json3)
 
-**JSON 3** is a modern JSON implementation compatible with a variety of JavaScript platforms, including Internet Explorer 6, Opera 7, Safari 2, and Netscape 6. The current version is **3.3.0**.
+**JSON 3** is a modern JSON implementation compatible with a variety of JavaScript platforms, including Internet Explorer 6, Opera 7, Safari 2, and Netscape 6. The current version is **3.3.2**.
 
-- [Development Version](http://cdnjs.cloudflare.com/ajax/libs/json3/3.3.0/json3.js) *(43 KB; uncompressed with comments)*
-- [Production Version](http://cdnjs.cloudflare.com/ajax/libs/json3/3.3.0/json3.min.js) *(3.5 KB; compressed and `gzip`-ped)*
+- [Development Version](http://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.js) *(43 KB; uncompressed with comments)*
+- [Production Version](http://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js) *(3.5 KB; compressed and `gzip`-ped)*
 
 Special thanks to [cdnjs](http://cdnjs.com/libraries/json3/) and [jsDelivr](http://www.jsdelivr.com/#!json3) for hosting CDN copies of JSON 3.
 
@@ -46,7 +46,7 @@ Portions of the date serialization code are adapted from the [`date-shim`](https
 
 ## Web Browsers
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.0/json3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
     <script>
       JSON.stringify({"Hello": 123});
       // => '{"Hello":123}'

@@ -10,7 +10,7 @@ spring:
         databaseName: 
         serverName: 
         username: 
-        password:
+        password: 
 
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect

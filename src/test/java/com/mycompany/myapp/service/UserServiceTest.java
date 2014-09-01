@@ -5,6 +5,7 @@ import com.mycompany.myapp.domain.PersistentToken;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PersistentTokenRepository;
 import com.mycompany.myapp.repository.UserRepository;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -49,6 +52,14 @@ public class UserServiceTest {
         assertThat(persistentTokenRepository.findByUser(admin)).hasSize(existingCount + 2);
         userService.removeOldPersistentTokens();
         assertThat(persistentTokenRepository.findByUser(admin)).hasSize(existingCount + 1);
+    }
+	
+    @Test
+    public void testFindNotActivatedUsersByCreationDateBefore() {
+        userService.removeNotActivatedUsers();
+        DateTime now = new DateTime();
+        List<User> users = userRepository.findNotActivatedUsersByCreationDateBefore(now.minusDays(3));
+        assertThat(users).isEmpty();
     }
 
     private void generateUserToken(User user, String tokenSeries, LocalDate localDate) {

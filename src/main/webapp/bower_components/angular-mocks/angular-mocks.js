@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.18
+ * @license AngularJS v1.2.22
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -462,7 +462,7 @@ angular.mock.$IntervalProvider = function() {
           iteration = 0,
           skipApply = (angular.isDefined(invokeApply) && !invokeApply);
 
-      count = (angular.isDefined(count)) ? count : 0,
+      count = (angular.isDefined(count)) ? count : 0;
       promise.then(null, null, fn);
 
       promise.$$intervalId = nextRepeatId;
@@ -1722,11 +1722,12 @@ angular.mock.$RootElementProvider = function() {
 /**
  * @ngdoc module
  * @name ngMock
+ * @packageName angular-mocks
  * @description
  *
  * # ngMock
  *
- * The `ngMock` module providers support to inject and mock Angular services into unit tests.
+ * The `ngMock` module provides support to inject and mock Angular services into unit tests.
  * In addition, ngMock also extends various core ng services such that they can be
  * inspected and controlled in a synchronous manner within test code.
  *
@@ -1751,6 +1752,7 @@ angular.module('ngMock', ['ng']).provider({
  * @ngdoc module
  * @name ngMockE2E
  * @module ngMockE2E
+ * @packageName angular-mocks
  * @description
  *
  * The `ngMockE2E` is an angular module which contains mocks suitable for end-to-end testing.
@@ -1784,7 +1786,7 @@ angular.module('ngMockE2E', ['ng']).config(['$provide', function($provide) {
  * use the `passThrough` request handler of `when` instead of `respond`.
  *
  * Additionally, we don't want to manually have to flush mocked out requests like we do during unit
- * testing. For this reason the e2e $httpBackend automatically flushes mocked out requests
+ * testing. For this reason the e2e $httpBackend flushes mocked out requests
  * automatically, closely simulating the behavior of the XMLHttpRequest object.
  *
  * To setup the application to run with this http backend, you have to create a module that depends
@@ -1964,6 +1966,12 @@ if(window.jasmine || window.mocha) {
 
   (window.afterEach || window.teardown)(function() {
     var injector = currentSpec.$injector;
+
+    angular.forEach(currentSpec.$modules, function(module) {
+      if (module && module.$$hashKey) {
+        module.$$hashKey = undefined;
+      }
+    });
 
     currentSpec.$injector = null;
     currentSpec.$modules = null;

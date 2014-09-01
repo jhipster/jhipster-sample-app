@@ -10,7 +10,11 @@ spring:
         databaseName: 
         serverName: 
         username: root
-        password:
+        password: 
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
 
     jpa:
         database-platform: org.hibernate.dialect.MySQLInnoDBDialect

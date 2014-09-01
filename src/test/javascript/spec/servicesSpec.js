@@ -44,5 +44,3 @@ describe('Services Tests ', function () {
 
     });
 });
-
-

@@ -39,17 +39,15 @@ public class WebConfigurer implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-
         initMetrics(servletContext, disps);
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
-            initStaticResourcesProductionFilter(servletContext, disps);
             initCachingHttpHeadersFilter(servletContext, disps);
+            initStaticResourcesProductionFilter(servletContext, disps);
         }
         initGzipFilter(servletContext, disps);
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
             initH2Console(servletContext);
         }
-
         log.info("Web application fully configured");
     }
 
@@ -58,19 +56,15 @@ public class WebConfigurer implements ServletContextInitializer {
      */
     private void initGzipFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Registering GZip Filter");
-
         FilterRegistration.Dynamic compressingFilter = servletContext.addFilter("gzipFilter", new GZipServletFilter());
         Map<String, String> parameters = new HashMap<>();
-
         compressingFilter.setInitParameters(parameters);
-
         compressingFilter.addMappingForUrlPatterns(disps, true, "*.css");
         compressingFilter.addMappingForUrlPatterns(disps, true, "*.json");
         compressingFilter.addMappingForUrlPatterns(disps, true, "*.html");
         compressingFilter.addMappingForUrlPatterns(disps, true, "*.js");
         compressingFilter.addMappingForUrlPatterns(disps, true, "/app/rest/*");
         compressingFilter.addMappingForUrlPatterns(disps, true, "/metrics/*");
-
         compressingFilter.setAsyncSupported(true);
     }
 
@@ -137,6 +131,7 @@ public class WebConfigurer implements ServletContextInitializer {
         metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
     }
+
     /**
      * Initializes H2 console
      */
@@ -146,6 +141,4 @@ public class WebConfigurer implements ServletContextInitializer {
         h2ConsoleServlet.addMapping("/console/*");
         h2ConsoleServlet.setLoadOnStartup(1);
     }
-
-
 }

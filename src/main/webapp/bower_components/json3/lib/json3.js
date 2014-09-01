@@ -1,14 +1,26 @@
-/*! JSON v3.3.0 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-;(function (root) {
+/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
+;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
   var isLoader = typeof define === "function" && define.amd;
 
+  // A set of types used to distinguish objects from primitives.
+  var objectTypes = {
+    "function": true,
+    "object": true
+  };
+
+  // Detect the `exports` object exposed by CommonJS implementations.
+  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
   // Use the `global` object exposed by Node (including Browserify via
-  // `insert-module-globals`), Narwhal, and Ringo as the default context.
-  // Rhino exports a `global` function instead.
-  var freeGlobal = typeof global == "object" && global;
-  if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal)) {
+  // `insert-module-globals`), Narwhal, and Ringo as the default context,
+  // and the `window` object in browsers. Rhino exports a `global` function
+  // instead.
+  var root = objectTypes[typeof window] && window || this,
+      freeGlobal = freeExports && objectTypes[typeof module] && module && !module.nodeType && typeof global == "object" && global;
+
+  if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal || freeGlobal["self"] === freeGlobal)) {
     root = freeGlobal;
   }
 
@@ -220,7 +232,7 @@
             // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
             // supports the mutable *proto* property.
             isProperty = function (property) {
-              // Capture and break the objectgs prototype chain (see section 8.6.2
+              // Capture and break the object's prototype chain (see section 8.6.2
               // of the ES 5.1 spec). The parenthesized expression prevents an
               // unsafe transformation by the Closure Compiler.
               var original = this.__proto__, result = property in (this.__proto__ = null, this);
@@ -242,21 +254,6 @@
           return isProperty.call(this, property);
         };
       }
-
-      // Internal: A set of primitive types used by `isHostType`.
-      var PrimitiveTypes = {
-        "boolean": 1,
-        "number": 1,
-        "string": 1,
-        "undefined": 1
-      };
-
-      // Internal: Determines if the given object `property` value is a
-      // non-primitive.
-      var isHostType = function (object, property) {
-        var type = typeof object[property];
-        return type == "object" ? !!object[property] : !PrimitiveTypes[type];
-      };
 
       // Internal: Normalizes the `for...in` iteration algorithm across
       // environments. Each enumerated key is yielded to a `callback` function.
@@ -288,7 +285,7 @@
           // properties.
           forEach = function (object, callback) {
             var isFunction = getClass.call(object) == functionClass, property, length;
-            var hasProperty = !isFunction && typeof object.constructor != "function" && isHostType(object, "hasOwnProperty") ? object.hasOwnProperty : isProperty;
+            var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
             for (property in object) {
               // Gecko <= 1.0 enumerates the `prototype` property of functions under
               // certain conditions; IE does not.
@@ -518,7 +515,7 @@
         // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
         exports.stringify = function (source, filter, width) {
           var whitespace, callback, properties, className;
-          if (typeof filter == "function" || typeof filter == "object" && filter) {
+          if (objectTypes[typeof filter] && filter) {
             if ((className = getClass.call(filter)) == functionClass) {
               callback = filter;
             } else if (className == arrayClass) {
@@ -867,17 +864,25 @@
     return exports;
   }
 
-  if (typeof exports == "object" && exports && !exports.nodeType && !isLoader) {
+  if (freeExports && !isLoader) {
     // Export for CommonJS environments.
-    runInContext(root, exports);
+    runInContext(root, freeExports);
   } else {
     // Export for web browsers and JavaScript engines.
-    var nativeJSON = root.JSON;
+    var nativeJSON = root.JSON,
+        previousJSON = root["JSON3"],
+        isRestored = false;
+
     var JSON3 = runInContext(root, (root["JSON3"] = {
       // Public: Restores the original value of the global `JSON` object and
       // returns a reference to the `JSON3` object.
       "noConflict": function () {
-        root.JSON = nativeJSON;
+        if (!isRestored) {
+          isRestored = true;
+          root.JSON = nativeJSON;
+          root["JSON3"] = previousJSON;
+          nativeJSON = previousJSON = null;
+        }
         return JSON3;
       }
     }));
@@ -894,4 +899,4 @@
       return JSON3;
     });
   }
-}(this));
+}).call(this);

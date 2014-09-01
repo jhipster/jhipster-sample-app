@@ -13,7 +13,6 @@
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/bootstrap.css">
         <link rel="stylesheet" href="styles/main.css">
-        <link rel="stylesheet" href="styles/famfamfam-flags.css">
         <!-- endbuild -->
     </head>
     <body ng-app="jhipsterApp" ng-controller="MainController">
@@ -94,9 +93,8 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li active-menu="{{language}}" ng-repeat="language in languages">
-                                    <a href="#" ng-click="changeLanguage(language)"><span ng-class="getFlagClass(language)"></span>
-                                        &#xA0;<span translate="global.language.{{language}}">WILL CHANGE</span></a>
+                                <li active-menu="{{key}}" ng-repeat="(key, language) in languages">
+                                    <a href="#" ng-click="changeLanguage(key)">{{language}}</a>
                                 </li>
                             </ul>
                         </li>

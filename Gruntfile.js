@@ -1,4 +1,4 @@
-// Generated on 2014-07-24 using generator-jhipster 0.18.1
+// Generated on 2014-09-01 using generator-jhipster 1.0.0
 'use strict';
 
 // # Globbing
@@ -20,16 +20,16 @@ module.exports = function (grunt) {
       dist: 'src/main/webapp/dist'
     },
     watch: {
-    styles: {
+      styles: {
         files: ['src/main/webapp/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
-    livereload: {
+      livereload: {
         options: {
           livereload: 35729
         },
         files: [
-          'src/main/webapp/{,*/}*.html',
+          'src/main/webapp/**/*.html',
           '.tmp/styles/{,*/}*.css',
           '{.tmp/,}src/main/webapp/scripts/{,*/}*.js',
           'src/main/webapp/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -101,7 +101,8 @@ module.exports = function (grunt) {
           middleware: function (connect) {
             return [
               proxySnippet,
-              connect.static(require('path').resolve('src/main/webapp'))
+              connect.static('.tmp'),
+              connect.static('src/main/webapp')
             ];
           }
         }
@@ -234,19 +235,19 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          /*removeCommentsFromCDATA: true,
+          removeCommentsFromCDATA: true,
           // https://github.com/yeoman/grunt-usemin/issues/44
-          //collapseWhitespace: true,
+          collapseWhitespace: true,
           collapseBooleanAttributes: true,
+          conservativeCollapse: true,
           removeAttributeQuotes: true,
           removeRedundantAttributes: true,
           useShortDoctype: true,
           removeEmptyAttributes: true,
-          removeOptionalTags: true*/
         },
         files: [{
           expand: true,
-          cwd: 'src/main/webapp',
+          cwd: '<%= yeoman.dist %>',
           src: ['*.html', 'views/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
@@ -261,8 +262,8 @@ module.exports = function (grunt) {
           cwd: 'src/main/webapp',
           dest: '<%= yeoman.dist %>',
           src: [
-            '*.{ico,png,txt}',
-            '.htaccess',
+            '*.html',
+            'views/*.html',
             'images/{,*/}*.{png,gif,webp}',
             'fonts/*'
           ]
@@ -292,8 +293,7 @@ module.exports = function (grunt) {
       dist: [
         'copy:styles',
         'imagemin',
-        'svgmin',
-        'htmlmin'
+        'svgmin'
       ]
     },
     karma: {
@@ -307,7 +307,7 @@ module.exports = function (grunt) {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
-    ngmin: {
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -368,12 +368,13 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'copy:dist',
-    'ngmin',
+    'ngAnnotate',
     'cssmin',
     'replace',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [

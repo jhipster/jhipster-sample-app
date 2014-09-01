@@ -2,26 +2,13 @@
 
 /* Controllers */
 
-jhipsterApp.controller('MainController', ['$scope',
-    function ($scope) {
-    }]);
+jhipsterApp.controller('MainController', function ($scope) {
+    });
 
-jhipsterApp.controller('AdminController', ['$scope',
-    function ($scope) {
-    }]);
+jhipsterApp.controller('AdminController', function ($scope) {
+    });
 
-jhipsterApp.controller('LanguageController', ['$scope', '$translate', 'LanguageService', 'FLAGS',
-    function ($scope, $translate, LanguageService, FLAGS) {
-        $scope.getFlagClass = function(language) {
-            var selectedFlag = "";
-            angular.forEach(FLAGS, function(flag, flagLanguage){
-                if (language == flagLanguage) {
-                    selectedFlag = flag;
-                }
-            });
-            return "famfamfam-flag-" + selectedFlag;
-        };
-
+jhipsterApp.controller('LanguageController', function ($scope, $translate, LanguageService) {
         $scope.changeLanguage = function (languageKey) {
             $translate.use(languageKey);
 
@@ -33,31 +20,27 @@ jhipsterApp.controller('LanguageController', ['$scope', '$translate', 'LanguageS
         LanguageService.getBy().then(function (languages) {
             $scope.languages = languages;
         });
-    }]);
+    });
 
-jhipsterApp.controller('MenuController', ['$scope',
-    function ($scope) {
-    }]);
+jhipsterApp.controller('MenuController', function ($scope) {
+    });
 
-jhipsterApp.controller('LoginController', ['$scope', '$location', 'AuthenticationSharedService',
-    function ($scope, $location, AuthenticationSharedService) {
+jhipsterApp.controller('LoginController', function ($scope, $location, AuthenticationSharedService) {
         $scope.rememberMe = true;
         $scope.login = function () {
             AuthenticationSharedService.login({
                 username: $scope.username,
                 password: $scope.password,
                 rememberMe: $scope.rememberMe
-            })
+            });
         }
-    }]);
+    });
 
-jhipsterApp.controller('LogoutController', ['$location', 'AuthenticationSharedService',
-    function ($location, AuthenticationSharedService) {
+jhipsterApp.controller('LogoutController', function ($location, AuthenticationSharedService) {
         AuthenticationSharedService.logout();
-    }]);
+    });
 
-jhipsterApp.controller('SettingsController', ['$scope', 'Account',
-    function ($scope, Account) {
+jhipsterApp.controller('SettingsController', function ($scope, Account) {
         $scope.success = null;
         $scope.error = null;
         $scope.settingsAccount = Account.get();
@@ -74,10 +57,9 @@ jhipsterApp.controller('SettingsController', ['$scope', 'Account',
                     $scope.error = "ERROR";
                 });
         };
-    }]);
+    });
 
-jhipsterApp.controller('RegisterController', ['$scope', '$translate', 'Register',
-    function ($scope, $translate, Register) {
+jhipsterApp.controller('RegisterController', function ($scope, $translate, Register) {
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
@@ -107,10 +89,9 @@ jhipsterApp.controller('RegisterController', ['$scope', '$translate', 'Register'
                     });
             }
         }
-    }]);
+    });
 
-jhipsterApp.controller('ActivationController', ['$scope', '$routeParams', 'Activate',
-    function ($scope, $routeParams, Activate) {
+jhipsterApp.controller('ActivationController', function ($scope, $routeParams, Activate) {
         Activate.get({key: $routeParams.key},
             function (value, responseHeaders) {
                 $scope.error = null;
@@ -120,10 +101,9 @@ jhipsterApp.controller('ActivationController', ['$scope', '$routeParams', 'Activ
                 $scope.success = null;
                 $scope.error = "ERROR";
             });
-    }]);
+    });
 
-jhipsterApp.controller('PasswordController', ['$scope', 'Password',
-    function ($scope, Password) {
+jhipsterApp.controller('PasswordController', function ($scope, Password) {
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
@@ -143,10 +123,9 @@ jhipsterApp.controller('PasswordController', ['$scope', 'Password',
                     });
             }
         };
-    }]);
+    });
 
-jhipsterApp.controller('SessionsController', ['$scope', 'resolvedSessions', 'Sessions',
-    function ($scope, resolvedSessions, Sessions) {
+jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions, Sessions) {
         $scope.success = null;
         $scope.error = null;
         $scope.sessions = resolvedSessions;
@@ -162,14 +141,15 @@ jhipsterApp.controller('SessionsController', ['$scope', 'resolvedSessions', 'Ses
                     $scope.error = "ERROR";
                 });
         };
-    }]);
+    });
 
- jhipsterApp.controller('MetricsController', ['$scope', 'MetricsService', 'HealthCheckService', 'ThreadDumpService',
-    function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
+ jhipsterApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
 
         $scope.refresh = function() {
-            HealthCheckService.check().then(function(data) {
-                $scope.healthCheck = data;
+            HealthCheckService.check().then(function(promise) {
+                $scope.healthCheck = promise.data;
+            },function(promise) {
+                $scope.healthCheck = promise.data;
             });
 
             $scope.metrics = MetricsService.get();
@@ -239,10 +219,9 @@ jhipsterApp.controller('SessionsController', ['$scope', 'resolvedSessions', 'Ses
                 return "label-danger";
             }
         };
-    }]);
+    });
 
-jhipsterApp.controller('LogsController', ['$scope', 'resolvedLogs', 'LogsService',
-    function ($scope, resolvedLogs, LogsService) {
+jhipsterApp.controller('LogsController', function ($scope, resolvedLogs, LogsService) {
         $scope.loggers = resolvedLogs;
 
         $scope.changeLevel = function (name, level) {
@@ -250,10 +229,9 @@ jhipsterApp.controller('LogsController', ['$scope', 'resolvedLogs', 'LogsService
                 $scope.loggers = LogsService.findAll();
             });
         }
-    }]);
+    });
 
-jhipsterApp.controller('AuditsController', ['$scope', '$translate', '$filter', 'AuditsService',
-    function ($scope, $translate, $filter, AuditsService) {
+jhipsterApp.controller('AuditsController', function ($scope, $translate, $filter, AuditsService) {
         $scope.onChangeDate = function() {
             AuditsService.findByDates($scope.fromDate, $scope.toDate).then(function(data){
                 $scope.audits = data;
@@ -286,5 +264,5 @@ jhipsterApp.controller('AuditsController', ['$scope', '$translate', '$filter', '
         AuditsService.findByDates($scope.fromDate, $scope.toDate).then(function(data){
             $scope.audits = data;
         });
-    }]);
+    });
 

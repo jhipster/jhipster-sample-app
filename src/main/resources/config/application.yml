@@ -22,10 +22,10 @@ spring:
         protocol: smtp
         tls: false
         auth: false
+        from: jhipster@localhost
 
     messageSource:
         cacheSeconds: 1
-
 
 swagger:
     title: jhipster API

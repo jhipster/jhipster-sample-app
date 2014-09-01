@@ -6,8 +6,7 @@ var jhipsterApp = angular.module('jhipsterApp', ['http-auth-interceptor', 'tmh.d
     'ngResource', 'ngRoute', 'ngCookies', 'jhipsterAppUtils', 'pascalprecht.translate', 'truncate']);
 
 jhipsterApp
-    .config(['$routeProvider', '$httpProvider', '$translateProvider',  'tmhDynamicLocaleProvider', 'USER_ROLES',
-        function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
+    .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
             $routeProvider
                 .when('/register', {
                     templateUrl: 'views/register.html',
@@ -122,9 +121,8 @@ jhipsterApp
             tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
             tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
             
-        }])
-        .run(['$rootScope', '$location', '$http', 'AuthenticationSharedService', 'Session', 'USER_ROLES',
-            function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
+        })
+        .run(function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
                 $rootScope.$on('$routeChangeStart', function (event, next) {
                     $rootScope.isAuthorized = AuthenticationSharedService.isAuthorized;
                     $rootScope.userRoles = USER_ROLES;
@@ -159,4 +157,4 @@ jhipsterApp
                 $rootScope.$on('event:auth-loginCancelled', function() {
                     $location.path('');
                 });
-        }]);
+        });

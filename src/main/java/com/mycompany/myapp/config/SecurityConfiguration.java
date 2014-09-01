@@ -21,7 +21,6 @@ import javax.inject.Inject;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    
     @Inject
     private Environment env;
 
@@ -39,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Inject
     private UserDetailsService userDetailsService;
-    
+
     @Inject
     private RememberMeServices rememberMeServices;
 
@@ -64,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/scripts/**")
             .antMatchers("/styles/**")
             .antMatchers("/views/**")
+            .antMatchers("/i18n/**")
             .antMatchers("/swagger-ui/**")
             .antMatchers("/console/**");
     }
