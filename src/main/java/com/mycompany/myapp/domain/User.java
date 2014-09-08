@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,33 +23,35 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Size(min = 0, max = 50)
     @Id
+    @Column(length = 50)
     private String login;
 
     @JsonIgnore
     @Size(min = 0, max = 100)
+    @Column(length = 100)
     private String password;
 
     @Size(min = 0, max = 50)
-    @Column(name = "first_name")
+    @Column(name = "first_name", length = 50)
     private String firstName;
 
     @Size(min = 0, max = 50)
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 50)
     private String lastName;
 
     @Email
     @Size(min = 0, max = 100)
+    @Column(length = 100)
     private String email;
 
-    @NotNull
-    private Boolean activated = false;
+    private boolean activated = false;
 
     @Size(min = 2, max = 5)
-    @Column(name = "lang_key")
+    @Column(name = "lang_key", length = 5)
     private String langKey;
 
     @Size(min = 0, max = 20)
-    @Column(name = "activation_key")
+    @Column(name = "activation_key", length = 20)
     private String activationKey;
 
     @JsonIgnore
@@ -58,12 +61,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "login", referencedColumnName = "login")},
             inverseJoinColumns = {@JoinColumn(name = "name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<PersistentToken> persistentTokens;
+    private Set<PersistentToken> persistentTokens = new HashSet<>();
 
     public String getLogin() {
         return login;
@@ -105,11 +108,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.email = email;
     }
 
-    public Boolean getActivated() {
+    public boolean getActivated() {
         return activated;
     }
 
-    public void setActivated(Boolean activated) {
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 

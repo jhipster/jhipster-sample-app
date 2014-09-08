@@ -25,6 +25,7 @@ public class PersistentAuditEvent  {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String principal;
 
     @Column(name = "event_date")

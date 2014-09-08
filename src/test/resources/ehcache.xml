@@ -23,7 +23,7 @@
     <cache name="com.mycompany.myapp.domain.User.authorities"
            timeToLiveSeconds="3600">
     </cache>
-   
+
     <cache name="com.mycompany.myapp.domain.PersistentToken"
            timeToLiveSeconds="3600">
     </cache>

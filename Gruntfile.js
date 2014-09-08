@@ -1,4 +1,4 @@
-// Generated on 2014-09-01 using generator-jhipster 1.0.0
+// Generated on 2014-09-08 using generator-jhipster 1.1.0
 'use strict';
 
 // # Globbing
@@ -11,7 +11,7 @@ var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
-  require('time-grunt')(grunt); 
+  require('time-grunt')(grunt);
 
   grunt.initConfig({
     yeoman: {
@@ -243,7 +243,7 @@ module.exports = function (grunt) {
           removeAttributeQuotes: true,
           removeRedundantAttributes: true,
           useShortDoctype: true,
-          removeEmptyAttributes: true,
+          removeEmptyAttributes: true
         },
         files: [{
           expand: true,
@@ -281,7 +281,23 @@ module.exports = function (grunt) {
         cwd: 'src/main/webapp/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
-      }
+      },
+      generateHerokuDirectory: {
+          expand: true,
+          dest: 'deploy/heroku',
+          src: [
+            'pom.xml',
+            'src/main/**'
+        ]
+      },
+      generateOpenshiftDirectory: {
+          expand: true,
+          dest: 'deploy/openshift',
+          src: [
+            'pom.xml',
+            'src/main/**'
+        ]
+      },
     },
     concurrent: {
       server: [
@@ -335,7 +351,29 @@ module.exports = function (grunt) {
           ]
         }
       }
-    }
+    },
+    buildcontrol: {
+      options: {
+        commit: true,
+        push: false,
+        connectCommits: false,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      heroku: {
+        options: {
+          dir: 'deploy/heroku',
+          remote: 'heroku',
+          branch: 'master'
+        }
+      },
+      openshift: {
+        options: {
+          dir: 'deploy/openshift',
+          remote: 'openshift',
+          branch: 'master'
+        }
+      }
+    },
   });
 
   grunt.registerTask('server', function (target) {
@@ -375,6 +413,32 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('buildHeroku', [
+    'test',
+    'build',
+    'copy:generateHerokuDirectory',
+  ]);
+
+  grunt.registerTask('deployHeroku', [
+    'test',
+    'build',
+    'copy:generateHerokuDirectory',
+    'buildcontrol:heroku'
+  ]);
+
+  grunt.registerTask('buildOpenshift', [
+    'test',
+    'build',
+    'copy:generateOpenshiftDirectory',
+  ]);
+
+  grunt.registerTask('deployOpenshift', [
+    'test',
+    'build',
+    'copy:generateOpenshiftDirectory',
+    'buildcontrol:openshift'
   ]);
 
   grunt.registerTask('default', [

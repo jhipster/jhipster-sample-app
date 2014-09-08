@@ -12,9 +12,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -28,17 +25,17 @@ public abstract class AbstractAuditingEntity {
 
     @CreatedBy
     @NotNull
-    @Column(name = "created_by")
+    @Column(name = "created_by", nullable = false, length = 50)
     private String createdBy;
 
     @CreatedDate
     @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     private DateTime createdDate = DateTime.now();
 
     @LastModifiedBy
-    @Column(name = "last_modified_by")
+    @Column(name = "last_modified_by", length = 50)
     private String lastModifiedBy;
 
     @LastModifiedDate
