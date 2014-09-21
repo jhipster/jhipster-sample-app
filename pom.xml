@@ -105,8 +105,9 @@
         <geronimo-javamail_1.4_mail.version>1.8.4</geronimo-javamail_1.4_mail.version>
         <hibernate-entitymanager.version>4.3.6.Final</hibernate-entitymanager.version>
         <HikariCP.version>1.4.0</HikariCP.version>
-        <jhipster-loaded.version>0.11</jhipster-loaded.version>
-        <liquibase-hibernate.version>3.4</liquibase-hibernate.version>
+        <jhipster-loaded.version>0.12</jhipster-loaded.version>
+        <liquibase.version>3.1.1</liquibase.version>
+        <liquibase-hibernate.version>3.3</liquibase-hibernate.version>
         <liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
         <metrics-spring.version>3.0.1</metrics-spring.version>
         <swagger-springmvc.version>0.8.8</swagger-springmvc.version>
@@ -314,6 +315,13 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+            <exclusions>
+                <exclusion>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-servlet</artifactId>
+	       </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.liquibase.ext</groupId>
@@ -586,6 +594,22 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <execute />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>exec-maven-plugin</artifactId>
+                                        <versionRange>
+                                            [1.2.1,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>java</goal>
+                                            <goal>exec</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
