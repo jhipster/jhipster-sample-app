@@ -12,7 +12,7 @@ async:
     queueCapacity: 10000
 
 spring:
-    profiles: dev
+    
     
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource

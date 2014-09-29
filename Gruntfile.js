@@ -1,4 +1,4 @@
-// Generated on 2014-09-21 using generator-jhipster 1.2.0
+// Generated on 2014-09-29 using generator-jhipster 1.2.1
 'use strict';
 
 // # Globbing
@@ -196,6 +196,7 @@ module.exports = function (grunt) {
             html: ['<%= yeoman.dist %>/**/*.html'],
             css: ['<%= yeoman.dist %>/styles/**/*.css'],
             options: {
+                assetsDirs: ['<%= yeoman.dist %>/**/'],
                 dirs: ['<%= yeoman.dist %>']
             }
         },
@@ -297,7 +298,7 @@ module.exports = function (grunt) {
                         'pom.xml',
                         'src/main/**'
                 ]
-            },
+            }
         },
         concurrent: {
             server: [

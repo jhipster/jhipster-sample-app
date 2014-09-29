@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
-@ActiveProfiles("dev")
+
 public class UserResourceTest {
 
     @Inject

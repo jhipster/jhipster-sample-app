@@ -47,10 +47,15 @@ jhipsterApp.factory('Sessions', function ($resource) {
         });
     });
 
-jhipsterApp.factory('MetricsService',function ($resource) {
-        return $resource('metrics/metrics', {}, {
-            'get': { method: 'GET'}
-        });
+jhipsterApp.factory('MetricsService',function ($http) {
+    		return {
+            get: function() {
+                var promise = $http.get('metrics/metrics').then(function(response){
+                    return response.data;
+                });
+                return promise;
+            }
+        };
     });
 
 jhipsterApp.factory('ThreadDumpService', function ($http) {
@@ -146,19 +151,16 @@ jhipsterApp.factory('AuthenticationSharedService', function ($rootScope, $http, 
                         Account.get(function(data) {
                             Session.create(data.login, data.firstName, data.lastName, data.email, data.roles);
                             $rootScope.account = Session;
-
-                            if (!$rootScope.isAuthorized(authorizedRoles)) {
-                                event.preventDefault();
-                                // user is not allowed
-                                $rootScope.$broadcast("event:auth-notAuthorized");
-                            }
-
                             $rootScope.authenticated = true;
                         });
                     }
                     $rootScope.authenticated = !!Session.login;
                 }).error(function (data, status, headers, config) {
                     $rootScope.authenticated = false;
+
+                    if (!$rootScope.isAuthorized(authorizedRoles)) {
+                        $rootScope.$broadcast('event:auth-loginRequired', data);
+                    }
                 });
             },
             isAuthorized: function (authorizedRoles) {
