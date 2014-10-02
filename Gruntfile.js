@@ -1,4 +1,4 @@
-// Generated on 2014-09-29 using generator-jhipster 1.2.1
+// Generated on 2014-10-02 using generator-jhipster 1.2.2
 'use strict';
 
 // # Globbing
@@ -30,6 +30,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     'src/main/webapp/**/*.html',
+                    'src/main/webapp/**/*.json',
                     '.tmp/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
                     'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'

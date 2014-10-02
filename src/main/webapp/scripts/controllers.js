@@ -148,7 +148,7 @@ jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions,
         $scope.metrics = {};
 		$scope.updatingHealth = true;
 		$scope.updatingMetrics = true;
- 
+
         $scope.refresh = function() {
 			$scope.updatingHealth = true;
 			$scope.updatingMetrics = true;
@@ -159,7 +159,7 @@ jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions,
         		$scope.healthCheck = promise.data;
 				$scope.updatingHealth = false;
         	});
-			
+
 			MetricsService.get().then(function(promise) {
         		$scope.metrics = promise;
 				$scope.updatingMetrics = false;
@@ -168,9 +168,9 @@ jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions,
 				$scope.updatingMetrics = false;
         	});
 
-            
+
         };
-		
+
 		$scope.$watch('metrics', function(newValue, oldValue) {
 			$scope.servicesStats = {};
             $scope.cachesStats = {};
@@ -280,4 +280,3 @@ jhipsterApp.controller('AuditsController', function ($scope, $translate, $filter
             $scope.audits = data;
         });
     });
-
