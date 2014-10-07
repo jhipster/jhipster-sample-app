@@ -25,7 +25,7 @@ public abstract class AbstractAuditingEntity {
 
     @CreatedBy
     @NotNull
-    @Column(name = "created_by", nullable = false, length = 50)
+    @Column(name = "created_by", nullable = false, length = 50, updatable = false)
     private String createdBy;
 
     @CreatedDate

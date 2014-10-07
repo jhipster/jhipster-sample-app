@@ -4,6 +4,9 @@
         "browsehappy": "Està usant un navegador <strong>des-actualitzat</strong>. Si us plau <a href=\"http://browsehappy.com/?locale=en\">actualitzi el seu navegador</a> per millorar l'experiencia.",
         "menu": {
             "home": "Inici",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Compte",
                 "settings": "Ajustos",
@@ -11,9 +14,10 @@
                 "sessions": "Sessions",
                 "tracker": "User tracker",
                 "metrics": "Mètriques",
+                "health": "Salud",
                 "logs": "Registres",
                 "audits": "Auditories",
-                    "login": "Autenticar",
+                "login": "Autenticar",
                 "logout": "Finalitzar la sessió",
                 "apidocs": "API",
                 "register": "Registre"
@@ -180,12 +184,6 @@
         "title": "Mètriques d'aplicació",
         "refresh.button": "Actualitzar",
         "updating": "Actualització...",
-        "health": {
-            "title": "Revisions de salud",
-            "database": "Base de dades: ",
-            "email": "Compte de correu electrònic: ",
-            "stacktrace": "Traça d'error"
-        },
         "jvm": {
             "title": "Mètriques JVM",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Fallos",
             "evictioncount": "Contador d'expulcions",
             "mean": "Temps d'obtenció mig (ms)"
+        }
+    },
+    "health": {
+        "title": "Revisions de salud",
+        "refresh.button": "Actualitzar",
+        "stacktrace": "Traça d'error",
+        "indicator": {
+            "db": "Base de dades",
+            "mail": "Compte de correu electrònic",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Nom del servei",
+            "status": "Estat"
+        },
+        "status": {
+            "UP": "FINS",
+            "DOWN": "BAIX"
         }
     },
     "logs": {

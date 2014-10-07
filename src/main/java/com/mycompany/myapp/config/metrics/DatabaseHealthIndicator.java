@@ -38,7 +38,6 @@ public class DatabaseHealthIndicator extends AbstractHealthIndicator {
 
     private String query = null;
 
-    
     public DatabaseHealthIndicator(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);

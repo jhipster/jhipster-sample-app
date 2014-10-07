@@ -4,6 +4,9 @@
         "browsehappy": "Ваш браузер <strong>устарел</strong>. Пожалуйста <a href=\"http://browsehappy.com/?locale=en\">обновите ваш браузер</a>.",
         "menu": {
             "home": "Главная",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Профиль",
                 "settings": "Настройки",
@@ -11,6 +14,7 @@
                 "sessions": "Сессии",
                 "tracker": "Трекер польз.",
                 "metrics": "Метрики",
+                "health": "Состояние",
                 "logs": "Логи",
                 "audits": "Аудит",
                 "login": "Authenticate",
@@ -180,12 +184,6 @@
         "title": "Метрики приложения",
         "refresh.button": "Обновить",
         "updating": "Обновление...",
-        "health": {
-            "title": "Состояние",
-            "database": "База данных: ",
-            "email": "Email: ",
-            "stacktrace": "Stacktrace"
-        },
         "jvm": {
             "title": "JVM Метрики",
             "memory": {
@@ -260,6 +258,23 @@
             "misses": "Промахов",
             "evictioncount": "Количество очисток",
             "mean": "Среднее по времени (мс)"
+        }
+    },
+    "health": {
+        "title": "Состояние",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "db": "База данных",
+            "mail": "Email",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Название сервисаo",
+            "status": "статус"
+        },
+        "status": {
+            "UP": "UP",
+            "DOWN": "DOWN"
         }
     },
     "logs": {

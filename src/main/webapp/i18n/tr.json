@@ -4,6 +4,9 @@
         "browsehappy": "<strong>Çok eski</strong> bir tarayıcı kullanıyorsunuz. Lütfen kullanım kalitenizi arttırmak için <a href=\"http://browsehappy.com/?locale=tr\">tarayıcınızı yükseltin</a>.",
         "menu": {
             "home": "Ana Sayfa",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Hesap",
                 "settings": "Ayarlar",
@@ -11,6 +14,7 @@
                 "sessions": "Oturumlar",
                 "tracker": "Kullanıcı Takip",
                 "metrics": "Ölçümler",
+                "health": "Heath",
                 "logs": "Loglar",
                 "audits": "Denetim",
                 "login": "Giriş",
@@ -180,12 +184,6 @@
         "title": "Uygulama Ölçütleri",
         "refresh.button": "Yenile",
         "updating": "Güncellenmesi...",
-        "health": {
-            "title": "Heath checks",
-            "database": "Veritabanı: ",
-            "email": "E-posta: ",
-            "stacktrace": "Stacktrace"
-        },
         "jvm": {
             "title": "JVM Ölçütleri",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Misses",
             "evictioncount": "Eviction count",
             "mean": "Mean get time (ms)"
+        }
+    },
+    "health": {
+        "title": "Heath checks",
+        "refresh.button": "Yenile",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "db": "Veritabanı",
+            "mail": "E-posta",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Hizmetin adı",
+            "status": "Durum"
+        },
+        "status": {
+            "UP": "UP",
+            "DOWN": "DOWN"
         }
     },
     "logs": {

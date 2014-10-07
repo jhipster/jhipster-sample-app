@@ -4,6 +4,9 @@
         "browsehappy": "Używasz <strong>przestarzałej</strong> przeglądarki. Proszę <a href=\"http://browsehappy.com/\">uaktualnij swoją przeglądarkę</a> aby polepszyć doświadczenie użytkownika.",
         "menu": {
             "home": "Strona domowa",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Konto",
                 "settings": "Ustawienia",
@@ -11,6 +14,7 @@
                 "sessions": "Sesje",
                 "tracker": "Śledzenie użytkownika",
                 "metrics": "Metryki",
+                "health": "Heath",
                 "logs": "Logi",
                 "audits": "Audyty",
                 "login": "Autoryzacja",
@@ -180,12 +184,6 @@
         "title": "Metryki aplikacji",
         "refresh.button": "Odśwież",
         "updating": "Aktualizacja...",
-        "health": {
-            "title": "Heath checks",
-            "database": "Baza danych: ",
-            "email": "Email: ",
-            "stacktrace": "Stos wywołań"
-        },
         "jvm": {
             "title": "Metryki JVM",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Nie trafionych",
             "evictioncount": "Liczba wyeksmitowanych",
             "mean": "Średni czas pobierania (ms)"
+        }
+    },
+    "health": {
+        "title": "Heath checks",
+        "refresh.button": "Odśwież",
+        "stacktrace": "Stos wywołań",
+        "indicator": {
+            "db": "Baza danych",
+            "mail": "Email",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Nazwa usługi",
+            "status": "Status"
+        },
+        "status": {
+            "UP": "DOSTĘPNE",
+            "DOWN": "NIE DZIAŁAJĄCY"
         }
     },
     "logs": {

@@ -4,6 +4,9 @@
         "browsehappy": "Você está usando um navegador <strong>desatualizado</strong>. Favor <a href=\"http://browsehappy.com/?locale=pt_BR\">atualizar o seu navegador</a> para ter uma experiência melhor.",
         "menu": {
             "home": "Início",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Conta",
                 "settings": "Configuração",
@@ -11,6 +14,7 @@
                 "sessions": "Sessões",
                 "tracker": "Rastreamento de usuário",
                 "metrics": "Métricas",
+                "health": "Verificações",
                 "logs": "Logs",
                 "audits": "Auditorias",
                 "login": "Entrar",
@@ -180,12 +184,6 @@
         "title": "Métricas da aplicação",
         "refresh.button": "Atualizar",
         "updating": "Atualização...",
-        "health": {
-            "title": "Verificações",
-            "database": "Banco de dados: ",
-            "email": "E-mail: ",
-            "stacktrace": "Stacktrace"
-        },
         "jvm": {
             "title": "Métricas da JVM",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Misses",
             "evictioncount": "Número de despejos",
             "mean": "Mediana (ms)"
+        }
+    },
+    "health": {
+        "title": "Verificações",
+        "refresh.button": "Atualizar",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "db": "Banco de dados",
+            "mail": "E-mail",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Nome do Serviço",
+            "status": "Estado"
+        },
+        "status": {
+            "UP": "UP",
+            "DOWN": "DOWN"
         }
     },
     "logs": {

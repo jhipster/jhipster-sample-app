@@ -4,6 +4,9 @@
         "browsehappy": "당신은 <strong>오래된</strong> 브라우저를 사용하고 있군요. <a href=\"http://browsehappy.com/?locale=en\">브라우저를 업그레이드</a> 해 당신의 경험을 발전시키세요.",
         "menu": {
             "home": "홈",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "계정",
                 "settings": "설정",
@@ -11,6 +14,7 @@
                 "sessions": "세션",
                 "tracker": "사용자 트랙커",
                 "metrics": "메트릭스",
+                "health": "상태 확인",
                 "logs": "로그",
                 "audits": "Audit",
                 "login": "인증",
@@ -180,12 +184,6 @@
         "title": "애플리케이션 메트릭스",
         "refresh.button": "새로고침",
         "updating": "업데이트...",
-        "health": {
-            "title": "상태 확인",
-            "database": "데이터베이스: ",
-            "email": "이메일: ",
-            "stacktrace": "스택트레이스"
-        },
         "jvm": {
             "title": "JVM 메트릭스",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "실패(Misses)",
             "evictioncount": "제거(Eviction) 횟수",
             "mean": "평균시간 (밀리초)"
+        }
+    },
+    "health": {
+        "title": "상태 확인",
+        "refresh.button": "새로고침",
+        "indicator": {
+            "db": "데이터베이스",
+            "mail": "이메일",
+            "mongo": "Mongo DB"
+        },
+        "stacktrace": "스택트레이스",
+        "table": {
+            "service": "서비스 이름",
+            "status": "상태"
+        },
+        "status": {
+            "UP": "사용할 수",
+            "DOWN": "서비스 중"
         }
     },
     "logs": {

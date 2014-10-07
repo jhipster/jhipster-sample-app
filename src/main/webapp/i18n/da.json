@@ -4,6 +4,9 @@
         "browsehappy": "Du bruger en <strong>forældet</strong> browser. <a href=\"http://browsehappy.com/?locale=da\">Opgrader din browser</a> og få gavn af hele den tilgængelige funktionalitet.",
         "menu": {
             "home": "Forsiden",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Konto",
                 "settings": "Indstillinger",
@@ -11,6 +14,7 @@
                 "sessions": "Sessions",
                 "tracker": "Brugersporing",
                 "metrics": "Målinger",
+                "health": "Sundheds",
                 "logs": "Logs",
                 "audits": "Audits",
                 "login": "Log ind",
@@ -180,12 +184,6 @@
         "title": "Program målinger",
         "refresh.button": "Opdatér",
         "updating": "Ajourføring...",
-        "health": {
-            "title": "Sundhedskontroller",
-            "database": "Database: ",
-            "email": "Email: ",
-            "stacktrace": "Stacktrace"
-        },
         "jvm": {
             "title": "JVM målinger",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Misses",
             "evictioncount": "Antal udsættelser",
             "mean": "Middel get time (ms)"
+        }
+    },
+    "health": {
+        "title": "Sundhed",
+        "refresh.button": "Opdatér",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "db": "Database",
+            "mail": "Email",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Tjeneste navn",
+            "status": "Status"
+        },
+        "status": {
+            "UP": "OP",
+            "DOWN": "NED"
         }
     },
     "logs": {

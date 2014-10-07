@@ -46,18 +46,3 @@ cache:
     timeToLiveSeconds: 3600
     ehcache:
         maxBytesLocalHeap: 16M
-
-# You can add as many as folders to watch
-# You just need to add a dash + the directory to watch
-hotReload:
-    enabled: true
-    package:
-      project: com.mycompany.myapp
-      domain: com.mycompany.myapp.domain
-      restdto: com.mycompany.myapp.web.rest.dto
-    liquibase:
-      defaultCatalogName: 
-      defaultSchema: public
-      excludeTables: T_AUTHORITY,T_PERSISTENT_AUDIT_EVENT,T_PERSISTENT_AUDIT_EVENT_DATA,T_PERSISTENT_TOKEN,T_USER,T_USER_AUTHORITY
-    watchdir:
-      - target/classes

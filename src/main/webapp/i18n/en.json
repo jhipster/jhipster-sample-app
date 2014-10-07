@@ -4,6 +4,9 @@
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
+            "entities": {
+                "main": "Entities"
+            },
             "account": {
                 "main": "Account",
                 "settings": "Settings",
@@ -11,6 +14,7 @@
                 "sessions": "Sessions",
                 "tracker": "User tracker",
                 "metrics": "Metrics",
+                "health": "Health",
                 "logs": "Logs",
                 "audits": "Audits",
                 "login": "Authenticate",
@@ -180,12 +184,6 @@
         "title": "Application Metrics",
         "refresh.button": "Refresh",
         "updating": "Updating...",
-        "health": {
-            "title": "Health checks",
-            "database": "Database: ",
-            "email": "Email: ",
-            "stacktrace": "Stacktrace"
-        },
         "jvm": {
             "title": "JVM Metrics",
             "memory": {
@@ -260,6 +258,24 @@
             "misses": "Misses",
             "evictioncount": "Eviction count",
             "mean": "Mean get time (ms)"
+        }
+    },
+    "health": {
+        "title": "Health checks",
+        "refresh.button": "Refresh",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "db": "Database",
+            "mail": "Email",
+            "mongo": "Mongo DB"
+        },
+        "table": {
+            "service": "Service name",
+            "status": "Status"
+        },
+        "status": {
+            "UP": "UP",
+            "DOWN": "DOWN"
         }
     },
     "logs": {
