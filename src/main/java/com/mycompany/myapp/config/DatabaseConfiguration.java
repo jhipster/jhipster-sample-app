@@ -41,7 +41,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
     }
 
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingClass(name = "com.mycompany.myapp.config.HerokuDatabaseConfiguration.class")
+    @ConditionalOnMissingClass(name = "com.mycompany.myapp.config.HerokuDatabaseConfiguration")
     public DataSource dataSource() {
         log.debug("Configuring Datasource");
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
@@ -72,13 +72,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
         return new HikariDataSource(config);
     }
 
-    @Bean(name = {"org.springframework.boot.autoconfigure.AutoConfigurationUtils.basePackages"})
-    public List<String> getBasePackages() {
-        List<String> basePackages = new ArrayList<>();
-        basePackages.add("com.mycompany.myapp.domain");
-        return basePackages;
-    }
-
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         log.debug("Configuring Liquibase");
@@ -94,4 +87,3 @@ public class DatabaseConfiguration implements EnvironmentAware {
         return new Hibernate4Module();
     }
 }
-
