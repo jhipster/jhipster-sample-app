@@ -1,6 +1,6 @@
 /*!
- * angular-translate - v2.2.0 - 2014-06-03
- * http://github.com/PascalPrecht/angular-translate
+ * angular-translate - v2.4.2 - 2014-10-21
+ * http://github.com/angular-translate/angular-translate
  * Copyright (c) 2014 ; Licensed MIT
  */
 angular.module('pascalprecht.translate').factory('$translateStaticFilesLoader', [
@@ -12,7 +12,7 @@ angular.module('pascalprecht.translate').factory('$translateStaticFilesLoader', 
         throw new Error('Couldn\'t load static files, no prefix or suffix specified!');
       }
       var deferred = $q.defer();
-      $http({
+      $http(angular.extend({
         url: [
           options.prefix,
           options.key,
@@ -20,7 +20,7 @@ angular.module('pascalprecht.translate').factory('$translateStaticFilesLoader', 
         ].join(''),
         method: 'GET',
         params: ''
-      }).success(function (data) {
+      }, options.$http)).success(function (data) {
         deferred.resolve(data);
       }).error(function (data) {
         deferred.reject(options.key);

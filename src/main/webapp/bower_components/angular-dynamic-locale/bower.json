@@ -1,8 +1,9 @@
 {
   "author": "Lucas Galfaso",
   "name": "angular-dynamic-locale",
+  "main": "src/tmhDynamicLocale.js",
   "description": "Angular Dynamic Locale",
-  "version": "0.1.1",
+  "version": "0.1.21",
   "devDependencies": {
     "angular-mocks": "1.2.8",
     "angular": "1.2.8",

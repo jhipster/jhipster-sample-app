@@ -73,7 +73,6 @@ angular.module('myApp', ['tmh.dynamicLocale', ...])
 
     ```bash
     $ npm install
-    $ bower install
     ```
 
 ### Running the tests
