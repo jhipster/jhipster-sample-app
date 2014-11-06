@@ -22,7 +22,7 @@ import javax.inject.Inject;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    
+
     @Inject
     private Environment env;
 
@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/**")
             .antMatchers("/console/**");
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -119,9 +119,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/protected/**").authenticated();
 
     }
-    
-    
-	
+
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     }
