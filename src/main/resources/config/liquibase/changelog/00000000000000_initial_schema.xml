@@ -7,11 +7,15 @@
     <property name="now" value="now()" dbms="mysql,h2"/>
     <property name="now" value="current_timestamp" dbms="postgresql"/>
 
+    <changeSet id="00000000000000" author="jhipster" dbms="postgresql">
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+
     <!--
         JHipster core tables.
-        The initial schema has the '00000000000000' id, so that it is over-written if we re-generate it.
+        The initial schema has the '00000000000001' id, so that it is over-written if we re-generate it.
     -->
-    <changeSet id="00000000000000" author="jhipster">
+    <changeSet id="00000000000001" author="jhipster">
         <createTable tableName="T_USER">
             <column name="login" type="varchar(50)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -112,7 +116,7 @@
                   tableName="T_USER_AUTHORITY"/>
 
         <createTable tableName="T_PERSISTENT_AUDIT_EVENT">
-            <column name="event_id" type="bigint">
+            <column name="event_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="principal" type="varchar(255)">
