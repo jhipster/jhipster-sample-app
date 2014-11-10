@@ -1,7 +1,5 @@
 package com.mycompany.myapp.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 import javax.persistence.*;
@@ -16,7 +14,6 @@ import java.util.Map;
 
 @Entity
 @Table(name = "T_PERSISTENT_AUDIT_EVENT")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class PersistentAuditEvent  {
 
     @Id
