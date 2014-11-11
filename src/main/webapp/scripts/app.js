@@ -75,6 +75,18 @@ jhipsterApp
                         authorizedRoles: [USER_ROLES.admin]
                     }
                 })
+                .when('/configuration', {
+                    templateUrl: 'views/configuration.html',
+                    controller: 'ConfigurationController',
+                    resolve:{
+                        resolvedConfiguration:['ConfigurationService', function (ConfigurationService) {
+                            return ConfigurationService.get();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
                 .when('/logs', {
                     templateUrl: 'views/logs.html',
                     controller: 'LogsController',
@@ -127,7 +139,6 @@ jhipsterApp
 
             tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
             tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
-            
         })
         .run(function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
                 $rootScope.authenticated = false;

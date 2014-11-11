@@ -168,6 +168,10 @@ jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions,
      }
  });
 
+jhipsterApp.controller('ConfigurationController', function ($scope, resolvedConfiguration) {
+    $scope.configuration = resolvedConfiguration;
+});
+
 jhipsterApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
         $scope.metrics = {};
 		$scope.updatingMetrics = true;
