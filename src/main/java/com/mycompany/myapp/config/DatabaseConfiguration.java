@@ -1,5 +1,6 @@
 package com.mycompany.myapp.config;
 
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -44,7 +45,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingClass(name = "com.mycompany.myapp.config.HerokuDatabaseConfiguration")
     @Profile("!cloud")
-    public DataSource dataSource() {
+    public DataSource dataSource(MetricRegistry metricRegistry) {
         log.debug("Configuring Datasource");
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
@@ -71,6 +72,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
             config.addDataSourceProperty("prepStmtCacheSqlLimit", propertyResolver.getProperty("prepStmtCacheSqlLimit", "2048"));
             config.addDataSourceProperty("useServerPrepStmts", propertyResolver.getProperty("useServerPrepStmts", "true"));
         }
+        config.setMetricRegistry(metricRegistry);
         return new HikariDataSource(config);
     }
 
