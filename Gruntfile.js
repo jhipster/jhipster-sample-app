@@ -1,11 +1,5 @@
-// Generated on 2014-11-14 using generator-jhipster 1.8.1
+// Generated on 2014-11-14 using generator-jhipster 1.9.0
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
@@ -301,9 +295,9 @@ module.exports = function (grunt) {
             },
             styles: {
                 expand: true,
-                cwd: 'src/main/webapp',
-                dest: '.tmp',
-                src: '**/*.css'
+                cwd: 'src/main/webapp/styles',
+                dest: '.tmp/styles/',
+                src: '{,*/}*.css'
             },
             generateHerokuDirectory: {
                     expand: true,
@@ -396,7 +390,7 @@ module.exports = function (grunt) {
                     branch: 'master'
                 }
             }
-        },
+        }
     });
 
     grunt.registerTask('server', function (target) {

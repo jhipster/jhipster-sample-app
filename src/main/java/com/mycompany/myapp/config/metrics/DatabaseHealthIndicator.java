@@ -2,14 +2,11 @@ package com.mycompany.myapp.config.metrics;
 
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,14 +56,7 @@ public class DatabaseHealthIndicator extends AbstractHealthIndicator {
     }
 
     private String getProduct() {
-        return this.jdbcTemplate.execute(new ConnectionCallback<String>() {
-            @Override
-            public String doInConnection(Connection connection) throws SQLException,
-                DataAccessException {
-
-                return connection.getMetaData().getDatabaseProductName();
-            }
-        });
+        return this.jdbcTemplate.execute((Connection connection) -> connection.getMetaData().getDatabaseProductName());
     }
 
     protected String detectQuery(String product) {

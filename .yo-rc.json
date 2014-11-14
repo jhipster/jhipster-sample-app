@@ -9,7 +9,7 @@
     "devDatabaseType": "h2Memory",
     "prodDatabaseType": "mysql",
     "useCompass": false,
-    "javaVersion": "7",
+    "javaVersion": "8",
     "authenticationType": "cookie",
     "databaseType": "sql",
     "frontendBuilder": "grunt",

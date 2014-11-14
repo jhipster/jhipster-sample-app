@@ -28,7 +28,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <geronimo-javamail_1.4_mail.version>1.8.4</geronimo-javamail_1.4_mail.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <javax.inject.version>1</javax.inject.version>
         <jhipster-loaded.version>0.12</jhipster-loaded.version>
         <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
@@ -151,7 +151,7 @@
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP-java6</artifactId>
+            <artifactId>HikariCP</artifactId>
             <version>${HikariCP.version}</version>
             <exclusions>
                 <exclusion>
@@ -448,7 +448,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-XX:MaxPermSize=128m -Xmx256m</argLine>
+                    <argLine>-Xmx256m</argLine>
                     <forkCount>1</forkCount>
                     <reuseForks>true</reuseForks>
                     <!-- Force alphabetical order to have a reproducible build -->

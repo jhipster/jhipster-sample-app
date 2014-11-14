@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -45,16 +46,16 @@ public class UserService {
 
     public User activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
-        User user = userRepository.getUserByActivationKey(key);
-
-        // activate given user for the registration key.
-        if (user != null) {
-            user.setActivated(true);
-            user.setActivationKey(null);
-            userRepository.save(user);
-            log.debug("Activated user: {}", user);
-        }
-        return user;
+        return Optional.ofNullable(userRepository.getUserByActivationKey(key))
+            .map(user -> {
+                // activate given user for the registration key.
+                user.setActivated(true);
+                user.setActivationKey(null);
+                userRepository.save(user);
+                log.debug("Activated user: {}", user);
+                return user;
+            })
+            .orElse(null);
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,

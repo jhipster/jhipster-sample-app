@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing the current user's account.
@@ -69,20 +70,19 @@ public class AccountResource {
     @Timed
     public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request,
                                              HttpServletResponse response) {
-        User user = userRepository.findOne(userDTO.getLogin());
-        if (user != null) {
-            return new ResponseEntity<String>("login already in use", HttpStatus.BAD_REQUEST);
-        } else {
-            if (userRepository.findOneByEmail(userDTO.getEmail()) != null) {
-                return new ResponseEntity<String>("e-mail address already in use", HttpStatus.BAD_REQUEST);
-            }
-            user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(), userDTO.getFirstName(),
-                    userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
-            final Locale locale = Locale.forLanguageTag(user.getLangKey());
-            String content = createHtmlContentFromTemplate(user, locale, request, response);
-            mailService.sendActivationEmail(user.getEmail(), content, locale);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
+        return Optional.ofNullable(userRepository.findOne(userDTO.getLogin()))
+            .map(user -> new ResponseEntity<String>("login already in use", HttpStatus.BAD_REQUEST))
+            .orElseGet(() -> {
+                if (userRepository.findOneByEmail(userDTO.getEmail()) != null) {
+                    return new ResponseEntity<String>("e-mail address already in use", HttpStatus.BAD_REQUEST);
+                }
+                User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
+                        userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(),
+                        userDTO.getLangKey());
+                final Locale locale = Locale.forLanguageTag(user.getLangKey());
+                String content = createHtmlContentFromTemplate(user, locale, request, response);
+                mailService.sendActivationEmail(user.getEmail(), content, locale);
+                return new ResponseEntity<>(HttpStatus.CREATED);});
     }
     /**
      * GET  /rest/activate -> activate the registered user.
@@ -92,11 +92,11 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
-        User user = userService.activateRegistration(key);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<String>(user.getLogin(), HttpStatus.OK);
+        return Optional.ofNullable(userService.activateRegistration(key))
+            .map(user -> new ResponseEntity<String>(
+                    user.getLogin(),
+                    HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
@@ -119,24 +119,18 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
-        User user = userService.getUserWithAuthorities();
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        List<String> roles = new ArrayList<>();
-        for (Authority authority : user.getAuthorities()) {
-            roles.add(authority.getName());
-        }
-        return new ResponseEntity<>(
-            new UserDTO(
-                user.getLogin(),
-                null,
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getLangKey(),
-                roles),
-            HttpStatus.OK);
+        return Optional.ofNullable(userService.getUserWithAuthorities())
+            .map(user -> new ResponseEntity<>(
+                new UserDTO(
+                    user.getLogin(),
+                    null,
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getLangKey(),
+                    user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toList())),
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
@@ -178,13 +172,11 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
-        User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(
-            persistentTokenRepository.findByUser(user),
-            HttpStatus.OK);
+        return Optional.ofNullable(userRepository.findOne(SecurityUtils.getCurrentLogin()))
+            .map(user -> new ResponseEntity<>(
+                persistentTokenRepository.findByUser(user),
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
@@ -206,11 +198,11 @@ public class AccountResource {
     public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
-        List<PersistentToken> persistentTokens = persistentTokenRepository.findByUser(user);
-        for (PersistentToken persistentToken : persistentTokens) {
-            if (StringUtils.equals(persistentToken.getSeries(), decodedSeries)) {
-                persistentTokenRepository.delete(decodedSeries);
-            }
+        if (persistentTokenRepository.findByUser(user).stream()
+                .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
+                .count() > 0) {
+
+            persistentTokenRepository.delete(decodedSeries);
         }
     }
 

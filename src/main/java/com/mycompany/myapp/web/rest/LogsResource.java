@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for view and managing Log Level at runtime.
@@ -25,11 +25,11 @@ public class LogsResource {
     @Timed
     public List<LoggerDTO> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-        List<LoggerDTO> loggers = new ArrayList<>();
-        for (ch.qos.logback.classic.Logger logger : context.getLoggerList()) {
-            loggers.add(new LoggerDTO(logger));
-        }
-        return loggers;
+        return context.getLoggerList()
+            .stream()
+            .map(LoggerDTO::new)
+            .collect(Collectors.toList());
+        
     }
 
     @RequestMapping(value = "/rest/logs",

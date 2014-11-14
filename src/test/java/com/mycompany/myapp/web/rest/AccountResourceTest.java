@@ -71,11 +71,9 @@ public class AccountResourceTest {
     @Test
     public void testAuthenticatedUser() throws Exception {
         restUserMockMvc.perform(get("/app/rest/authenticate")
-                .with(new RequestPostProcessor() {
-                    public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-                        request.setRemoteUser("test");
-                        return request;
-                    }
+                .with(request -> {
+                    request.setRemoteUser("test");
+                    return request;
                 })
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
