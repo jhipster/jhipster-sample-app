@@ -1,4 +1,4 @@
-// Generated on 2014-11-12 using generator-jhipster 1.8.1
+// Generated on 2014-11-14 using generator-jhipster 1.8.1
 'use strict';
 
 // # Globbing
@@ -301,9 +301,9 @@ module.exports = function (grunt) {
             },
             styles: {
                 expand: true,
-                cwd: 'src/main/webapp/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
+                cwd: 'src/main/webapp',
+                dest: '.tmp',
+                src: '**/*.css'
             },
             generateHerokuDirectory: {
                     expand: true,
