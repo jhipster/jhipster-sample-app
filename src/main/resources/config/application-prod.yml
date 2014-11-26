@@ -2,7 +2,8 @@ server:
     port: 8080
 
 spring:
-    profiles: prod
+    profiles:
+        active: prod
     
     datasource:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource

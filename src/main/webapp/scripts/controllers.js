@@ -220,7 +220,7 @@ jhipsterApp.controller('MetricsController', function ($scope, MetricsService, He
 
         $scope.refresh();
 
-        $scope.threadDump = function() {
+        $scope.refreshThreadDumpData = function() {
             ThreadDumpService.dump().then(function(data) {
                 $scope.threadDump = data;
 

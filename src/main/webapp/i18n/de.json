@@ -5,17 +5,17 @@
         "menu": {
             "home": "Startseite",
             "entities": {
-                "main": "Entities"
+                "main": "Entitäten"
             },
             "account": {
                 "main": "Zugang",
                 "settings": "Einstellungen",
                 "password": "Passwort",
                 "sessions": "Sitzungen",
-                "tracker": "User tracker",
+                "tracker": "Benutzer Aktivitäten",
                 "metrics": "Metriken",
-                "health": "Heath",
-                "configuration": "Configuration",
+                "health": "Status",
+                "configuration": "Konfiguration",
                 "logs": "Protokoll",
                 "audits": "Audits",
                 "login": "Anmelden",
@@ -98,14 +98,15 @@
                 "login": {
                     "required": "Ihr Benutzername wird benötigt.",
                     "minlength": "Ihr Benutzername muss mindestens 1 Zeichen lang sein",
-                    "maxlength": "Ihr Benutzername darf nicht länger als 50 Zeichen sein"
+                    "maxlength": "Ihr Benutzername darf nicht länger als 50 Zeichen sein",
+                    "pattern": "Your login can only contain lower-case letters and digits"
                 }
             },
             "success": "<strong>Registrierung gespeichert!</strong> Bitte überprüfen Sie ihre E-Mails für die Bestätigung.",
             "error": {
                 "fail": "<strong>Registrierung fehlgeschlagen!</strong> Bitte versuchen Sie es später nochmal.",
                 "userexists": "<strong>Loginname bereits vergeben!</strong> Bitte wählen Sie einen anderen aus.",
-                "emailexists": "<strong>E-mail is already in use!</strong> Please choose another one."
+                "emailexists": "<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus."
             }
         }
     },
@@ -135,7 +136,7 @@
         "messages": {
             "error": {
                 "fail": "<strong>Es ist ein Fehler aufgetreten!</strong> Die Einstellungen konnten nicht gespeichert werden.",
-                "emailexists": "<strong>E-mail is already in use!</strong> Please choose another one."
+                "emailexists": "<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus."
             },
             "success": "<strong>Einstellungen wurden gespeichert!</strong>",
             "validate": {
@@ -266,10 +267,11 @@
             "mean": "Durchschnittliche Zugriffszeit (ms)"
         },
         "datasource": {
-            "title": "DataSource statistics (time in millisecond)",
-            "name": "Pool usage",
-            "count": "Count",
-            "mean": "Mean",
+        	"usage": "Usage",
+            "title": "Datenquelle (Zeit in millisekunden)",
+            "name": "Pool-Auslastung",
+            "count": "Anzahl",
+            "mean": "Mittel",
             "min": "Min",
             "max": "Max",
             "p50": "p50",
@@ -279,11 +281,12 @@
         }
     },
     "health": {
-        "title": "Heath checks",
+        "title": "Gesundheit ihrer Anwendung",
         "refresh.button": "Aktualisieren",
         "stacktrace": "Stacktrace",
         "indicator": {
             "db": "Datenbank",
+            "diskSpace": "Festplattenspeicher",
             "mail": "Email",
             "mongo": "Mongo"
         },
@@ -297,11 +300,11 @@
         }
     },
     "configuration": {
-        "title": "Configuration",
-        "filter": "Filter (by prefix)",
+        "title": "Konfiguration",
+        "filter": "Filter (nach Prefix)",
         "table": {
             "prefix": "Prefix",
-            "properties": "Properties"
+            "properties": "Eigenschaften"
         }
     },
     "logs": {

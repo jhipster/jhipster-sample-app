@@ -3,10 +3,14 @@
 /* App Module */
 
 var jhipsterApp = angular.module('jhipsterApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'jhipsterAppUtils', 'pascalprecht.translate', 'truncate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'jhipsterAppUtils', 'pascalprecht.translate', 'truncate', 'ngCacheBuster']);
 
 jhipsterApp
-    .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
+    .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, USER_ROLES) {
+
+            //Cache everything except rest api requests
+            httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*rest.*/],true);
+
             $routeProvider
                 .when('/register', {
                     templateUrl: 'views/register.html',

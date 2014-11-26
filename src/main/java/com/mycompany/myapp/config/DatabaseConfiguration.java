@@ -7,6 +7,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.ApplicationContextException;
@@ -34,23 +35,26 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
-    private Environment environment;
+    private Environment env;
+
+    @Autowired(required = false)
+    private MetricRegistry metricRegistry;
 
     @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
+    public void setEnvironment(Environment env) {
+        this.env = env;
+        this.propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
     }
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingClass(name = "com.mycompany.myapp.config.HerokuDatabaseConfiguration")
-    @Profile("!cloud")
-    public DataSource dataSource(MetricRegistry metricRegistry) {
+    @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
+    public DataSource dataSource() {
         log.debug("Configuring Datasource");
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
                     "cannot start. Please check your Spring profile, current profiles are: {}",
-                    Arrays.toString(environment.getActiveProfiles()));
+                    Arrays.toString(env.getActiveProfiles()));
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
         }
@@ -72,17 +76,23 @@ public class DatabaseConfiguration implements EnvironmentAware {
             config.addDataSourceProperty("prepStmtCacheSqlLimit", propertyResolver.getProperty("prepStmtCacheSqlLimit", "2048"));
             config.addDataSourceProperty("useServerPrepStmts", propertyResolver.getProperty("useServerPrepStmts", "true"));
         }
-        config.setMetricRegistry(metricRegistry);
+        if (metricRegistry != null) {
+            config.setMetricRegistry(metricRegistry);
+        }
         return new HikariDataSource(config);
     }
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
-        log.debug("Configuring Liquibase");
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:config/liquibase/master.xml");
         liquibase.setContexts("development, production");
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
+            liquibase.setShouldRun(false);
+        } else {
+            log.debug("Configuring Liquibase");
+        }
         return liquibase;
     }
 
