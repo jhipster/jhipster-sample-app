@@ -28,7 +28,7 @@ $provide.value("$locale", {
     "DAY": [
       "Mderot ee are",
       "Mderot ee kuni",
-      "Mderot ee ong'wan",
+      "Mderot ee ong\u2019wan",
       "Mderot ee inet",
       "Mderot ee ile",
       "Mderot ee sapa",
@@ -38,7 +38,7 @@ $provide.value("$locale", {
       "Lapa le obo",
       "Lapa le waare",
       "Lapa le okuni",
-      "Lapa le ong'wan",
+      "Lapa le ong\u2019wan",
       "Lapa le imet",
       "Lapa le ile",
       "Lapa le sapa",
@@ -110,6 +110,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "saq",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

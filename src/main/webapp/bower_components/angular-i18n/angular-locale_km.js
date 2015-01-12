@@ -58,8 +58,8 @@ $provide.value("$locale", {
     "medium": "d MMM y h:mm:ss a",
     "mediumDate": "d MMM y",
     "mediumTime": "h:mm:ss a",
-    "short": "d/M/y h:mm a",
-    "shortDate": "d/M/y",
+    "short": "d/M/yy h:mm a",
+    "shortDate": "d/M/yy",
     "shortTime": "h:mm a"
   },
   "NUMBER_FORMATS": {
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "km",
-  "pluralCat": function (n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

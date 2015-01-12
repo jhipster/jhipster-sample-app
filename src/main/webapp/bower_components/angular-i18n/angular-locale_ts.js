@@ -46,7 +46,7 @@ $provide.value("$locale", {
       "Ndzhati",
       "Nhlangula",
       "Hukuri",
-      "N'wendzamhala"
+      "N\u2019wendzamhala"
     ],
     "SHORTDAY": [
       "Son",
@@ -69,7 +69,7 @@ $provide.value("$locale", {
       "Ndz",
       "Nhl",
       "Huk",
-      "N'w"
+      "N\u2019w"
     ],
     "fullDate": "y MMMM d, EEEE",
     "longDate": "y MMMM d",
@@ -110,6 +110,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "ts",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

@@ -54,7 +54,7 @@ $provide.value("$locale", {
       "\u0e18.\u0e04."
     ],
     "fullDate": "EEEE\u0e17\u0e35\u0e48 d MMMM G y",
-    "longDate": "d MMMM y",
+    "longDate": "d MMMM G y",
     "medium": "d MMM y HH:mm:ss",
     "mediumDate": "d MMM y",
     "mediumTime": "HH:mm:ss",
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "th",
-  "pluralCat": function (n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

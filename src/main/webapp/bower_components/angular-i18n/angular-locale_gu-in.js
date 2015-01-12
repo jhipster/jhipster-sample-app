@@ -47,7 +47,7 @@ $provide.value("$locale", {
       "\u0aae\u0ac7",
       "\u0a9c\u0ac2\u0aa8",
       "\u0a9c\u0ac1\u0ab2\u0abe\u0a88",
-      "\u0a91\u0a97\u0ab8\u0acd\u0a9f",
+      "\u0a91\u0a97",
       "\u0ab8\u0aaa\u0acd\u0a9f\u0ac7",
       "\u0a91\u0a95\u0acd\u0a9f\u0acb",
       "\u0aa8\u0ab5\u0ac7",
@@ -58,8 +58,8 @@ $provide.value("$locale", {
     "medium": "d MMM, y hh:mm:ss a",
     "mediumDate": "d MMM, y",
     "mediumTime": "hh:mm:ss a",
-    "short": "d-MM-yy hh:mm a",
-    "shortDate": "d-MM-yy",
+    "short": "d/M/yy hh:mm a",
+    "shortDate": "d/M/yy",
     "shortTime": "hh:mm a"
   },
   "NUMBER_FORMATS": {
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "gu-in",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

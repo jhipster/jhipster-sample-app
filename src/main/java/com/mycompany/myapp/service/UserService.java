@@ -44,9 +44,9 @@ public class UserService {
     @Inject
     private AuthorityRepository authorityRepository;
 
-    public User activateRegistration(String key) {
+    public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
-        return Optional.ofNullable(userRepository.getUserByActivationKey(key))
+        userRepository.findOneByActivationKey(key)
             .map(user -> {
                 // activate given user for the registration key.
                 user.setActivated(true);
@@ -54,8 +54,8 @@ public class UserService {
                 userRepository.save(user);
                 log.debug("Activated user: {}", user);
                 return user;
-            })
-            .orElse(null);
+            });
+        return Optional.empty();
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
@@ -83,25 +83,27 @@ public class UserService {
     }
 
     public void updateUserInformation(String firstName, String lastName, String email) {
-        User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
-        currentUser.setFirstName(firstName);
-        currentUser.setLastName(lastName);
-        currentUser.setEmail(email);
-        userRepository.save(currentUser);
-        log.debug("Changed Information for User: {}", currentUser);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u -> {
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+            u.setEmail(email);
+            userRepository.save(u);
+            log.debug("Changed Information for User: {}", u);
+        });
     }
 
     public void changePassword(String password) {
-        User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
-        String encryptedPassword = passwordEncoder.encode(password);
-        currentUser.setPassword(encryptedPassword);
-        userRepository.save(currentUser);
-        log.debug("Changed password for User: {}", currentUser);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
+            String encryptedPassword = passwordEncoder.encode(password);
+            u.setPassword(encryptedPassword);
+            userRepository.save(u);
+            log.debug("Changed password for User: {}", u);
+        } );
     }
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
-        User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
+        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         currentUser.getAuthorities().size(); // eagerly load the association
         return currentUser;
     }
@@ -117,13 +119,12 @@ public class UserService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void removeOldPersistentTokens() {
         LocalDate now = new LocalDate();
-        List<PersistentToken> tokens = persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1));
-        for (PersistentToken token : tokens) {
+        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).stream().forEach(token ->{
             log.debug("Deleting token {}", token.getSeries());
             User user = token.getUser();
             user.getPersistentTokens().remove(token);
             persistentTokenRepository.delete(token);
-        }
+        });
     }
 
     /**
@@ -136,7 +137,7 @@ public class UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         DateTime now = new DateTime();
-        List<User> users = userRepository.findNotActivatedUsersByCreationDateBefore(now.minusDays(3));
+        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);

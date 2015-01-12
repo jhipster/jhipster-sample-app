@@ -26,7 +26,7 @@ $provide.value("$locale", {
       "lilli"
     ],
     "DAY": [
-      "Com'yakke",
+      "Com\u2019yakke",
       "Comlaa\u0257ii",
       "Comzyii\u0257ii",
       "Comkolle",
@@ -110,6 +110,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "mua-cm",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

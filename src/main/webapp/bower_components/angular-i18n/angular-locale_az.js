@@ -36,7 +36,7 @@ $provide.value("$locale", {
       "\u00c7.A.",
       "\u00c7.",
       "C.A.",
-      "C",
+      "C.",
       "\u015e."
     ],
     "SHORTMONTH": [
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "az",
-  "pluralCat": function (n, opt_precision) {  if (n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  if (n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

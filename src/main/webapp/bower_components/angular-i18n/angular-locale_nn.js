@@ -76,8 +76,8 @@ $provide.value("$locale", {
     "medium": "d. MMM y HH:mm:ss",
     "mediumDate": "d. MMM y",
     "mediumTime": "HH:mm:ss",
-    "short": "dd.MM.yy HH:mm",
-    "shortDate": "dd.MM.yy",
+    "short": "dd.MM.y HH:mm",
+    "shortDate": "dd.MM.y",
     "shortTime": "HH:mm"
   },
   "NUMBER_FORMATS": {
@@ -110,6 +110,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "nn",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

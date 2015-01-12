@@ -1,6 +1,6 @@
 {
   "name": "angular-i18n",
-  "version": "",
+  "version": "1.3.4",
   "description": "AngularJS module for internationalization",
   "main": "angular-i18n.js",
   "scripts": {

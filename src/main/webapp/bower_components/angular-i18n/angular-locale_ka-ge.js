@@ -4,8 +4,8 @@ var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
-      "\u10d3\u10d8\u10da\u10d8\u10e1",
-      "\u10e1\u10d0\u10e6\u10d0\u10db\u10dd\u10e1"
+      "AM",
+      "PM"
     ],
     "DAY": [
       "\u10d9\u10d5\u10d8\u10e0\u10d0",
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "ka-ge",
-  "pluralCat": function (n, opt_precision) {  if (n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  if (n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

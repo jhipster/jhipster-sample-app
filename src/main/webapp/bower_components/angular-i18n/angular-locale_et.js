@@ -73,8 +73,8 @@ $provide.value("$locale", {
     ],
     "fullDate": "EEEE, d. MMMM y",
     "longDate": "d. MMMM y",
-    "medium": "dd.MM.y H:mm.ss",
-    "mediumDate": "dd.MM.y",
+    "medium": "d. MMM y H:mm.ss",
+    "mediumDate": "d. MMM y",
     "mediumTime": "H:mm.ss",
     "short": "dd.MM.yy H:mm",
     "shortDate": "dd.MM.yy",
@@ -110,6 +110,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "et",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

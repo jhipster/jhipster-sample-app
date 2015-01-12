@@ -31,10 +31,13 @@
         <javax.inject.version>1</javax.inject.version>
         <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
         <json-path.version>0.9.1</json-path.version>
+        <liquibase.version>3.3.2</liquibase.version>
         <liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
-        <liquibase.version>3.1.1</liquibase.version>
+        <liquibase-hibernate4.version>3.5</liquibase-hibernate4.version>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
         <maven-sortpom-plugin.version>2.3.0</maven-sortpom-plugin.version>
+        <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
         <metrics-spring.version>3.0.3</metrics-spring.version>
         <run.addResources>false</run.addResources>
         <sonar-maven-plugin.version>2.2</sonar-maven-plugin.version>
@@ -324,6 +327,11 @@
             <artifactId>spring-cloud-localconfig-connector</artifactId>
             <version>${spring-cloud.version}</version>
         </dependency>
+        <dependency>
+            <groupId>fr.ippon.spark.metrics</groupId>
+            <artifactId>metrics-spark-reporter</artifactId>
+            <version>${metrics-spark-reporter.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -478,10 +486,44 @@
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
+                    <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
+                    <driver></driver>
+                    <url></url>
+                    <defaultSchemaName></defaultSchemaName>
+                    <username></username>
+                    <password></password>
+                    <referenceUrl>hibernate:spring:com.mycompany.myapp.domain?dialect=</referenceUrl>
+                    <verbose>true</verbose>
+                    <logging>debug</logging>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                        <version>3.18.2-GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate4</artifactId>
+                        <version>${liquibase-hibernate4.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <version>1.2.0.RELEASE</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    <jvmArguments>-Djava.rmi.server.hostname=localhost -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=dev</argument>
                     </arguments>

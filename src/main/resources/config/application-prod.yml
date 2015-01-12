@@ -39,11 +39,13 @@ spring:
     thymeleaf:
         mode: XHTML
         cache: true
-        viewNames: error
-
 
 metrics:
     jmx.enabled: true
+    spark:
+        enabled: false
+        host: localhost
+        port: 9999
     graphite:
         enabled: false
         host: localhost

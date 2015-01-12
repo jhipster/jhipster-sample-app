@@ -53,13 +53,13 @@ $provide.value("$locale", {
       "Nov",
       "Dis"
     ],
-    "fullDate": "EEEE dd MMMM y",
-    "longDate": "d MMMM y",
-    "medium": "d MMM y h:mm:ss a",
-    "mediumDate": "d MMM y",
+    "fullDate": "EEEE, MMMM d, y",
+    "longDate": "MMMM d, y",
+    "medium": "MMM d, y h:mm:ss a",
+    "mediumDate": "MMM d, y",
     "mediumTime": "h:mm:ss a",
-    "short": "y-MM-dd h:mm a",
-    "shortDate": "y-MM-dd",
+    "short": "M/d/yy h:mm a",
+    "shortDate": "M/d/yy",
     "shortTime": "h:mm a"
   },
   "NUMBER_FORMATS": {
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "zu",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

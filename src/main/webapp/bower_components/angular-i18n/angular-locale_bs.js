@@ -22,7 +22,7 @@ function getVF(n, opt_precision) {
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
-      "pre podne",
+      "prije podne",
       "popodne"
     ],
     "DAY": [
@@ -42,7 +42,7 @@ $provide.value("$locale", {
       "maj",
       "juni",
       "juli",
-      "avgust",
+      "august",
       "septembar",
       "oktobar",
       "novembar",
@@ -65,7 +65,7 @@ $provide.value("$locale", {
       "maj",
       "jun",
       "jul",
-      "avg",
+      "aug",
       "sep",
       "okt",
       "nov",
@@ -73,8 +73,8 @@ $provide.value("$locale", {
     ],
     "fullDate": "EEEE, dd. MMMM y.",
     "longDate": "dd. MMMM y.",
-    "medium": "dd.MM.y. HH:mm:ss",
-    "mediumDate": "dd.MM.y.",
+    "medium": "dd. MMM. y. HH:mm:ss",
+    "mediumDate": "dd. MMM. y.",
     "mediumTime": "HH:mm:ss",
     "short": "dd.MM.yy. HH:mm",
     "shortDate": "dd.MM.yy.",
@@ -102,14 +102,14 @@ $provide.value("$locale", {
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
-        "negPre": "\u00a4\u00a0-",
-        "negSuf": "",
-        "posPre": "\u00a4\u00a0",
-        "posSuf": ""
+        "negPre": "-",
+        "negSuf": "\u00a0\u00a4",
+        "posPre": "",
+        "posSuf": "\u00a0\u00a4"
       }
     ]
   },
   "id": "bs",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

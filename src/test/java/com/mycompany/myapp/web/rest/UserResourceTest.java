@@ -5,6 +5,7 @@ import com.mycompany.myapp.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
+@IntegrationTest
 public class UserResourceTest {
 
     @Inject
@@ -43,7 +45,7 @@ public class UserResourceTest {
 
     @Test
     public void testGetExistingUser() throws Exception {
-        restUserMockMvc.perform(get("/app/rest/users/admin")
+        restUserMockMvc.perform(get("/api/users/admin")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -52,7 +54,7 @@ public class UserResourceTest {
 
     @Test
     public void testGetUnknownUser() throws Exception {
-        restUserMockMvc.perform(get("/app/rest/users/unknown")
+        restUserMockMvc.perform(get("/api/users/unknown")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

@@ -26,7 +26,7 @@ $provide.value("$locale", {
       "\u1301\u120b\u12ed",
       "\u12a6\u1308\u1235\u1275",
       "\u1234\u1355\u1274\u121d\u1260\u122d",
-      "\u12a6\u12ad\u1270\u12cd\u1260\u122d",
+      "\u12a6\u12ad\u1276\u1260\u122d",
       "\u1296\u126c\u121d\u1260\u122d",
       "\u12f2\u1234\u121d\u1260\u122d"
     ],
@@ -49,7 +49,7 @@ $provide.value("$locale", {
       "\u1301\u120b\u12ed",
       "\u12a6\u1308\u1235",
       "\u1234\u1355\u1274",
-      "\u12a6\u12ad\u1270",
+      "\u12a6\u12ad\u1276",
       "\u1296\u126c\u121d",
       "\u12f2\u1234\u121d"
     ],
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "am-et",
-  "pluralCat": function (n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  var i = n | 0;  if (i == 0 || n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

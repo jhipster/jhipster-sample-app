@@ -53,7 +53,7 @@ $provide.value("$locale", {
       "11\u6708",
       "12\u6708"
     ],
-    "fullDate": "y\u5e74M\u6708d\u65e5EEEE",
+    "fullDate": "y\u5e74M\u6708d\u65e5 EEEE",
     "longDate": "y\u5e74M\u6708d\u65e5",
     "medium": "y\u5e74M\u6708d\u65e5 ah:mm:ss",
     "mediumDate": "y\u5e74M\u6708d\u65e5",
@@ -92,6 +92,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "zh-hant-tw",
-  "pluralCat": function (n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
+  "pluralCat": function(n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
 });
 }]);
