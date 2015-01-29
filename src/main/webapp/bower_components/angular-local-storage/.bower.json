@@ -1,6 +1,6 @@
 {
   "name": "angular-local-storage",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "homepage": "http://gregpike.net/demos/angular-local-storage/demo.html",
   "authors": [
     "grevory <greg@gregpike.ca>"
@@ -28,13 +28,13 @@
     "angularjs": "*",
     "angular-mocks": "~1.2.1"
   },
-  "_release": "0.1.3",
+  "_release": "0.1.5",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.3",
-    "commit": "52d04ad7ce8324a6644731645e41aeb79be33d56"
+    "tag": "0.1.5",
+    "commit": "ae0c28aba9050225a7e3327600307bedd0be8586"
   },
   "_source": "git://github.com/grevory/angular-local-storage.git",
-  "_target": "0.1.3",
+  "_target": "0.1.5",
   "_originalSource": "angular-local-storage"
 }

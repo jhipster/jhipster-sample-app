@@ -14,8 +14,8 @@ class OperationView extends Backbone.View
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-    x = event.pageX
-    y = event.pageY
+    x = e.pageX
+    y = e.pageY
     scX = $(window).scrollLeft()
     scY = $(window).scrollTop()
     scMaxX = scX + $(window).width()
@@ -162,7 +162,7 @@ class OperationView extends Backbone.View
     # add params
     for param in @model.parameters
       if param.paramType is 'form'
-        if map[param.name] != undefined
+        if param.type.toLowerCase() isnt 'file' and map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
     # headers in operation
@@ -179,8 +179,6 @@ class OperationView extends Backbone.View
         bodyParam.append($(el).attr('name'), el.files[0])
         params += 1
 
-    log(bodyParam)
-
     @invocationUrl = 
       if @model.supportHeaderParams()
         headerParams = @model.getHeaderParams(map)
@@ -188,8 +186,9 @@ class OperationView extends Backbone.View
       else
         @model.urlify(map, true)
 
-    $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
-
+    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url pre", $(@el)).text(@invocationUrl);
+    
     obj = 
       type: @model.method
       url: @invocationUrl
@@ -358,14 +357,18 @@ class OperationView extends Backbone.View
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
+    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url pre", $(@el)).text(url);
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
-    hljs.highlightBlock($('.response_body', $(@el))[0])
+    response_body_el = $('.response_body', $(@el))[0]
+    # only highlight the response if response is less than threshold, default state is highlight response
+    opts = @options.swaggerOptions
+    if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")

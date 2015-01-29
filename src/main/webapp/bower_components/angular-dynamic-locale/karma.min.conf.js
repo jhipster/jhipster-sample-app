@@ -6,10 +6,10 @@ module.exports = function(config) {
     logColors: true,
     browsers: ['Chrome'],
     files: [
-      'components/angular/angular.js',
-      'components/angular-cookies/angular-cookies.js',
-      'components/angular-mocks/angular-mocks.js',
-      {pattern: 'components/angular-i18n/*.js', included: false, served: true},
+      'node_modules/angular/angular.js',
+      'node_modules/angular-cookies/angular-cookies.js',
+      'node_modules/angular-mocks/angular-mocks.js',
+      {pattern: 'node_modules/angular-i18n/*.js', included: false, served: true},
       '*.min.js',
       'test/*Spec.js'
     ],

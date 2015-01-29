@@ -5,6 +5,13 @@ body {
 }
 
 /* ==========================================================================
+Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
+========================================================================== */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+/* ==========================================================================
 Developement Ribbon
 ========================================================================== */
 .development {
@@ -18,6 +25,14 @@ Developement Ribbon
     background-image: url("../images/development_ribbon.png");
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+/* ==========================================================================
+Version number in navbar
+========================================================================== */
+.navbar-version {
+    font-size: 10px;
+    color: #ccc
 }
 
 /* ==========================================================================

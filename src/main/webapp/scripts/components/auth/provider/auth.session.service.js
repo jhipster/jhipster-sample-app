@@ -17,10 +17,13 @@ angular.module('jhipsterApp')
                 });
             },
             logout: function() {
-                localStorageService.clearAll();
-
                 // logout from the server
-                $http.post('api/logout');
+                $http.post('api/logout').success(function (response) {
+                    localStorageService.clearAll();
+                    // to get a new csrf token call the api
+                    $http.get('api/account');
+                    return response;
+                });
             },
             getToken: function () {
                 var token = localStorageService.get('token');

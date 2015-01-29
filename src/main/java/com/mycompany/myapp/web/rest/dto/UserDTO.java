@@ -15,7 +15,7 @@ public class UserDTO {
     private String login;
 
     @NotNull
-    @Size(min = 6, max = 100)
+    @Size(min = 5, max = 100)
     private String password;
 
     @Size(max = 50)
@@ -25,7 +25,7 @@ public class UserDTO {
     private String lastName;
 
     @Email
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     private String email;
 
     @Size(min = 2, max = 5)

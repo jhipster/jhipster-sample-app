@@ -1,6 +1,6 @@
 /**
  * An Angular module that gives you access to the browsers local storage
- * @version v0.1.3 - 2014-10-14
+ * @version v0.1.5 - 2014-11-04
  * @link https://github.com/grevory/angular-local-storage
  * @author grevory <greg@gregpike.ca>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -57,11 +57,13 @@ angularLocalStorage.provider('localStorageService', function() {
   // Setter for the prefix
   this.setPrefix = function(prefix) {
     this.prefix = prefix;
+    return this;
   };
 
    // Setter for the storageType
    this.setStorageType = function(storageType) {
-       this.storageType = storageType;
+     this.storageType = storageType;
+     return this;
    };
 
   // Setter for cookie config
@@ -70,11 +72,13 @@ angularLocalStorage.provider('localStorageService', function() {
       expiry: exp,
       path: path
     };
+    return this;
   };
 
   // Setter for cookie domain
   this.setStorageCookieDomain = function(domain) {
     this.cookie.domain = domain;
+    return this;
   };
 
   // Setter for notification config
@@ -84,6 +88,7 @@ angularLocalStorage.provider('localStorageService', function() {
       setItem: itemSet,
       removeItem: itemRemove
     };
+    return this;
   };
 
   this.$get = ['$rootScope', '$window', '$document', '$parse', function($rootScope, $window, $document, $parse) {
@@ -286,16 +291,16 @@ angularLocalStorage.provider('localStorageService', function() {
     };
 
     // Checks the browser to see if cookies are supported
-    var browserSupportsCookies = function() {
+    var browserSupportsCookies = (function() {
       try {
-        return navigator.cookieEnabled ||
+        return $window.navigator.cookieEnabled ||
           ("cookie" in $document && ($document.cookie.length > 0 ||
           ($document.cookie = "test").indexOf.call($document.cookie, "test") > -1));
       } catch (e) {
           $rootScope.$broadcast('LocalStorageModule.notification.error', e.message);
           return false;
       }
-    };
+    }());
 
     // Directly adds a value to cookies
     // Typically used as a fallback is local storage is not available in the browser
@@ -308,7 +313,7 @@ angularLocalStorage.provider('localStorageService', function() {
         value = toJson(value);
       }
 
-      if (!browserSupportsCookies()) {
+      if (!browserSupportsCookies) {
         $rootScope.$broadcast('LocalStorageModule.notification.error', 'COOKIES_NOT_SUPPORTED');
         return false;
       }
@@ -344,7 +349,7 @@ angularLocalStorage.provider('localStorageService', function() {
     // Directly get a value from a cookie
     // Example use: localStorageService.cookie.get('library'); // returns 'angular'
     var getFromCookies = function (key) {
-      if (!browserSupportsCookies()) {
+      if (!browserSupportsCookies) {
         $rootScope.$broadcast('LocalStorageModule.notification.error', 'COOKIES_NOT_SUPPORTED');
         return false;
       }
@@ -437,6 +442,7 @@ angularLocalStorage.provider('localStorageService', function() {
       deriveKey: deriveQualifiedKey,
       length: lengthOfLocalStorage,
       cookie: {
+        isSupported: browserSupportsCookies,
         set: addToCookies,
         add: addToCookies, //DEPRECATED
         get: getFromCookies,

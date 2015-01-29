@@ -3,7 +3,9 @@
 angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster'])
 
-    .run(function ($rootScope, $location, $http, $state, $translate, Auth, Principal, Language) {
+    .run(function ($rootScope, $location, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
+        $rootScope.ENV = ENV;
+        $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
@@ -34,12 +36,13 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     })
     
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+
         //enable CSRF
-        $httpProvider.defaults.xsrfCookieName= 'CSRF-TOKEN';
-        $httpProvider.defaults.xsrfHeaderName= 'X-CSRF-TOKEN';
+        $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
 
         //Cache everything except rest api requests
-        httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*rest.*/, /.*protected.*/], true);
+        httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
 
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('site', {

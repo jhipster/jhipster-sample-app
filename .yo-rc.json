@@ -1,18 +1,18 @@
 {
   "generator-jhipster": {
+    "baseName": "jhipster",
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
-    "baseName": "jhipster",
+    "authenticationType": "session",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": "no",
     "websocket": "no",
+    "databaseType": "sql",
     "devDatabaseType": "h2Memory",
     "prodDatabaseType": "mysql",
     "useCompass": false,
-    "javaVersion": "8",
-    "authenticationType": "cookie",
-    "databaseType": "sql",
+    "buildTool": "maven",
     "frontendBuilder": "grunt",
-    "buildTool": "maven"
+    "javaVersion": "8"
   }
 }

@@ -1,12 +1,13 @@
 angular-local-storage
 =====================
 
-An Angular module that gives you access to the browsers local storage, **v0.1.3**
+An Angular module that gives you access to the browsers local storage, **v0.1.4**
 
-[![Build Status](https://secure.travis-ci.org/grevory/angular-local-storage.png?branch=master)](https://travis-ci.org/grevory/)
+[![Build Status](https://secure.travis-ci.org/grevory/angular-local-storage.png?branch=master)](https://travis-ci.org/grevory/) [![Coverage Status](https://img.shields.io/coveralls/grevory/angular-local-storage.svg)](https://coveralls.io/r/grevory/angular-local-storage?branch=master)
 
 ##Table of contents:
 - [Get Started](#get-started)
+- [Development](#development)
 - [Configuration](#configuration)
  - [setPrefix](#setprefix)
  - [setStorageType](#setstoragetype)
@@ -26,6 +27,7 @@ An Angular module that gives you access to the browsers local storage, **v0.1.3*
  - [deriveKey](#derivekey)
  - [length](#length)
  - [cookie](#cookie)
+    - [isSupported](#cookieissupported)
     - [set](#cookieset)
     - [get](#cookieget)
     - [remove](#cookieremove)
@@ -98,7 +100,7 @@ myApp.config(function (localStorageServiceProvider) {
 });
 ```
 ###setStorageCookieDomain
-Set for cookie domain<br/>
+Set the cookie domain, since this runs inside a the `config()` block, only providers and constants can be injected.  As a result, `$location` service can't be used here, use a hardcoded string or `window.location`.<br/>
 **No default value**
 ```js
 myApp.config(function (localStorageServiceProvider) {
@@ -268,6 +270,18 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 ```
 ##Cookie
 Deal with browser's cookies directly.
+##cookie.isSupported
+Checks if cookies are enabled in the browser.
+**Returns:** `Boolean`
+```js
+myApp.controller('MainCtrl', function($scope, localStorageService) {
+  //...
+  if(localStorageService.cookie.isSupported) {
+    //...
+  }
+  //...
+});
+```
 ###cookie.set
 Directly adds a value to cookies.<br/>
 **Note:** Typically used as a fallback if local storage is not supported.<br/>
@@ -319,19 +333,22 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 Check out the full demo at http://gregpike.net/demos/angular-local-storage/demo.html
 
 ##Development:
+* Don't forget about tests.
+* If you planning add some feature please create issue before.
+
 Clone the project: 
-```bash
+```sh
 $ git clone https://github.com/<your-repo>/angular-local-storage.git
 $ npm install
 $ bower install
 ```
 Run the tests:
-```bash
+```sh
 $ grunt test
 ```
 **Deploy:**<br/>
 Run the build task, update version before(bower,package)
-```bash
+```sh
 $ grunt dist
 $ git tag 0.*.*
 $ git push origin master --tags
