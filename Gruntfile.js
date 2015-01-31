@@ -1,9 +1,18 @@
-// Generated on 2015-01-29 using generator-jhipster 2.1.0
+// Generated on 2015-01-31 using generator-jhipster 2.1.1
 'use strict';
-
-var pomParser = require('node-pom-parser');
+var fs = require('fs');
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
+var parseString = require('xml2js').parseString;
+// Returns the second occurence of the version number
+var parseVersionFromPomXml = function() {
+    var version;
+    var pomXml = fs.readFileSync('pom.xml', "utf8");
+    parseString(pomXml, function (err, result){
+        version = result.project.version[0];
+    });
+    return version;
+};
 
 // usemin custom step
 var useminAutoprefixer = {
@@ -452,7 +461,7 @@ module.exports = function (grunt) {
                 },
                 constants: {
                     ENV: 'dev',
-                    VERSION: pomParser.parsePom({ filePath: "pom.xml"}).version
+                    VERSION: parseVersionFromPomXml()
                 }
             },
             prod: {
@@ -461,7 +470,7 @@ module.exports = function (grunt) {
                 },
                 constants: {
                     ENV: 'prod',
-                    VERSION: pomParser.parsePom({ filePath: "pom.xml"}).version
+                    VERSION: parseVersionFromPomXml()
                 }
             }
         }
