@@ -23,7 +23,7 @@ describe('Services Tests ', function () {
             $httpBackend.expectGET('i18n/en/main.json').respond(200, '');
             $httpBackend.expectGET('scripts/app/main/main.html').respond({});
             
-            $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond({});
+                $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond({});
             
           }));
         //make sure no expectations were missed in your tests.

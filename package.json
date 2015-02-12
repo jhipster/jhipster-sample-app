@@ -2,6 +2,7 @@
   "name": "jhipster",
   "version": "0.0.0",
   "description": "Description for jhipster",
+  "private": true,
   "dependencies": {
   },
   "devDependencies": {
@@ -43,7 +44,7 @@
     "karma-phantomjs-launcher": "0.1.4",
     "karma": "0.12.31",
     "bower": "1.3.12",
-    "generator-jhipster": "2.1.1",
+    "generator-jhipster": "2.2.0",
     "lodash": "2.4.1",
     "xml2js": "0.4.4",
     "zeparser": "0.0.7",
