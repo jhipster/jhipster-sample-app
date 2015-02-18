@@ -7,7 +7,8 @@ angular.module('jhipsterApp')
                 parent: 'site',
                 url: '/error',
                 data: {
-                    roles: []
+                    roles: [],
+                    pageTitle: 'errors.title'
                 },
                 views: {
                     'content@': {

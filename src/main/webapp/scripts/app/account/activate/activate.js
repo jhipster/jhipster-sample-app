@@ -7,7 +7,8 @@ angular.module('jhipsterApp')
                 parent: 'account',
                 url: '/activate?key',
                 data: {
-                    roles: []
+                    roles: [],
+                    pageTitle: 'activate.title'
                 },
                 views: {
                     'content@': {

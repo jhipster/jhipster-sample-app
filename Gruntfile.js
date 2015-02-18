@@ -1,7 +1,6 @@
-// Generated on 2015-02-12 using generator-jhipster 2.2.0
+// Generated on 2015-02-18 using generator-jhipster 2.3.0
 'use strict';
 var fs = require('fs');
-var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 var parseString = require('xml2js').parseString;
 // Returns the second occurence of the version number
@@ -41,18 +40,6 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: ['src/main/webapp/assets/styles/**/*.css']
-            },
-            livereload: {
-                options: {
-                    livereload: 35729
-                },
-                files: [
-                    'src/main/webapp/**/*.html',
-                    'src/main/webapp/**/*.json',
-                    '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
-                    '{.tmp/,}src/main/webapp/scripts/**/*.js',
-                    'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
             }
         },
         autoprefixer: {
@@ -90,96 +77,21 @@ module.exports = function (grunt) {
                 }
             }
         },
-        connect: {
-            proxies: [
-                {
-                    context: '/api',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/metrics',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/dump',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/health',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/configprops',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/beans',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/api-docs',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                },
-                {
-                    context: '/console',
-                    host: 'localhost',
-                    port: 8080,
-                    https: false,
-                    changeOrigin: false
-                 }
-            ],
-            options: {
-                port: 9000,
-                // Change this to 'localhost' to deny access to the server from outside.
-                hostname: '0.0.0.0',
-                livereload: 35729
-            },
-            livereload: {
-                options: {
-                    open: true,
-                    base: [
-                        '.tmp',
-                        'src/main/webapp'
-                    ],
-                    middleware: function (connect) {
-                        return [
-                            proxySnippet,
-                            connect.static('.tmp'),
-                            connect.static('src/main/webapp')
-                        ];
-                    }
-                }
-            },
-            test: {
-                options: {
-                    port: 9001,
-                    base: [
-                        '.tmp',
-                        'test',
-                        'src/main/webapp'
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src : [
+                        'src/main/webapp/**/*.html',
+                        'src/main/webapp/**/*.json',
+                        '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
+                        '{.tmp/,}src/main/webapp/scripts/**/*.js',
+                        'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
+            },
+            options: {
+                watchTask: true,
+                proxy: "localhost:8080"
             }
         },
         clean: {
@@ -481,8 +393,7 @@ module.exports = function (grunt) {
         'wiredep',
         'ngconstant:dev',
         'concurrent:server',
-        'configureProxies',
-        'connect:livereload',
+        'browserSync',
         'watch'
     ]);
 
@@ -496,7 +407,6 @@ module.exports = function (grunt) {
         'wiredep:test',
         'ngconstant:dev',
         'concurrent:test',
-        'connect:test',
         'karma'
     ]);
 

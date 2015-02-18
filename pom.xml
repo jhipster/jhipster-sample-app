@@ -40,7 +40,7 @@
         <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
         <metrics-spring.version>3.0.3</metrics-spring.version>
         <run.addResources>false</run.addResources>
-        <sonar-maven-plugin.version>2.2</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>2.3</sonar-maven-plugin.version>
         <spring-cloud.version>1.1.0.RELEASE</spring-cloud.version>
         <swagger-springmvc.version>0.9.5</swagger-springmvc.version>
         <usertype-core.version>3.2.0.GA</usertype-core.version>
@@ -588,16 +588,17 @@
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
                         <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.2</version>
+                        <version>0.4</version>
                         <executions>
                             <execution>
-                                <id>run-grunt</id>
+                                <id>run-frontend-build</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
                                 <configuration>
-                                    <gruntBuildArgs>--force</gruntBuildArgs>
+                                    <buildTool>grunt</buildTool>
+                                    <buildArgs>build --force --no-color</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>
