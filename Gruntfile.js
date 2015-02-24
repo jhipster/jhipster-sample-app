@@ -1,4 +1,4 @@
-// Generated on 2015-02-18 using generator-jhipster 2.3.0
+// Generated on 2015-02-24 using generator-jhipster 2.4.0
 'use strict';
 var fs = require('fs');
 
@@ -57,7 +57,10 @@ module.exports = function (grunt) {
         wiredep: {
             app: {
                 src: ['src/main/webapp/index.html'],
-                exclude: [/angular-i18n/, /swagger-ui/]
+                exclude: [
+                    /angular-i18n/,  // localizations are loaded dynamically
+                    /swagger-ui/
+                ]
             },
             test: {
                 src: 'src/test/javascript/karma.conf.js',

@@ -1,10 +1,10 @@
 {
   "name": "angular-translate-loader-partial",
   "description": "A plugin for Angular Translate",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "main": "./angular-translate-loader-partial.js",
   "dependencies": {
-    "angular-translate": "~2.5.2"
+    "angular-translate": "~2.6.0"
   },
   "ignore": [],
   "author": "Pascal Precht",

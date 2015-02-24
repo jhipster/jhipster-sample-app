@@ -3,10 +3,9 @@
         "title": "Diagnostics",
         "refresh.button": "Rafraichir",
         "indicator": {
-            "db": "Base de données",
             "diskSpace": "Espace disque",
             "mail": "Email",
-            "mongo": "MongoDB"
+            "db": "Base de données"
         },
         "stacktrace": "Stacktrace",
         "table": {

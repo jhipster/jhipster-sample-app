@@ -4,10 +4,9 @@
         "refresh.button": "Refresh",
         "stacktrace": "Stacktrace",
         "indicator": {
-            "db": "Database",
             "diskSpace": "Disk space",
             "mail": "Email",
-            "mongo": "Mongo DB"
+            "db": "Database"
         },
         "table": {
             "service": "Service name",

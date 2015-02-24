@@ -98,7 +98,7 @@ public class UserService {
             u.setPassword(encryptedPassword);
             userRepository.save(u);
             log.debug("Changed password for User: {}", u);
-        } );
+        });
     }
 
     @Transactional(readOnly = true)

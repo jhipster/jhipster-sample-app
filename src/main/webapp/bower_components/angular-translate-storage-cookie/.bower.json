@@ -1,11 +1,11 @@
 {
   "name": "angular-translate-storage-cookie",
   "description": "A plugin for Angular Translate",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "main": "./angular-translate-storage-cookie.js",
   "dependencies": {
-    "angular-translate": "~2.5.2",
-    "angular-cookies": "~1.2.26"
+    "angular-translate": "~2.6.0",
+    "angular-cookies": ">=1.2.26 <=1.4"
   },
   "ignore": [],
   "author": "Pascal Precht",
@@ -16,13 +16,13 @@
     }
   ],
   "homepage": "https://github.com/PascalPrecht/bower-angular-translate-storage-cookie",
-  "_release": "2.5.2",
+  "_release": "2.6.0",
   "_resolution": {
     "type": "version",
-    "tag": "2.5.2",
-    "commit": "fe3332c52f089d933627e128abb856d4a48f4dcc"
+    "tag": "2.6.0",
+    "commit": "a5dbdee6d8bb0e7b89ce2cc6037bfa3ec2bded20"
   },
   "_source": "git://github.com/PascalPrecht/bower-angular-translate-storage-cookie.git",
-  "_target": "2.5.2",
+  "_target": "2.6.0",
   "_originalSource": "angular-translate-storage-cookie"
 }
