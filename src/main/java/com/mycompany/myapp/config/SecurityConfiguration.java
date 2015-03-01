@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import org.springframework.data.repository.query.spi.EvaluationContextExtension;
+import org.springframework.data.repository.query.spi.EvaluationContextExtensionSupport;
+import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -13,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -123,4 +127,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     }
+
+    /**
+     * This allows SpEL support in Spring Data JPA @Query definitions.
+     *
+     * See https://spring.io/blog/2014/07/15/spel-support-in-spring-data-jpa-query-definitions
+     */
+    @Bean
+    EvaluationContextExtension securityExtension() {
+        return new EvaluationContextExtensionSupport() {
+            @Override
+            public String getExtensionId() {
+                return "security";
+            }
+
+            @Override
+            public SecurityExpressionRoot getRootObject() {
+                return new SecurityExpressionRoot(SecurityContextHolder.getContext().getAuthentication()) {};
+            }
+        };
+    }
+
 }

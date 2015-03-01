@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import java.util.Optional;
+import java.util.List;
 
 /**
  * REST controller for managing users.
@@ -29,6 +29,18 @@ public class UserResource {
 
     @Inject
     private UserRepository userRepository;
+
+    /**
+     * GET  /users -> get all users.
+     */
+    @RequestMapping(value = "/users",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<User> getAll() {
+        log.debug("REST request to get all Users");
+        return userRepository.findAll();
+    }
 
     /**
      * GET  /users/:login -> get the "login" user.
