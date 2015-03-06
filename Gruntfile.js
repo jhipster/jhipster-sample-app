@@ -1,4 +1,4 @@
-// Generated on 2015-03-03 using generator-jhipster 2.5.1
+// Generated on 2015-03-06 using generator-jhipster 2.5.2
 'use strict';
 var fs = require('fs');
 
@@ -282,7 +282,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.html',
                         'scripts/**/*.html',
-                        'assets/images/**/*.{png,gif,webp}',
+                        'assets/images/**/*.{png,gif,webp,jpg,jpeg,svg}',
                         'assets/fonts/*'
                     ]
                 }, {

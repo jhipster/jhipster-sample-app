@@ -77,7 +77,7 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
                 }]
             }
         });
-        
+
 
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
