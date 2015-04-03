@@ -1,4 +1,4 @@
-// Generated on 2015-03-10 using generator-jhipster 2.6.0
+// Generated on 2015-04-03 using generator-jhipster 2.7.0
 'use strict';
 var fs = require('fs');
 
@@ -372,7 +372,7 @@ module.exports = function (grunt) {
             },
             dev: {
                 options: {
-                    dest: 'src/main/webapp/scripts/app/app.constants.js',
+                    dest: 'src/main/webapp/scripts/app/app.constants.js'
                 },
                 constants: {
                     ENV: 'dev',
@@ -381,7 +381,7 @@ module.exports = function (grunt) {
             },
             prod: {
                 options: {
-                    dest: '.tmp/scripts/app/app.constants.js',
+                    dest: '.tmp/scripts/app/app.constants.js'
                 },
                 constants: {
                     ENV: 'prod',
