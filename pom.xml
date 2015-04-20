@@ -26,8 +26,8 @@
         <awaitility.version>1.4.0</awaitility.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <gatling.version>2.1.4</gatling.version>
-        <gatling-maven-plugin.version>2.1.2</gatling-maven-plugin.version>
+        <gatling.version>2.1.5</gatling.version>
+        <gatling-maven-plugin.version>2.1.5</gatling-maven-plugin.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -42,7 +42,7 @@
         <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
         <maven-sortpom-plugin.version>2.3.0</maven-sortpom-plugin.version>
         <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
-        <metrics-spring.version>3.0.3</metrics-spring.version>
+        <metrics-spring.version>3.0.4</metrics-spring.version>
         <run.addResources>false</run.addResources>
         <sonar-maven-plugin.version>2.3</sonar-maven-plugin.version>
         <spring-security.version>4.0.0.RELEASE</spring-security.version>
@@ -340,11 +340,6 @@
             <artifactId>spring-security-data</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-messaging</artifactId>
-            <version>${spring-security.version}</version>
-        </dependency>
         <!-- reporting -->
         <dependency>
             <groupId>fr.ippon.spark.metrics</groupId>
@@ -555,7 +550,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>-Djava.rmi.server.hostname=localhost -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=dev</argument>
                     </arguments>

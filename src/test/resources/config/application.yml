@@ -35,14 +35,14 @@ spring:
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
 
-    mail:
-        host: localhost
-        port: 25
-        user:
-        password:
-        protocol: smtp
-        tls: false
-        auth: false
+mail:
+    host: localhost
+    port: 25
+    username:
+    password:
+    protocol: smtp
+    tls: false
+    auth: false
 
 metrics:
     jmx.enabled: false

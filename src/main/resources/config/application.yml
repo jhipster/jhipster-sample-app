@@ -13,19 +13,16 @@ async:
     maxPoolSize: 50
     queueCapacity: 10000
 
-spring:
-    mail:
-        host: localhost
-        port: 25
-        user:
-        password:
-        protocol: smtp
-        tls: false
-        auth: false
-        from: jhipster@localhost
+mail:
+    host: localhost
+    port: 25
+    username:
+    password:
+    protocol: smtp
+    tls: false
+    auth: false
+    from: jhipster@localhost
 
-    messageSource:
-        cacheSeconds: 1
 
 swagger:
     title: jhipster API
