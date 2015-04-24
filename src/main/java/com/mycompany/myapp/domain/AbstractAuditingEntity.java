@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.joda.time.DateTime;
@@ -26,21 +27,25 @@ public abstract class AbstractAuditingEntity {
     @CreatedBy
     @NotNull
     @Column(name = "created_by", nullable = false, length = 50, updatable = false)
+    @JsonIgnore
     private String createdBy;
 
     @CreatedDate
     @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "created_date", nullable = false)
+    @JsonIgnore
     private DateTime createdDate = DateTime.now();
 
     @LastModifiedBy
     @Column(name = "last_modified_by", length = 50)
+    @JsonIgnore
     private String lastModifiedBy;
 
     @LastModifiedDate
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "last_modified_date")
+    @JsonIgnore
     private DateTime lastModifiedDate = DateTime.now();
 
     public String getCreatedBy() {
