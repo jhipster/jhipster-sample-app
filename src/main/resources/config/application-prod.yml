@@ -47,6 +47,10 @@ metrics:
         port: 2003
         prefix: jhipster
 
+http:
+    cache:
+        timeToLiveInDays: 31
+
 cache:
     timeToLiveSeconds: 3600
     ehcache:

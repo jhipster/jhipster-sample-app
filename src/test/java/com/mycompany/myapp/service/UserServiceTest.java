@@ -6,6 +6,7 @@ import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PersistentTokenRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import org.joda.time.DateTime;
+import com.mycompany.myapp.service.util.RandomUtil;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +53,88 @@ public class UserServiceTest {
         assertThat(persistentTokenRepository.findByUser(admin)).hasSize(existingCount + 2);
         userService.removeOldPersistentTokens();
         assertThat(persistentTokenRepository.findByUser(admin)).hasSize(existingCount + 1);
+    }
+
+    @Test
+    public void assertThatUserMustExistToResetPassword() {
+        
+        Optional<User> maybeUser = userService.requestPasswordReset("john.doe@localhost");
+        assertThat(maybeUser.isPresent()).isFalse();
+
+        maybeUser = userService.requestPasswordReset("admin@localhost");
+        assertThat(maybeUser.isPresent()).isTrue();
+
+        assertThat(maybeUser.get().getEmail()).isEqualTo("admin@localhost");
+        assertThat(maybeUser.get().getResetDate()).isNotNull();
+        assertThat(maybeUser.get().getResetKey()).isNotNull();
+        
+    }
+
+    @Test
+    public void assertThatResetKeyMustNotBeOlderThan24Hours() {
+        
+        User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
+
+        DateTime daysAgo = DateTime.now().minusHours(25);
+        String resetKey = RandomUtil.generateResetKey();
+        user.setActivated(true);
+        user.setResetDate(daysAgo);
+        user.setResetKey(resetKey);
+
+        userRepository.save(user);
+
+        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+
+        assertThat(maybeUser.isPresent()).isFalse();
+
+        userRepository.delete(user);
+        
+    }
+
+    @Test
+    public void assertThatResetKeyMustBeValid() {
+        
+        User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
+
+        DateTime daysAgo = DateTime.now().minusHours(25);
+        user.setActivated(true);
+        user.setResetDate(daysAgo);
+        user.setResetKey("1234");
+
+        userRepository.save(user);
+
+        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+
+        assertThat(maybeUser.isPresent()).isFalse();
+
+        userRepository.delete(user);
+        
+    }
+
+    @Test
+    public void assertThatUserCanResetPassword() {
+        
+        User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
+
+        String oldPassword = user.getPassword();
+
+        DateTime daysAgo = DateTime.now().minusHours(2);
+        String resetKey = RandomUtil.generateResetKey();
+        user.setActivated(true);
+        user.setResetDate(daysAgo);
+        user.setResetKey(resetKey);
+
+        userRepository.save(user);
+
+        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+
+        assertThat(maybeUser.isPresent()).isTrue();
+        assertThat(maybeUser.get().getResetDate()).isNull();
+        assertThat(maybeUser.get().getResetKey()).isNull();
+        assertThat(maybeUser.get().getPassword()).isNotEqualTo(oldPassword);
+
+        userRepository.delete(user);
+        
     }
 
     @Test
