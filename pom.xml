@@ -21,7 +21,7 @@
     </prerequisites>
 
     <properties>
-        <HikariCP.version>2.2.5</HikariCP.version>
+        <HikariCP.version>2.3.7</HikariCP.version>
         <assertj-core.version>1.0.0m1</assertj-core.version>
         <awaitility.version>1.4.0</awaitility.version>
         <commons-io.version>2.4</commons-io.version>

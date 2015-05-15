@@ -3,15 +3,15 @@
   "name": "angular-dynamic-locale",
   "main": "src/tmhDynamicLocale.js",
   "description": "Angular Dynamic Locale",
-  "version": "0.1.24",
+  "version": "0.1.27",
   "homepage": "https://github.com/lgalfaso/angular-dynamic-locale",
-  "_release": "0.1.24",
+  "_release": "0.1.27",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.24",
-    "commit": "671ff01ceb713c4474af436ac1f8d2f40d891db0"
+    "tag": "0.1.27",
+    "commit": "4ebf40230c0a73f33597609c6ee8cb811a7cf11f"
   },
   "_source": "git://github.com/lgalfaso/angular-dynamic-locale.git",
-  "_target": "0.1.24",
+  "_target": "0.1.27",
   "_originalSource": "angular-dynamic-locale"
 }

@@ -1,6 +1,6 @@
 {
   "name": "angular-local-storage",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "homepage": "http://gregpike.net/demos/angular-local-storage/demo.html",
   "authors": [
     "grevory <greg@gregpike.ca>"
@@ -25,16 +25,16 @@
     "Gruntfile.js"
   ],
   "devDependencies": {
-    "angularjs": "*",
+    "angular": "~1.x",
     "angular-mocks": "~1.2.1"
   },
-  "_release": "0.1.5",
+  "_release": "0.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.5",
-    "commit": "ae0c28aba9050225a7e3327600307bedd0be8586"
+    "tag": "0.2.0",
+    "commit": "5c5059e2a0f0b0058c73d258bb25fc04762f1282"
   },
   "_source": "git://github.com/grevory/angular-local-storage.git",
-  "_target": "0.1.5",
+  "_target": "0.2.0",
   "_originalSource": "angular-local-storage"
 }

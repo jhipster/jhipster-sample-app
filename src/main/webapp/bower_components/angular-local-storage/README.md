@@ -1,12 +1,18 @@
 angular-local-storage
 =====================
+An Angular module that gives you access to the browsers local storage, **v0.2.0**
 
-An Angular module that gives you access to the browsers local storage, **v0.1.4**
-
-[![Build Status](https://secure.travis-ci.org/grevory/angular-local-storage.png?branch=master)](https://travis-ci.org/grevory/) [![Coverage Status](https://img.shields.io/coveralls/grevory/angular-local-storage.svg)](https://coveralls.io/r/grevory/angular-local-storage?branch=master)
+[![NPM version][npm-image]][npm-url]
+[![Build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![Dependency Status][david-image]][david-url]
+[![License][license-image]][license-url]
+[![Downloads][downloads-image]][downloads-url]
 
 ##Table of contents:
+- [![Gitter][gitter-image]][gitter-url]
 - [Get Started](#get-started)
+- [Video Tutorial](https://www.youtube.com/watch?v=I4iB0kOSmx8)
 - [Development](#development)
 - [Configuration](#configuration)
  - [setPrefix](#setprefix)
@@ -39,13 +45,13 @@ An Angular module that gives you access to the browsers local storage, **v0.1.4*
 clone & build [this](https://github.com/grevory/angular-local-storage.git) repository<br/>
 **Bower:**
 ```bash
-$ bower install angular-local-storage
+$ bower install angular-local-storage --save
 ```
 **npm:**
 ```bash
 $ npm install angular-local-storage
 ```
-**(2)** Include `angular-local-storage.js` (or `angular-local-storage.min.js`) in your `index.html`, after including Angular itself.
+**(2)** Include `angular-local-storage.js` (or `angular-local-storage.min.js`) from the [dist](https://github.com/grevory/angular-local-storage/tree/master/dist) directory in your `index.html`, after including Angular itself.
 
 **(3)** Add `'LocalStorageModule'` to your main module's list of dependencies.
 
@@ -108,6 +114,9 @@ myApp.config(function (localStorageServiceProvider) {
     .setStorageCookieDomain('<domain>');
 });
 ```
+
+For local testing (when you are testing on localhost) set the domain to an empty string ''. Setting the domain to 'localhost' will not work on all browsers (eg. Chrome) since some browsers only allow you to set domain cookies for registry controlled domains, i.e. something ending in .com or so, but not IPs **or intranet hostnames** like localhost. </br>
+
 ###setNotify
 Send signals for each of the following actions:<br/>
 **setItem** , default: `true`<br/>
@@ -130,7 +139,7 @@ myApp.config(function (localStorageServiceProvider) {
 ```
 ##API Documentation
 ##isSupported
-Checks if the browser support the current storage type(e.g: `localStorage`, `sessionStorage`).
+Checks if the browser support the current storage type(e.g: `localStorage`, `sessionStorage`).  
 **Returns:** `Boolean`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -158,7 +167,7 @@ If local storage is not supported, use cookies instead.<br/>
 myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
   function submit(key, val) {
-   return localStorageService.set(key, value);
+   return localStorageService.set(key, val);
   }
   //...
 });
@@ -187,7 +196,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 });
 ```
 ###remove
-Remove an item from local storage by key.<br/>
+Remove an item(s) from local storage by key.<br/>
 If local storage is not supported, use cookies instead.<br/>
 **Returns:** `Boolean`
 ```js
@@ -197,6 +206,9 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
    return localStorageService.remove(key);
   }
   //...
+  function removeItems(key1, key2, key3) {
+   return localStorageService.remove(key1, key2, key3);
+  }
 });
 ```
 ###clearAll
@@ -219,7 +231,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 ###bind
 Bind $scope key to localStorageService.  
 **Usage:** `localStorageService.bind(scope, property, value[optional], key[optional])`  
-***key:*** The corresponding key used in local storage
+***key:*** The corresponding key used in local storage  
 **Returns:** deregistration function for this listener.
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -247,7 +259,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 ```
 
 ###deriveKey
-Return the derive key
+Return the derive key  
 **Returns** `String`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -271,7 +283,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 ##Cookie
 Deal with browser's cookies directly.
 ##cookie.isSupported
-Checks if cookies are enabled in the browser.
+Checks if cookies are enabled in the browser.  
 **Returns:** `Boolean`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -290,11 +302,16 @@ Directly adds a value to cookies.<br/>
 myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
   function submit(key, val) {
-   return localStorageService.cookie.set(key, value);
+   return localStorageService.cookie.set(key, val);
   }
   //...
 });
 ```
+**Cookie Expiry** Pass a third argument to specify number of days to expiry
+```js
+    localStorageService.cookie.set(key,val,10)
+```
+sets a cookie that expires in 10 days.
 ###cookie.get
 Directly get a value from a cookie.<br/>
 **Returns:** `value from local storage`
@@ -319,8 +336,9 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###clearAll
+###cookie.clearAll
 Remove all data for this app from cookie.<br/>
+**Returns:** `Boolean`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
@@ -354,4 +372,17 @@ $ git tag 0.*.*
 $ git push origin master --tags
 ```
 
-
+[npm-image]: https://img.shields.io/npm/v/angular-local-storage.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/angular-local-storage
+[travis-image]: https://img.shields.io/travis/grevory/angular-local-storage.svg?style=flat-square
+[travis-url]: https://travis-ci.org/grevory/angular-local-storage
+[coveralls-image]: https://img.shields.io/coveralls/grevory/angular-local-storage.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/grevory/angular-local-storage
+[david-image]: http://img.shields.io/david/grevory/angular-local-storage.svg?style=flat-square
+[david-url]: https://david-dm.org/grevory/angular-local-storage
+[license-image]: http://img.shields.io/npm/l/angular-local-storage.svg?style=flat-square
+[license-url]: LICENSE
+[downloads-image]: http://img.shields.io/npm/dm/angular-local-storage.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/angular-local-storage
+[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-url]: https://gitter.im/grevory/angular-local-storage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge

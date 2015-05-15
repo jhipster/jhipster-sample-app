@@ -1,4 +1,4 @@
-// Generated on 2015-05-07 using generator-jhipster 2.10.1
+// Generated on 2015-05-15 using generator-jhipster 2.11.0
 'use strict';
 var fs = require('fs');
 
@@ -16,7 +16,13 @@ var parseVersionFromPomXml = function() {
 // usemin custom step
 var useminAutoprefixer = {
     name: 'autoprefixer',
-    createConfig: require('grunt-usemin/lib/config/cssmin').createConfig // Reuse cssmins createConfig
+    createConfig: function(context, block) {
+        if(block.src.length === 0) {
+            return {};
+        } else {
+            return require('grunt-usemin/lib/config/cssmin').createConfig(context, block) // Reuse cssmins createConfig
+        }
+    }
 };
 
 module.exports = function (grunt) {
@@ -295,18 +301,6 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
-            generateHerokuDirectory: {
-                    expand: true,
-                    dest: 'deploy/heroku',
-                    src: [
-                        'pom.xml',
-                        'gradlew',
-                        '*.gradle',
-                        'gradle.properties',
-                        'gradle/**',
-                        'src/main/**'
-                ]
-            },
             generateOpenshiftDirectory: {
                     expand: true,
                     dest: 'deploy/openshift',
@@ -353,13 +347,6 @@ module.exports = function (grunt) {
                 push: false,
                 connectCommits: false,
                 message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-            },
-            heroku: {
-                options: {
-                    dir: 'deploy/heroku',
-                    remote: 'heroku',
-                    branch: 'master'
-                }
             },
             openshift: {
                 options: {
@@ -437,7 +424,6 @@ module.exports = function (grunt) {
     ]);
 
 	grunt.registerTask('appendSkipBower', 'Force skip of bower for Gradle', function () {
-		var filepath = 'deploy/heroku/gradle.properties';
 
 		if (!grunt.file.exists(filepath)) {
 			// Assume this is a maven project
@@ -453,21 +439,6 @@ module.exports = function (grunt) {
 
 		grunt.file.write(filepath, fileContent + "\nskipBower=true\n");
 	});
-
-    grunt.registerTask('buildHeroku', [
-        'test',
-        'build',
-        'copy:generateHerokuDirectory',
-        'appendSkipBower'
-    ]);
-
-    grunt.registerTask('deployHeroku', [
-        'test',
-        'build',
-        'copy:generateHerokuDirectory',
-        'appendSkipBower',
-        'buildcontrol:heroku'
-    ]);
 
     grunt.registerTask('buildOpenshift', [
         'test',

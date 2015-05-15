@@ -34,6 +34,14 @@ $provide.value("$locale", {
       "penktadienis",
       "\u0161e\u0161tadienis"
     ],
+    "ERANAMES": [
+      "prie\u0161 Krist\u0173",
+      "po Kristaus"
+    ],
+    "ERAS": [
+      "pr. Kr.",
+      "po Kr."
+    ],
     "MONTH": [
       "sausio",
       "vasario",
@@ -81,7 +89,7 @@ $provide.value("$locale", {
     "shortTime": "HH:mm"
   },
   "NUMBER_FORMATS": {
-    "CURRENCY_SYM": "Lt",
+    "CURRENCY_SYM": "\u20ac",
     "DECIMAL_SEP": ",",
     "GROUP_SEP": "\u00a0",
     "PATTERNS": [

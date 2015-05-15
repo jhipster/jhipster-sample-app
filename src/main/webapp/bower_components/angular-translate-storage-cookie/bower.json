@@ -1,10 +1,10 @@
 {
   "name": "angular-translate-storage-cookie",
   "description": "A plugin for Angular Translate",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "main": "./angular-translate-storage-cookie.js",
   "dependencies": {
-    "angular-translate": "~2.6.0",
+    "angular-translate": "~2.7.0",
     "angular-cookies": ">=1.2.26 <=1.4"
   },
   "ignore": [],

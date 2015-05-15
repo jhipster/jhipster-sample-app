@@ -45,7 +45,6 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             }
         };
     })
-    
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //enable CSRF
@@ -86,7 +85,9 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
 
         $translateProvider.preferredLanguage('en');
         $translateProvider.useCookieStorage();
+        $translateProvider.useSanitizeValueStrategy('escaped');
 
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
-        tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
+        tmhDynamicLocaleProvider.useCookieStorage();
+        tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
     });
