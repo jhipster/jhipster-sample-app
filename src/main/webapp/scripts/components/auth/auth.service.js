@@ -13,6 +13,7 @@ angular.module('jhipsterApp')
                         // After the login the language will be changed to
                         // the language selected by the user during his registration
                         $translate.use(account.langKey);
+                        $translate.refresh();
                         deferred.resolve(data);
                     });
                     return cb();
@@ -98,7 +99,7 @@ angular.module('jhipsterApp')
                     return cb(err);
                 }).$promise;
             },
-            
+
             resetPasswordInit: function (mail, callback) {
                 var cb = callback || angular.noop;
 
@@ -107,7 +108,6 @@ angular.module('jhipsterApp')
                 }, function (err) {
                     return cb(err);
                 }).$promise;
-
             },
 
             resetPasswordFinish: function(key, newPassword, callback) {

@@ -15,16 +15,12 @@ describe('Services Tests ', function () {
             //Request on app init
             $httpBackend.expectPOST(/api\/logout\?cacheBuster=\d+/).respond(200, ''); 
 
-            $httpBackend.expectGET('i18n/en/global.json').respond(200, '');
-            $httpBackend.expectGET('i18n/en/language.json').respond(200, '');
             $httpBackend.expectGET('scripts/components/navbar/navbar.html').respond({});
             $httpBackend.expectGET('i18n/en/global.json').respond(200, '');
             $httpBackend.expectGET('i18n/en/language.json').respond(200, '');
             $httpBackend.expectGET('i18n/en/main.json').respond(200, '');
             $httpBackend.expectGET('scripts/app/main/main.html').respond({});
-            
-                $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond({});
-            
+            $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond({});
           }));
         //make sure no expectations were missed in your tests.
         //(e.g. expectGET or expectPOST)
