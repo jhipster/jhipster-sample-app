@@ -117,7 +117,8 @@ public class AccountResource {
                     user.getLastName(),
                     user.getEmail(),
                     user.getLangKey(),
-                    user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toCollection(LinkedList::new))),
+                    user.getAuthorities().stream().map(Authority::getName)
+                        .collect(Collectors.toCollection(LinkedList::new))),
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }

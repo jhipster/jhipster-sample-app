@@ -1,6 +1,9 @@
 server:
     port: 8080
 
+liquibase:
+    context: dev
+
 spring:
     profiles:
         active: dev

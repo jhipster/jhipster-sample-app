@@ -1,4 +1,4 @@
-// Generated on 2015-05-22 using generator-jhipster 2.12.0
+// Generated on 2015-05-28 using generator-jhipster 2.13.0
 'use strict';
 var fs = require('fs');
 
@@ -43,22 +43,10 @@ module.exports = function (grunt) {
             ngconstant: {
                 files: ['Gruntfile.js', 'pom.xml'],
                 tasks: ['ngconstant:dev']
-            },
-            styles: {
-                files: ['src/main/webapp/assets/styles/**/*.css']
             }
         },
         autoprefixer: {
-        // not used since Uglify task does autoprefixer,
-        //    options: ['last 1 version'],
-        //    dist: {
-        //        files: [{
-        //            expand: true,
-        //            cwd: '.tmp/styles/',
-        //            src: '**/*.css',
-        //            dest: '.tmp/styles/'
-        //        }]
-        //    }
+            // src and dest is configured in a subtask called "generated" by usemin
         },
         wiredep: {
             app: {
@@ -128,34 +116,11 @@ module.exports = function (grunt) {
                 'src/main/webapp/scripts/components/**/*.js'
             ]
         },
-        coffee: {
-            options: {
-                sourceMap: true,
-                sourceRoot: ''
-            },
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: 'src/main/webapp/scripts',
-                    src: ['scripts/app/**/*.coffee', 'scripts/components/**/*.coffee'],
-                    dest: '.tmp/scripts',
-                    ext: '.js'
-                }]
-            },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '**/*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
-            }
-        },
         concat: {
-        // not used since Uglify task does concat,
-        // but still available if needed
-        //    dist: {}
+            // src and dest is configured in a subtask called "generated" by usemin
+        },
+        uglifyjs: {
+            // src and dest is configured in a subtask called "generated" by usemin
         },
         rev: {
             dist: {
@@ -219,20 +184,10 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            // By default, your `index.html` <!-- Usemin Block --> will take care of
-            // minification. This option is pre-configured if you do not wish to use
-            // Usemin blocks.
-            // dist: {
-            //     files: {
-            //         '<%= yeoman.dist %>/styles/main.css': [
-            //             '.tmp/styles/**/*.css',
-            //             'styles/**/*.css'
-            //         ]
-            //     }
-            // }
             options: {
                 root: 'src/main/webapp' // Replace relative paths for static resources with absolute path
             }
+            // src and dest is configured in a subtask called "generated" by usemin
         },
         ngtemplates:    {
             dist: {
@@ -324,11 +279,6 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'src/test/javascript/karma.conf.js',
                 singleRun: true
-            }
-        },
-        cdnify: {
-            dist: {
-                html: ['<%= yeoman.dist %>/*.html']
             }
         },
         ngAnnotate: {
