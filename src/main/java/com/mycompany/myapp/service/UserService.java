@@ -67,7 +67,6 @@ public class UserService {
                return user.getResetDate().isAfter(oneDayAgo.toInstant().getMillis());
            })
            .map(user -> {
-               user.setActivated(true);
                user.setPassword(passwordEncoder.encode(newPassword));
                user.setResetKey(null);
                user.setResetDate(null);
@@ -78,6 +77,7 @@ public class UserService {
 
     public Optional<User> requestPasswordReset(String mail) {
        return userRepository.findOneByEmail(mail)
+           .filter(user -> user.getActivated() == true)
            .map(user -> {
                user.setResetKey(RandomUtil.generateResetKey());
                user.setResetDate(DateTime.now());
