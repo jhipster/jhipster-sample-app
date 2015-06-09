@@ -62,7 +62,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="health in healthData">
-                <td>{{'health.indicator.' + baseName(health.name) | translate}}{{subSystemName(health.name)}}</td>
+                <td>{{'health.indicator.' + baseName(health.name) | translate}} {{subSystemName(health.name)}}</td>
                 <td class="text-center">
                     <span class="label" ng-class="getLabelClass(health.status)">
                         {{'health.status.' + health.status | translate}}

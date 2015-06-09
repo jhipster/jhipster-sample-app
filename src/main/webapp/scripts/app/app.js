@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-    'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'infinite-scroll'])
+angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
+    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll'])
 
-    .run(function ($rootScope, $location, $window, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
+    .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
@@ -13,15 +13,16 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-
+            
             // Update the language
             Language.getCurrent().then(function (language) {
                 $translate.use(language);
             });
+            
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
-            var titleKey = 'global.title';
+            var titleKey = 'global.title' ;
 
             $rootScope.previousStateName = fromState.name;
             $rootScope.previousStateParams = fromParams;
@@ -30,10 +31,12 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             if (toState.data.pageTitle) {
                 titleKey = toState.data.pageTitle;
             }
+            
             $translate(titleKey).then(function (title) {
                 // Change window title with translated one
                 $window.document.title = title;
             });
+            
         });
 
         $rootScope.back = function() {
@@ -76,7 +79,7 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             }
         });
 
-
+        
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
             urlTemplate: 'i18n/{lang}/{part}.json'
@@ -89,4 +92,5 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage();
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
+        
     });

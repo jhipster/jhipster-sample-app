@@ -109,17 +109,19 @@ public class AccountResource {
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> new ResponseEntity<>(
-                new UserDTO(
-                    user.getLogin(),
-                    null,
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getEmail(),
-                    user.getLangKey(),
-                    user.getAuthorities().stream().map(Authority::getName)
-                        .collect(Collectors.toCollection(LinkedList::new))),
-                HttpStatus.OK))
+            .map(user -> {
+                return new ResponseEntity<>(
+                    new UserDTO(
+                        user.getLogin(),
+                        null,
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getLangKey(),
+                        user.getAuthorities().stream().map(Authority::getName)
+                            .collect(Collectors.toList())),
+                HttpStatus.OK);
+            })
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
@@ -150,8 +152,8 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> changePassword(@RequestBody String password) {
-        if (StringUtils.isEmpty(password) || password.length() < 5 || password.length() > 50) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!checkPasswordLength(password)) {
+            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
         }
         userService.changePassword(password);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -221,7 +223,14 @@ public class AccountResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> finishPasswordReset(@RequestParam(value = "key") String key, @RequestParam(value = "newPassword") String newPassword) {
+        if (!checkPasswordLength(newPassword)) {
+            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
+        }
         return userService.completePasswordReset(newPassword, key)
               .map(user -> new ResponseEntity<String>(HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    private boolean checkPasswordLength(String password) {
+      return (!StringUtils.isEmpty(password) && password.length() >= UserDTO.PASSWORD_MIN_LENGTH && password.length() <= UserDTO.PASSWORD_MAX_LENGTH);
     }
 }

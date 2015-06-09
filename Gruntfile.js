@@ -1,4 +1,4 @@
-// Generated on 2015-06-07 using generator-jhipster 2.15.2
+// Generated on 2015-06-09 using generator-jhipster 2.16.0
 'use strict';
 var fs = require('fs');
 
@@ -168,7 +168,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/main/webapp/assets/images',
-                src: '**/*.{jpg,jpeg}', // we don't optimize PNG files as it doesn't work on Linux. If you are not on Linux, feel free to use '**/*.{png,jpg,jpeg}'
+                    src: '**/*.{jpg,jpeg}', // we don't optimize PNG files as it doesn't work on Linux. If you are not on Linux, feel free to use '**/*.{png,jpg,jpeg}'
                     dest: '<%= yeoman.dist %>/assets/images'
                 }]
             }
@@ -265,16 +265,6 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        concurrent: {
-            server: [
-            ],
-            test: [
-            ],
-            dist: [
-                'imagemin',
-                'svgmin'
-            ]
-        },
         karma: {
             unit: {
                 configFile: 'src/test/javascript/karma.conf.js',
@@ -337,7 +327,6 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'ngconstant:dev',
-        'concurrent:server',
         'browserSync',
         'watch'
     ]);
@@ -351,7 +340,6 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep:test',
         'ngconstant:dev',
-        'concurrent:test',
         'karma'
     ]);
 
@@ -361,7 +349,8 @@ module.exports = function (grunt) {
         'ngconstant:prod',
         'useminPrepare',
         'ngtemplates',
-        'concurrent:dist',
+        'imagemin',
+        'svgmin',
         'concat',
         'copy:dist',
         'ngAnnotate',

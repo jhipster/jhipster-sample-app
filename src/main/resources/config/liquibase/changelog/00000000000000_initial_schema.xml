@@ -6,8 +6,12 @@
 
     <property name="now" value="now()" dbms="mysql,h2"/>
     <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
 
-    <changeSet id="00000000000000" author="jhipster" dbms="postgresql">
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+
+    <changeSet id="00000000000000" author="jhipster" dbms="postgresql,oracle">
         <createSequence sequenceName="hibernate_sequence" startValue="1000" incrementBy="1"/>
     </changeSet>
 
@@ -17,13 +21,13 @@
     -->
     <changeSet id="00000000000001" author="jhipster">
         <createTable tableName="JHI_USER">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="login" type="varchar(50)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="password" type="varchar(100)"/>
+            <column name="PASSWORD" type="varchar(60)"/>
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(100)">
@@ -47,7 +51,7 @@
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
         </createTable>
-
+        
         <createIndex indexName="idx_user_login"
             tableName="JHI_USER"
             unique="true">
@@ -59,7 +63,7 @@
             unique="true">
             <column name="email" type="varchar(100)"/>
         </createIndex>
-
+        
         <createTable tableName="JHI_AUTHORITY">
             <column name="name" type="varchar(50)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -126,9 +130,9 @@
                   file="config/liquibase/users_authorities.csv"
                   separator=";"
                   tableName="JHI_USER_AUTHORITY"/>
-
+                  
         <createTable tableName="JHI_PERSISTENT_AUDIT_EVENT">
-            <column name="event_id" type="bigint" autoIncrement="true">
+            <column name="event_id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="principal" type="varchar(255)">
@@ -138,7 +142,7 @@
             <column name="event_type" type="varchar(255)"/>
         </createTable>
 
-        <createTable tableName="JHI_PERSISTENT_AUDIT_EVENT_DATA">
+        <createTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA">
             <column name="event_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -147,7 +151,7 @@
             </column>
             <column name="value" type="varchar(255)"/>
         </createTable>
-        <addPrimaryKey columnNames="event_id, name" tableName="JHI_PERSISTENT_AUDIT_EVENT_DATA"/>
+        <addPrimaryKey columnNames="event_id, name" tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
 
         <createIndex indexName="idx_persistent_audit_event"
                      tableName="JHI_PERSISTENT_AUDIT_EVENT"
@@ -156,15 +160,15 @@
             <column name="event_date" type="timestamp"/>
         </createIndex>
 
-        <createIndex indexName="idx_persistent_audit_event_data"
-                     tableName="JHI_PERSISTENT_AUDIT_EVENT_DATA"
+        <createIndex indexName="idx_persistent_audit_evt_data"
+                     tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"
                      unique="false">
             <column name="event_id" type="bigint"/>
         </createIndex>
 
         <addForeignKeyConstraint baseColumnNames="event_id"
-                                 baseTableName="JHI_PERSISTENT_AUDIT_EVENT_DATA"
-                                 constraintName="FK_event_persistent_audit_event_data"
+                                 baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA"
+                                 constraintName="fk_evt_pers_audit_evt_data"
                                  referencedColumnNames="event_id"
                                  referencedTableName="JHI_PERSISTENT_AUDIT_EVENT"/>
     </changeSet>
