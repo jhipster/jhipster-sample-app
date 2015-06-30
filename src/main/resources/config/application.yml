@@ -27,6 +27,7 @@ mail:
 swagger:
     title: jhipster API
     description: jhipster applications and beyond!
+    version: 0.0.1
     termsOfServiceUrl: http://jhipster.github.io/
     contact:
     license: Apache 2.0

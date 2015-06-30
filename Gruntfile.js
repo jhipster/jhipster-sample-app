@@ -1,4 +1,4 @@
-// Generated on 2015-06-17 using generator-jhipster 2.16.1
+// Generated on 2015-06-30 using generator-jhipster 2.17.0
 'use strict';
 var fs = require('fs');
 
@@ -52,13 +52,12 @@ module.exports = function (grunt) {
             app: {
                 src: ['src/main/webapp/index.html'],
                 exclude: [
-                    /angular-i18n/,  // localizations are loaded dynamically
-                    /swagger-ui/
+                    /angular-i18n/  // localizations are loaded dynamically
                 ]
             },
             test: {
                 src: 'src/test/javascript/karma.conf.js',
-                exclude: [/angular-i18n/, /swagger-ui/, /angular-scenario/],
+                exclude: [/angular-i18n/, /angular-scenario/],
                 ignorePath: /\.\.\/\.\.\//, // remove ../../ from paths of injected javascripts
                 devDependencies: true,
                 fileTypes: {
@@ -184,9 +183,6 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            options: {
-                root: 'src/main/webapp' // Replace relative paths for static resources with absolute path
-            }
             // src and dest is configured in a subtask called "generated" by usemin
         },
         ngtemplates:    {
@@ -235,6 +231,18 @@ module.exports = function (grunt) {
         },
         // Put files not handled in other tasks here
         copy: {
+            fonts: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: 'src/main/webapp',
+                    dest: '<%= yeoman.dist %>/assets/fonts',
+                    src: [
+                      'bower_components/bootstrap/fonts/*.*'
+                    ]
+                }]
+            },
             dist: {
                 files: [{
                     expand: true,
@@ -352,6 +360,7 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin',
         'concat',
+        'copy:fonts',
         'copy:dist',
         'ngAnnotate',
         'cssmin',

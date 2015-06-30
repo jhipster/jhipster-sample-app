@@ -9,7 +9,7 @@ spring:
         active: prod
     datasource:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-        url: jdbc:mysql://localhost:3306/jhipster
+        url: jdbc:mysql://localhost:3306/jhipster?useUnicode=true&characterEncoding=utf8
         databaseName: 
         serverName: 
         username: root

@@ -53,7 +53,7 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
             responseError: function(response) {
                 // If we have an unauthorized request we redirect to the login page
                 // Don't do this check on the account API to avoid infinite loop
-                if (response.status == 401 && response.data.path!="/api/account"){  
+                if (response.status == 401 && response.data.path !== undefined && response.data.path.indexOf("/api/account") == -1){  
                     var Auth = $injector.get('Auth');
                     var $state = $injector.get('$state');
                     var to = $rootScope.toState;
@@ -93,7 +93,6 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
                 ],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('global');
-                    $translatePartialLoader.addPart('language');
                 }]
             }
         });
