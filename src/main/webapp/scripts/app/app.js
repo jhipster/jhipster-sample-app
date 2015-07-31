@@ -2,7 +2,7 @@
 
 angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
                'ui.bootstrap', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll'])
+    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;
@@ -49,25 +49,6 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
             }
         };
     })
-    .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService) {
-        return {
-            responseError: function(response) {
-                // If we have an unauthorized request we redirect to the login page
-                // Don't do this check on the account API to avoid infinite loop
-                if (response.status == 401 && response.data.path !== undefined && response.data.path.indexOf("/api/account") == -1){  
-                    var Auth = $injector.get('Auth');
-                    var $state = $injector.get('$state');
-                    var to = $rootScope.toState;
-                    var params = $rootScope.toStateParams;
-                    Auth.logout();
-                    $rootScope.returnToState = to;
-                    $rootScope.returnToStateParams = params;
-                    $state.go('login');    
-                }       
-                return $q.reject(response);
-            }
-        };
-    })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //enable CSRF
@@ -98,8 +79,9 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
             }
         });
 
+        $httpProvider.interceptors.push('errorHandlerInterceptor');
         $httpProvider.interceptors.push('authExpiredInterceptor');
-
+        $httpProvider.interceptors.push('notificationInterceptor');
         
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
@@ -109,6 +91,7 @@ angular.module('jhipsterApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
         $translateProvider.preferredLanguage('en');
         $translateProvider.useCookieStorage();
         $translateProvider.useSanitizeValueStrategy('escaped');
+        $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage();

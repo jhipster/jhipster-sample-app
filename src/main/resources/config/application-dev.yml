@@ -16,7 +16,7 @@ spring:
         password: 
 
     jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
+        database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
         database: H2
         openInView: false
         show_sql: true

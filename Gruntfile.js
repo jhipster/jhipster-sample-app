@@ -1,4 +1,4 @@
-// Generated on 2015-07-07 using generator-jhipster 2.18.0
+// Generated on 2015-07-31 using generator-jhipster 2.19.0
 'use strict';
 var fs = require('fs');
 
@@ -193,17 +193,7 @@ module.exports = function (grunt) {
                 options: {
                     module: 'jhipsterApp',
                     usemin: 'scripts/app.js',
-                    htmlmin:  {
-                        removeCommentsFromCDATA: true,
-                        // https://github.com/yeoman/grunt-usemin/issues/44
-                        collapseWhitespace: true,
-                        collapseBooleanAttributes: true,
-                        conservativeCollapse: true,
-                        removeAttributeQuotes: true,
-                        removeRedundantAttributes: true,
-                        useShortDoctype: true,
-                        removeEmptyAttributes: true
-                    }
+                    htmlmin: '<%= htmlmin.dist.options %>'
                 }
             }
         },
