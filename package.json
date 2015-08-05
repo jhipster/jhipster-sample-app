@@ -54,9 +54,8 @@
   },
   "engines": {
     "node": ">=0.12.0"
-  }"scripts": {
+  },
+  "scripts": {
     "test": "grunt test"
   },
 }
-
-
