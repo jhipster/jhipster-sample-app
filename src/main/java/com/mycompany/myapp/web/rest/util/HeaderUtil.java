@@ -14,7 +14,7 @@ public class HeaderUtil {
         headers.add("X-jhipsterApp-params", param);
         return headers;
     }
-
+    
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("jhipsterApp." + entityName + ".created", param);
     }

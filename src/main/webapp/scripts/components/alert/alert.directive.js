@@ -26,8 +26,8 @@ angular.module('jhipsterApp')
 					                    var fieldError = httpResponse.data.fieldErrors[i];
 					                    // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
 					                    var convertedField = fieldError.field.replace(/\[\d*\]/g, "[]");
-					                    var fieldName = $translate.instant('error.fieldName.' + fieldError.objectName + '.' + convertedField);
-					                    addErrorAlert(fieldError.field + ' should not be empty', 'error.' + fieldError.message, {fieldName: fieldName});
+					                    var fieldName = $translate.instant('jhipsterApp.' + fieldError.objectName + '.' + convertedField);
+					                    addErrorAlert('Field ' + fieldName + ' cannot be empty', 'error.' + fieldError.message, {fieldName: fieldName});
 					                }
 					            } else if (httpResponse.data && httpResponse.data.message) {
 					              addErrorAlert(httpResponse.data.message, httpResponse.data.message, httpResponse.data);
