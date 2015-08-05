@@ -1,7 +1,23 @@
 'use strict';
 
 angular.module('jhipsterApp')
-    .directive('jhAlertToast', function(AlertService, $rootScope, $translate) {
+    .directive('jhAlert', function(AlertService) {
+		return {
+            restrict: 'E',
+            template: '<div class="alerts" ng-cloak="">' +
+			                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
+			            '</div>',
+			controller: ['$scope', 
+	            function($scope) {
+	                $scope.alerts = AlertService.get();
+	                $scope.$on('$destroy', function () {
+						$scope.alerts = [];
+					});
+	            }
+	        ]
+        }
+    })
+    .directive('jhAlertError', function(AlertService, $rootScope, $translate) {
 		return {
             restrict: 'E',
             template: '<div class="alerts" ng-cloak="">' +
@@ -13,7 +29,7 @@ angular.module('jhipsterApp')
 
 					var cleanHttpErrorListener = $rootScope.$on('jhipsterApp.httpError', function (event, httpResponse) {
 					    var i;
-
+					    event.stopPropagation();
 					    switch (httpResponse.status) {
 					        // connection refused, server not reachable
 					        case 0:
@@ -46,11 +62,16 @@ angular.module('jhipsterApp')
 					});
 
 					$scope.$on('$destroy', function () {
-					    cleanupCleanErrorsListener();
+					    if(cleanHttpErrorListener !== undefined && cleanHttpErrorListener !== null){
+							cleanHttpErrorListener();
+						}
 					});
 
 					var addErrorAlert = function (message, key, data) {
-						AlertService.error(key, data);
+						
+						key = key && key != null ? key : message;
+						AlertService.error(key, data); 
+						
 					}
 
 	            }
