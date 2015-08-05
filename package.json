@@ -57,5 +57,5 @@
   },
   "scripts": {
     "test": "grunt test"
-  },
+  }
 }
