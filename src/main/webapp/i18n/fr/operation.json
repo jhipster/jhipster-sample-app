@@ -1,0 +1,23 @@
+{
+    "jhipsterApp": {
+        "operation" : {
+            "home": {
+                "title": "Operations",
+                "createLabel": "Créer un nouveau Operation",
+                "createOrEditLabel": "Créer ou éditer un Operation"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Operation {{ id }} ?"
+            },
+            "detail": {
+                "title": "Operation"
+            },
+            "date": "Date",
+            "description": "Description",
+            "amount": "Amount",
+            "bankAccount": "bankAccount",
+            "label": "label"
+        }
+    }
+}
+

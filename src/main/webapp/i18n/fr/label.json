@@ -1,0 +1,20 @@
+{
+    "jhipsterApp": {
+        "label" : {
+            "home": {
+                "title": "Labels",
+                "createLabel": "Créer un nouveau Label",
+                "createOrEditLabel": "Créer ou éditer un Label"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Label {{ id }} ?"
+            },
+            "detail": {
+                "title": "Label"
+            },
+            "label": "Label",
+            "operation": "operation"
+        }
+    }
+}
+

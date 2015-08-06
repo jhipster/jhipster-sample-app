@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="jhipsterApp.operation.detail.title">Operation</span> {{operation.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.date">Date</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{operation.date}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{operation.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.amount">Amount</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{operation.amount}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.bankAccount">bankAccount</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{operation.bankAccount.name}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="operation"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

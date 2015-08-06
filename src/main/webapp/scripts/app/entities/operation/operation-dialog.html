@@ -1,0 +1,78 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myOperationLabel" translate="jhipsterApp.operation.home.createOrEditLabel">Create or edit a Operation</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="operation.id" readonly>
+        </div>
+
+        <div class="form-group">
+            <label translate="jhipsterApp.operation.date" for="field_date">Date</label>
+            <input type="datetime-local" class="form-control" name="date" id="field_date"
+                    ng-model="operation.date" ng-model-options="{timezone: 'UTC'}"
+                    required>
+
+            <div ng-show="editForm.date.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.date.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.date.$error.datetimelocal" translate="entity.validation.datetimelocal">
+                    This field should be a date and time.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="jhipsterApp.operation.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="operation.description"
+                    >
+
+        </div>
+        <div class="form-group">
+            <label translate="jhipsterApp.operation.amount" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                    ng-model="operation.amount"
+                    required>
+
+            <div ng-show="editForm.amount.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.amount.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.amount.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label translate="jhipsterApp.operation.bankAccount" for="field_bankAccount">bankAccount</label>
+            <select class="form-control" id="field_bankAccount" name="bankAccount" ng-model="operation.bankAccount.id" ng-options="bankAccount.id as bankAccount.name for bankAccount in bankaccounts">
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="jhipsterApp.operation.label" for="field_label">label</label>
+            <select class="form-control" id="field_label" multiple name="label" ng-model="operation.labels" ng-options="label as label.label for label in labels track by label.id">
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

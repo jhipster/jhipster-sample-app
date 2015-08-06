@@ -1,0 +1,22 @@
+{
+    "jhipsterApp": {
+        "bankAccount" : {
+            "home": {
+                "title": "BankAccounts",
+                "createLabel": "Créer un nouveau BankAccount",
+                "createOrEditLabel": "Créer ou éditer un BankAccount"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le BankAccount {{ id }} ?"
+            },
+            "detail": {
+                "title": "BankAccount"
+            },
+            "name": "Name",
+            "balance": "Balance",
+            "user": "user",
+            "operation": "operation"
+        }
+    }
+}
+

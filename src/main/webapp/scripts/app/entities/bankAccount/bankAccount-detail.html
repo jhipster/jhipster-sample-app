@@ -1,0 +1,46 @@
+
+<div>
+    <h2><span translate="jhipsterApp.bankAccount.detail.title">BankAccount</span> {{bankAccount.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.bankAccount.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bankAccount.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.bankAccount.balance">Balance</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bankAccount.balance}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.bankAccount.user">user</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bankAccount.user.login}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="bankAccount"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
