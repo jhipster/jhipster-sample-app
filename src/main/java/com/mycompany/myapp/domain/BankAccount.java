@@ -24,16 +24,13 @@ public class BankAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotNull    
-
     
+
+    @NotNull        
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull    
-
-    
+    @NotNull        
     @Column(name = "balance", precision=10, scale=2, nullable = false)
     private BigDecimal balance;
 

@@ -53,7 +53,9 @@
                     <td><a ui-sref="bankAccount.detail({id:bankAccount.id})">{{bankAccount.id}}</a></td>
                     <td>{{bankAccount.name}}</td>
                     <td>{{bankAccount.balance}}</td>
-                    <td>{{bankAccount.user.login}}</td>
+                    <td>
+                        {{bankAccount.user.login}}
+                    </td>
                     <td>
                         <button type="submit"
                                 ui-sref="bankAccount.detail({id:bankAccount.id})"

@@ -17,8 +17,8 @@
             },
             "name": "Name",
             "balance": "Balance",
-            "user": "user",
-            "operation": "operation"
+            "user": "User",
+            "operation": "Operation"
         }
     }
 }

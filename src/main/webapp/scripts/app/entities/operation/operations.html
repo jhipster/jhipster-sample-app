@@ -55,7 +55,9 @@
                     <td>{{operation.date}}</td>
                     <td>{{operation.description}}</td>
                     <td>{{operation.amount}}</td>
-                    <td>{{operation.bankAccount.name}}</td>
+                    <td>
+                        <a ui-sref="bankAccount.detail({id:operation.bankAccount.id})">{{operation.bankAccount.name}}</a>
+                    </td>
                     <td>
                         <button type="submit"
                                 ui-sref="operation.detail({id:operation.id})"

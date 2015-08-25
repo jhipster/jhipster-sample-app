@@ -29,24 +29,19 @@ public class Operation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotNull    
-
     
+
+    @NotNull        
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "date", nullable = false)
     private DateTime date;
-
-
     
     @Column(name = "description")
     private String description;
 
-    @NotNull    
-
-    
+    @NotNull        
     @Column(name = "amount", precision=10, scale=2, nullable = false)
     private BigDecimal amount;
 

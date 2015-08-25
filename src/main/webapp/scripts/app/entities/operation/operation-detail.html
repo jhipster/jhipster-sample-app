@@ -39,7 +39,17 @@
                     <span translate="jhipsterApp.operation.bankAccount">bankAccount</span>
                 </td>
                 <td>
-                    <span class="form-control-static">{{operation.bankAccount.name}}</span>
+                    <a class="form-control-static" ui-sref="bankAccount.detail({id:operation.bankAccount.id})">{{operation.bankAccount.name}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.label">label</span>
+                </td>
+                <td>
+                    <span ng-repeat="label in operation.labels">
+                        <a class="form-control-static" ui-sref="label.detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}
+                    <span>
                 </td>
             </tr>
             </tbody>
@@ -47,7 +57,7 @@
     </div>
 
     <button type="submit"
-            ui-sref="operation"
+            onclick="window.history.back()"
             class="btn btn-info">
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
     </button>
