@@ -20,6 +20,7 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
             'main/webapp/bower_components/angular-resource/angular-resource.js',
+            'main/webapp/bower_components/angular-aria/angular-aria.js',
             'main/webapp/bower_components/angular-cookies/angular-cookies.js',
             'main/webapp/bower_components/angular-sanitize/angular-sanitize.js',
             'main/webapp/bower_components/angular-translate/angular-translate.js',

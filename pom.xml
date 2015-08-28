@@ -361,6 +361,7 @@
         </dependency>
     </dependencies>
     <build>
+        <defaultGoal>spring-boot:run</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
