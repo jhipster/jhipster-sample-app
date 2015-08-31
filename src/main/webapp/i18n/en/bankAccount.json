@@ -1,5 +1,5 @@
 {
-    "jhipsterApp": {
+    "sampleapplicationApp": {
         "bankAccount" : {
             "home": {
                 "title": "BankAccounts",

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jhipsterApp')
+angular.module('sampleapplicationApp')
     .controller('LabelDetailController', function ($scope, $rootScope, $stateParams, entity, Label, Operation) {
         $scope.label = entity;
         $scope.load = function (id) {
@@ -8,7 +8,7 @@ angular.module('jhipsterApp')
                 $scope.label = result;
             });
         };
-        $rootScope.$on('jhipsterApp:labelUpdate', function(event, result) {
+        $rootScope.$on('sampleapplicationApp:labelUpdate', function(event, result) {
             $scope.label = result;
         });
     });

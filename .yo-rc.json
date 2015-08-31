@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "baseName": "jhipster",
+    "baseName": "sampleApplication",
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
     "authenticationType": "session",

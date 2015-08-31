@@ -21,12 +21,12 @@ mail:
     protocol: smtp
     tls: false
     auth: false
-    from: jhipster@localhost
+    from: sampleApplication@localhost
 
 
 swagger:
-    title: jhipster API
-    description: jhipster applications and beyond!
+    title: sampleApplication API
+    description: sampleApplication applications and beyond!
     version: 0.0.1
     termsOfServiceUrl: http://jhipster.github.io/
     contact:

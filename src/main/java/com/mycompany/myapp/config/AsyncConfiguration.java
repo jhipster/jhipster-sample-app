@@ -42,7 +42,7 @@ public class AsyncConfiguration implements AsyncConfigurer, EnvironmentAware {
         executor.setCorePoolSize(propertyResolver.getProperty("corePoolSize", Integer.class, 2));
         executor.setMaxPoolSize(propertyResolver.getProperty("maxPoolSize", Integer.class, 50));
         executor.setQueueCapacity(propertyResolver.getProperty("queueCapacity", Integer.class, 10000));
-        executor.setThreadNamePrefix("jhipster-Executor-");
+        executor.setThreadNamePrefix("sampleapplication-Executor-");
         return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 

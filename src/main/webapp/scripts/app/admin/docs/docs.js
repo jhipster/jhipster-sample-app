@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jhipsterApp')
+angular.module('sampleapplicationApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('docs', {
@@ -14,6 +14,11 @@ angular.module('jhipsterApp')
                     'content@': {
                         templateUrl: 'scripts/app/admin/docs/docs.html'
                     }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', function ($translate) {
+                        return $translate.refresh();
+                    }]
                 }
             });
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jhipsterApp')
+angular.module('sampleapplicationApp')
     .controller('OperationDetailController', function ($scope, $rootScope, $stateParams, entity, Operation, BankAccount, Label) {
         $scope.operation = entity;
         $scope.load = function (id) {
@@ -8,7 +8,7 @@ angular.module('jhipsterApp')
                 $scope.operation = result;
             });
         };
-        $rootScope.$on('jhipsterApp:operationUpdate', function(event, result) {
+        $rootScope.$on('sampleapplicationApp:operationUpdate', function(event, result) {
             $scope.operation = result;
         });
     });

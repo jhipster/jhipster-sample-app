@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jhipsterApp').controller('OperationDialogController',
+angular.module('sampleapplicationApp').controller('OperationDialogController',
     ['$scope', '$stateParams', '$modalInstance', 'entity', 'Operation', 'BankAccount', 'Label',
         function($scope, $stateParams, $modalInstance, entity, Operation, BankAccount, Label) {
 
@@ -14,7 +14,7 @@ angular.module('jhipsterApp').controller('OperationDialogController',
         };
 
         var onSaveFinished = function (result) {
-            $scope.$emit('jhipsterApp:operationUpdate', result);
+            $scope.$emit('sampleapplicationApp:operationUpdate', result);
             $modalInstance.close(result);
         };
 
