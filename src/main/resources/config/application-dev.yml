@@ -23,7 +23,7 @@ spring:
         generate-ddl: false
         hibernate:
             ddl-auto: none
-            naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
         properties:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false

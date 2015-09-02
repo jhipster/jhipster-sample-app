@@ -40,7 +40,7 @@ public class OperationResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Operation> create(@Valid @RequestBody Operation operation) throws URISyntaxException {
+    public ResponseEntity<Operation> createOperation(@Valid @RequestBody Operation operation) throws URISyntaxException {
         log.debug("REST request to save Operation : {}", operation);
         if (operation.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new operation cannot already have an ID").body(null);
@@ -58,10 +58,10 @@ public class OperationResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Operation> update(@Valid @RequestBody Operation operation) throws URISyntaxException {
+    public ResponseEntity<Operation> updateOperation(@Valid @RequestBody Operation operation) throws URISyntaxException {
         log.debug("REST request to update Operation : {}", operation);
         if (operation.getId() == null) {
-            return create(operation);
+            return createOperation(operation);
         }
         Operation result = operationRepository.save(operation);
         return ResponseEntity.ok()
@@ -76,7 +76,7 @@ public class OperationResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Operation>> getAll(@RequestParam(value = "page" , required = false) Integer offset,
+    public ResponseEntity<List<Operation>> getAllOperations(@RequestParam(value = "page" , required = false) Integer offset,
                                   @RequestParam(value = "per_page", required = false) Integer limit)
         throws URISyntaxException {
         Page<Operation> page = operationRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
@@ -91,7 +91,7 @@ public class OperationResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Operation> get(@PathVariable Long id) {
+    public ResponseEntity<Operation> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
         return Optional.ofNullable(operationRepository.findOneWithEagerRelationships(id))
             .map(operation -> new ResponseEntity<>(
@@ -107,7 +107,7 @@ public class OperationResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);
         operationRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("operation", id.toString())).build();

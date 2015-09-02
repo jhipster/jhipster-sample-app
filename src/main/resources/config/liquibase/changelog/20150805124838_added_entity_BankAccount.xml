@@ -11,14 +11,14 @@
     <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
     <property name="autoIncrement" value="false" dbms="oracle"/>
 
-    <property name="floatType" value="real" dbms="postgresql, h2"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
     <property name="floatType" value="float" dbms="mysql, oracle"/>
 
     <!--
         Added the entity BankAccount.
     -->
     <changeSet id="20150805124838" author="jhipster">
-        <createTable tableName="BANKACCOUNT">
+        <createTable tableName="BANK_ACCOUNT">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -32,7 +32,7 @@
         </createTable>
         
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="BANKACCOUNT"
+                                 baseTableName="BANK_ACCOUNT"
                                  constraintName="fk_bankaccount_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="JHI_USER"/>

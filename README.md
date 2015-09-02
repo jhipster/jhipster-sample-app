@@ -1,4 +1,4 @@
-# Developping sampleApplication
+# Developing sampleApplication
 
 sampleApplication was generated using JHipster, you can find documentation and help at [JHipster][].
 

@@ -38,7 +38,7 @@ public class LabelResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Label> create(@Valid @RequestBody Label label) throws URISyntaxException {
+    public ResponseEntity<Label> createLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to save Label : {}", label);
         if (label.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new label cannot already have an ID").body(null);
@@ -56,10 +56,10 @@ public class LabelResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Label> update(@Valid @RequestBody Label label) throws URISyntaxException {
+    public ResponseEntity<Label> updateLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to update Label : {}", label);
         if (label.getId() == null) {
-            return create(label);
+            return createLabel(label);
         }
         Label result = labelRepository.save(label);
         return ResponseEntity.ok()
@@ -74,7 +74,7 @@ public class LabelResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Label> getAll() {
+    public List<Label> getAllLabels() {
         log.debug("REST request to get all Labels");
         return labelRepository.findAll();
     }
@@ -86,7 +86,7 @@ public class LabelResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Label> get(@PathVariable Long id) {
+    public ResponseEntity<Label> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
         return Optional.ofNullable(labelRepository.findOne(id))
             .map(label -> new ResponseEntity<>(
@@ -102,7 +102,7 @@ public class LabelResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);
         labelRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("label", id.toString())).build();

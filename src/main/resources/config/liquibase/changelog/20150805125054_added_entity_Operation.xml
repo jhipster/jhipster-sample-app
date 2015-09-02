@@ -11,7 +11,7 @@
     <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
     <property name="autoIncrement" value="false" dbms="oracle"/>
 
-    <property name="floatType" value="real" dbms="postgresql, h2"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
     <property name="floatType" value="float" dbms="mysql, oracle"/>
 
     <!--
@@ -29,16 +29,16 @@
             <column name="amount" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
-            <column name="bankaccount_id" type="bigint"/>
+            <column name="bank_account_id" type="bigint"/>
         </createTable>
         <dropDefaultValue tableName="OPERATION" columnName="date" columnDataType="datetime"/>
 
         
-        <addForeignKeyConstraint baseColumnNames="bankaccount_id"
+        <addForeignKeyConstraint baseColumnNames="bank_account_id"
                                  baseTableName="OPERATION"
                                  constraintName="fk_operation_bankaccount_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="BANKACCOUNT"/>
+                                 referencedTableName="BANK_ACCOUNT"/>
 
         <createTable tableName="OPERATION_LABEL">
             <column name="labels_id" type="bigint">
