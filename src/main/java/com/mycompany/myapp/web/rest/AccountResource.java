@@ -110,19 +110,7 @@ public class AccountResource {
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> {
-                return new ResponseEntity<>(
-                    new UserDTO(
-                        user.getLogin(),
-                        null,
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getLangKey(),
-                        user.getAuthorities().stream().map(Authority::getName)
-                            .collect(Collectors.toList())),
-                HttpStatus.OK);
-            })
+            .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
@@ -205,7 +193,7 @@ public class AccountResource {
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity<?> requestPasswordReset(@RequestBody String mail, HttpServletRequest request) {
-        
+
         return userService.requestPasswordReset(mail)
             .map(user -> {
                 String baseUrl = request.getScheme() +
@@ -216,7 +204,7 @@ public class AccountResource {
             mailService.sendPasswordResetMail(user, baseUrl);
             return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
             }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
-        
+
     }
 
     @RequestMapping(value = "/account/reset_password/finish",

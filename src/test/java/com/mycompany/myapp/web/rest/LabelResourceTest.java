@@ -13,6 +13,7 @@ import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -49,6 +50,9 @@ public class LabelResourceTest {
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
+    @Inject
+    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+
     private MockMvc restLabelMockMvc;
 
     private Label label;
@@ -58,7 +62,9 @@ public class LabelResourceTest {
         MockitoAnnotations.initMocks(this);
         LabelResource labelResource = new LabelResource();
         ReflectionTestUtils.setField(labelResource, "labelRepository", labelRepository);
-        this.restLabelMockMvc = MockMvcBuilders.standaloneSetup(labelResource).setMessageConverters(jacksonMessageConverter).build();
+        this.restLabelMockMvc = MockMvcBuilders.standaloneSetup(labelResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before

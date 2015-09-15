@@ -1,6 +1,5 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.service.AuditEventService;
 import com.mycompany.myapp.web.propertyeditors.LocaleDateTimeEditor;
 import org.joda.time.LocalDateTime;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 
 import javax.inject.Inject;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
 
 /**
  * REST controller for getting the audit events.
@@ -55,4 +53,3 @@ public class AuditResource {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
-

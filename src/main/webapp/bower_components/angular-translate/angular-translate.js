@@ -1,5 +1,5 @@
 /*!
- * angular-translate - v2.7.0 - 2015-05-02
+ * angular-translate - v2.7.2 - 2015-06-01
  * http://github.com/angular-translate/angular-translate
  * Copyright (c) 2015 ; Licensed MIT
  */
@@ -280,7 +280,9 @@ function $translateSanitizationProvider () {
   }];
 
   var htmlEscapeValue = function (value) {
-    return angular.element('<div></div>').text(value).html();
+    var element = angular.element('<div></div>');
+    element.text(value); // not chainable, see #1044
+    return element.html();
   };
 
   var htmlSanitizeValue = function (value) {
@@ -344,6 +346,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
       $notFoundIndicatorLeft,
       $notFoundIndicatorRight,
       $postCompilingEnabled = false,
+      $forceAsyncReloadEnabled = false,
       NESTED_OBJECT_DELIMITER = '.',
       loaderCache,
       directivePriority = 0,
@@ -365,7 +368,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
         }
       };
 
-  var version = '2.7.0';
+  var version = '2.7.2';
 
   // tries to determine the browsers language
   var getFirstBrowserLanguage = function () {
@@ -443,7 +446,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
    * @returns {string} The string stripped of whitespace from both ends
    */
   var trim = function() {
-    return this.replace(/^\s+|\s+$/g, '');
+    return this.toString().replace(/^\s+|\s+$/g, '');
   };
 
   var negotiateLocale = function (preferred) {
@@ -840,6 +843,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
       return $storageKey;
     }
     $storageKey = key;
+    return this;
   };
 
   this.storageKey = storageKey;
@@ -1013,6 +1017,30 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
    */
   this.usePostCompiling = function (value) {
     $postCompilingEnabled = !(!value);
+    return this;
+  };
+
+  /**
+   * @ngdoc function
+   * @name pascalprecht.translate.$translateProvider#forceAsyncReload
+   * @methodOf pascalprecht.translate.$translateProvider
+   *
+   * @description
+   * If force async reload is enabled, async loader will always be called
+   * even if $translationTable already contains the language key, adding
+   * possible new entries to the $translationTable.
+   *
+   * Example:
+   * <pre>
+   *  app.config(function ($translateProvider) {
+   *    $translateProvider.forceAsyncReload(true);
+   *  });
+   * </pre>
+   *
+   * @param {boolean} value - valid values are true or false
+   */
+  this.forceAsyncReload = function (value) {
+    $forceAsyncReloadEnabled = !(!value);
     return this;
   };
 
@@ -1972,7 +2000,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
         // if there isn't a translation table for the language we've requested,
         // we load it asynchronously
-        if (!$translationTable[key] && $loaderFactory && !langPromises[key]) {
+        if (($forceAsyncReloadEnabled || !$translationTable[key]) && $loaderFactory && !langPromises[key]) {
           $nextLang = key;
           langPromises[key] = loadAsync(key).then(function (translation) {
             translations(translation.key, translation.table);
@@ -2032,6 +2060,20 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
        */
       $translate.isPostCompilingEnabled = function () {
         return $postCompilingEnabled;
+      };
+
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translate#isForceAsyncReloadEnabled
+       * @methodOf pascalprecht.translate.$translate
+       *
+       * @description
+       * Returns whether force async reload is enabled or not
+       *
+       * @return {boolean} forceAsyncReload value
+       */
+      $translate.isForceAsyncReloadEnabled = function () {
+        return $forceAsyncReloadEnabled;
       };
 
       /**
@@ -2111,7 +2153,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
           };
           allTranslationsLoaded.displayName = 'refreshPostProcessor';
 
-          $q.all(tables).then(allTranslationsLoaded);
+          $q.all(tables).then(allTranslationsLoaded, reject);
 
         } else if ($translationTable[langKey]) {
 
@@ -2270,7 +2312,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
           };
           for (var i = 0, len = $fallbackLanguage.length; i < len; i++) {
             var fallbackLanguageId = $fallbackLanguage[i];
-            if (!$translationTable[fallbackLanguageId]) {
+            if ($forceAsyncReloadEnabled || !$translationTable[fallbackLanguageId]) {
               langPromises[fallbackLanguageId] = loadAsync(fallbackLanguageId).then(processAsyncResult);
             }
           }
@@ -2478,7 +2520,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
    * @returns {string} The string stripped of whitespace from both ends
    */
   var trim = function() {
-    return this.replace(/^\s+|\s+$/g, '');
+    return this.toString().replace(/^\s+|\s+$/g, '');
   };
 
   return {
@@ -2683,6 +2725,9 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
           } else {
             observeElementTranslation('');
           }
+        } else if (iAttr.translate) {
+          // ensure attribute will be not skipped
+          observeElementTranslation(iAttr.translate);
         }
         updateTranslations();
         scope.$on('$destroy', unbind);
@@ -2828,6 +2873,32 @@ function translateFilterFactory($parse, $translate) {
 translateFilterFactory.$inject = ['$parse', '$translate'];
 
 translateFilterFactory.displayName = 'translateFilterFactory';
+
+angular.module('pascalprecht.translate')
+
+/**
+ * @ngdoc object
+ * @name pascalprecht.translate.$translationCache
+ * @requires $cacheFactory
+ *
+ * @description
+ * The first time a translation table is used, it is loaded in the translation cache for quick retrieval. You
+ * can load translation tables directly into the cache by consuming the
+ * `$translationCache` service directly.
+ *
+ * @return {object} $cacheFactory object.
+ */
+  .factory('$translationCache', $translationCache);
+
+function $translationCache($cacheFactory) {
+
+  'use strict';
+
+  return $cacheFactory('translations');
+}
+$translationCache.$inject = ['$cacheFactory'];
+
+$translationCache.displayName = '$translationCache';
 return 'pascalprecht.translate';
 
 }));

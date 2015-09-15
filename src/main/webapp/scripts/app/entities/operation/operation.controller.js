@@ -3,9 +3,9 @@
 angular.module('sampleapplicationApp')
     .controller('OperationController', function ($scope, Operation, ParseLinks) {
         $scope.operations = [];
-        $scope.page = 1;
+        $scope.page = 0;
         $scope.loadAll = function() {
-            Operation.query({page: $scope.page, per_page: 20}, function(result, headers) {
+            Operation.query({page: $scope.page, size: 20}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {
                     $scope.operations.push(result[i]);
@@ -13,7 +13,7 @@ angular.module('sampleapplicationApp')
             });
         };
         $scope.reset = function() {
-            $scope.page = 1;
+            $scope.page = 0;
             $scope.operations = [];
             $scope.loadAll();
         };

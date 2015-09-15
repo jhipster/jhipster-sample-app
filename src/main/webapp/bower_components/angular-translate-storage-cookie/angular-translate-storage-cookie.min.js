@@ -1,5 +1,5 @@
 /*!
- * angular-translate - v2.7.0 - 2015-05-02
+ * angular-translate - v2.7.2 - 2015-06-01
  * http://github.com/angular-translate/angular-translate
  * Copyright (c) 2015 ; Licensed MIT
  */

@@ -4,32 +4,32 @@
     "appPath": "src/main/webapp",
     "testPath": "src/test/javascript/spec",
     "dependencies": {
+        "angular": "1.4.5",
+        "angular-aria": "1.4.5",
+        "angular-bootstrap": "0.13.3",
+        "angular-cache-buster": "0.4.3",
+        "angular-cookies": "1.4.5",
+        "angular-dynamic-locale": "0.1.27",
+        "angular-i18n": "1.4.5",
+        "angular-local-storage": "0.2.2",
+        "angular-resource": "1.4.5",
+        "angular-sanitize": "1.4.5",
+        "angular-translate": "2.7.2",
+        "angular-translate-interpolation-messageformat": "2.7.2",
+        "angular-translate-loader-partial": "2.7.2",
+        "angular-translate-storage-cookie": "2.7.2",
+        "angular-ui-router": "0.2.15",
         "bootstrap": "3.3.5",
-        "modernizr": "2.8.3",
         "jquery": "2.1.4",
         "json3": "3.3.2",
-        "angular-bootstrap": "0.13.3",
-        "angular-ui-router": "0.2.15",
-        "angular": "1.4.4",
-        "angular-resource": "1.4.4",
-        "angular-aria": "1.4.4",
-        "angular-cookies": "1.4.4",
-        "angular-sanitize": "1.4.4",
-        "angular-i18n": "1.4.4",
-        "angular-translate": "2.7.0",
-        "angular-translate-interpolation-messageformat": "2.7.0",
-        "angular-translate-storage-cookie": "2.7.0",
-        "angular-translate-loader-partial": "2.7.0",
-        "angular-dynamic-locale": "0.1.27",
-        "angular-local-storage": "0.2.0",
-        "angular-cache-buster": "0.4.3",
+        "modernizr": "2.8.3",
+        "ng-file-upload": "7.0.17",
         "ngInfiniteScroll": "1.2.0",
-        "ng-file-upload": "7.0.15",
-        "swagger-ui": "2.1.1"
+        "swagger-ui": "2.1.2"
     },
     "devDependencies": {
-        "angular-mocks": "1.4.4",
-        "angular-scenario": "1.4.4"
+        "angular-mocks": "1.4.5",
+        "angular-scenario": "1.4.5"
     },
     "overrides": {
         "bootstrap": {
@@ -41,8 +41,8 @@
         }
     },
     "resolutions": {
-        "angular": "1.4.4",
-        "angular-cookies": "1.4.4",
+        "angular": "1.4.5",
+        "angular-cookies": "1.4.5",
         "jquery": "2.1.4"
     }
 }

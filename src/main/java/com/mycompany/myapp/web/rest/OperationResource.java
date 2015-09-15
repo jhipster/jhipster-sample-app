@@ -8,6 +8,7 @@ import com.mycompany.myapp.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -76,11 +77,10 @@ public class OperationResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Operation>> getAllOperations(@RequestParam(value = "page" , required = false) Integer offset,
-                                  @RequestParam(value = "per_page", required = false) Integer limit)
+    public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable)
         throws URISyntaxException {
-        Page<Operation> page = operationRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations", offset, limit);
+        Page<Operation> page = operationRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

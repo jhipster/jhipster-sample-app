@@ -7,7 +7,7 @@ angular.module('sampleapplicationApp')
                 parent: 'entity',
                 url: '/labels',
                 data: {
-                    roles: ['ROLE_USER'],
+                    authorities: ['ROLE_USER'],
                     pageTitle: 'sampleapplicationApp.label.home.title'
                 },
                 views: {
@@ -28,7 +28,7 @@ angular.module('sampleapplicationApp')
                 parent: 'entity',
                 url: '/label/{id}',
                 data: {
-                    roles: ['ROLE_USER'],
+                    authorities: ['ROLE_USER'],
                     pageTitle: 'sampleapplicationApp.label.detail.title'
                 },
                 views: {
@@ -51,7 +51,7 @@ angular.module('sampleapplicationApp')
                 parent: 'label',
                 url: '/new',
                 data: {
-                    roles: ['ROLE_USER'],
+                    authorities: ['ROLE_USER'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({
@@ -74,7 +74,7 @@ angular.module('sampleapplicationApp')
                 parent: 'label',
                 url: '/{id}/edit',
                 data: {
-                    roles: ['ROLE_USER'],
+                    authorities: ['ROLE_USER'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({

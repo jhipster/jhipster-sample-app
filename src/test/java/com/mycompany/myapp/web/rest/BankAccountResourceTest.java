@@ -13,6 +13,7 @@ import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -53,6 +54,9 @@ public class BankAccountResourceTest {
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
+    @Inject
+    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+
     private MockMvc restBankAccountMockMvc;
 
     private BankAccount bankAccount;
@@ -62,7 +66,9 @@ public class BankAccountResourceTest {
         MockitoAnnotations.initMocks(this);
         BankAccountResource bankAccountResource = new BankAccountResource();
         ReflectionTestUtils.setField(bankAccountResource, "bankAccountRepository", bankAccountRepository);
-        this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource).setMessageConverters(jacksonMessageConverter).build();
+        this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before

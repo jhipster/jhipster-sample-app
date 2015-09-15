@@ -37,7 +37,12 @@ angular.module('sampleapplicationApp')
                     .then(function() {
                         var isAuthenticated = Principal.isAuthenticated();
 
-                        if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !Principal.isInAnyRole($rootScope.toState.data.roles)) {
+                        // an authenticated user can't access to login and register pages
+                        if (isAuthenticated && $rootScope.toState.parent === 'account' && ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
+                            $state.go('home');
+                        }
+
+                        if ($rootScope.toState.data.authorities && $rootScope.toState.data.authorities.length > 0 && !Principal.hasAnyAuthority($rootScope.toState.data.authorities)) {
                             if (isAuthenticated) {
                                 // user is signed in but not authorized for desired state
                                 $state.go('accessdenied');

@@ -7,7 +7,7 @@ angular.module('sampleapplicationApp')
                 parent: 'account',
                 url: '/logout',
                 data: {
-                    roles: []
+                    authorities: []
                 },
                 views: {
                     'content@': {
