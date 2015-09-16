@@ -4,6 +4,9 @@ import org.joda.time.DateTime;
 
 import com.mycompany.myapp.domain.User;
 
+/**
+ * A DTO extending the UserDTO, which is meant to be used in the user management UI.
+ */
 public class ManagedUserDTO extends UserDTO {
 
     private Long id;
