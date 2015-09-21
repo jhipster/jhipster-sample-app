@@ -2,12 +2,12 @@ package com.mycompany.myapp.config.audit;
 
 import com.mycompany.myapp.domain.PersistentAuditEvent;
 import org.springframework.boot.actuate.audit.AuditEvent;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Configuration
+@Component
 public class AuditEventConverter {
 
     /**
