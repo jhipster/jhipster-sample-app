@@ -149,7 +149,7 @@ public class UserResource {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
                 .map(user -> new ManagedUserDTO(user))
-                .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
+                .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.2.5.RELEASE</version>
+        <version>1.2.6.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -21,14 +21,14 @@
     </prerequisites>
 
     <properties>
-        <hikaricp.version>2.4.0</hikaricp.version>
+        <hikaricp.version>2.4.1</hikaricp.version>
         <assertj-core.version>3.1.0</assertj-core.version>
         <awaitility.version>1.4.0</awaitility.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <gatling.version>2.1.6</gatling.version>
         <gatling-maven-plugin.version>2.1.6</gatling-maven-plugin.version>
-        <hibernate.version>4.3.10.Final</hibernate.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
