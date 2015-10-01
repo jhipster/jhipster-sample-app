@@ -1,4 +1,4 @@
-// Generated on 2015-09-23 using generator-jhipster 2.21.1
+// Generated on 2015-10-01 using generator-jhipster 2.21.1
 'use strict';
 var fs = require('fs');
 
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                         'src/main/webapp/**/*.html',
                         'src/main/webapp/**/*.json',
                         'src/main/webapp/assets/styles/**/*.css',
-                        'src/main/webapp/scripts/**/*.js',
+                        'src/main/webapp/scripts/**/*.{js,html}',
                         'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
                         'tmp/**/*.{css,js}'
                     ]

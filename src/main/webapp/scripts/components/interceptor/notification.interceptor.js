@@ -9,6 +9,6 @@ angular.module('sampleapplicationApp')
                     AlertService.success(alertKey, { param : response.headers('X-sampleapplicationApp-params')});
                 }
                 return response;
-            },
+            }
         };
     });

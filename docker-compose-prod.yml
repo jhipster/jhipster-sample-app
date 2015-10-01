@@ -1,0 +1,13 @@
+jhipster-prod-mysql:
+  container_name: sampleApplication-prod-mysql
+  image : mysql
+  # volumes:
+  # - ~/volumes/jhipster/sampleApplication/prod-mysql/:/var/lib/mysql/
+  environment:
+  - MYSQL_USER=root
+  - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  - MYSQL_DATABASE=sampleapplication
+  ports:
+  - "3306:3306"
+  command: mysqld --lower_case_table_name=1
+
