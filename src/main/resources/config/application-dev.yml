@@ -1,29 +1,28 @@
-server:
-    port: 8080
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
 
-liquibase:
-    context: dev
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
 
 spring:
     profiles:
         active: dev
     datasource:
-        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+        driver-class-name: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:mem:jhipster;DB_CLOSE_DELAY=-1
-        databaseName: 
-        serverName: 
+        name: 
         username: 
-        password: 
-
+        password:
     jpa:
         database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
         database: H2
-        openInView: false
         show_sql: true
-        generate-ddl: false
-        hibernate:
-            ddl-auto: none
-            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
         properties:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
@@ -32,22 +31,33 @@ spring:
     messages:
         cache-seconds: 1
     thymeleaf:
-        mode: XHTML
         cache: false
 
-metrics:
-    jmx.enabled: true
-    spark:
-        enabled: false
-        host: localhost
-        port: 9999
-    graphite:
-        enabled: false
-        host: localhost
-        port: 2003
-        prefix: sampleApplication
+liquibase:
+    contexts: dev
 
-cache:
-    timeToLiveSeconds: 3600
-    ehcache:
-        maxBytesLocalHeap: 16M
+server:
+    port: 8080
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+jhipster:
+    datasource: # JHipster-specific configuration, in addition to the standard spring.datasource properties
+        serverName: 
+    cache: # Hibernate 2nd level cache, used by CacheConfiguration
+        timeToLiveSeconds: 3600
+        ehcache:
+            maxBytesLocalHeap: 16M
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx.enabled: true
+        spark:
+            enabled: false
+            host: localhost
+            port: 9999
+        graphite:
+            enabled: false
+            host: localhost
+            port: 2003
+            prefix: sampleApplication

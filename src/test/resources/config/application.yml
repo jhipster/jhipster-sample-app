@@ -1,34 +1,33 @@
-server:
-    port: 10344
-    address: localhost
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration is used for unit/integration tests.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
 
 
-# security configuration (this key should be unique for your application, and kept secret)
-jhipster.security.rememberme.key: 5c37379956bd1242f5636c8cb322c2966ad81277
 
-async:
-    corePoolSize: 2
-    maxPoolSize: 50
-    queueCapacity: 10000
-
-liquibase:
-    context: test
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
 
 spring:
     datasource:
-        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+        driver-class-name: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:mem:sampleApplication;DB_CLOSE_DELAY=-1
-        databaseName:
-        serverName:
+        name:
         username:
         password:
-
     jpa:
         database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
         database: H2
-        openInView: false
+        open-in-view: false
         show_sql: true
-        generate-ddl: false
         hibernate:
             ddl-auto: none
             naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
@@ -37,25 +36,52 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
+    mvc:
+        favicon:
+            enabled: false
+    thymeleaf:
+        mode: XHTML
 
-mail:
-    host: localhost
-    port: 25
-    username:
-    password:
-    protocol: smtp
-    tls: false
-    auth: false
+liquibase:
+    contexts: test
 
-metrics:
-    jmx.enabled: false
+security:
+    basic:
+        enabled: false
 
-swagger:
-    apiDocsLocation: http://localhost:8080
-    title: jhipster API
-    version: 0.0.1
-    description: jhipster applications and beyond!
-    termsOfServiceUrl: http://jhipster.github.io/
-    contact:
-    license: Apache 2.0
-    licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
+server:
+    port: 10344
+    address: localhost
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+jhipster:
+    async:
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000
+    mail:
+        host: localhost
+        port: 25
+        username:
+        password:
+        protocol: smtp
+        tls: false
+        auth: false
+        from: sampleApplication@localhost
+    security:
+        rememberme:
+            # security key (this key should be unique for your application, and kept secret)
+            key: 5c37379956bd1242f5636c8cb322c2966ad81277
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx.enabled: true
+    swagger:
+        title: sampleApplication API
+        description: sampleApplication API documentation
+        version: 0.0.1
+        termsOfServiceUrl:
+        contact:
+        license:
+        licenseUrl:

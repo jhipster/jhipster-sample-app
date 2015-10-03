@@ -12,8 +12,8 @@ angular.module('sampleapplicationApp')
                     var to = $rootScope.toState;
                     var params = $rootScope.toStateParams;
                     Auth.logout();
-                    $rootScope.returnToState = to;
-                    $rootScope.returnToStateParams = params;
+                    $rootScope.previousStateName = to;
+                    $rootScope.previousStateNameParams = params;
                     $state.go('login');
                 }
                 return $q.reject(response);

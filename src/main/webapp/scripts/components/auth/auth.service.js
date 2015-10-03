@@ -30,6 +30,9 @@ angular.module('sampleapplicationApp')
             logout: function () {
                 AuthServerProvider.logout();
                 Principal.authenticate(null);
+                // Reset state memory
+                $rootScope.previousStateName = undefined;
+                $rootScope.previousStateNameParams = undefined;
             },
 
             authorize: function(force) {
@@ -50,8 +53,8 @@ angular.module('sampleapplicationApp')
                             else {
                                 // user is not authenticated. stow the state they wanted before you
                                 // send them to the signin state, so you can return them when you're done
-                                $rootScope.returnToState = $rootScope.toState;
-                                $rootScope.returnToStateParams = $rootScope.toStateParams;
+                                $rootScope.previousStateName = $rootScope.toState;
+                                $rootScope.previousStateNameParams = $rootScope.toStateParams;
 
                                 // now, send them to the signin state so they can log in
                                 $state.go('login');

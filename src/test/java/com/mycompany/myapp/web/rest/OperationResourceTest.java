@@ -52,8 +52,8 @@ public class OperationResourceTest {
     private static final DateTime DEFAULT_DATE = new DateTime(0L, DateTimeZone.UTC);
     private static final DateTime UPDATED_DATE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
     private static final String DEFAULT_DATE_STR = dateTimeFormatter.print(DEFAULT_DATE);
-    private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
-    private static final String UPDATED_DESCRIPTION = "UPDATED_TEXT";
+    private static final String DEFAULT_DESCRIPTION = "AAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBB";
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);

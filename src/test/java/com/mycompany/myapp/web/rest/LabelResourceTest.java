@@ -41,8 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class LabelResourceTest {
 
-    private static final String DEFAULT_LABEL = "SAMPLE_TEXT";
-    private static final String UPDATED_LABEL = "UPDATED_TEXT";
+    private static final String DEFAULT_LABEL = "AAA";
+    private static final String UPDATED_LABEL = "BBB";
 
     @Inject
     private LabelRepository labelRepository;
