@@ -198,7 +198,6 @@ public class OperationResourceTest {
         operation.setDate(UPDATED_DATE);
         operation.setDescription(UPDATED_DESCRIPTION);
         operation.setAmount(UPDATED_AMOUNT);
-        
 
         restOperationMockMvc.perform(put("/api/operations")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

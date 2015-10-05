@@ -9,9 +9,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.context.annotation.Profile;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
 import javax.annotation.PreDestroy;
@@ -34,9 +34,6 @@ public class CacheConfiguration {
     private EntityManager entityManager;
 
     @Inject
-    private Environment env;
-
-    @Inject
     private MetricRegistry metricRegistry;
 
     private net.sf.ehcache.CacheManager cacheManager;
@@ -51,10 +48,10 @@ public class CacheConfiguration {
     }
 
     @Bean
-    public CacheManager cacheManager() {
+    public CacheManager cacheManager(JHipsterProperties jHipsterProperties) {
         log.debug("Starting Ehcache");
         cacheManager = net.sf.ehcache.CacheManager.create();
-        cacheManager.getConfiguration().setMaxBytesLocalHeap(env.getProperty("jhipster.cache.ehcache.maxBytesLocalHeap", String.class, "16M"));
+        cacheManager.getConfiguration().setMaxBytesLocalHeap(jHipsterProperties.getCache().getEhcache().getMaxBytesLocalHeap());
         log.debug("Registering Ehcache Metrics gauges");
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
         for (EntityType<?> entity : entities) {
@@ -67,7 +64,7 @@ public class CacheConfiguration {
 
             net.sf.ehcache.Cache cache = cacheManager.getCache(name);
             if (cache != null) {
-                cache.getCacheConfiguration().setTimeToLiveSeconds(env.getProperty("jhipster.cache.timeToLiveSeconds", Long.class, 3600L));
+                cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
                 net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
                 cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
             }

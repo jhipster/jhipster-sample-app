@@ -183,7 +183,6 @@ public class BankAccountResourceTest {
         // Update the bankAccount
         bankAccount.setName(UPDATED_NAME);
         bankAccount.setBalance(UPDATED_BALANCE);
-        
 
         restBankAccountMockMvc.perform(put("/api/bankAccounts")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

@@ -156,7 +156,6 @@ public class LabelResourceTest {
 
         // Update the label
         label.setLabel(UPDATED_LABEL);
-        
 
         restLabelMockMvc.perform(put("/api/labels")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

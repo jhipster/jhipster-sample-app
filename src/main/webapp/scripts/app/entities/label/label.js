@@ -60,7 +60,10 @@ angular.module('sampleapplicationApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {label: null, id: null};
+                                return {
+                                    label: null,
+                                    id: null
+                                };
                             }
                         }
                     }).result.then(function(result) {

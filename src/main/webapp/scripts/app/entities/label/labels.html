@@ -46,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="label in labels">
+                <tr ng-repeat="label in labels track by label.id">
                     <td><a ui-sref="label.detail({id:label.id})">{{label.id}}</a></td>
                     <td>{{label.label}}</td>
                     <td>

@@ -23,6 +23,7 @@ public class Label implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
     @NotNull
     @Size(min = 3)        
     @Column(name = "label", nullable = false)

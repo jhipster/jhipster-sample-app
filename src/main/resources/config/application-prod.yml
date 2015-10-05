@@ -16,7 +16,7 @@ spring:
     datasource:
         driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         url: jdbc:mysql://localhost:3306/sampleApplication?useUnicode=true&characterEncoding=utf8
-        databaseName: 
+        name: 
         username: root
         password:
     jpa:

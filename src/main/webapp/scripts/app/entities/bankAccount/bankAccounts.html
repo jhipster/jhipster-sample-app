@@ -48,7 +48,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="bankAccount in bankAccounts">
+                <tr ng-repeat="bankAccount in bankAccounts track by bankAccount.id">
                     <td><a ui-sref="bankAccount.detail({id:bankAccount.id})">{{bankAccount.id}}</a></td>
                     <td>{{bankAccount.name}}</td>
                     <td>{{bankAccount.balance}}</td>
