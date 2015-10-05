@@ -226,7 +226,7 @@ public class JHipsterProperties {
         }
 
         public void setHost(String host) {
-            this.host = host;
+                this.host = host;
         }
 
         public int getPort() {
