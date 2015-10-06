@@ -20,7 +20,7 @@
         The initial schema has the '00000000000001' id, so that it is over-written if we re-generate it.
     -->
     <changeSet id="00000000000001" author="jhipster">
-        <createTable tableName="JHI_USER">
+        <createTable tableName="jhi_user">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -53,24 +53,24 @@
         </createTable>
         
         <createIndex indexName="idx_user_login"
-            tableName="JHI_USER"
+            tableName="jhi_user"
             unique="true">
             <column name="login" type="varchar(50)"/>
         </createIndex>
 
         <createIndex indexName="idx_user_email"
-            tableName="JHI_USER"
+            tableName="jhi_user"
             unique="true">
             <column name="email" type="varchar(100)"/>
         </createIndex>
         
-        <createTable tableName="JHI_AUTHORITY">
+        <createTable tableName="jhi_authority">
             <column name="name" type="varchar(50)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
 
-        <createTable tableName="JHI_USER_AUTHORITY">
+        <createTable tableName="jhi_user_authority">
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -79,9 +79,9 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="user_id, authority_name" tableName="JHI_USER_AUTHORITY"/>
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="jhi_user_authority"/>
 
-        <createTable tableName="JHI_PERSISTENT_TOKEN">
+        <createTable tableName="jhi_persistent_token">
             <column name="series" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -95,43 +95,43 @@
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="authority_name"
-                                 baseTableName="JHI_USER_AUTHORITY"
+                                 baseTableName="jhi_user_authority"
                                  constraintName="fk_authority_name"
                                  referencedColumnNames="name"
-                                 referencedTableName="JHI_AUTHORITY"/>
+                                 referencedTableName="jhi_authority"/>
 
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="JHI_USER_AUTHORITY"
+                                 baseTableName="jhi_user_authority"
                                  constraintName="fk_user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="JHI_USER"/>
+                                 referencedTableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="JHI_PERSISTENT_TOKEN"
+                                 baseTableName="jhi_persistent_token"
                                  constraintName="fk_user_persistent_token"
                                  referencedColumnNames="id"
-                                 referencedTableName="JHI_USER"/>
+                                 referencedTableName="jhi_user"/>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/users.csv"
                   separator=";"
-                  tableName="JHI_USER">
+                  tableName="jhi_user">
             <column name="activated" type="boolean"/>
             <column name="created_date" type="timestamp"/>
         </loadData>
-        <dropDefaultValue tableName="JHI_USER" columnName="created_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/authorities.csv"
                   separator=";"
-                  tableName="JHI_AUTHORITY"/>
+                  tableName="jhi_authority"/>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/users_authorities.csv"
                   separator=";"
-                  tableName="JHI_USER_AUTHORITY"/>
+                  tableName="jhi_user_authority"/>
                   
-        <createTable tableName="JHI_PERSISTENT_AUDIT_EVENT">
+        <createTable tableName="jhi_persistent_audit_event">
             <column name="event_id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -142,7 +142,7 @@
             <column name="event_type" type="varchar(255)"/>
         </createTable>
 
-        <createTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA">
+        <createTable tableName="jhi_persistent_audit_evt_data">
             <column name="event_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -151,26 +151,26 @@
             </column>
             <column name="value" type="varchar(255)"/>
         </createTable>
-        <addPrimaryKey columnNames="event_id, name" tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
+        <addPrimaryKey columnNames="event_id, name" tableName="jhi_persistent_audit_evt_data"/>
 
         <createIndex indexName="idx_persistent_audit_event"
-                     tableName="JHI_PERSISTENT_AUDIT_EVENT"
+                     tableName="jhi_persistent_audit_event"
                      unique="false">
             <column name="principal" type="varchar(255)"/>
             <column name="event_date" type="timestamp"/>
         </createIndex>
 
         <createIndex indexName="idx_persistent_audit_evt_data"
-                     tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"
+                     tableName="jhi_persistent_audit_evt_data"
                      unique="false">
             <column name="event_id" type="bigint"/>
         </createIndex>
 
         <addForeignKeyConstraint baseColumnNames="event_id"
-                                 baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA"
+                                 baseTableName="jhi_persistent_audit_evt_data"
                                  constraintName="fk_evt_pers_audit_evt_data"
                                  referencedColumnNames="event_id"
-                                 referencedTableName="JHI_PERSISTENT_AUDIT_EVENT"/>
+                                 referencedTableName="jhi_persistent_audit_event"/>
     </changeSet>
     
 </databaseChangeLog>

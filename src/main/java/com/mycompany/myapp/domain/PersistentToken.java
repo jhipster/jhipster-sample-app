@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @see com.mycompany.myapp.security.CustomPersistentRememberMeServices
  */
 @Entity
-@Table(name = "JHI_PERSISTENT_TOKEN")
+@Table(name = "jhi_persistent_token")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class PersistentToken implements Serializable {
 

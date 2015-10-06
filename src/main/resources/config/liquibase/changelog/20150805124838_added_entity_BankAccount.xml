@@ -18,7 +18,7 @@
         Added the entity BankAccount.
     -->
     <changeSet id="20150805124838" author="jhipster">
-        <createTable tableName="BANK_ACCOUNT">
+        <createTable tableName="bank_account">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -32,10 +32,10 @@
         </createTable>
         
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="BANK_ACCOUNT"
+                                 baseTableName="bank_account"
                                  constraintName="fk_bankaccount_user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="JHI_USER"/>
+                                 referencedTableName="jhi_user"/>
 
     </changeSet>
 </databaseChangeLog>

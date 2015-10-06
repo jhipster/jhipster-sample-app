@@ -21,7 +21,7 @@ import java.util.Objects;
  * A Operation.
  */
 @Entity
-@Table(name = "OPERATION")
+@Table(name = "operation")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Operation implements Serializable {
 
@@ -49,7 +49,7 @@ public class Operation implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "OPERATION_LABEL",
+    @JoinTable(name = "operation_label",
                joinColumns = @JoinColumn(name="operations_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="labels_id", referencedColumnName="ID"))
     private Set<Label> labels = new HashSet<>();

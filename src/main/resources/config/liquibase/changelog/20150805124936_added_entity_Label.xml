@@ -18,7 +18,7 @@
         Added the entity Label.
     -->
     <changeSet id="20150805124936" author="jhipster">
-        <createTable tableName="LABEL">
+        <createTable tableName="label">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
