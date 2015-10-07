@@ -29,7 +29,6 @@ public class LogsResource {
             .stream()
             .map(LoggerDTO::new)
             .collect(Collectors.toList());
-        
     }
 
     @RequestMapping(value = "/logs",

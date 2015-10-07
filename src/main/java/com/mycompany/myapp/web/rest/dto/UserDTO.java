@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 /**
  * A DTO representing a user, with his authorities.
  */
