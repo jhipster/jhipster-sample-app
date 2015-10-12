@@ -7,14 +7,14 @@ import org.springframework.http.HttpHeaders;
  *
  */
 public class HeaderUtil {
- 
+
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-sampleapplicationApp-alert", message);
         headers.add("X-sampleapplicationApp-params", param);
         return headers;
     }
-    
+
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("sampleapplicationApp." + entityName + ".created", param);
     }
@@ -26,5 +26,4 @@ public class HeaderUtil {
     public static HttpHeaders createEntityDeletionAlert(String entityName, String param) {
         return createAlert("sampleapplicationApp." + entityName + ".deleted", param);
     }
-
 }

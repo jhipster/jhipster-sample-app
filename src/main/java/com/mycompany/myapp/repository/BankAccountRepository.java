@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.BankAccount;
+
 import org.springframework.data.jpa.repository.*;
 
 import java.util.List;

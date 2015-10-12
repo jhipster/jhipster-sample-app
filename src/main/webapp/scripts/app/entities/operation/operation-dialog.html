@@ -11,13 +11,13 @@
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
-                    ng-model="operation.id" readonly>
+                    ng-model="operation.id" readonly />
         </div>
         <div class="form-group">
             <label translate="sampleapplicationApp.operation.date" for="field_date">Date</label>
             <input type="datetime-local" class="form-control" name="date" id="field_date"
                     ng-model="operation.date" ng-model-options="{timezone: 'UTC'}"
-                    required>
+                    required />
             <div ng-show="editForm.date.$invalid">
                 <p class="help-block"
                     ng-show="editForm.date.$error.required" translate="entity.validation.required">
@@ -33,13 +33,13 @@
             <label translate="sampleapplicationApp.operation.description" for="field_description">Description</label>
             <input type="text" class="form-control" name="description" id="field_description"
                     ng-model="operation.description"
-                    >
+                     />
         </div>
         <div class="form-group">
             <label translate="sampleapplicationApp.operation.amount" for="field_amount">Amount</label>
             <input type="number" class="form-control" name="amount" id="field_amount"
                     ng-model="operation.amount"
-                    required>
+                    required />
             <div ng-show="editForm.amount.$invalid">
                 <p class="help-block"
                     ng-show="editForm.amount.$error.required" translate="entity.validation.required">

@@ -11,13 +11,13 @@
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
-                    ng-model="label.id" readonly>
+                    ng-model="label.id" readonly />
         </div>
         <div class="form-group">
             <label translate="sampleapplicationApp.label.label" for="field_label">Label</label>
             <input type="text" class="form-control" name="label" id="field_label"
                     ng-model="label.label"
-                    required ng-minlength="3">
+                    required ng-minlength="3" />
             <div ng-show="editForm.label.$invalid">
                 <p class="help-block"
                     ng-show="editForm.label.$error.required" translate="entity.validation.required">

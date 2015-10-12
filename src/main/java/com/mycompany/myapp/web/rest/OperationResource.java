@@ -38,8 +38,8 @@ public class OperationResource {
      * POST  /operations -> Create a new operation.
      */
     @RequestMapping(value = "/operations",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Operation> createOperation(@Valid @RequestBody Operation operation) throws URISyntaxException {
         log.debug("REST request to save Operation : {}", operation);
@@ -48,8 +48,8 @@ public class OperationResource {
         }
         Operation result = operationRepository.save(operation);
         return ResponseEntity.created(new URI("/api/operations/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("operation", result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert("operation", result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -66,16 +66,16 @@ public class OperationResource {
         }
         Operation result = operationRepository.save(operation);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("operation", operation.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert("operation", operation.getId().toString()))
+            .body(result);
     }
 
     /**
      * GET  /operations -> get all the operations.
      */
     @RequestMapping(value = "/operations",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable)
         throws URISyntaxException {
@@ -88,8 +88,8 @@ public class OperationResource {
      * GET  /operations/:id -> get the "id" operation.
      */
     @RequestMapping(value = "/operations/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Operation> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
@@ -104,8 +104,8 @@ public class OperationResource {
      * DELETE  /operations/:id -> delete the "id" operation.
      */
     @RequestMapping(value = "/operations/{id}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);

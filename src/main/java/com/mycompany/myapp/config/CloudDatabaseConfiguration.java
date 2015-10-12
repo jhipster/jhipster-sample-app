@@ -3,9 +3,7 @@ package com.mycompany.myapp.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 
 import javax.sql.DataSource;
 

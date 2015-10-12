@@ -36,6 +36,8 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
+    mail:
+        host: localhost
     mvc:
         favicon:
             enabled: false
@@ -62,15 +64,6 @@ jhipster:
         corePoolSize: 2
         maxPoolSize: 50
         queueCapacity: 10000
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
-        protocol: smtp
-        tls: false
-        auth: false
-        from: sampleApplication@localhost
     security:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)

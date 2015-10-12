@@ -136,11 +136,11 @@ public class PersistentToken implements Serializable {
     @Override
     public String toString() {
         return "PersistentToken{" +
-                "series='" + series + '\'' +
-                ", tokenValue='" + tokenValue + '\'' +
-                ", tokenDate=" + tokenDate +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", userAgent='" + userAgent + '\'' +
-                "}";
+            "series='" + series + '\'' +
+            ", tokenValue='" + tokenValue + '\'' +
+            ", tokenDate=" + tokenDate +
+            ", ipAddress='" + ipAddress + '\'' +
+            ", userAgent='" + userAgent + '\'' +
+            "}";
     }
 }

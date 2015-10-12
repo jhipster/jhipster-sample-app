@@ -5,9 +5,7 @@ import com.mycompany.myapp.domain.User;
 
 import org.hibernate.validator.constraints.Email;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 /**
@@ -55,7 +53,7 @@ public class UserDTO {
     }
 
     public UserDTO(String login, String password, String firstName, String lastName,
-            String email, boolean activated, String langKey, Set<String> authorities) {
+        String email, boolean activated, String langKey, Set<String> authorities) {
 
         this.login = login;
         this.password = password;
@@ -102,14 +100,14 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-        "login='" + login + '\'' +
-        ", password='" + password + '\'' +
-        ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
-        ", email='" + email + '\'' +
-        ", activated=" + activated +
-        ", langKey='" + langKey + '\'' +
-        ", authorities=" + authorities +
-        '}';
+            "login='" + login + '\'' +
+            ", password='" + password + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", activated=" + activated +
+            ", langKey='" + langKey + '\'' +
+            ", authorities=" + authorities +
+            "}";
     }
 }

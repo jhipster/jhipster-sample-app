@@ -5,7 +5,6 @@ import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.mycompany.myapp.web.filter.CachingHttpHeadersFilter;
 import com.mycompany.myapp.web.filter.StaticResourcesProductionFilter;
-import com.mycompany.myapp.web.filter.gzip.GZipServletFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,9 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.*;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -49,7 +45,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
             initStaticResourcesProductionFilter(servletContext, disps);
-            initGzipFilter(servletContext, disps);
         }
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
             initH2Console(servletContext);
@@ -71,25 +66,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     /**
-     * Initializes the GZip filter.
-     */
-    private void initGzipFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Registering GZip Filter");
-        FilterRegistration.Dynamic compressingFilter = servletContext.addFilter("gzipFilter", new GZipServletFilter());
-        Map<String, String> parameters = new HashMap<>();
-        compressingFilter.setInitParameters(parameters);
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.css");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.json");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.html");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.js");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.svg");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "*.ttf");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "/api/*");
-        compressingFilter.addMappingForUrlPatterns(disps, true, "/metrics/*");
-        compressingFilter.setAsyncSupported(true);
-    }
-
-    /**
      * Initializes the static resources production Filter.
      */
     private void initStaticResourcesProductionFilter(ServletContext servletContext,
@@ -97,8 +73,8 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 
         log.debug("Registering static resources production Filter");
         FilterRegistration.Dynamic staticResourcesProductionFilter =
-                servletContext.addFilter("staticResourcesProductionFilter",
-                        new StaticResourcesProductionFilter());
+            servletContext.addFilter("staticResourcesProductionFilter",
+                new StaticResourcesProductionFilter());
 
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
@@ -114,8 +90,8 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
                                               EnumSet<DispatcherType> disps) {
         log.debug("Registering Caching HTTP Headers Filter");
         FilterRegistration.Dynamic cachingHttpHeadersFilter =
-                servletContext.addFilter("cachingHttpHeadersFilter",
-                        new CachingHttpHeadersFilter(env));
+            servletContext.addFilter("cachingHttpHeadersFilter",
+                new CachingHttpHeadersFilter(env));
 
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
@@ -128,20 +104,20 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Initializing Metrics registries");
         servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE,
-                metricRegistry);
+            metricRegistry);
         servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
-                metricRegistry);
+            metricRegistry);
 
         log.debug("Registering Metrics Filter");
         FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
-                new InstrumentedFilter());
+            new InstrumentedFilter());
 
         metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
         metricsFilter.setAsyncSupported(true);
 
         log.debug("Registering Metrics Servlet");
         ServletRegistration.Dynamic metricsAdminServlet =
-                servletContext.addServlet("metricsServlet", new MetricsServlet());
+            servletContext.addServlet("metricsServlet", new MetricsServlet());
 
         metricsAdminServlet.addMapping("/metrics/metrics/*");
         metricsAdminServlet.setAsyncSupported(true);

@@ -131,6 +131,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/env/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/mappings/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/liquibase/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/configuration/security").permitAll()
             .antMatchers("/configuration/ui").permitAll()

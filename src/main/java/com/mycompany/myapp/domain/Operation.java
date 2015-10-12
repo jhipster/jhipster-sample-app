@@ -126,10 +126,10 @@ public class Operation implements Serializable {
     @Override
     public String toString() {
         return "Operation{" +
-                "id=" + id +
-                ", date='" + date + "'" +
-                ", description='" + description + "'" +
-                ", amount='" + amount + "'" +
-                '}';
+            "id=" + id +
+            ", date='" + date + "'" +
+            ", description='" + description + "'" +
+            ", amount='" + amount + "'" +
+            '}';
     }
 }

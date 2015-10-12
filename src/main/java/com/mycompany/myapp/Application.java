@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @ComponentScan
-@EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({JHipsterProperties.class, LiquibaseProperties.class})
+@EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
+@EnableConfigurationProperties({ JHipsterProperties.class, LiquibaseProperties.class })
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -72,11 +72,10 @@ public class Application {
         app.setShowBanner(false);
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
         addDefaultProfile(app, source);
-        addLiquibaseScanPackages();
         Environment env = app.run(args).getEnvironment();
         log.info("Access URLs:\n----------------------------------------------------------\n\t" +
-            "Local: \t\thttp://127.0.0.1:{}\n\t" +
-            "External: \thttp://{}:{}\n----------------------------------------------------------",
+                "Local: \t\thttp://127.0.0.1:{}\n\t" +
+                "External: \thttp://{}:{}\n----------------------------------------------------------",
             env.getProperty("server.port"),
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"));
@@ -92,17 +91,5 @@ public class Application {
 
             app.setAdditionalProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
         }
-    }
-
-    /**
-     * Set the liquibases.scan.packages to avoid an exception from ServiceLocator.
-     */
-    private static void addLiquibaseScanPackages() {
-        System.setProperty("liquibase.scan.packages", "liquibase.change,liquibase.database," +
-            "liquibase.parser,liquibase.precondition,liquibase.datatype," +
-            "liquibase.serializer,liquibase.sqlgenerator,liquibase.executor," +
-            "liquibase.snapshot,liquibase.logging,liquibase.diff," +
-            "liquibase.structure,liquibase.structurecompare,liquibase.lockservice," +
-            "liquibase.ext,liquibase.changelog");
     }
 }

@@ -35,8 +35,8 @@ public class BankAccountResource {
      * POST  /bankAccounts -> Create a new bankAccount.
      */
     @RequestMapping(value = "/bankAccounts",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<BankAccount> createBankAccount(@Valid @RequestBody BankAccount bankAccount) throws URISyntaxException {
         log.debug("REST request to save BankAccount : {}", bankAccount);
@@ -45,8 +45,8 @@ public class BankAccountResource {
         }
         BankAccount result = bankAccountRepository.save(bankAccount);
         return ResponseEntity.created(new URI("/api/bankAccounts/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("bankAccount", result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert("bankAccount", result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -63,16 +63,16 @@ public class BankAccountResource {
         }
         BankAccount result = bankAccountRepository.save(bankAccount);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("bankAccount", bankAccount.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert("bankAccount", bankAccount.getId().toString()))
+            .body(result);
     }
 
     /**
      * GET  /bankAccounts -> get all the bankAccounts.
      */
     @RequestMapping(value = "/bankAccounts",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<BankAccount> getAllBankAccounts() {
         log.debug("REST request to get all BankAccounts");
@@ -83,8 +83,8 @@ public class BankAccountResource {
      * GET  /bankAccounts/:id -> get the "id" bankAccount.
      */
     @RequestMapping(value = "/bankAccounts/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<BankAccount> getBankAccount(@PathVariable Long id) {
         log.debug("REST request to get BankAccount : {}", id);
@@ -99,8 +99,8 @@ public class BankAccountResource {
      * DELETE  /bankAccounts/:id -> delete the "id" bankAccount.
      */
     @RequestMapping(value = "/bankAccounts/{id}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
         log.debug("REST request to delete BankAccount : {}", id);

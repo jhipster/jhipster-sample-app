@@ -11,13 +11,13 @@
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
-                    ng-model="bankAccount.id" readonly>
+                    ng-model="bankAccount.id" readonly />
         </div>
         <div class="form-group">
             <label translate="sampleapplicationApp.bankAccount.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="bankAccount.name"
-                    required>
+                    required />
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required" translate="entity.validation.required">
@@ -29,7 +29,7 @@
             <label translate="sampleapplicationApp.bankAccount.balance" for="field_balance">Balance</label>
             <input type="number" class="form-control" name="balance" id="field_balance"
                     ng-model="bankAccount.balance"
-                    required>
+                    required />
             <div ng-show="editForm.balance.$invalid">
                 <p class="help-block"
                     ng-show="editForm.balance.$error.required" translate="entity.validation.required">
