@@ -6,15 +6,13 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
-import org.hibernate.annotations.Type;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 
 /**
  * A user.
@@ -69,9 +67,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_key", length = 20)
     private String resetKey;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "reset_date", nullable = true)
-    private DateTime resetDate = null;
+    private ZonedDateTime resetDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -159,12 +156,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public DateTime getResetDate() {
-        return resetDate;
+    public ZonedDateTime getResetDate() {
+       return resetDate;
     }
 
-    public void setResetDate(DateTime resetDate) {
-        this.resetDate = resetDate;
+    public void setResetDate(ZonedDateTime resetDate) {
+       this.resetDate = resetDate;
     }
 
     public String getLangKey() {

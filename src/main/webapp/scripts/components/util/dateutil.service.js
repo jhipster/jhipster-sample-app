@@ -1,14 +1,10 @@
 'use strict';
 
 angular.module('sampleapplicationApp')
-    .service('DateUtils', function () {
+    .service('DateUtils', function ($filter) {
       this.convertLocaleDateToServer = function(date) {
         if (date) {
-          var utcDate = new Date();
-          utcDate.setUTCDate(date.getDate());
-          utcDate.setUTCMonth(date.getMonth());
-          utcDate.setUTCFullYear(date.getFullYear());
-          return utcDate;
+          return $filter('date')(date, 'yyyy-MM-dd');
         } else {
           return null;
         }
@@ -22,7 +18,7 @@ angular.module('sampleapplicationApp')
       };
       this.convertDateTimeFromServer = function(date) {
         if (date) {
-          return new Date(date);   
+          return new Date(date);
         } else {
           return null;
         }

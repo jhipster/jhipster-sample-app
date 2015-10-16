@@ -21,7 +21,7 @@ spring:
     datasource:
         driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         url: jdbc:mysql://localhost:3306/sampleApplication?useUnicode=true&characterEncoding=utf8
-        name: 
+        name:
         username: root
         password:
     jpa:
@@ -58,8 +58,6 @@ jhipster:
     http:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 31
-    datasource: # JHipster-specific configuration, in addition to the standard spring.datasource properties
-        serverName: 
     cache: # Hibernate 2nd level cache, used by CacheConfiguration
         timeToLiveSeconds: 3600
         ehcache:

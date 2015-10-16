@@ -45,8 +45,7 @@ public class DatabaseConfiguration {
     @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
     public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties) {
         log.debug("Configuring Datasource");
-        String databaseName = env.getProperty("spring.datasource.name"); // Standard property not available in DataSourceProperties
-        if (dataSourceProperties.getUrl() == null && databaseName == null) {
+        if (dataSourceProperties.getUrl() == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
                     " cannot start. Please check your Spring profile, current profiles are: {}",
                 Arrays.toString(env.getActiveProfiles()));
@@ -55,12 +54,7 @@ public class DatabaseConfiguration {
         }
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName(dataSourceProperties.getDriverClassName());
-        if (StringUtils.isEmpty(dataSourceProperties.getUrl())) {
-            config.addDataSourceProperty("databaseName", databaseName);
-            config.addDataSourceProperty("serverName", jHipsterProperties.getDatasource().getServerName());
-        } else {
-            config.addDataSourceProperty("url", dataSourceProperties.getUrl());
-        }
+        config.addDataSourceProperty("url", dataSourceProperties.getUrl());
         if (dataSourceProperties.getUsername() != null) {
             config.addDataSourceProperty("user", dataSourceProperties.getUsername());
         } else {
