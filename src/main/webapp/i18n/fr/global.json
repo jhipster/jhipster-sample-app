@@ -8,6 +8,7 @@
                 "main": "Entités",
                 "bankAccount": "BankAccount",
                 "label": "Label",
+                "operation": "Operation",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

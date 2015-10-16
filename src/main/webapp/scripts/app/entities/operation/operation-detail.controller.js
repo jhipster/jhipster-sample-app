@@ -8,7 +8,9 @@ angular.module('sampleapplicationApp')
                 $scope.operation = result;
             });
         };
-        $rootScope.$on('sampleapplicationApp:operationUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('sampleapplicationApp:operationUpdate', function(event, result) {
             $scope.operation = result;
         });
+        $scope.$on('$destroy', unsubscribe);
+
     });

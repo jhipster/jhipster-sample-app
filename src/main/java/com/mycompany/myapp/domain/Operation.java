@@ -1,13 +1,8 @@
 package com.mycompany.myapp.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.mycompany.myapp.domain.util.CustomDateTimeDeserializer;
-import com.mycompany.myapp.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -29,26 +24,21 @@ public class Operation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
-    @NotNull        
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @JsonSerialize(using = CustomDateTimeSerializer.class)
-    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    @NotNull
     @Column(name = "date", nullable = false)
-    private DateTime date;
-    
+    private ZonedDateTime date;
+
     @Column(name = "description")
     private String description;
 
-    @NotNull        
+    @NotNull
     @Column(name = "amount", precision=10, scale=2, nullable = false)
     private BigDecimal amount;
 
     @ManyToOne
     private BankAccount bankAccount;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @ManyToMany    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "operation_label",
                joinColumns = @JoinColumn(name="operations_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="labels_id", referencedColumnName="ID"))
@@ -62,11 +52,11 @@ public class Operation implements Serializable {
         this.id = id;
     }
 
-    public DateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
