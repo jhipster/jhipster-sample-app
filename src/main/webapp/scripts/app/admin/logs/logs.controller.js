@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp')
+angular.module('sampleApplicationApp')
     .controller('LogsController', function ($scope, LogsService) {
         $scope.loggers = LogsService.findAll();
 

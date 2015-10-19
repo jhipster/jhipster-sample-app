@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp')
+angular.module('sampleApplicationApp')
     .controller('BankAccountController', function ($scope, BankAccount) {
         $scope.bankAccounts = [];
         $scope.loadAll = function() {

@@ -38,6 +38,8 @@ module.exports = function (config) {
             'main/webapp/scripts/app/app.js',
             'main/webapp/scripts/app/**/*.js',
             'main/webapp/scripts/components/**/*.{js,html}',
+            'test/javascript/spec/helpers/module.js',
+            'test/javascript/spec/helpers/httpBackend.js',
             'test/javascript/**/!(karma.conf).js'
         ],
 

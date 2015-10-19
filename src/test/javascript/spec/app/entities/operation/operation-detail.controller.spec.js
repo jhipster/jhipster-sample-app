@@ -1,37 +1,42 @@
 'use strict';
 
 describe('Operation Detail Controller', function() {
-  var scope, rootScope, entity, createController;
+    var $scope, $rootScope;
+    var MockEntity, MockOperation, MockBankAccount, MockLabel;
+    var createController;
 
-  beforeEach(module('sampleapplicationApp'));
-  beforeEach(inject(function($rootScope, $controller) {
-    rootScope = $rootScope;
-    scope = rootScope.$new();
-    entity = jasmine.createSpyObj('entity', ['unused']);
+    beforeEach(inject(function($injector) {
+        $rootScope = $injector.get('$rootScope');
+        $scope = $rootScope.$new();
+        MockEntity = jasmine.createSpy('MockEntity');
+        MockOperation = jasmine.createSpy('MockOperation');
+        MockBankAccount = jasmine.createSpy('MockBankAccount');
+        MockLabel = jasmine.createSpy('MockLabel');
+        
 
-    createController = function() {
-      return $controller("OperationDetailController", {
-        '$scope': scope,
-        '$rootScope': rootScope,
-        'entity': null,
-        'Operation' : null,
-        'BankAccount' : null,
-        'Label' : null
-      });
-    };
-  }));
+        var locals = {
+            '$scope': $scope,
+            '$rootScope': $rootScope,
+            'entity': MockEntity ,
+            'Operation': MockOperation,
+            'BankAccount': MockBankAccount,
+            'Label': MockLabel
+        };
+        createController = function() {
+            $injector.get('$controller')("OperationDetailController", locals);
+        };
+    }));
 
 
-  describe('Root Scope Listening', function() {
-    it('Unregisters root scope listener upon scope destruction',
-      function() {
-        var eventType = 'sampleapplicationApp:operationUpdate';
+    describe('Root Scope Listening', function() {
+        it('Unregisters root scope listener upon scope destruction', function() {
+            var eventType = 'sampleApplicationApp:operationUpdate';
 
-        createController();
-        expect(rootScope.$$listenerCount[eventType]).toEqual(1);
+            createController();
+            expect($rootScope.$$listenerCount[eventType]).toEqual(1);
 
-        scope.$destroy();
-        expect(rootScope.$$listenerCount[eventType]).toBeUndefined();
-      });
-  });
+            $scope.$destroy();
+            expect($rootScope.$$listenerCount[eventType]).toBeUndefined();
+        });
+    });
 });

@@ -2,8 +2,6 @@
 
 describe('Directive Tests ', function () {
 
-    beforeEach(module('sampleapplicationApp'));
-
     var elm, scope, $httpBackend;
 
     beforeEach(inject(function($compile, $rootScope, $injector) {

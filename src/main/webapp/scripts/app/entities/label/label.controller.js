@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp')
+angular.module('sampleApplicationApp')
     .controller('LabelController', function ($scope, Label) {
         $scope.labels = [];
         $scope.loadAll = function() {

@@ -1,36 +1,40 @@
 'use strict';
 
 describe('Label Detail Controller', function() {
-  var scope, rootScope, entity, createController;
+    var $scope, $rootScope;
+    var MockEntity, MockLabel, MockOperation;
+    var createController;
 
-  beforeEach(module('sampleapplicationApp'));
-  beforeEach(inject(function($rootScope, $controller) {
-    rootScope = $rootScope;
-    scope = rootScope.$new();
-    entity = jasmine.createSpyObj('entity', ['unused']);
+    beforeEach(inject(function($injector) {
+        $rootScope = $injector.get('$rootScope');
+        $scope = $rootScope.$new();
+        MockEntity = jasmine.createSpy('MockEntity');
+        MockLabel = jasmine.createSpy('MockLabel');
+        MockOperation = jasmine.createSpy('MockOperation');
+        
 
-    createController = function() {
-      return $controller("LabelDetailController", {
-        '$scope': scope,
-        '$rootScope': rootScope,
-        'entity': null,
-        'Label' : null,
-        'Operation' : null
-      });
-    };
-  }));
+        var locals = {
+            '$scope': $scope,
+            '$rootScope': $rootScope,
+            'entity': MockEntity ,
+            'Label': MockLabel,
+            'Operation': MockOperation
+        };
+        createController = function() {
+            $injector.get('$controller')("LabelDetailController", locals);
+        };
+    }));
 
 
-  describe('Root Scope Listening', function() {
-    it('Unregisters root scope listener upon scope destruction',
-      function() {
-        var eventType = 'sampleapplicationApp:labelUpdate';
+    describe('Root Scope Listening', function() {
+        it('Unregisters root scope listener upon scope destruction', function() {
+            var eventType = 'sampleApplicationApp:labelUpdate';
 
-        createController();
-        expect(rootScope.$$listenerCount[eventType]).toEqual(1);
+            createController();
+            expect($rootScope.$$listenerCount[eventType]).toEqual(1);
 
-        scope.$destroy();
-        expect(rootScope.$$listenerCount[eventType]).toBeUndefined();
-      });
-  });
+            $scope.$destroy();
+            expect($rootScope.$$listenerCount[eventType]).toBeUndefined();
+        });
+    });
 });

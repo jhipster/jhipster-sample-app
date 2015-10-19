@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp')
+angular.module('sampleApplicationApp')
     .factory('Operation', function ($resource, DateUtils) {
         return $resource('api/operations/:id', {}, {
             'query': { method: 'GET', isArray: true},

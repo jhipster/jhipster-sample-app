@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp')
+angular.module('sampleApplicationApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('bankAccount', {
@@ -8,7 +8,7 @@ angular.module('sampleapplicationApp')
                 url: '/bankAccounts',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'sampleapplicationApp.bankAccount.home.title'
+                    pageTitle: 'sampleApplicationApp.bankAccount.home.title'
                 },
                 views: {
                     'content@': {
@@ -29,7 +29,7 @@ angular.module('sampleapplicationApp')
                 url: '/bankAccount/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'sampleapplicationApp.bankAccount.detail.title'
+                    pageTitle: 'sampleApplicationApp.bankAccount.detail.title'
                 },
                 views: {
                     'content@': {

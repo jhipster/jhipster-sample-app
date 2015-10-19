@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleapplicationApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
+angular.module('sampleApplicationApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
