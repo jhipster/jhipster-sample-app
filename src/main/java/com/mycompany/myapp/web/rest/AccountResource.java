@@ -11,6 +11,7 @@ import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import com.mycompany.myapp.web.rest.dto.KeyAndPasswordDTO;
 import com.mycompany.myapp.web.rest.dto.UserDTO;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

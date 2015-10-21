@@ -30,6 +30,8 @@ public class JHipsterProperties {
 
     private final Metrics metrics = new Metrics();
 
+
+
     public Async getAsync() {
         return async;
     }
@@ -61,6 +63,7 @@ public class JHipsterProperties {
     public Metrics getMetrics() {
         return metrics;
     }
+
 
     public static class Async {
 
