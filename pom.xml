@@ -576,6 +576,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <executable>true</executable>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=dev</argument>
@@ -620,6 +621,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
+                            <executable>true</executable>
                             <arguments>
                                 <argument>--spring.profiles.active=dev,fast</argument>
                             </arguments>
@@ -680,6 +682,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
+                            <executable>true</executable>
                             <arguments>
                                 <argument>--spring.profiles.active=prod</argument>
                             </arguments>

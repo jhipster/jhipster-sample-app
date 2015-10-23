@@ -51,7 +51,7 @@
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
                 <tr ng-repeat="operation in operations track by operation.id">
                     <td><a ui-sref="operation.detail({id:operation.id})">{{operation.id}}</a></td>
-                    <td>{{operation.date}}</td>
+                    <td>{{operation.date | date:'medium'}}</td>
                     <td>{{operation.description}}</td>
                     <td>{{operation.amount}}</td>
                     <td>
