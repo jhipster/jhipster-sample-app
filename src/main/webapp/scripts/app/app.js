@@ -2,9 +2,23 @@
 
 angular.module('sampleApplicationApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
                'ui.bootstrap', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
+    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'angular-loading-bar'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
+        // update the window title using params in the following
+        // precendence
+        // 1. titleKey parameter
+        // 2. $state.$current.data.pageTitle (current state page title)
+        // 3. 'global.title'
+        var updateTitle = function(titleKey) {
+            if (!titleKey && $state.$current.data && $state.$current.data.pageTitle) {
+                titleKey = $state.$current.data.pageTitle;
+            }
+            $translate(titleKey || 'global.title').then(function (title) {
+                $window.document.title = title;
+            });
+        };
+        
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
@@ -38,14 +52,13 @@ angular.module('sampleApplicationApp', ['LocalStorageModule', 'tmh.dynamicLocale
             if (toState.data.pageTitle) {
                 titleKey = toState.data.pageTitle;
             }
-            
-            $translate(titleKey).then(function (title) {
-                // Change window title with translated one
-                $window.document.title = title;
-            });
-            
+            updateTitle(titleKey);
         });
+        
+        // if the current translation changes, update the window title
+        $rootScope.$on('$translateChangeSuccess', function() { updateTitle(); });
 
+        
         $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'home'
             if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
@@ -55,7 +68,9 @@ angular.module('sampleApplicationApp', ['LocalStorageModule', 'tmh.dynamicLocale
             }
         };
     })
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
+        // uncomment below to make alerts look like toast
+        //AlertServiceProvider.showAsToast(true);
 
         //enable CSRF
         $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';

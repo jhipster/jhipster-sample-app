@@ -97,5 +97,28 @@ angular.module('sampleApplicationApp')
                         $state.go('^');
                     })
                 }]
+            })
+            .state('operation.delete', {
+                parent: 'operation',
+                url: '/{id}/delete',
+                data: {
+                    authorities: ['ROLE_USER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/entities/operation/operation-delete-dialog.html',
+                        controller: 'OperationDeleteController',
+                        size: 'md',
+                        resolve: {
+                            entity: ['Operation', function(Operation) {
+                                return Operation.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('operation', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
             });
     });

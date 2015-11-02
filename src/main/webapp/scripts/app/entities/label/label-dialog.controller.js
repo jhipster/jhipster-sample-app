@@ -12,16 +12,22 @@ angular.module('sampleApplicationApp').controller('LabelDialogController',
             });
         };
 
-        var onSaveFinished = function (result) {
+        var onSaveSuccess = function (result) {
             $scope.$emit('sampleApplicationApp:labelUpdate', result);
             $modalInstance.close(result);
+            $scope.isSaving = false;
+        };
+
+        var onSaveError = function (result) {
+            $scope.isSaving = false;
         };
 
         $scope.save = function () {
+            $scope.isSaving = true;
             if ($scope.label.id != null) {
-                Label.update($scope.label, onSaveFinished);
+                Label.update($scope.label, onSaveSuccess, onSaveError);
             } else {
-                Label.save($scope.label, onSaveFinished);
+                Label.save($scope.label, onSaveSuccess, onSaveError);
             }
         };
 

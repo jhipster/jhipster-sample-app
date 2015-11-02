@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sampleApplicationApp')
-    .controller('OperationController', function ($scope, Operation, ParseLinks) {
+    .controller('OperationController', function ($scope, $state, $modal, Operation, ParseLinks) {
         $scope.operations = [];
         $scope.page = 0;
         $scope.loadAll = function() {
@@ -23,21 +23,6 @@ angular.module('sampleApplicationApp')
         };
         $scope.loadAll();
 
-        $scope.delete = function (id) {
-            Operation.get({id: id}, function(result) {
-                $scope.operation = result;
-                $('#deleteOperationConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            Operation.delete({id: id},
-                function () {
-                    $scope.reset();
-                    $('#deleteOperationConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
 
         $scope.refresh = function () {
             $scope.reset();

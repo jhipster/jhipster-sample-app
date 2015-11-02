@@ -82,6 +82,7 @@ public class DatabaseConfiguration {
      * Open the TCP port for the H2 database, so it is available remotely.
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
+    @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
     public Server h2TCPServer() throws SQLException {
         return Server.createTcpServer("-tcp","-tcpAllowOthers");
     }

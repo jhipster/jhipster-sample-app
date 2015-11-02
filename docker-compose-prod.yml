@@ -1,6 +1,6 @@
 jhipster-prod-mysql:
   container_name: sampleApplication-prod-mysql
-  image: mysql
+  image: mysql:5.7.9
   # volumes:
   # - ~/volumes/jhipster/sampleApplication/prod-mysql/:/var/lib/mysql/
   environment:
@@ -9,5 +9,5 @@ jhipster-prod-mysql:
   - MYSQL_DATABASE=sampleapplication
   ports:
   - "3306:3306"
-  command: mysqld --lower_case_table_name=1
+  command: mysqld --lower_case_table_names=1
 

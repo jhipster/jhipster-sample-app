@@ -95,5 +95,28 @@ angular.module('sampleApplicationApp')
                         $state.go('^');
                     })
                 }]
+            })
+            .state('label.delete', {
+                parent: 'label',
+                url: '/{id}/delete',
+                data: {
+                    authorities: ['ROLE_USER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/entities/label/label-delete-dialog.html',
+                        controller: 'LabelDeleteController',
+                        size: 'md',
+                        resolve: {
+                            entity: ['Label', function(Label) {
+                                return Label.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('label', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
             });
     });

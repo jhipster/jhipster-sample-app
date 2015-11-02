@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sampleApplicationApp')
-    .controller('LabelController', function ($scope, Label) {
+    .controller('LabelController', function ($scope, $state, $modal, Label) {
         $scope.labels = [];
         $scope.loadAll = function() {
             Label.query(function(result) {
@@ -10,21 +10,6 @@ angular.module('sampleApplicationApp')
         };
         $scope.loadAll();
 
-        $scope.delete = function (id) {
-            Label.get({id: id}, function(result) {
-                $scope.label = result;
-                $('#deleteLabelConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            Label.delete({id: id},
-                function () {
-                    $scope.loadAll();
-                    $('#deleteLabelConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
 
         $scope.refresh = function () {
             $scope.loadAll();

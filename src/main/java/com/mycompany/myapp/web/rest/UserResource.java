@@ -98,8 +98,8 @@ public class UserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDTO) throws URISyntaxException {
         log.debug("REST request to update User : {}", managedUserDTO);
-        return Optional.of(userRepository
-            .findOne(managedUserDTO.getId()))
+        return userRepository
+            .findOneById(managedUserDTO.getId())
             .map(user -> {
                 user.setLogin(managedUserDTO.getLogin());
                 user.setFirstName(managedUserDTO.getFirstName());
@@ -148,7 +148,7 @@ public class UserResource {
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(user -> new ManagedUserDTO(user))
+                .map(ManagedUserDTO::new)
                 .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

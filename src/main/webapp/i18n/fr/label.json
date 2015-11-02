@@ -6,6 +6,9 @@
                 "createLabel": "Créer un nouveau Label",
                 "createOrEditLabel": "Créer ou éditer un Label"
             },
+            "created": "Un nouveau Label a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Label avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Label avec l'identifiant {{ param }} a été supprimé",
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer le Label {{ id }} ?"
             },
