@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sampleApplicationApp')
-    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth) {
+    .controller('LoginPopupController', function ($rootScope, $scope, $state, $timeout, Auth, $modalInstance) {
         $scope.credentials = {
             username: null,
             password: null,
@@ -10,6 +10,7 @@ angular.module('sampleApplicationApp')
         $scope.authenticationError = false;
 
         $timeout(function (){angular.element('[ng-model="username"]').focus();});
+
         $scope.login = function (event) {
             event.preventDefault();
             Auth.login({
@@ -18,13 +19,19 @@ angular.module('sampleApplicationApp')
                 rememberMe: $scope.credentials.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
-                if ($rootScope.previousStateName === 'register') {
-                    $state.go('home');
-                } else {
-                    $rootScope.back();
-                }
+                $modalInstance.close();
             }).catch(function () {
                 $scope.authenticationError = true;
             });
+        };
+
+        $scope.cancel = function () {
+          $scope.credentials = {
+              username: null,
+              password: null,
+              rememberMe: true
+          };
+          $scope.authenticationError = false;
+          $modalInstance.dismiss('cancel');
         };
     });

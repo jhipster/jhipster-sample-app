@@ -2,6 +2,7 @@
 
 angular.module('sampleApplicationApp')
     .controller('OperationController', function ($scope, $state, $modal, Operation, ParseLinks) {
+      
         $scope.operations = [];
         $scope.page = 0;
         $scope.loadAll = function() {
