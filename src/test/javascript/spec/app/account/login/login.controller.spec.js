@@ -14,7 +14,7 @@ describe('Controllers Tests ', function () {
         }));
 
         it('should set remember Me', function () {
-            expect($scope.credentials.rememberMe).toBeTruthy();
+            expect($scope.rememberMe).toBeTruthy();
         });
     });
 });
