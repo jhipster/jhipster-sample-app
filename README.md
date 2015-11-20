@@ -1,4 +1,4 @@
-# Developing sampleApplication
+# sampleApplication
 
 This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
 
@@ -46,6 +46,9 @@ Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in `src/test/javascript` and can be run with:
 
     grunt test
+    
+UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in `src/test/javascript/e2e` 
+and can be run by starting Spring Boot in one terminal (`mvn spring-boot:run`) and running the tests (`grunt itest`) in a second one.
 
 # Continuous Integration
 
@@ -60,8 +63,16 @@ To setup this project in Jenkins, use the following configuration:
     * Poll SCM / Schedule: `H/5 * * * *`
 * Build
     * Invoke Maven / Tasks: `-Pprod clean package`
+    * Execute Shell / Command:
+        ````
+        mvn spring-boot:run &
+        bootPid=$!
+        sleep 30s
+        grunt itest
+        kill $bootPid
+        ````
 * Post-build Actions
-    * Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
+    * Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml,build/reports/e2e/*.xml`
 
 [JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/

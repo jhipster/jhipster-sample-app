@@ -33,6 +33,7 @@ public class BankAccount implements Serializable {
     private BigDecimal balance;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
@@ -88,12 +89,8 @@ public class BankAccount implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         BankAccount bankAccount = (BankAccount) o;
-
-        if ( ! Objects.equals(id, bankAccount.id)) return false;
-
-        return true;
+        return Objects.equals(id, bankAccount.id);
     }
 
     @Override

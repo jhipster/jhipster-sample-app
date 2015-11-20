@@ -49,7 +49,7 @@ angular.module('sampleApplicationApp')
                     size: 'lg',
                     resolve: {
                         threadDump: function() {
-                            return data;
+                            return data.content;
                         }
 
                     }

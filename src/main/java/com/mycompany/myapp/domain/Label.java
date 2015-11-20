@@ -65,12 +65,8 @@ public class Label implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Label label = (Label) o;
-
-        if ( ! Objects.equals(id, label.id)) return false;
-
-        return true;
+        return Objects.equals(id, label.id);
     }
 
     @Override
