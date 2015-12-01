@@ -27,10 +27,10 @@ import java.util.Optional;
 public class BankAccountResource {
 
     private final Logger log = LoggerFactory.getLogger(BankAccountResource.class);
-
+        
     @Inject
     private BankAccountRepository bankAccountRepository;
-
+    
     /**
      * POST  /bankAccounts -> Create a new bankAccount.
      */
@@ -77,8 +77,8 @@ public class BankAccountResource {
     public List<BankAccount> getAllBankAccounts() {
         log.debug("REST request to get all BankAccounts");
         return bankAccountRepository.findAll();
-    }
-
+            }
+    
     /**
      * GET  /bankAccounts/:id -> get the "id" bankAccount.
      */
@@ -88,9 +88,10 @@ public class BankAccountResource {
     @Timed
     public ResponseEntity<BankAccount> getBankAccount(@PathVariable Long id) {
         log.debug("REST request to get BankAccount : {}", id);
-        return Optional.ofNullable(bankAccountRepository.findOne(id))
-            .map(bankAccount -> new ResponseEntity<>(
-                bankAccount,
+        BankAccount bankAccount = bankAccountRepository.findOne(id);
+        return Optional.ofNullable(bankAccount)
+            .map(result -> new ResponseEntity<>(
+                result,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

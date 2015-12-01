@@ -1,4 +1,4 @@
-// Generated on 2015-11-20 using generator-jhipster 2.24.0
+// Generated on 2015-12-01 using generator-jhipster 2.24.0
 'use strict';
 var fs = require('fs');
 
@@ -269,22 +269,6 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
-        protractor: {
-            options: {
-                configFile: 'src/test/javascript/protractor.conf.js'
-            },
-            e2e: {
-                options: {
-                    // Stops Grunt process if a test fails
-                    keepAlive: false
-                }
-            },
-            continuous: {
-                options: {
-                    keepAlive: true
-                }
-            }
-        },
         ngAnnotate: {
             dist: {
                 files: [{
@@ -390,6 +374,6 @@ module.exports = function (grunt) {
         'buildcontrol:openshift'
     ]);
 
-    grunt.registerTask('itest', ['protractor:continuous']);
+    
     grunt.registerTask('default', ['serve']);
 };

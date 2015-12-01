@@ -153,7 +153,7 @@ public class OperationResourceIntTest {
         operationRepository.saveAndFlush(operation);
 
         // Get all the operations
-        restOperationMockMvc.perform(get("/api/operations"))
+        restOperationMockMvc.perform(get("/api/operations?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(operation.getId().intValue())))

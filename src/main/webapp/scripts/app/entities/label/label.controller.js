@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sampleApplicationApp')
-    .controller('LabelController', function ($scope, $state, $modal, Label) {
-      
+    .controller('LabelController', function ($scope, $state, Label) {
+
         $scope.labels = [];
         $scope.loadAll = function() {
             Label.query(function(result) {

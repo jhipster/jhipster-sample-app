@@ -1,6 +1,6 @@
 {
   "name": "angular-dynamic-locale",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "description": "A minimal module that adds the ability to dynamically change the locale",
   "license": "MIT License, http://www.opensource.org/licenses/MIT",
   "devDependencies": {

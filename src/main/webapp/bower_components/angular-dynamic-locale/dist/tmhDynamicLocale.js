@@ -31,7 +31,7 @@ angular.module('tmh.dynamicLocale', []).config(['$provide', function ($provide) 
    * Loads a script asynchronously
    *
    * @param {string} url The url for the script
-   @ @param {function) callback A function to be called once the script is loaded
+   * @param {function) callback A function to be called once the script is loaded
    */
   function loadScript(url, callback, errorCallback, $timeout) {
     var script = document.createElement('script'),

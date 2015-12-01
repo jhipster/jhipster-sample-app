@@ -33,6 +33,7 @@ public class Label implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Operation> operations = new HashSet<>();
 
+    
     public Long getId() {
         return id;
     }

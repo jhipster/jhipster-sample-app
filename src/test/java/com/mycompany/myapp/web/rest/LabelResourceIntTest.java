@@ -117,7 +117,7 @@ public class LabelResourceIntTest {
         labelRepository.saveAndFlush(label);
 
         // Get all the labels
-        restLabelMockMvc.perform(get("/api/labels"))
+        restLabelMockMvc.perform(get("/api/labels?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))

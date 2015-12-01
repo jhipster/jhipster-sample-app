@@ -27,10 +27,10 @@ import java.util.Optional;
 public class LabelResource {
 
     private final Logger log = LoggerFactory.getLogger(LabelResource.class);
-
+        
     @Inject
     private LabelRepository labelRepository;
-
+    
     /**
      * POST  /labels -> Create a new label.
      */
@@ -77,8 +77,8 @@ public class LabelResource {
     public List<Label> getAllLabels() {
         log.debug("REST request to get all Labels");
         return labelRepository.findAll();
-    }
-
+            }
+    
     /**
      * GET  /labels/:id -> get the "id" label.
      */
@@ -88,9 +88,10 @@ public class LabelResource {
     @Timed
     public ResponseEntity<Label> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
-        return Optional.ofNullable(labelRepository.findOne(id))
-            .map(label -> new ResponseEntity<>(
-                label,
+        Label label = labelRepository.findOne(id);
+        return Optional.ofNullable(label)
+            .map(result -> new ResponseEntity<>(
+                result,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

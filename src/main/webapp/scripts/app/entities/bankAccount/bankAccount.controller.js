@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sampleApplicationApp')
-    .controller('BankAccountController', function ($scope, $state, $modal, BankAccount) {
-      
+    .controller('BankAccountController', function ($scope, $state, BankAccount) {
+
         $scope.bankAccounts = [];
         $scope.loadAll = function() {
             BankAccount.query(function(result) {

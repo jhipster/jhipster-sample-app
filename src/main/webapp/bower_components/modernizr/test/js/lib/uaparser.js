@@ -7,7 +7,7 @@
 (function(exports){
 
   exports.uaparse = parse;
-  
+
   function parse(ua) {
     for (var i=0; i < parsers.length; i++) {
       var result = parsers[i](ua);
@@ -39,8 +39,8 @@
     if (suffix) { suffix = ' ' + suffix; }
     return this.family + suffix;
   };
-  
-  
+
+
   var regexes = [
       {"pattern":"^(Opera)/(\\d+)\\.(\\d+) \\(Nintendo Wii",
        "v1_replacement":null,
@@ -87,6 +87,9 @@
       {"pattern":"(konqueror)/(\\d+)\\.(\\d+)\\.(\\d+)",
        "v1_replacement":null,
        "family_replacement":"Konqueror"},
+      {"pattern":"(Edge)/(\\d+)\.(\\d+)",
+       "v1_replacement":null,
+       "family_replacement":"IE"},
       {"pattern":"(Jasmine|ANTGalio|Midori|Fresco|Lobo|Maxthon|Lynx|OmniWeb|Dillo|Camino|Demeter|Fluid|Fennec|Shiira|Sunrise|Chrome|Flock|Netscape|Lunascape|Epiphany|WebPilot|Vodafone|NetFront|Konqueror|SeaMonkey|Kazehakase|Vienna|Iceape|Iceweasel|IceWeasel|Iron|K-Meleon|Sleipnir|Galeon|GranParadiso|Opera Mini|iCab|NetNewsWire|Iron|Iris)/(\\d+)\\.(\\d+)\\.(\\d+)",
        "v1_replacement":null,
        "family_replacement":null},
@@ -180,13 +183,16 @@
       {"pattern":"(Teleca Q7)",
        "v1_replacement":null,
        "family_replacement":null},
+      {"pattern":"Trident(.*)rv.(\\d+)\.(\\d+)",
+       "v1_replacement":null,
+       "family_replacement":"IE"},
       {"pattern":"(MSIE) (\\d+)\\.(\\d+)",
        "v1_replacement":null,
        "family_replacement":"IE"}
 
   ];
-  
-  var parsers = regexes.map(function(obj) {
+
+  var parsers = _.map(regexes, function(obj) {
     var regexp = new RegExp(obj.pattern),
         famRep = obj.family_replacement,
         v1Rep = obj.v1_replacement;
@@ -208,8 +214,8 @@
 
     return parser;
   });
-  
-  
+
+
 })(window);
 
 

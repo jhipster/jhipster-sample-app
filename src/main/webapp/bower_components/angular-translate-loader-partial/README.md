@@ -14,6 +14,12 @@ Please file any issues and bugs in our main repository at [angular-translate/ang
 $ bower install angular-translate-loader-partial
 ```
 
+### via NPM
+
+```bash
+$ npm install angular-translate-loader-partial
+```
+
 ### via cdnjs
 
 Please have a look at https://cdnjs.com/libraries/angular-translate-loader-partial for specific versions.

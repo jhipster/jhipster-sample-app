@@ -98,6 +98,10 @@ public class UserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDTO) throws URISyntaxException {
         log.debug("REST request to update User : {}", managedUserDTO);
+        Optional<User> existingUser = userRepository.findOneByEmail(managedUserDTO.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(managedUserDTO.getLogin()))) {
+            return ResponseEntity.badRequest().header("Failure", "Email already used").body(null);
+        }
         return userRepository
             .findOneById(managedUserDTO.getId())
             .map(user -> {
@@ -118,6 +122,7 @@ public class UserResource {
                         .findOne(managedUserDTO.getId())));
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+
     }
 
     /**

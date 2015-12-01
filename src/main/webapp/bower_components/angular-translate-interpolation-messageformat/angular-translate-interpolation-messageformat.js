@@ -1,23 +1,23 @@
 /*!
- * angular-translate - v2.7.2 - 2015-06-01
- * http://github.com/angular-translate/angular-translate
- * Copyright (c) 2015 ; Licensed MIT
+ * angular-translate - v2.8.1 - 2015-10-01
+ * 
+ * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    define([], function () {
-      return (factory());
+    define(["messageformat"], function (a0) {
+      return (factory(a0));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory();
+    module.exports = factory(require("messageformat"));
   } else {
-    factory();
+    factory(MessageFormat);
   }
-}(this, function () {
+}(this, function (MessageFormat) {
 
 angular.module('pascalprecht.translate')
 
@@ -113,7 +113,7 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
    * @methodOf pascalprecht.translate.$translateMessageFormatInterpolation
    *
    * @description
-   * Interpolates given string agains given interpolate params using MessageFormat.js.
+   * Interpolates given string against given interpolate params using MessageFormat.js.
    *
    * @returns {string} interpolated string.
    */

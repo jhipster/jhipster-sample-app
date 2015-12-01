@@ -53,8 +53,8 @@ angular.module('sampleApplicationApp')
                 data: {
                     authorities: ['ROLE_USER'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                    $modal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
                         templateUrl: 'scripts/app/entities/bankAccount/bankAccount-dialog.html',
                         controller: 'BankAccountDialogController',
                         size: 'lg',
@@ -80,8 +80,8 @@ angular.module('sampleApplicationApp')
                 data: {
                     authorities: ['ROLE_USER'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                    $modal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
                         templateUrl: 'scripts/app/entities/bankAccount/bankAccount-dialog.html',
                         controller: 'BankAccountDialogController',
                         size: 'lg',
@@ -103,8 +103,8 @@ angular.module('sampleApplicationApp')
                 data: {
                     authorities: ['ROLE_USER'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                    $modal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
                         templateUrl: 'scripts/app/entities/bankAccount/bankAccount-delete-dialog.html',
                         controller: 'BankAccountDeleteController',
                         size: 'md',

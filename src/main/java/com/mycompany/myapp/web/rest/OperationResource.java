@@ -30,10 +30,10 @@ import java.util.Optional;
 public class OperationResource {
 
     private final Logger log = LoggerFactory.getLogger(OperationResource.class);
-
+        
     @Inject
     private OperationRepository operationRepository;
-
+    
     /**
      * POST  /operations -> Create a new operation.
      */
@@ -79,11 +79,12 @@ public class OperationResource {
     @Timed
     public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable)
         throws URISyntaxException {
-        Page<Operation> page = operationRepository.findAll(pageable);
+        log.debug("REST request to get a page of Operations");
+        Page<Operation> page = operationRepository.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
+    
     /**
      * GET  /operations/:id -> get the "id" operation.
      */
@@ -93,9 +94,10 @@ public class OperationResource {
     @Timed
     public ResponseEntity<Operation> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
-        return Optional.ofNullable(operationRepository.findOneWithEagerRelationships(id))
-            .map(operation -> new ResponseEntity<>(
-                operation,
+        Operation operation = operationRepository.findOneWithEagerRelationships(id);
+        return Optional.ofNullable(operation)
+            .map(result -> new ResponseEntity<>(
+                result,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
