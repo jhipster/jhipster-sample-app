@@ -41,7 +41,7 @@ public class BankAccountResource {
     public ResponseEntity<BankAccount> createBankAccount(@Valid @RequestBody BankAccount bankAccount) throws URISyntaxException {
         log.debug("REST request to save BankAccount : {}", bankAccount);
         if (bankAccount.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new bankAccount cannot already have an ID").body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("bankAccount", "idexists", "A new bankAccount cannot already have an ID")).body(null);
         }
         BankAccount result = bankAccountRepository.save(bankAccount);
         return ResponseEntity.created(new URI("/api/bankAccounts/" + result.getId()))
@@ -78,7 +78,7 @@ public class BankAccountResource {
         log.debug("REST request to get all BankAccounts");
         return bankAccountRepository.findAll();
             }
-    
+
     /**
      * GET  /bankAccounts/:id -> get the "id" bankAccount.
      */

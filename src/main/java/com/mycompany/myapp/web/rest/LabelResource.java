@@ -41,7 +41,7 @@ public class LabelResource {
     public ResponseEntity<Label> createLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to save Label : {}", label);
         if (label.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new label cannot already have an ID").body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("label", "idexists", "A new label cannot already have an ID")).body(null);
         }
         Label result = labelRepository.save(label);
         return ResponseEntity.created(new URI("/api/labels/" + result.getId()))
@@ -78,7 +78,7 @@ public class LabelResource {
         log.debug("REST request to get all Labels");
         return labelRepository.findAll();
             }
-    
+
     /**
      * GET  /labels/:id -> get the "id" label.
      */

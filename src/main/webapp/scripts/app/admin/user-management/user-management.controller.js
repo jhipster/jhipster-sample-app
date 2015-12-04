@@ -8,10 +8,11 @@ angular.module('sampleApplicationApp')
             $scope.languages = languages;
         });
 
-        $scope.page = 0;
+        $scope.page = 1;
         $scope.loadAll = function () {
-            User.query({page: $scope.page, size: 20}, function (result, headers) {
+            User.query({page: $scope.page - 1, size: 20}, function (result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
+                $scope.totalItems = headers('X-Total-Count');
                 $scope.users = result;
             });
         };

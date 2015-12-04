@@ -38,11 +38,16 @@ angular.module('sampleApplicationApp')
                         switch (httpResponse.status) {
                             // connection refused, server not reachable
                             case 0:
-                                addErrorAlert("Server not reachable",'error.serverNotReachable');
+                                addErrorAlert("Server not reachable",'error.server.not.reachable');
                                 break;
 
                             case 400:
-                                if (httpResponse.data && httpResponse.data.fieldErrors) {
+                                var errorHeader = httpResponse.headers('X-sampleApplicationApp-error');
+                                var entityKey = httpResponse.headers('X-sampleApplicationApp-params');
+                                if (errorHeader) {
+                                    var entityName = $translate.instant('global.menu.entities.' + entityKey);
+                                    addErrorAlert(errorHeader, errorHeader, {entityName: entityName});
+                                } else if (httpResponse.data && httpResponse.data.fieldErrors) {
                                     for (i = 0; i < httpResponse.data.fieldErrors.length; i++) {
                                         var fieldError = httpResponse.data.fieldErrors[i];
                                         // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
