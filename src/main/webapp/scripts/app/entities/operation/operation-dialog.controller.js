@@ -35,4 +35,13 @@ angular.module('sampleApplicationApp').controller('OperationDialogController',
         $scope.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };
+        $scope.datePickerForDate = {};
+
+        $scope.datePickerForDate.status = {
+            opened: false
+        };
+
+        $scope.datePickerForDateOpen = function($event) {
+            $scope.datePickerForDate.status.opened = true;
+        };
 }]);

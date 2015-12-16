@@ -49,7 +49,7 @@
     "karma": "0.13.15",
     "karma-coverage": "0.5.3",
     "karma-jenkins-reporter": "0.0.2",
-    "generator-jhipster": "2.25.0",
+    "generator-jhipster": "2.26.0",
     "lodash": "3.10.1",
     "xml2js": "0.4.15",
     "yo": ">=1.3.0",

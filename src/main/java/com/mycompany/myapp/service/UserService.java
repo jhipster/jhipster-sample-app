@@ -121,11 +121,13 @@ public class UserService {
         } else {
             user.setLangKey(managedUserDTO.getLangKey());
         }
-        Set<Authority> authorities = new HashSet<>();
-        managedUserDTO.getAuthorities().stream().forEach(
-            authority -> authorities.add(authorityRepository.findOne(authority))
-        );
-        user.setAuthorities(authorities);
+        if (managedUserDTO.getAuthorities() != null) {
+            Set<Authority> authorities = new HashSet<>();
+            managedUserDTO.getAuthorities().stream().forEach(
+                authority -> authorities.add(authorityRepository.findOne(authority))
+            );
+            user.setAuthorities(authorities);
+        }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());

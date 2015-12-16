@@ -58,7 +58,7 @@
 
         <addForeignKeyConstraint baseColumnNames="labels_id"
                                  baseTableName="operation_label"
-                                 constraintName="fk_label_label_operation_id"
+                                 constraintName="fk_operation_label_operation_id"
                                  referencedColumnNames="id"
                                  referencedTableName="label"/>
         

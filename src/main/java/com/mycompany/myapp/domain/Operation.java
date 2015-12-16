@@ -46,7 +46,6 @@ public class Operation implements Serializable {
                inverseJoinColumns = @JoinColumn(name="labels_id", referencedColumnName="ID"))
     private Set<Label> labels = new HashSet<>();
 
-    
     public Long getId() {
         return id;
     }
