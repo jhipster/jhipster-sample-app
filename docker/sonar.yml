@@ -1,0 +1,6 @@
+sampleapplication-sonar:
+  container_name: sampleapplication-sonar
+  image: sonarqube:4.5.6
+  ports:
+    - "9000:9000"
+    - "9092:9092"

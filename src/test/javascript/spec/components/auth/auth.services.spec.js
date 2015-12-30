@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Services Tests ', function () {
+describe('Service Tests', function () {
     beforeEach(mockApiAccountCall);
     beforeEach(mockI18nCalls);
     beforeEach(mockScriptsCalls);
