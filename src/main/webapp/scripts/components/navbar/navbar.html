@@ -30,11 +30,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li ui-sref-active="active" ><a ui-sref="bankAccount" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.bankAccount">bankAccount</span></a></li>
+                        &#xA0;<span translate="global.menu.entities.bankAccount">Bank account</span></a></li>
                         <li ui-sref-active="active" ><a ui-sref="label" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.label">label</span></a></li>
+                        &#xA0;<span translate="global.menu.entities.label">Label</span></a></li>
                         <li ui-sref-active="active" ><a ui-sref="operation" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.operation">operation</span></a></li>
+                        &#xA0;<span translate="global.menu.entities.operation">Operation</span></a></li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>
@@ -86,7 +86,8 @@
                             &#xA0;<span translate="global.menu.admin.logs">Logs</span></a></li>
                         <li ng-hide="inProduction" ui-sref-active="active"><a ui-sref="docs" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-book"></span>
                             &#xA0;<span translate="global.menu.admin.apidocs">API</span></a></li>
-                        <li ng-hide="inProduction"><a href='/console' target="_tab" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-hdd"></span>
+                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+                        <li ng-hide="inProduction"><a href='/h2-console' target="_tab" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-hdd"></span>
                             &#xA0;<span translate="global.menu.admin.database">Database</span></a></li>
                     </ul>
                 </li>

@@ -24,10 +24,13 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            
             <column name="balance" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
+            
             <column name="user_id" type="bigint"/>
+            <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         
         <addForeignKeyConstraint baseColumnNames="user_id"

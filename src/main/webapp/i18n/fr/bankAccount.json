@@ -1,10 +1,11 @@
 {
-    "sampleApplicationApp": {
+    "sampleapplicationApp": {
         "bankAccount" : {
             "home": {
                 "title": "BankAccounts",
                 "createLabel": "Créer un nouveau BankAccount",
-                "createOrEditLabel": "Créer ou éditer un BankAccount"
+                "createOrEditLabel": "Créer ou éditer un BankAccount",
+                "search": "Search for BankAccount"
             },
             "created": "Un nouveau BankAccount a été créé avec l'identifiant {{ param }}",
             "updated": "Le BankAccount avec l'identifiant {{ param }} a été mis à jour",

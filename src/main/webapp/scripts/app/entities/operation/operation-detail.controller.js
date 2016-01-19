@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleApplicationApp')
+angular.module('sampleapplicationApp')
     .controller('OperationDetailController', function ($scope, $rootScope, $stateParams, entity, Operation, BankAccount, Label) {
         $scope.operation = entity;
         $scope.load = function (id) {
@@ -8,7 +8,7 @@ angular.module('sampleApplicationApp')
                 $scope.operation = result;
             });
         };
-        var unsubscribe = $rootScope.$on('sampleApplicationApp:operationUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('sampleapplicationApp:operationUpdate', function(event, result) {
             $scope.operation = result;
         });
         $scope.$on('$destroy', unsubscribe);

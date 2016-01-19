@@ -24,11 +24,15 @@
             <column name="date" type="timestamp">
                 <constraints nullable="false" />
             </column>
+            
             <column name="description" type="varchar(255)"/>
+            
             <column name="amount" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
+            
             <column name="bank_account_id" type="bigint"/>
+            <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>
 

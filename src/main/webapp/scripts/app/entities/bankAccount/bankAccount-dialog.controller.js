@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleApplicationApp').controller('BankAccountDialogController',
+angular.module('sampleapplicationApp').controller('BankAccountDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'BankAccount', 'User', 'Operation',
         function($scope, $stateParams, $uibModalInstance, entity, BankAccount, User, Operation) {
 
@@ -14,7 +14,7 @@ angular.module('sampleApplicationApp').controller('BankAccountDialogController',
         };
 
         var onSaveSuccess = function (result) {
-            $scope.$emit('sampleApplicationApp:bankAccountUpdate', result);
+            $scope.$emit('sampleapplicationApp:bankAccountUpdate', result);
             $uibModalInstance.close(result);
             $scope.isSaving = false;
         };

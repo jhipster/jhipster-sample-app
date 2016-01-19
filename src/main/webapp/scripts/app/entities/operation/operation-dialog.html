@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="clear()">&times;</button>
-        <h4 class="modal-title" id="myOperationLabel" translate="sampleApplicationApp.operation.home.createOrEditLabel">Create or edit a Operation</h4>
+        <h4 class="modal-title" id="myOperationLabel" translate="sampleapplicationApp.operation.home.createOrEditLabel">Create or edit a Operation</h4>
     </div>
     <div class="modal-body">
         <jh-alert-error></jh-alert-error>
@@ -14,7 +14,7 @@
                     ng-model="operation.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.operation.date" for="field_date">Date</label>
+            <label class="control-label" translate="sampleapplicationApp.operation.date" for="field_date">Date</label>
             <input id="field_date" type="text" class="form-control" uib-datepicker-popup="{{dateformat}}" ng-model="operation.date" is-open="datePickerForDate.status.opened"
             required/>
             <span class="input-group-btn">
@@ -32,13 +32,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.operation.description" for="field_description">Description</label>
+            <label class="control-label" translate="sampleapplicationApp.operation.description" for="field_description">Description</label>
             <input type="text" class="form-control" name="description" id="field_description"
                     ng-model="operation.description"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.operation.amount" for="field_amount">Amount</label>
+            <label class="control-label" translate="sampleapplicationApp.operation.amount" for="field_amount">Amount</label>
             <input type="number" class="form-control" name="amount" id="field_amount"
                     ng-model="operation.amount"
                     required />
@@ -55,13 +55,13 @@
         </div>
 
         <div class="form-group">
-            <label translate="sampleApplicationApp.operation.bankAccount" for="field_bankAccount">bankAccount</label>
+            <label translate="sampleapplicationApp.operation.bankAccount" for="field_bankAccount">bankAccount</label>
             <select class="form-control" id="field_bankAccount" name="bankAccount" ng-model="operation.bankAccount" ng-options="bankAccount as bankAccount.name for bankAccount in bankaccounts track by bankAccount.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label translate="sampleApplicationApp.operation.label" for="field_label">label</label>
+            <label translate="sampleapplicationApp.operation.label" for="field_label">label</label>
             <select class="form-control" id="field_label" multiple name="label" ng-model="operation.labels" ng-options="label as label.label for label in labels track by label.id"></select>
         </div>
     </div>

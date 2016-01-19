@@ -22,8 +22,11 @@ spring:
         driver-class-name: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:mem:sampleapplication;DB_CLOSE_DELAY=-1
         name:
-        username: 
+        username: sampleApplication
         password:
+    h2:
+        console:
+            enabled: false
     jpa:
         database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
         database: H2

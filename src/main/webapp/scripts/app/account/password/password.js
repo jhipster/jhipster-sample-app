@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleApplicationApp')
+angular.module('sampleapplicationApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('password', {

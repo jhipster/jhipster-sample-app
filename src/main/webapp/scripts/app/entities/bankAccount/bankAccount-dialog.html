@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="clear()">&times;</button>
-        <h4 class="modal-title" id="myBankAccountLabel" translate="sampleApplicationApp.bankAccount.home.createOrEditLabel">Create or edit a BankAccount</h4>
+        <h4 class="modal-title" id="myBankAccountLabel" translate="sampleapplicationApp.bankAccount.home.createOrEditLabel">Create or edit a BankAccount</h4>
     </div>
     <div class="modal-body">
         <jh-alert-error></jh-alert-error>
@@ -14,7 +14,7 @@
                     ng-model="bankAccount.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.bankAccount.name" for="field_name">Name</label>
+            <label class="control-label" translate="sampleapplicationApp.bankAccount.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="bankAccount.name"
                     required />
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.bankAccount.balance" for="field_balance">Balance</label>
+            <label class="control-label" translate="sampleapplicationApp.bankAccount.balance" for="field_balance">Balance</label>
             <input type="number" class="form-control" name="balance" id="field_balance"
                     ng-model="bankAccount.balance"
                     required />
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            <label translate="sampleApplicationApp.bankAccount.user" for="field_user">user</label>
+            <label translate="sampleapplicationApp.bankAccount.user" for="field_user">user</label>
             <select class="form-control" id="field_user" name="user" ng-model="bankAccount.user" ng-options="user as user.login for user in users track by user.id">
                 <option value=""></option>
             </select>

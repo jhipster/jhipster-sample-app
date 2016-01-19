@@ -1,10 +1,11 @@
 {
-    "sampleApplicationApp": {
+    "sampleapplicationApp": {
         "operation" : {
             "home": {
                 "title": "Operations",
                 "createLabel": "Créer un nouveau Operation",
-                "createOrEditLabel": "Créer ou éditer un Operation"
+                "createOrEditLabel": "Créer ou éditer un Operation",
+                "search": "Search for Operation"
             },
             "created": "Un nouveau Operation a été créé avec l'identifiant {{ param }}",
             "updated": "Le Operation avec l'identifiant {{ param }} a été mis à jour",
