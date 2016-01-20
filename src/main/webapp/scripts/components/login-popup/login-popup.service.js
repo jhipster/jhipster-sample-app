@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleApplicationApp')
+angular.module('sampleapplicationApp')
     .factory('LoginPopupService', function ($modal) {
         return {
             open: function () {

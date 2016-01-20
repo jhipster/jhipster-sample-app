@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleApplicationApp')
+angular.module('sampleapplicationApp')
     .controller('LoginPopupController', function ($rootScope, $scope, $state, $timeout, Auth, $modalInstance) {
         $scope.credentials = {
             username: null,
