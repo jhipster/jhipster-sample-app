@@ -15,11 +15,9 @@
         </div>
         <div class="form-group">
             <label class="control-label" translate="sampleapplicationApp.operation.date" for="field_date">Date</label>
-            <input id="field_date" type="text" class="form-control" uib-datepicker-popup="{{dateformat}}" ng-model="operation.date" is-open="datePickerForDate.status.opened"
-            required/>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="datePickerForDateOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
+            <input type="datetime-local" class="form-control" name="date" id="field_date"
+                    ng-model="operation.date"
+                    required />
             <div ng-show="editForm.date.$invalid">
                 <p class="help-block"
                     ng-show="editForm.date.$error.required" translate="entity.validation.required">
