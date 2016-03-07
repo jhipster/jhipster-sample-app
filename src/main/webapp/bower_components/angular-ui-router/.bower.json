@@ -20,14 +20,14 @@
     "Gruntfile.js",
     "files.js"
   ],
-  "homepage": "https://github.com/angular-ui/ui-router",
+  "homepage": "https://github.com/angular-ui/angular-ui-router-bower",
   "_release": "0.2.15",
   "_resolution": {
     "type": "version",
     "tag": "0.2.15",
-    "commit": "805e69bae319e922e4d3265b7ef565058aaff850"
+    "commit": "90ce66133afc3572a8d7556d6d3fcee0efd8bb13"
   },
-  "_source": "git://github.com/angular-ui/ui-router.git",
+  "_source": "git://github.com/angular-ui/angular-ui-router-bower.git",
   "_target": "0.2.15",
   "_originalSource": "angular-ui-router"
 }
