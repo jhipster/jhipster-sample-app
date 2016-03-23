@@ -1,0 +1,43 @@
+{
+  "name": "bootstrap-ui-datetime-picker",
+  "version": "2.2.3",
+  "homepage": "https://github.com/Gillardo/bootstrap-ui-datetime-picker",
+  "authors": [
+    "Gillardo <darren.gillard81@gmail.com>"
+  ],
+  "description": "AngularJs directive to use a date and/or time picker as a dropdown from an input",
+  "license": "MIT",
+  "main": [
+    "dist/datetime-picker.js"
+  ],
+  "keywords": [
+    "date-picker",
+    "time-picker",
+    "angular",
+    "bootstrap",
+    "angular-ui"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "template",
+    "/datetime-picker.js",
+    "gruntfile.js",
+    "package.json",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~1.1.0"
+  },
+  "_release": "2.2.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.2.3",
+    "commit": "eec610606ca6a5abaf24408056bc08bdae3060a4"
+  },
+  "_source": "git://github.com/gillardo/bootstrap-ui-datetime-picker.git",
+  "_target": "2.2.3",
+  "_originalSource": "bootstrap-ui-datetime-picker"
+}

@@ -12,7 +12,6 @@
 
 spring:
     datasource:
-        driver-class-name: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:mem:sampleApplication;DB_CLOSE_DELAY=-1
         name:
         username:
@@ -59,7 +58,7 @@ jhipster:
         maxPoolSize: 50
         queueCapacity: 10000
     security:
-        rememberme:
+        rememberMe:
             # security key (this key should be unique for your application, and kept secret)
             key: 5c37379956bd1242f5636c8cb322c2966ad81277
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
@@ -69,6 +68,8 @@ jhipster:
         description: sampleApplication API documentation
         version: 0.0.1
         termsOfServiceUrl:
-        contact:
+        contactName:
+        contactUrl:
+        contactEmail:
         license:
         licenseUrl:

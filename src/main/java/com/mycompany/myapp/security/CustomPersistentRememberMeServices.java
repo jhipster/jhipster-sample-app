@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.PersistentToken;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PersistentTokenRepository;
 import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -25,9 +26,9 @@ import java.util.Arrays;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
- * <p/>
+ * <p>
  * Persistent tokens are used by Spring Security to automatically log in users.
- * <p/>
+ * <p>
  * This is a specific implementation of Spring Security's remember-me authentication, but it is much
  * more powerful than the standard implementations:
  * <ul>
@@ -35,17 +36,16 @@ import java.util.Arrays;
  * <li>It stores more information, such as the IP address and the user agent, for audit purposes<li>
  * <li>When a user logs out, only his current session is invalidated, and not all of his sessions</li>
  * </ul>
- * <p/>
+ * <p>
  * This is inspired by:
  * <ul>
  * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
  * Best Practice</a></li>
- * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's "Modeling your App's User Session"</a></li></li>
+ * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's "Modeling your App's User Session"</a></li>
  * </ul>
- * <p/>
+ * <p>
  * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
  * couldn't be cleanly extended.
- * <p/>
  */
 @Service
 public class CustomPersistentRememberMeServices extends
@@ -71,15 +71,14 @@ public class CustomPersistentRememberMeServices extends
     private UserRepository userRepository;
 
     @Inject
-    public CustomPersistentRememberMeServices(Environment env, org.springframework.security.core.userdetails
+    public CustomPersistentRememberMeServices(JHipsterProperties jHipsterProperties, org.springframework.security.core.userdetails
         .UserDetailsService userDetailsService) {
 
-        super(env.getProperty("jhipster.security.rememberme.key"), userDetailsService);
+        super(jHipsterProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
         random = new SecureRandom();
     }
 
     @Override
-    @Transactional
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
         HttpServletResponse response) {
 
@@ -129,7 +128,7 @@ public class CustomPersistentRememberMeServices extends
 
     /**
      * When logout occurs, only invalidate the current token, and not all user sessions.
-     * <p/>
+     * <p>
      * The standard Spring Security implementations are too basic: they invalidate all tokens for the
      * current user, so when he logs out from one browser, all his other sessions are destroyed.
      */

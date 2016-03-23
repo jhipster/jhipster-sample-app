@@ -1,7 +1,7 @@
 /*!
- * angular-translate - v2.8.1 - 2015-10-01
+ * angular-translate - v2.11.0 - 2016-03-20
  * 
- * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
+ * Copyright (c) 2016 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -19,6 +19,7 @@
   }
 }(this, function (MessageFormat) {
 
+$translateMessageFormatInterpolation.$inject = ['$translateSanitization', '$cacheFactory', 'TRANSLATE_MF_INTERPOLATION_CACHE'];
 angular.module('pascalprecht.translate')
 
 /**
@@ -121,10 +122,10 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
     interpolationParams = interpolationParams || {};
     interpolationParams = $translateSanitization.sanitize(interpolationParams, 'params');
 
-    var interpolatedText = $cache.get(string + angular.toJson(interpolationParams));
+    var compiledFunction = $cache.get('mf:' + string);
 
-    // if given string wasn't interpolated yet, we do so now and never have to do it again
-    if (!interpolatedText) {
+    // if given string wasn't compiled yet, we do so now and never have to do it again
+    if (!compiledFunction) {
 
       // Ensure explicit type if possible
       // MessageFormat checks the actual type (i.e. for amount based conditions)
@@ -138,18 +139,16 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
         }
       }
 
-      interpolatedText = $mf.compile(string)(interpolationParams);
-      interpolatedText = $translateSanitization.sanitize(interpolatedText, 'text');
-
-      $cache.put(string + angular.toJson(interpolationParams), interpolatedText);
+      compiledFunction = $mf.compile(string);
+      $cache.put('mf:' + string, compiledFunction);
     }
 
-    return interpolatedText;
+    var interpolatedText = compiledFunction(interpolationParams);
+    return $translateSanitization.sanitize(interpolatedText, 'text');
   };
 
   return $translateInterpolator;
 }
-$translateMessageFormatInterpolation.$inject = ['$translateSanitization', '$cacheFactory', 'TRANSLATE_MF_INTERPOLATION_CACHE'];
 
 $translateMessageFormatInterpolation.displayName = '$translateMessageFormatInterpolation';
 return 'pascalprecht.translate';

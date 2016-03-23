@@ -1,6 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.Application;
+import com.mycompany.myapp.SampleApplicationApp;
 import com.mycompany.myapp.domain.Label;
 import com.mycompany.myapp.repository.LabelRepository;
 
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see LabelResource
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = SampleApplicationApp.class)
 @WebAppConfiguration
 @IntegrationTest
 public class LabelResourceIntTest {
@@ -151,15 +151,16 @@ public class LabelResourceIntTest {
     public void updateLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
-
-		int databaseSizeBeforeUpdate = labelRepository.findAll().size();
+        int databaseSizeBeforeUpdate = labelRepository.findAll().size();
 
         // Update the label
-        label.setLabel(UPDATED_LABEL);
+        Label updatedLabel = new Label();
+        updatedLabel.setId(label.getId());
+        updatedLabel.setLabel(UPDATED_LABEL);
 
         restLabelMockMvc.perform(put("/api/labels")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(label)))
+                .content(TestUtil.convertObjectToJsonBytes(updatedLabel)))
                 .andExpect(status().isOk());
 
         // Validate the Label in the database
@@ -174,8 +175,7 @@ public class LabelResourceIntTest {
     public void deleteLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
-
-		int databaseSizeBeforeDelete = labelRepository.findAll().size();
+        int databaseSizeBeforeDelete = labelRepository.findAll().size();
 
         // Get the label
         restLabelMockMvc.perform(delete("/api/labels/{id}", label.getId())

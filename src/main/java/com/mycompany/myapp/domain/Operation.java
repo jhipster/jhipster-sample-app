@@ -2,12 +2,12 @@ package com.mycompany.myapp.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import java.time.ZonedDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -20,6 +20,8 @@ import java.util.Objects;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Operation implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,16 +29,15 @@ public class Operation implements Serializable {
     @NotNull
     @Column(name = "date", nullable = false)
     private ZonedDateTime date;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @NotNull
     @Column(name = "amount", precision=10, scale=2, nullable = false)
     private BigDecimal amount;
-    
+
     @ManyToOne
-    @JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
 
     @ManyToMany
@@ -57,7 +58,7 @@ public class Operation implements Serializable {
     public ZonedDateTime getDate() {
         return date;
     }
-    
+
     public void setDate(ZonedDateTime date) {
         this.date = date;
     }
@@ -65,7 +66,7 @@ public class Operation implements Serializable {
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -73,7 +74,7 @@ public class Operation implements Serializable {
     public BigDecimal getAmount() {
         return amount;
     }
-    
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }

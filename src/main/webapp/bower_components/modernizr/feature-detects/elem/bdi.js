@@ -11,19 +11,19 @@
 /* DOC
 Detect support for the bdi element, a way to have text that is isolated from its possibly bidirectional surroundings
 */
-define(['Modernizr', 'addTest', 'createElement', 'docElement'], function(Modernizr, addTest, createElement, docElement) {
+define(['Modernizr', 'createElement', 'docElement'], function(Modernizr, createElement, docElement) {
   Modernizr.addTest('bdi', function() {
     var div = createElement('div');
     var bdi = createElement('bdi');
 
-    bdi.innerHTML = '&#1573';
+    bdi.innerHTML = '&#1573;';
     div.appendChild(bdi);
 
     docElement.appendChild(div);
 
     var supports = ((window.getComputedStyle ?
           getComputedStyle(bdi, null) :
-          bdi.currentStyle)['direction'] === 'rtl');
+          bdi.currentStyle).direction === 'rtl');
 
     docElement.removeChild(div);
 

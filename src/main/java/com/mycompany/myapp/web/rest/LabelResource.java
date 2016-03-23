@@ -32,7 +32,11 @@ public class LabelResource {
     private LabelRepository labelRepository;
     
     /**
-     * POST  /labels -> Create a new label.
+     * POST  /labels : Create a new label.
+     *
+     * @param label the label to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new label, or with status 400 (Bad Request) if the label has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/labels",
         method = RequestMethod.POST,
@@ -50,7 +54,13 @@ public class LabelResource {
     }
 
     /**
-     * PUT  /labels -> Updates an existing label.
+     * PUT  /labels : Updates an existing label.
+     *
+     * @param label the label to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated label,
+     * or with status 400 (Bad Request) if the label is not valid,
+     * or with status 500 (Internal Server Error) if the label couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/labels",
         method = RequestMethod.PUT,
@@ -68,7 +78,9 @@ public class LabelResource {
     }
 
     /**
-     * GET  /labels -> get all the labels.
+     * GET  /labels : get all the labels.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of labels in body
      */
     @RequestMapping(value = "/labels",
         method = RequestMethod.GET,
@@ -76,11 +88,15 @@ public class LabelResource {
     @Timed
     public List<Label> getAllLabels() {
         log.debug("REST request to get all Labels");
-        return labelRepository.findAll();
-            }
+        List<Label> labels = labelRepository.findAll();
+        return labels;
+    }
 
     /**
-     * GET  /labels/:id -> get the "id" label.
+     * GET  /labels/:id : get the "id" label.
+     *
+     * @param id the id of the label to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the label, or with status 404 (Not Found)
      */
     @RequestMapping(value = "/labels/{id}",
         method = RequestMethod.GET,
@@ -97,7 +113,10 @@ public class LabelResource {
     }
 
     /**
-     * DELETE  /labels/:id -> delete the "id" label.
+     * DELETE  /labels/:id : delete the "id" label.
+     *
+     * @param id the id of the label to delete
+     * @return the ResponseEntity with status 200 (OK)
      */
     @RequestMapping(value = "/labels/{id}",
         method = RequestMethod.DELETE,
@@ -108,4 +127,5 @@ public class LabelResource {
         labelRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("label", id.toString())).build();
     }
+
 }

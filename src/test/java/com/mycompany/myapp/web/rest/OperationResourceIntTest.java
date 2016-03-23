@@ -1,6 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.Application;
+import com.mycompany.myapp.SampleApplicationApp;
 import com.mycompany.myapp.domain.Operation;
 import com.mycompany.myapp.repository.OperationRepository;
 
@@ -41,12 +41,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see OperationResource
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = SampleApplicationApp.class)
 @WebAppConfiguration
 @IntegrationTest
 public class OperationResourceIntTest {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Z"));
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneId.of("Z"));
 
 
     private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
@@ -191,17 +191,18 @@ public class OperationResourceIntTest {
     public void updateOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
-
-		int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
 
         // Update the operation
-        operation.setDate(UPDATED_DATE);
-        operation.setDescription(UPDATED_DESCRIPTION);
-        operation.setAmount(UPDATED_AMOUNT);
+        Operation updatedOperation = new Operation();
+        updatedOperation.setId(operation.getId());
+        updatedOperation.setDate(UPDATED_DATE);
+        updatedOperation.setDescription(UPDATED_DESCRIPTION);
+        updatedOperation.setAmount(UPDATED_AMOUNT);
 
         restOperationMockMvc.perform(put("/api/operations")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(operation)))
+                .content(TestUtil.convertObjectToJsonBytes(updatedOperation)))
                 .andExpect(status().isOk());
 
         // Validate the Operation in the database
@@ -218,8 +219,7 @@ public class OperationResourceIntTest {
     public void deleteOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
-
-		int databaseSizeBeforeDelete = operationRepository.findAll().size();
+        int databaseSizeBeforeDelete = operationRepository.findAll().size();
 
         // Get the operation
         restOperationMockMvc.perform(delete("/api/operations/{id}", operation.getId())

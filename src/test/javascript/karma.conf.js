@@ -4,7 +4,7 @@
 module.exports = function (config) {
     config.set({
         // base path, that will be used to resolve files and exclude
-        basePath: '../../',
+        basePath: 'src/test/javascript/'.replace(/[^/]+/g,'..'),
 
         // testing framework to use (jasmine/mocha/qunit/...)
         frameworks: ['jasmine'],
@@ -12,40 +12,41 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             // bower:js
-            'main/webapp/bower_components/jquery/dist/jquery.js',
-            'main/webapp/bower_components/angular/angular.js',
-            'main/webapp/bower_components/angular-aria/angular-aria.js',
-            'main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            'main/webapp/bower_components/angular-cache-buster/angular-cache-buster.js',
-            'main/webapp/bower_components/angular-cookies/angular-cookies.js',
-            'main/webapp/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
-            'main/webapp/bower_components/angular-local-storage/dist/angular-local-storage.js',
-            'main/webapp/bower_components/angular-loading-bar/build/loading-bar.js',
-            'main/webapp/bower_components/angular-resource/angular-resource.js',
-            'main/webapp/bower_components/angular-sanitize/angular-sanitize.js',
-            'main/webapp/bower_components/angular-translate/angular-translate.js',
-            'main/webapp/bower_components/messageformat/messageformat.js',
-            'main/webapp/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
-            'main/webapp/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
-            'main/webapp/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
-            'main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
-            'main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
-            'main/webapp/bower_components/json3/lib/json3.js',
-            'main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
-            'main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
-            'main/webapp/bower_components/angular-mocks/angular-mocks.js',
+            'src/main/webapp/bower_components/jquery/dist/jquery.js',
+            'src/main/webapp/bower_components/angular/angular.js',
+            'src/main/webapp/bower_components/angular-aria/angular-aria.js',
+            'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'src/main/webapp/bower_components/angular-cache-buster/angular-cache-buster.js',
+            'src/main/webapp/bower_components/angular-cookies/angular-cookies.js',
+            'src/main/webapp/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
+            'src/main/webapp/bower_components/ngstorage/ngStorage.js',
+            'src/main/webapp/bower_components/angular-loading-bar/build/loading-bar.js',
+            'src/main/webapp/bower_components/angular-resource/angular-resource.js',
+            'src/main/webapp/bower_components/angular-sanitize/angular-sanitize.js',
+            'src/main/webapp/bower_components/angular-translate/angular-translate.js',
+            'src/main/webapp/bower_components/messageformat/messageformat.js',
+            'src/main/webapp/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
+            'src/main/webapp/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+            'src/main/webapp/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+            'src/main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
+            'src/main/webapp/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js',
+            'src/main/webapp/bower_components/json3/lib/json3.js',
+            'src/main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
+            'src/main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
+            'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
-            'main/webapp/scripts/app/app.js',
-            'main/webapp/scripts/app/**/*.js',
-            'main/webapp/scripts/components/**/*.+(js|html)',
-            'test/javascript/spec/helpers/module.js',
-            'test/javascript/spec/helpers/httpBackend.js',
-            'test/javascript/**/!(karma.conf).js'
+            'src/main/webapp/app/app.module.js',
+            'src/main/webapp/app/app.state.js',
+            'src/main/webapp/app/app.constants.js',
+            'src/main/webapp/app/**/*.+(js|html)',
+            'src/test/javascript/spec/helpers/module.js',
+            'src/test/javascript/spec/helpers/httpBackend.js',
+            'src/test/javascript/**/!(karma.conf|protractor.conf).js'
         ],
 
 
         // list of files / patterns to exclude
-        exclude: [],
+        exclude: ['src/test/javascript/e2e/**'],
 
         preprocessors: {
             './**/*.js': ['coverage']
@@ -55,12 +56,12 @@ module.exports = function (config) {
 
         jenkinsReporter: {
             
-            outputFile: '../target/test-results/karma/TESTS-results.xml'
+            outputFile: 'target/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
             
-            dir: '../target/test-results/coverage',
+            dir: 'target/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}
             ]

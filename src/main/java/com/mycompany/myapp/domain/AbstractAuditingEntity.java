@@ -28,13 +28,11 @@ public abstract class AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
-    @NotNull
     @Column(name = "created_by", nullable = false, length = 50, updatable = false)
     @JsonIgnore
     private String createdBy;
 
     @CreatedDate
-    @NotNull
     @Column(name = "created_date", nullable = false)
     @JsonIgnore
     private ZonedDateTime createdDate = ZonedDateTime.now();

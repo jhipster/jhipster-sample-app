@@ -1,211 +1,163 @@
 #!/usr/bin/env node
 
-var nopt = require("nopt")
+/**
+ * Copyright 2012-2014 Alex Sexton, Eemeli Aro, and Contributors
+ *
+ * Licensed under the MIT License
+ */
+
+var
+  nopt          = require('nopt'),
   fs            = require('fs'),
-  vm            = require('vm'),
-  coffee        = require('coffee-script'), /* only for watchr */
-  watch         = require('watchr').watch,
   Path          = require('path'),
-  join          = Path.join,
-  glob          = require("glob"),
+  glob          = require('glob'),
   async         = require('async'),
   MessageFormat = require('../'),
-  _             = require('underscore'),
   knownOpts = {
     "locale"    : String,
     "inputdir"  : Path,
     "output"    : Path,
-    "combine"   : String,
     "watch"     : Boolean,
     "namespace" : String,
     "include"   : String,
     "stdout"    : Boolean,
-    "verbose"   : Boolean
+    "module"    : Boolean,
+    "verbose"   : Boolean,
+    "help"      : Boolean
   },
   description = {
-    "locale"    : "locale to use [mandatory]",
+    "locale"    : "locale(s) to use [mandatory]",
     "inputdir"  : "directory containing messageformat files to compile",
     "output"    : "output where messageformat will be compiled",
-    "combine"   : "combines multiple input files to the provided namespace array element",
-    "watch"     : "watch `inputdir` for change",
-    "namespace" : "object in the browser containing the templates",
-    "include"   : "Glob patterns for files to include in `inputdir`",
-    "stdout"    : "Print the result in stdout instead of writing in a file",
-    "verbose"   : "Print logs for debug"
+    "namespace" : "global object in the output containing the templates",
+    "include"   : "glob patterns for files to include from `inputdir`",
+    "stdout"    : "print the result in stdout instead of writing in a file",
+    "watch"     : "watch `inputdir` for changes",
+    "module"    : "create a commonJS module, instead of a global window variable",
+    "verbose"   : "print logs for debug"
   },
   defaults = {
     "inputdir"  : process.cwd(),
     "output"    : process.cwd(),
-    "combine"   : undefined,
     "watch"     : false,
-    "namespace" : 'window.i18n',
+    "namespace" : 'i18n',
     "include"   : '**/*.json',
     "stdout"    : false,
-    "verbose"   : false
+    "verbose"   : false,
+    "module"    : false,
+    "help"      : false
   },
   shortHands = {
     "l"  : "--locale",
     "i"  : "--inputdir",
     "o"  : "--output",
-    "c"  : "--combine",
-    "w"  : "--watch",
     "ns" : "--namespace",
     "I"  : "--include",
+    "m"  : "--module",
     "s"  : "--stdout",
-    "v"  : "--verbose"
+    "w"  : "--watch",
+    "v"  : "--verbose",
+    "?"  : "--help"
   },
-  options = nopt(knownOpts, shortHands, process.argv, 2),
-  argvRemain = options.argv.remain,
-  inputdir;
-
-// defaults value
-_(defaults).forEach(function(value, key){
-    options[key] = options[key] || value;
-})
-
-
-if(argvRemain && argvRemain.length >=1 ) options.inputdir = argvRemain[0];
-if(argvRemain && argvRemain.length >=2 ) options.output = argvRemain[1];
-
-if(!options.locale) {
-  console.error('Usage: messageformat -l [locale] [INPUT_DIR] [OUTPUT_DIR]')
-  console.error('')
-  //console.error(nopt(knownOpts, shortHands, description, defaults));
-  process.exit(-1);
-}
-
-var inputdir = options.inputdir;
-
-compile();
-if(options.watch){
-  return watch(options.inputdir, _.debounce(compile, 100));
-}
-
-
-function handleError( err, data ){
-  if(err){
-    err = err.message ? err.message : err;
-    return console.error('--->\t'+ err);
-  }
-}
-
-function compile(){
-  build(inputdir, options, function(err, data){
-    if( err ) return handleError( err );
-    write(data, function(err, output){
-      if( err ) return handleError( err );
-      if( options.verbose ) console.log(output + " written.");
-    })
-  });
-}
-
-function write( data, callback ){
-  data = data.join('\n');
-  if(options.stdout) {
-    return console.log(data);
-  }
-  var output = options.output;
-  fs.stat(output, function(err, stat){
-    if(err){
-      // do nothing
-    }else if(stat.isFile()){
-      // do nothing
-    }else if(stat.isDirectory()){
-      // if `output` is a directory, create a new file called `i18n.js` in this directory.
-      output = join(output, 'i18n.js');
-    }else{
-      return engines.handleError(ouput, 'is not a file nor a directory');
+  options = (function() {
+    var o = nopt(knownOpts, shortHands, process.argv, 2);
+    for (var key in defaults) {
+      o[key] = o[key] || defaults[key];
     }
+    if (o.argv.remain) {
+      if (o.argv.remain.length >= 1) o.inputdir = o.argv.remain[0];
+      if (o.argv.remain.length >= 2) o.output = o.argv.remain[1];
+    }
+    if (!o.locale || o.help) {
+      var usage = ['Usage: messageformat -l [locale] [OPTIONS] [INPUT_DIR] [OUTPUT_DIR]'];
+      if (!o.help) {
+        usage.push("Try 'messageformat --help' for more information.");
+        console.error(usage.join('\n'));
+        process.exit(-1);
+      }
+      usage.push('\nAvailable options:');
+      for (var key in shortHands) {
+        var desc = description[shortHands[key].toString().substr(2)];
+        if (desc) usage.push('   -' + key + ',\t' + shortHands[key] + (shortHands[key].length < 8 ? '  ' : '') + '\t' + desc);
+      }
+      console.log(usage.join('\n'));
+      process.exit(0);
+    }
+    if (fs.existsSync(o.output) && fs.statSync(o.output).isDirectory()) {
+      o.output = Path.join(o.output, 'i18n.js');
+    }
+    o.namespace = o.module ? 'module.exports' : o.namespace.replace(/^window\./, '')
+    return o;
+  })(),
+  _log = (options.verbose ? function(s) { console.log(s); } : function(){});
 
-    fs.writeFile( output, data, 'utf8', function( err ){
-      if( typeof callback == "function" ) callback(err, output);
-    });
-  });
-};
-
-
-
-function build(inputdir, options, callback){
-  // arrays of compiled templates
-  var compiledMessageFormat = [];
-
-  // read shared include file
-  var inclFile = join(__dirname, '..', 'lib', 'messageformat.include.js');
-  if(options.verbose) console.log('Load include file: ' + inclFile);
-  fs.readFile(inclFile, function(err, inclStr){
-    if(err) handleError(new Error('Could not read shared include file.' ));
-
-    // read locale file
-    var localeFile = join(__dirname, '..', 'locale', options.locale + '.js');
-    if(options.verbose) console.log('Load locale file: ' + localeFile);
-    fs.readFile(localeFile, function(err, localeStr){
-      if(err) handleError(new Error('locale ' + options.locale + ' not supported.' ));
-      var script = vm.createScript(localeStr);
-      // needed for runInThisContext
-      global.MessageFormat = MessageFormat;
-      script.runInThisContext();
-
-      if( options.verbose ) { console.log('Read dir: ' + inputdir); }
-      // list each file in inputdir folder and subfolders
-      glob(options.include, {cwd: inputdir}, function(err, files){
-        files = files.map(function(file){
-          // normalize the file name
-          return file.replace(inputdir, '').replace(/^\//, '');
-        })
-
-        async.forEach(files, readFile, function(err){
-          // errors are logged in readFile. No need to print them here.
-          var fileData = [
-            '(function(){ ' + options.namespace + ' || (' + options.namespace + ' = {}) ',
-            'var MessageFormat = { locale: {} };',
-            localeStr.toString().trim(),
-            inclStr.toString().trim(),
-          ].concat(compiledMessageFormat)
-          .concat(['})();']);
-          return callback(null, _.flatten(fileData));
-        });
-
-        // Read each file, compile them, and append the result in the `compiledI18n` array
-        function readFile(file, cb){
-          var path = join(inputdir, file);
-          fs.stat(path, function(err, stat){
-            if(err) { handleError(err); return  cb(); }
-            if(!stat.isFile()) {
-              if( options.verbose ) { handleError('Skip ' + file); }
-              return cb();
-            }
-
-            fs.readFile(path, 'utf8', function(err, text){
-              if(err) { handleError(err); return cb() }
-
-              var nm = join(file).split('.')[0].replace(/\\/g, '/'); // windows users should have the same key.
-
-              if(options.combine !== undefined) {
-                nm = options.combine;
-                if( options.verbose ) console.log('Adding to ' + options.namespace + '["' + nm + '"]');
-              }
-              else {
-                if( options.verbose ) console.log('Building ' + options.namespace + '["' + nm + '"]');
-              }
-
-              compiledMessageFormat.push(compiler( options, nm, JSON.parse(text) ));
-              cb();
-            });
-          });
-        }
-      });
-    });
+function write(options, data) {
+  if (options.stdout) { _log(''); return console.log(data); }
+  fs.writeFile( options.output, data, 'utf8', function(err) {
+    if (err) return console.error('--->\t' + err.message);
+    _log(options.output + " written.");
   });
 }
 
-function compiler(options, nm, obj){
-  var mf = new MessageFormat(options.locale),
-    cmf = [options.namespace + '["' + nm + '"] = {'];
+function parseFileSync(dir, file) {
+  var path = Path.join(dir, file),
+      file_parts = file.split(/[.\/]+/),
+      r = { namespace: null, locale: null, data: null };
+  if (!fs.statSync(path).isFile()) {
+    _log('Skipping ' + file);
+    return null;
+  }
+  r.namespace = file.replace(/\.[^.]*$/, '').replace(/\\/g, '/');
+  for (var i = file_parts.length - 1; i >= 0; --i) {
+    if (file_parts[i] in MessageFormat.plurals) { r.locale = file_parts[i]; break; }
+  }
+  try {
+    _log('Building ' + JSON.stringify(r.namespace) + ' from `' + file + '` with ' + (r.locale ? 'locale ' + JSON.stringify(r.locale) : 'default locale'));
+    r.data = JSON.parse(fs.readFileSync(path, 'utf8'));
+  } catch (ex) {
+    console.error('--->\tRead error in ' + path + ': ' + ex.message);
+  }
+  return r;
+}
 
-  _(obj).forEach(function(value, key){
-    var str = mf.precompile( mf.parse(value) );
-    cmf.push('"' + key + '":' + str + ',');
+function build(options, callback) {
+  var lc = options.locale.trim().split(/[ ,]+/),
+      mf = new MessageFormat(lc[0]),
+      messages = {},
+      compileOpt = { global: options.namespace, locale: {} };
+  lc.slice(1).forEach(function(l){
+    var pf = mf.runtime.pluralFuncs[l] = MessageFormat.plurals[l];
+    if (!pf) throw 'Plural function for locale `' + l + '` not found';
   });
-  cmf[cmf.length-1] = cmf[cmf.length-1].replace(/,$/, '}');
-  return cmf;
+  _log('Input dir: ' + options.inputdir);
+  _log('Included locales: ' + lc.join(', '));
+  glob(options.include, {cwd: options.inputdir}, function(err, files) {
+    if (!err) async.each(files,
+      function(file, cb) {
+        var r = parseFileSync(options.inputdir, file);
+        if (r && r.data) {
+          messages[r.namespace] = r.data;
+          if (r.locale) compileOpt.locale[r.namespace] = r.locale;
+        }
+        cb();
+      },
+      function() {
+        var fn_str = mf.compile(messages, compileOpt).toString();
+        fn_str = fn_str.replace(/^\s*function\b[^{]*{\s*/, '').replace(/\s*}\s*$/, '');
+        var data = options.module ? fn_str : '(function(G) {\n' + fn_str + '\n})(this);';
+        return callback(options, data.trim() + '\n');
+      }
+    );
+  });
+}
+
+build(options, write);
+
+if (options.watch) {
+  _log('watching for changes in ' + options.inputdir + '...\n');
+  require('watchr').watch({
+    path: options.inputdir,
+    ignorePaths: [ options.output ],
+    listener: function(changeType, filePath) { if (/\.json$/.test(filePath)) build(options, write); }
+  });
 }

@@ -12,15 +12,20 @@
     "prodDatabaseType": "mysql",
     "useCompass": false,
     "buildTool": "maven",
-    "frontendBuilder": "grunt",
-    "javaVersion": "8",
     "rememberMeKey": "5c37379956bd1242f5636c8cb322c2966ad81277",
     "searchEngine": "no",
     "enableTranslation": true,
-    "useSass": false,
+    "applicationType": "monolith",
     "testFrameworks": [
-      "gatling"
+      "gatling",
+      "protractor"
     ],
-    "enableSocialSignIn": false
+    "languages": [
+      "en"
+    ],
+    "serverPort": 8080,
+    "jhipsterVersion": "3.0.0",
+    "enableSocialSignIn": false,
+    "useSass": false
   }
 }

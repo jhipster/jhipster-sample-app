@@ -2,9 +2,9 @@ language: node_js
 node_js:
   - "0.12"
 sudo: false
-before_install: npm install -g grunt-cli
+before_install: npm install -g gulp
 install: npm install
-before_script: grunt build
+before_script: gulp build
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always

@@ -4,7 +4,6 @@ import com.mycompany.myapp.config.liquibase.AsyncSpringLiquibase;
 
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.h2.tools.Server;
@@ -12,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +44,9 @@ public class DatabaseConfiguration {
     private MetricRegistry metricRegistry;
 
     @Bean(destroyMethod = "close")
-    @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
-    public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties) {
+    @ConditionalOnExpression("#{!environment.acceptsProfiles('" + Constants.SPRING_PROFILE_CLOUD + "') && !environment.acceptsProfiles('" + Constants.SPRING_PROFILE_HEROKU + "')}")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    public DataSource dataSource(DataSourceProperties dataSourceProperties) {
         log.debug("Configuring Datasource");
         if (dataSourceProperties.getUrl() == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
@@ -53,34 +55,26 @@ public class DatabaseConfiguration {
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
         }
-        HikariConfig config = new HikariConfig();
-        config.setDataSourceClassName(dataSourceProperties.getDriverClassName());
-        config.addDataSourceProperty("url", dataSourceProperties.getUrl());
-        if (dataSourceProperties.getUsername() != null) {
-            config.addDataSourceProperty("user", dataSourceProperties.getUsername());
-        } else {
-            config.addDataSourceProperty("user", ""); // HikariCP doesn't allow null user
-        }
-        if (dataSourceProperties.getPassword() != null) {
-            config.addDataSourceProperty("password", dataSourceProperties.getPassword());
-        } else {
-            config.addDataSourceProperty("password", ""); // HikariCP doesn't allow null password
-        }
+        HikariDataSource hikariDataSource =  (HikariDataSource) DataSourceBuilder
+                .create(dataSourceProperties.getClassLoader())
+                .type(HikariDataSource.class)
+                .driverClassName(dataSourceProperties.getDriverClassName())
+                .url(dataSourceProperties.getUrl())
+                .username(dataSourceProperties.getUsername())
+                .password(dataSourceProperties.getPassword())
+                .build();
 
-        //MySQL optimizations, see https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
-        if ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource".equals(dataSourceProperties.getDriverClassName())) {
-            config.addDataSourceProperty("cachePrepStmts", jHipsterProperties.getDatasource().isCachePrepStmts());
-            config.addDataSourceProperty("prepStmtCacheSize", jHipsterProperties.getDatasource().getPrepStmtCacheSize());
-            config.addDataSourceProperty("prepStmtCacheSqlLimit", jHipsterProperties.getDatasource().getPrepStmtCacheSqlLimit());
-        }
         if (metricRegistry != null) {
-            config.setMetricRegistry(metricRegistry);
+            hikariDataSource.setMetricRegistry(metricRegistry);
         }
-        return new HikariDataSource(config);
+        return hikariDataSource;
     }
 
     /**
      * Open the TCP port for the H2 database, so it is available remotely.
+     *
+     * @return the H2 database TCP server
+     * @throws SQLException if the server failed to start
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
@@ -99,18 +93,13 @@ public class DatabaseConfiguration {
         liquibase.setContexts(liquibaseProperties.getContexts());
         liquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
         liquibase.setDropFirst(liquibaseProperties.isDropFirst());
-        liquibase.setShouldRun(liquibaseProperties.isEnabled());
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
-            if ("org.h2.jdbcx.JdbcDataSource".equals(dataSourceProperties.getDriverClassName())) {
-                liquibase.setShouldRun(true);
-                log.warn("Using '{}' profile with H2 database in memory is not optimal, you should consider switching to" +
-                    " MySQL or Postgresql to avoid rebuilding your database upon each start.", Constants.SPRING_PROFILE_FAST);
-            } else {
-                liquibase.setShouldRun(false);
-            }
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_NO_LIQUIBASE)) {
+            liquibase.setShouldRun(false);
         } else {
+            liquibase.setShouldRun(liquibaseProperties.isEnabled());
             log.debug("Configuring Liquibase");
         }
+
         return liquibase;
     }
 

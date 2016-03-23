@@ -22,6 +22,8 @@ import java.time.ZonedDateTime;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -46,11 +48,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @NotNull
     @Email
     @Size(max = 100)
     @Column(length = 100, unique = true)
     private String email;
 
+    @NotNull
     @Column(nullable = false)
     private boolean activated = false;
 

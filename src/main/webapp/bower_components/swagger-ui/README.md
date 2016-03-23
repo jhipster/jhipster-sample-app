@@ -1,6 +1,10 @@
 # Swagger UI
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
+[![NPM version](https://badge.fury.io/js/swagger-ui.png)](http://badge.fury.io/js/swagger-ui)
+
+[![Dependency Status](https://david-dm.org/swagger-api/swagger-ui/status.svg)](https://david-dm.org/swagger-api/swagger-ui)
+[![devDependency Status](https://david-dm.org/swagger-api/swagger-ui/dev-status.svg)](https://david-dm.org/swagger-api/swagger-ui#info=devDependencies)
 
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
@@ -12,15 +16,15 @@ generate beautiful documentation and sandbox from a Swagger-compliant API. Becau
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more.
+Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
 
 ## Compatibility
-The Swagger Specification has undergone 4 revisions since initial creation in 2010.  Compatibility between swagger-ui and the Swagger specification is as follows:
+The OpenAPI Specification has undergone 4 revisions since initial creation in 2010.  Compatibility between swagger-ui and the OpenAPI Specification is as follows:
 
-Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
+Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.1              | 2015-07-23   | 1.1, 1.2, 2.0              | [tag v.2.1.1](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
+2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -58,7 +62,7 @@ This will start Swagger UI at `http://localhost:8080`.
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
-You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
+You may choose to customize Swagger UI for your organization. Here is an overview of what's in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
 -    dist/lang: The swagger localization
@@ -85,20 +89,23 @@ swaggerUi.load();
 
 Parameter Name | Description
 --- | ---
-url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [Swagger Spec](https://github.com/swagger-api/swagger-spec/).
-spec | A JSON object describing the Swagger specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
+url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification/).
+authorizations | An authorization object to be passed to swagger-js.  Setting it here will trigger inclusion of any authorization or custom signing logic when fetching the swagger description file.  Note the object structure should be `{ key: AuthorizationObject }`
+spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation. This parameter is relevant for Swagger 2.0 specs only.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 booleanValues | SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1).
 docExpansion | Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).
 apisSorter | Apply a sort to the API/tags list. It can be 'alpha' (sort by name) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
+defaultModelRendering | Controls how models are shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Model Schema' links.) It can be set to 'model' or 'schema', and the default is 'schema'.
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
 supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!' option. An empty array disables all operations. This does not filter the operations from the display.
 oauth2RedirectUrl | OAuth redirect URL
 showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
+jsonEditor | Enables a graphical view for editing complex bodies.  Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
@@ -143,7 +150,7 @@ The first line script is a translator and the second one is your language lexeme
 
 If you wish to append support for new language you just need to create lang/your_lang.js and fill it like it's done in existing files.
 
-To append new lexemex for translation you shoul do two things:
+To append new lexemex for translation you should do two things:
 1. Add lexeme into the language file.
     Example of new line: "new sentence":"translation of new sentence".
 2. Mark this lexeme in source html with attribute data-sw-translate.
@@ -166,7 +173,7 @@ You can read about CORS here: http://www.w3.org/TR/cors.
 There are two cases where no action is needed for CORS support:
 
 1. swagger-ui is hosted on the same server as the application itself (same host *and* port).
-2. The application is located behind a proxy that enables the requires CORS headers. This may already be covered within your organization.
+2. The application is located behind a proxy that enables the required CORS headers. This may already be covered within your organization.
 
 Otherwise, CORS support needs to be enabled for:
 

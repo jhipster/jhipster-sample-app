@@ -10,16 +10,14 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+
 spring:
-    profiles:
-        active: dev
     devtools:
         restart:
             enabled: true
         livereload:
-            enabled: false # we use Grunt + BrowserSync for livereload
+            enabled: false # we use gulp + BrowserSync for livereload
     datasource:
-        driver-class-name: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:mem:sampleapplication;DB_CLOSE_DELAY=-1
         name:
         username: sampleApplication
@@ -71,3 +69,12 @@ jhipster:
             host: localhost
             port: 2003
             prefix: sampleApplication
+        logs: # report metrics in the logs
+            enabled: false
+            reportFrequency: 60 # in seconds
+    logging:
+        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+            enabled: false
+            host: localhost
+            port: 5000
+            queueSize: 512

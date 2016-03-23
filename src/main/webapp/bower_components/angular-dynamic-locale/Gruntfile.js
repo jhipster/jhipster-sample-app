@@ -59,7 +59,8 @@
       uglify: {
         all: {
           files: {
-            'tmhDynamicLocale.min.js': ['src/*.js']
+            'tmhDynamicLocale.min.js': ['src/*.js'],
+            'dist/tmhDynamicLocale.min.js': ['src/*.js']
           },
           options: {
             banner: BANNER,

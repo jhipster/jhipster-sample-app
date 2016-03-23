@@ -19,6 +19,8 @@ import java.util.Objects;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Label implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,7 +29,7 @@ public class Label implements Serializable {
     @Size(min = 3)
     @Column(name = "label", nullable = false)
     private String label;
-    
+
     @ManyToMany(mappedBy = "labels")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -44,7 +46,7 @@ public class Label implements Serializable {
     public String getLabel() {
         return label;
     }
-    
+
     public void setLabel(String label) {
         this.label = label;
     }

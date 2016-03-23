@@ -1,7 +1,7 @@
 ######################
 # Project Specific
 ######################
-/src/main/webapp/dist
+/target/www/**
 
 ######################
 # Node
@@ -126,3 +126,8 @@ Desktop.ini
 # Maven Wrapper
 ######################
 !.mvn/wrapper/maven-wrapper.jar
+
+######################
+# ESLint
+######################
+.eslintcache

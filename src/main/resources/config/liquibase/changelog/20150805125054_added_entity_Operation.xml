@@ -25,7 +25,9 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="description" type="varchar(255)"/>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             
             <column name="amount" type="decimal(10,2)">
                 <constraints nullable="false" />
@@ -35,14 +37,12 @@
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>
-
         
         <addForeignKeyConstraint baseColumnNames="bank_account_id"
                                  baseTableName="operation"
                                  constraintName="fk_operation_bankaccount_id"
                                  referencedColumnNames="id"
                                  referencedTableName="bank_account"/>
-
         <createTable tableName="operation_label">
             <column name="labels_id" type="bigint">
                 <constraints nullable="false"/>

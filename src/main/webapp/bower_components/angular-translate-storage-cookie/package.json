@@ -1,6 +1,6 @@
 {
   "name": "angular-translate-storage-cookie",
-  "version": "2.8.1",
+  "version": "2.11.0",
   "description": "Abstraction layer for cookieStore. This service is used when telling angular-translate to use cookieStore as storage.",
   "main": "angular-translate-storage-cookie.js",
   "repository": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://angular-translate.github.io",
   "dependencies": {
-    "angular-translate": "~2.8.1",
-    "angular-cookies": ">=1.2.26 <=1.5"
+    "angular-translate": "~2.11.0",
+    "angular-cookies": ">=1.2.26 <1.6"
   }
 }

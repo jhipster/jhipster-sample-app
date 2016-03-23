@@ -1,0 +1,40 @@
+
+<div>
+    <h2><span translate="sampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span translate="sampleApplicationApp.operation.date">Date</dt></dt>
+        <dd>
+            <span>{{vm.operation.date | date:'medium'}}</span>
+        </dd>
+        <hr>
+        <dt><span translate="sampleApplicationApp.operation.description">Description</dt></dt>
+        <dd>
+            <span>{{vm.operation.description}}<span>
+        </dd>
+        <hr>
+        <dt><span translate="sampleApplicationApp.operation.amount">Amount</dt></dt>
+        <dd>
+            <span>{{vm.operation.amount}}<span>
+        </dd>
+        <hr>
+        <dt><span translate="sampleApplicationApp.operation.bankAccount">bankAccount</span></dt>
+        <dd>
+            <a ui-sref="bank-account-detail({id:vm.operation.bankAccount.id})">{{vm.operation.bankAccount.name}}</a>
+        </dd>
+        <hr>
+        <dt><span translate="sampleApplicationApp.operation.label">label</span></dt>
+        <dd>
+            <span ng-repeat="label in vm.operation.labels">
+                <a ui-sref="label-detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
