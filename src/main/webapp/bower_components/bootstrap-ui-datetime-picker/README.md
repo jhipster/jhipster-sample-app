@@ -31,7 +31,6 @@ You have the following properties available to use with the directive.  All are 
 * buttonBar (object)
 * initialPicker ('date'/'time')
 * reOpenDefault (false/'date'/'time') - NOTE: `true` not supported
-* dateDisabled
 * datepickerOptions (object)
 * timepickerOptions (object)
 * defaultTime (string)
@@ -51,16 +50,12 @@ Only specify the elements that you want to override, as each button defaults to 
 The initial picker to open when the control is first pressed
 ##### reOpenDefault
 The picker to set as the picker to open once the control has already been opened at least once. Setting to `false` will default to the date picker if both date and time are enabled, or just the enabled control if only time or date is in use.
-##### dateDisabled
-From angularUI site -> An optional expression to disable visible options based on passing date and current mode (day|month|year).
 ##### datepickerOptions
 Object to configure settings for the datepicker (can be found on angularUI site)
 ##### timepickerOptions
 Object to configure settings for the timepicker (can be found on angularUI site)
 ##### defaultTime
 Initial time when a new date is selected (e.g. "14:00:00" or "2:00 pm")
-##### customClass
-From angularUI site -> An optional expression to add classes based on passing a date and current mode
 ##### whenClosed
 An callback function to call when the picker dropdown is closed. See demo for more details.
 
@@ -176,5 +171,11 @@ app.controller('MyController', function() {
 });
 ```
 
+## Bug
+If you do find a bug, can you please create a plunkr to replicate the error before raising an issue.  Attach the plunkr as a link to the issue so i can replicate the error and work out a solution. 
+
+## Pull Requests
+If you submit a PR, please test your changes against the demo page to make sure no functionality has been broken. 
+
 ## Support
-This was developed using angular-ui bootstrap Version: 1.1.0 - 2016-01-18.  If you have a bug, please check what version of angular-ui you are using.  If you are using a version prior to this, then please upgrade if you can and try it. If the problem persists, please let me know.  I do have a day job but will try to get back to you asap.  If you can fix the bug, then let me know how, or even better, submit a pull request.
+This was developed using angular-ui bootstrap Version: 1.2.0 - 2016-04-07.  If you have a bug, please check what version of angular-ui you are using.  If you are using a version prior to this, then please upgrade if you can and try it. If the problem persists, please let me know.  I do have a day job but will try to get back to you asap.  If you can fix the bug, then let me know how, or even better, submit a pull request.

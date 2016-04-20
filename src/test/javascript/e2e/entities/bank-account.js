@@ -11,7 +11,6 @@ describe('BankAccount e2e test', function () {
 
     beforeAll(function () {
         browser.get('/');
-        browser.driver.wait(protractor.until.elementIsVisible(element(by.css('h1'))));
 
         accountMenu.click();
         login.click();
@@ -24,13 +23,13 @@ describe('BankAccount e2e test', function () {
     it('should load BankAccounts', function () {
         entityMenu.click();
         element(by.css('[ui-sref="bank-account"]')).click().then(function() {
-            expect(element.all(by.css('h2')).first().getText()).toMatch(/BankAccounts/);
+            expect(element.all(by.css('h2')).first().getText()).toMatch(/Bank Accounts/);
         });
     });
 
     it('should load create BankAccount dialog', function () {
         element(by.css('[ui-sref="bank-account.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getText()).toMatch(/Create or edit a BankAccount/);
+            expect(element(by.css('h4.modal-title')).getText()).toMatch(/Create or edit a Bank Account/);
             element(by.css('button.close')).click();
         });
     });

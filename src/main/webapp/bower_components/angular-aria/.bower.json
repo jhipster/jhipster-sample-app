@@ -14,7 +14,7 @@
     "tag": "v1.5.2",
     "commit": "1c29a24347e9a98ac7ad483394265d27e279e98c"
   },
-  "_source": "git://github.com/angular/bower-angular-aria.git",
+  "_source": "https://github.com/angular/bower-angular-aria.git",
   "_target": "1.5.2",
   "_originalSource": "angular-aria"
 }

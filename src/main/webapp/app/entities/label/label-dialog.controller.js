@@ -5,17 +5,16 @@
         .module('sampleApplicationApp')
         .controller('LabelDialogController', LabelDialogController);
 
-    LabelDialogController.$inject = ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Label', 'Operation'];
+    LabelDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Label', 'Operation'];
 
-    function LabelDialogController ($scope, $stateParams, $uibModalInstance, entity, Label, Operation) {
+    function LabelDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Label, Operation) {
         var vm = this;
         vm.label = entity;
         vm.operations = Operation.query();
-        vm.load = function(id) {
-            Label.get({id : id}, function(result) {
-                vm.label = result;
-            });
-        };
+
+        $timeout(function (){
+            angular.element('.form-group:eq(1)>input').focus();
+        });
 
         var onSaveSuccess = function (result) {
             $scope.$emit('sampleApplicationApp:labelUpdate', result);

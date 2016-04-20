@@ -11,7 +11,6 @@ describe('Label e2e test', function () {
 
     beforeAll(function () {
         browser.get('/');
-        browser.driver.wait(protractor.until.elementIsVisible(element(by.css('h1'))));
 
         accountMenu.click();
         login.click();

@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group">
+        <div class="form-group" ng-show="vm.operation.id">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.operation.id" readonly />
@@ -57,13 +57,13 @@
         </div>
 
         <div class="form-group">
-            <label translate="sampleApplicationApp.operation.bankAccount" for="field_bankAccount">bankAccount</label>
+            <label translate="sampleApplicationApp.operation.bankAccount" for="field_bankAccount">Bank Account</label>
             <select class="form-control" id="field_bankAccount" name="bankAccount" ng-model="vm.operation.bankAccount" ng-options="bankAccount as bankAccount.name for bankAccount in vm.bankaccounts track by bankAccount.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label translate="sampleApplicationApp.operation.label" for="field_label">label</label>
+            <label translate="sampleApplicationApp.operation.label" for="field_label">Label</label>
             <select class="form-control" id="field_label" multiple name="label" ng-model="vm.operation.labels" ng-options="label as label.label for label in vm.labels track by label.id"></select>
         </div>
     </div>

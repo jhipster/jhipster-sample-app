@@ -4,122 +4,160 @@ app.controller('MyController', ['$scope', function($scope) {
 
     var that = this;
 
-    var in10Days = new Date();
-    in10Days.setDate(in10Days.getDate() + 10);
-
-    this.dates = {
-        date1: new Date('2015-03-01T00:00:00Z'),
-        date2: new Date('2015-03-01T12:30:00Z'),
-        date3: new Date(),
-        date4: new Date(),
-        date5: in10Days,
-        date6: new Date(),
-        date7: new Date(),
-        date8: new Date(),
-        date9: null,
-        date10: new Date('2015-03-01T09:00:00Z'),
-        date11: new Date('2015-03-01T10:00:00Z'),
-        date12: new Date('2015-03-01T10:00:00Z'),
-        date13: null,
-        date14: new Date('2016-02-16T10:00:00Z'),
-        date15: new Date('2016-02-16T10:00:00Z'),
-        date16: new Date('2016-02-16T10:00:00Z'),
-        date17: new Date('2016-02-16T10:00:00Z'),
-        date18: new Date('2016-02-16T10:00:00Z'),
-        date19: new Date('2016-02-16T10:00:00Z'),
-    };
-
-    this.open = {
-        date1: false,
-        date2: false,
-        date3: false,
-        date4: false,
-        date5: false,
-        date6: false,
-        date7: false,
-        date8: false,
-        date9: false,
-        date10: false,
-        date11: false,
-        date12: false,
-        date13: false,
-        date14: false,
-        date15: false,
-        date16: false,
-        date17: false,
-        date18: false,
-        date19: false
-    };
-
-    // Disable today selection
-    this.disabled = function(date, mode) {
-        return (mode === 'day' && (new Date().toDateString() == date.toDateString()));
-    };
-
-    this.dateOptions = {
-        showWeeks: false,
-        startingDay: 1
-    };
-
-    this.timeOptions = {
-        readonlyInput: false,
-        showMeridian: false
-    };
-
-    this.dateModeOptions = {
-        minMode: 'year',
-        maxMode: 'year'
-    };
-
-    this.buttonBar = {
-        show: true,
-        now: {
-            show: true,
-            text: 'Now!'
-        },
-        today: {
-            show: true,
-            text: 'Today!'
-        },
-        clear: {
-            show: false,
-            text: 'Wipe'
-        },
-        date: {
-            show: true,
-            text: 'Date'
-        },
-        time: {
-            show: true,
-            text: 'Time'
-        },
-        close: {
-            show: true,
-            text: 'Shut'
+    // date picker
+    this.picker1 = {
+        date: new Date('2015-03-01T00:00:00Z'),
+        datepickerOptions: {
+            showWeeks: false,
+            startingDay: 1,
+            dateDisabled: function(data) {
+                return (data.mode === 'day' && (new Date().toDateString() == data.date.toDateString()));
+            }
         }
     };
 
-    this.onClosed = function(args) {
-        that.closedArgs = args;
+    // time picker
+    this.picker2 = {
+        date: new Date('2015-03-01T12:30:00Z'),
+        timepickerOptions: {
+            readonlyInput: false,
+            showMeridian: false
+        }
     };
 
-    this.openCalendar = function(e, date) {
-        that.open[date] = true;
+    // date and time picker
+    this.picker3 = {
+        date: new Date()
     };
 
-    // watch date4 and date5 to calculate difference
-    var unwatch = $scope.$watch(function() {
-        return that.dates;
+    // min date picker
+    this.picker4 = {
+        date: new Date(),
+        datepickerOptions: {
+            maxDate: null
+        }
+    };
+
+    // max date picker
+    this.picker5 = {
+        date: new Date(),
+        datepickerOptions: {
+            minDate: null
+        }
+    };
+
+    // set date for max picker, 10 days in future
+    this.picker5.date.setDate(this.picker5.date.getDate() + 10);
+
+    // global config picker
+    this.picker6 = {
+        date: new Date()
+    };
+
+    // dropdown up picker
+    this.picker7 = {
+        date: new Date()
+    };
+
+    // view mode picker
+    this.picker8 = {
+        date: new Date(),
+        datepickerOptions: {
+            mode: 'year',
+            minMode: 'year',
+            maxMode: 'year'
+        }
+    };
+
+    // dropdown up picker
+    this.picker9 = {
+        date: null
+    };
+
+    // min time picker
+    this.picker10 = {
+        date: new Date('2016-03-01T09:00:00Z'),
+        timepickerOptions: {
+            max: null
+        }
+    };
+
+    // max time picker
+    this.picker11 = {
+        date: new Date('2016-03-01T10:00:00Z'),
+        timepickerOptions: {
+            min: null
+        }
+    };
+
+    // button bar
+    this.picker12 = {
+        date: new Date(),
+        buttonBar: {
+            show: true,
+            now: {
+                show: true,
+                text: 'Now!'
+            },
+            today: {
+                show: true,
+                text: 'Today!'
+            },
+            clear: {
+                show: false,
+                text: 'Wipe'
+            },
+            date: {
+                show: true,
+                text: 'Date'
+            },
+            time: {
+                show: true,
+                text: 'Time'
+            },
+            close: {
+                show: true,
+                text: 'Shut'
+            }
+        }
+    };
+
+    // when closed picker
+    this.picker13 = {
+        date: new Date(),
+        closed: function(args) {
+            that.closedArgs = args;
+        }
+    };
+
+    this.openCalendar = function(e, picker) {
+        that[picker].open = true;
+    };
+
+    // watch min and max dates to calculate difference
+    var unwatchMinMaxValues = $scope.$watch(function() {
+        return [that.picker4, that.picker5, that.picker10, that.picker11];
     }, function() {
-        if (that.dates.date4 && that.dates.date5) {
-            var diff = that.dates.date4.getTime() - that.dates.date5.getTime();
+        // min max dates
+        that.picker4.datepickerOptions.maxDate = that.picker5.date;
+        that.picker5.datepickerOptions.minDate = that.picker4.date;
+
+        if (that.picker4.date && that.picker5.date) {
+            var diff = that.picker4.date.getTime() - that.picker5.date.getTime();
             that.dayRange = Math.round(Math.abs(diff/(1000*60*60*24)))
         } else {
             that.dayRange = 'n/a';
         }
+
+        // min max times
+        that.picker10.timepickerOptions.max = that.picker11.date;
+        that.picker11.timepickerOptions.min = that.picker10.date;
     }, true);
 
+
+    // destroy watcher
     $scope.$on('$destroy', function() {
-        unwatch();
+        unwatchMinMaxValues();
     });
+
 }]);

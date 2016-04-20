@@ -5,18 +5,17 @@
         .module('sampleApplicationApp')
         .controller('OperationDialogController', OperationDialogController);
 
-    OperationDialogController.$inject = ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Operation', 'BankAccount', 'Label'];
+    OperationDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Operation', 'BankAccount', 'Label'];
 
-    function OperationDialogController ($scope, $stateParams, $uibModalInstance, entity, Operation, BankAccount, Label) {
+    function OperationDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Operation, BankAccount, Label) {
         var vm = this;
         vm.operation = entity;
         vm.bankaccounts = BankAccount.query();
         vm.labels = Label.query();
-        vm.load = function(id) {
-            Operation.get({id : id}, function(result) {
-                vm.operation = result;
-            });
-        };
+
+        $timeout(function (){
+            angular.element('.form-group:eq(1)>input').focus();
+        });
 
         var onSaveSuccess = function (result) {
             $scope.$emit('sampleApplicationApp:operationUpdate', result);

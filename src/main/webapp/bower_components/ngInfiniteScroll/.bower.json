@@ -21,7 +21,7 @@
     "tag": "1.2.2",
     "commit": "f2fbba21726d5fd4889aeb087491d99f491e14e1"
   },
-  "_source": "git://github.com/sroze/ngInfiniteScroll.git",
+  "_source": "https://github.com/sroze/ngInfiniteScroll.git",
   "_target": "1.2.2",
   "_originalSource": "ngInfiniteScroll"
 }

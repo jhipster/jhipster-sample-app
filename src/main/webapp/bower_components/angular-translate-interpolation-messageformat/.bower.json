@@ -17,7 +17,7 @@
     "tag": "2.11.0",
     "commit": "f1cd6c9d116517f0aca1dde13702860ff0865136"
   },
-  "_source": "git://github.com/PascalPrecht/bower-angular-translate-interpolation-messageformat.git",
+  "_source": "https://github.com/PascalPrecht/bower-angular-translate-interpolation-messageformat.git",
   "_target": "2.11.0",
   "_originalSource": "angular-translate-interpolation-messageformat"
 }

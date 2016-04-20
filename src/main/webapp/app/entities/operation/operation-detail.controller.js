@@ -10,11 +10,7 @@
     function OperationDetailController($scope, $rootScope, $stateParams, entity, Operation, BankAccount, Label) {
         var vm = this;
         vm.operation = entity;
-        vm.load = function (id) {
-            Operation.get({id: id}, function(result) {
-                vm.operation = result;
-            });
-        };
+        
         var unsubscribe = $rootScope.$on('sampleApplicationApp:operationUpdate', function(event, result) {
             vm.operation = result;
         });

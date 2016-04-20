@@ -28,7 +28,7 @@
     "tag": "0.2.18",
     "commit": "2b8d5241b4c631ca2aef079bb96690b213eff449"
   },
-  "_source": "git://github.com/angular-ui/angular-ui-router-bower.git",
+  "_source": "https://github.com/angular-ui/angular-ui-router-bower.git",
   "_target": "0.2.18",
   "_originalSource": "angular-ui-router"
 }

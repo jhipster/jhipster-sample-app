@@ -16,7 +16,7 @@
     <!--
         Added the entity Operation.
     -->
-    <changeSet id="20150805125054" author="jhipster">
+    <changeSet id="20150805125054-1" author="jhipster">
         <createTable tableName="operation">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -38,11 +38,6 @@
         </createTable>
         <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>
         
-        <addForeignKeyConstraint baseColumnNames="bank_account_id"
-                                 baseTableName="operation"
-                                 constraintName="fk_operation_bankaccount_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="bank_account"/>
         <createTable tableName="operation_label">
             <column name="labels_id" type="bigint">
                 <constraints nullable="false"/>
@@ -53,18 +48,6 @@
         </createTable>
 
         <addPrimaryKey columnNames="operations_id, labels_id" tableName="operation_label"/>
-
-        <addForeignKeyConstraint baseColumnNames="operations_id"
-                                 baseTableName="operation_label"
-                                 constraintName="fk_operation_label_label_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="operation"/>
-
-        <addForeignKeyConstraint baseColumnNames="labels_id"
-                                 baseTableName="operation_label"
-                                 constraintName="fk_operation_label_operation_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="label"/>
         
     </changeSet>
 </databaseChangeLog>

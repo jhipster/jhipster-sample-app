@@ -4,11 +4,11 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myBankAccountLabel" translate="sampleApplicationApp.bankAccount.home.createOrEditLabel">Create or edit a BankAccount</h4>
+        <h4 class="modal-title" id="myBankAccountLabel" translate="sampleApplicationApp.bankAccount.home.createOrEditLabel">Create or edit a Bank Account</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group">
+        <div class="form-group" ng-show="vm.bankAccount.id">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.bankAccount.id" readonly />
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            <label translate="sampleApplicationApp.bankAccount.user" for="field_user">user</label>
+            <label translate="sampleApplicationApp.bankAccount.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" ng-model="vm.bankAccount.user" ng-options="user as user.login for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

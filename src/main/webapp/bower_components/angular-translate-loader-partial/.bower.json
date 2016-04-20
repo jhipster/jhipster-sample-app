@@ -16,7 +16,7 @@
     "tag": "2.11.0",
     "commit": "e97d583e24b04129d0d7bd3b21cee72f91731e46"
   },
-  "_source": "git://github.com/PascalPrecht/bower-angular-translate-loader-partial.git",
+  "_source": "https://github.com/PascalPrecht/bower-angular-translate-loader-partial.git",
   "_target": "2.11.0",
   "_originalSource": "angular-translate-loader-partial"
 }
