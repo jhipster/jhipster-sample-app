@@ -1,5 +1,6 @@
 package com.mycompany.myapp.config;
 
+
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
@@ -133,4 +134,5 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
             }
         }
     }
+
 }

@@ -39,6 +39,16 @@
         "jquery": "2.2.2"
       }
     },
+    "angular-cache-buster" : {
+      "dependencies": {
+        "angular": "1.5.2"
+      }
+    },
+    "angular-dynamic-locale" : {
+      "dependencies": {
+        "angular": "1.5.2"
+      }
+    },
     "bootstrap": {
       "main": [
         "dist/css/bootstrap.css"

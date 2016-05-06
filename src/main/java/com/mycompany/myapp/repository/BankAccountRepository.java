@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Spring Data JPA repository for the BankAccount entity.
  */
+@SuppressWarnings("unused")
 public interface BankAccountRepository extends JpaRepository<BankAccount,Long> {
 
     @Query("select bankAccount from BankAccount bankAccount where bankAccount.user.login = ?#{principal.username}")

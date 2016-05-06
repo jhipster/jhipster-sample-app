@@ -2,22 +2,19 @@
 <div>
     <h2><span translate="sampleApplicationApp.bankAccount.detail.title">Bank Account</span> {{vm.bankAccount.id}}</h2>
     <hr>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal jh-entity-details">
         <dt><span translate="sampleApplicationApp.bankAccount.name">Name</span></dt>
         <dd>
             <span>{{vm.bankAccount.name}}</span>
         </dd>
-        <hr>
         <dt><span translate="sampleApplicationApp.bankAccount.balance">Balance</span></dt>
         <dd>
             <span>{{vm.bankAccount.balance}}</span>
         </dd>
-        <hr>
         <dt><span translate="sampleApplicationApp.bankAccount.user">User</span></dt>
         <dd>
             {{vm.bankAccount.user.login}}
         </dd>
-        <hr>
     </dl>
 
     <button type="submit"

@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Spring Data JPA repository for the Operation entity.
  */
+@SuppressWarnings("unused")
 public interface OperationRepository extends JpaRepository<Operation,Long> {
 
     @Query("select distinct operation from Operation operation left join fetch operation.labels")

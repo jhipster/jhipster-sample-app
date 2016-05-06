@@ -33,7 +33,10 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="bank_account_id" type="bigint"/>
+            <column name="bank_account_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>

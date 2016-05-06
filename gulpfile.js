@@ -1,4 +1,4 @@
-// Generated on 2016-05-06 using generator-jhipster 3.1.0
+// Generated on 2016-05-06 using generator-jhipster 3.2.0
 'use strict';
 
 var gulp = require('gulp'),
@@ -14,7 +14,6 @@ var gulp = require('gulp'),
     es = require('event-stream'),
     flatten = require('gulp-flatten'),
     del = require('del'),
-    wiredep = require('wiredep').stream,
     runSequence = require('run-sequence'),
     browserSync = require('browser-sync'),
     KarmaServer = require('karma').Server,
@@ -22,7 +21,9 @@ var gulp = require('gulp'),
     changed = require('gulp-changed'),
     gulpIf = require('gulp-if'),
     inject = require('gulp-inject'),
-    angularFilesort = require('gulp-angular-filesort');
+    angularFilesort = require('gulp-angular-filesort'),
+    naturalSort = require('gulp-natural-sort'),
+    bowerFiles = require('main-bower-files');
 
 var handleErrors = require('./gulp/handleErrors'),
     serve = require('./gulp/serve'),
@@ -102,42 +103,55 @@ gulp.task('styles', [], function () {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('inject', function () {
+gulp.task('inject', ['inject:dep', 'inject:app']);
+gulp.task('inject:dep', ['inject:test', 'inject:vendor']);
+
+gulp.task('inject:app', function () {
     return gulp.src(config.app + 'index.html')
-        .pipe(inject(gulp.src(config.app + 'app/**/*.js').pipe(angularFilesort()), {relative: true}))
+        .pipe(inject(gulp.src(config.app + 'app/**/*.js')
+            .pipe(naturalSort())
+            .pipe(angularFilesort()), {relative: true}))
         .pipe(gulp.dest(config.app));
 });
 
-gulp.task('wiredep', ['wiredep:test', 'wiredep:app']);
-
-gulp.task('wiredep:app', function () {
+gulp.task('inject:vendor', function () {
     var stream = gulp.src(config.app + 'index.html')
         .pipe(plumber({errorHandler: handleErrors}))
-        .pipe(wiredep())
+        .pipe(inject(gulp.src(bowerFiles(), {read: false}), {
+            name: 'bower',
+            relative: true
+        }))
         .pipe(gulp.dest(config.app));
 
     return stream;
 });
 
-gulp.task('wiredep:test', function () {
+gulp.task('inject:test', function () {
     return gulp.src(config.test + 'karma.conf.js')
         .pipe(plumber({errorHandler: handleErrors}))
-        .pipe(wiredep({
-            ignorePath: /\.\.\/\.\.\//, // remove ../../ from paths of injected JavaScript files
-            devDependencies: true,
-            fileTypes: {
-                js: {
-                    block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
-                    detect: {
-                        js: /'(.*\.js)'/gi
-                    },
-                    replace: {
-                        js: '\'src/{{filePath}}\','
-                    }
-                }
+        .pipe(inject(gulp.src(bowerFiles({includeDev: true, filter: ['**/*.js']}), {read: false}), {
+            starttag: '// bower:js',
+            endtag: '// endbower',
+            transform: function (filepath) {
+                return '\'' + filepath.substring(1, filepath.length) + '\',';
             }
         }))
         .pipe(gulp.dest(config.test));
+});
+
+gulp.task('inject:troubleshoot', function () {
+    /* this task removes the troubleshooting content from index.html*/
+    return gulp.src(config.app + 'index.html')
+        .pipe(plumber({errorHandler: handleErrors}))
+        /* having empty src as we dont have to read any files*/
+        .pipe(inject(gulp.src('', {read: false}), {
+            starttag: '<!-- inject:troubleshoot -->',
+            removeTags: true,
+            transform: function () {
+                return '<!-- Angular views -->';
+            }
+        }))
+        .pipe(gulp.dest(config.app));
 });
 
 gulp.task('assets:prod', ['images', 'styles', 'html'], build);
@@ -167,8 +181,8 @@ gulp.task('ngconstant:dev', function () {
             '    {%= __ngModule %}\n' +
             '})();\n',
         constants: {
-            ENV: 'dev',
-            VERSION: util.parseVersion()
+            VERSION: util.parseVersion(),
+            DEBUG_INFO_ENABLED: true
         }
     })
     .pipe(gulp.dest(config.app + 'app/'));
@@ -188,8 +202,8 @@ gulp.task('ngconstant:prod', function () {
             '    {%= __ngModule %}\n' +
             '})();\n',
         constants: {
-            ENV: 'prod',
-            VERSION: util.parseVersion()
+            VERSION: util.parseVersion(),
+            DEBUG_INFO_ENABLED: false
         }
     })
     .pipe(gulp.dest(config.app + 'app/'));
@@ -215,7 +229,7 @@ gulp.task('eslint:fix', function () {
         .pipe(gulpIf(util.isLintFixed, gulp.dest(config.app + 'app')));
 });
 
-gulp.task('test', ['wiredep:test', 'ngconstant:dev'], function (done) {
+gulp.task('test', ['inject:test', 'ngconstant:dev'], function (done) {
     new KarmaServer({
         configFile: __dirname + '/' + config.test + 'karma.conf.js',
         singleRun: true
@@ -246,12 +260,12 @@ gulp.task('watch', function () {
     gulp.watch(['gulpfile.js', 'pom.xml'], ['ngconstant:dev']);
     gulp.watch(config.app + 'content/css/**/*.css', ['styles']);
     gulp.watch(config.app + 'content/images/**', ['images']);
-    gulp.watch(config.app + 'app/**/*.js', ['inject']);
+    gulp.watch(config.app + 'app/**/*.js', ['inject:app']);
     gulp.watch([config.app + '*.html', config.app + 'app/**', config.app + 'i18n/**']).on('change', browserSync.reload);
 });
 
 gulp.task('install', function () {
-    runSequence(['wiredep', 'ngconstant:dev'], 'languages', 'inject');
+    runSequence(['inject:dep', 'ngconstant:dev'], 'languages', 'inject:app', 'inject:troubleshoot');
 });
 
 gulp.task('serve', function () {
@@ -259,7 +273,7 @@ gulp.task('serve', function () {
 });
 
 gulp.task('build', ['clean'], function (cb) {
-    runSequence(['copy', 'wiredep:app', 'ngconstant:prod', 'languages'], 'inject', 'assets:prod', cb);
+    runSequence(['copy', 'inject:vendor', 'ngconstant:prod', 'languages'], 'inject:app', 'inject:troubleshoot', 'assets:prod', cb);
 });
 
 gulp.task('default', ['serve']);

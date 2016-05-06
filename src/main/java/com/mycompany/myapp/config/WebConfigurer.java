@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -68,15 +69,34 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         container.setMimeMappings(mappings);
 
         // When running in an IDE or with ./mvnw spring-boot:run, set location of the static web assets.
+        setLocationForStaticAssets(container);
+    }
+
+    private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
         File root;
+        String prefixPath = resolvePathPrefix();
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
-            root = new File("target/www/");
+            root = new File(prefixPath + "target/www/");
         } else {
-            root = new File("src/main/webapp/");
+            root = new File(prefixPath + "src/main/webapp/");
         }
         if (root.exists() && root.isDirectory()) {
             container.setDocumentRoot(root);
         }
+    }
+
+    /**
+     *  Resolve path prefix to static resources.
+     */
+    private String resolvePathPrefix() {
+        String fullExecutablePath = this.getClass().getResource("").getPath();
+        String rootPath = Paths.get(".").toUri().normalize().getPath();
+        String extractedPath = fullExecutablePath.replace(rootPath, "");
+        int extractionEndIndex = extractedPath.indexOf("target/");
+        if(extractionEndIndex <= 0) {
+            return "";
+        }
+        return extractedPath.substring(0, extractionEndIndex);
     }
 
     /**
@@ -115,7 +135,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         ServletRegistration.Dynamic metricsAdminServlet =
             servletContext.addServlet("metricsServlet", new MetricsServlet());
 
-        metricsAdminServlet.addMapping("/metrics/metrics/*");
+        metricsAdminServlet.addMapping("/management/jhipster/metrics/*");
         metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
     }
@@ -133,7 +153,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     /**
-     * Initializes H2 console
+     * Initializes H2 console.
      */
     private void initH2Console(ServletContext servletContext) {
         log.debug("Initialize H2 console");
