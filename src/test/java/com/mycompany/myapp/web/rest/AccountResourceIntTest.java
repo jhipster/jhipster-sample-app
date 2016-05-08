@@ -156,7 +156,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restMvc.perform(
@@ -184,7 +184,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -212,7 +212,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -240,7 +240,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -269,7 +269,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         // Duplicate login, different e-mail
@@ -310,7 +310,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         // Duplicate e-mail, different login
@@ -350,7 +350,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restMvc.perform(
@@ -366,7 +366,7 @@ public class AccountResourceIntTest {
     }
 
     @Test
-    @Transactional    
+    @Transactional
     public void testSaveInvalidLogin() throws Exception {
         UserDTO invalidUser = new UserDTO(
             "funky-log!n",          // login <-- invalid
@@ -386,5 +386,5 @@ public class AccountResourceIntTest {
 
         Optional<User> user = userRepository.findOneByEmail("funky@example.com");
         assertThat(user.isPresent()).isFalse();
-    }    
+    }
 }
