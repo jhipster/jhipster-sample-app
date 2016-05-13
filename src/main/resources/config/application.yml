@@ -13,10 +13,17 @@
 
 management:
     context-path: /management
+    health:
+        mail:
+          enabled: false # When using the MailService, configure an SMTP server and set this to true
 
 spring:
     application:
         name: sampleApplication
+    profiles:
+        # The commented value for `active` can be replaced with valid spring profiles to load.
+        # This will be overwritten by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+        active: #spring.profiles.active#
     jpa:
         open-in-view: false
         hibernate:

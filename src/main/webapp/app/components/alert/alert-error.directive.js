@@ -9,7 +9,7 @@
                   '</div>',
         controller: jhiAlertErrorController
     };
-    
+
     angular
         .module('sampleApplicationApp')
         .component('jhiAlertError', jhiAlertError);
@@ -66,6 +66,10 @@
                 } else {
                     addErrorAlert(httpResponse.data);
                 }
+                break;
+
+            case 404:
+                addErrorAlert('Not found','error.url.not.found');
                 break;
 
             default:
