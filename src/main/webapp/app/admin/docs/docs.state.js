@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .config(stateConfig);
 
     stateConfig.$inject = ['$stateProvider'];

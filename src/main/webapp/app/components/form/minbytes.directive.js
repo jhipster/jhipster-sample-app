@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .directive('minbytes', minbytes);
 
     function minbytes () {

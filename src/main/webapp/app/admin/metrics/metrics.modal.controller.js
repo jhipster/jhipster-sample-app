@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('JhiMetricsMonitoringModalController', JhiMetricsMonitoringModalController);
 
     JhiMetricsMonitoringModalController.$inject = ['$uibModalInstance', 'threadDump'];

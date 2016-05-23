@@ -12,14 +12,14 @@
 
 spring:
     application:
-        name: sampleApplication
+        name: jhipsterSampleApplication
     datasource:
-        url: jdbc:h2:mem:sampleApplication;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:jhipsterSampleApplication;DB_CLOSE_DELAY=-1
         name:
         username:
         password:
     jpa:
-        database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
+        database-platform: io.github.jhipster.sample.domain.util.FixedH2Dialect
         database: H2
         open-in-view: false
         show_sql: true
@@ -66,8 +66,8 @@ jhipster:
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
     swagger:
-        title: sampleApplication API
-        description: sampleApplication API documentation
+        title: jhipsterSampleApplication API
+        description: jhipsterSampleApplication API documentation
         version: 0.0.1
         termsOfServiceUrl:
         contactName:

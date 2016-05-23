@@ -9,11 +9,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.mycompany.myapp</groupId>
-    <artifactId>sample-application</artifactId>
+    <groupId>io.github.jhipster.sample</groupId>
+    <artifactId>jhipster-sample-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>sampleApplication</name>
+    <name>Jhipster sample application</name>
 
     <prerequisites>
         <maven>3.0.0</maven>
@@ -61,6 +61,9 @@
         <sonar.sources>${project.basedir}/src/main/</sonar.sources>
         <sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
+        <!-- These remain empty unless the corresponding profile is active -->
+        <profile.no-liquibase></profile.no-liquibase>
+        <profile.no-swagger></profile.no-swagger>
     </properties>
 
 
@@ -372,22 +375,6 @@
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/*.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
@@ -457,6 +444,44 @@
                         </requireJavaVersion>
                     </rules>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes</outputDirectory>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                              <delimiter>#</delimiter>
+                            </delimiters>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.xml</include>
+                                        <include>**/*.yml</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>**/*.xml</exclude>
+                                        <exclude>**/*.yml</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -546,9 +571,9 @@
                     <driver></driver>
                     <url></url>
                     <defaultSchemaName></defaultSchemaName>
-                    <username>sampleApplication</username>
+                    <username>jhipsterSampleApplication</username>
                     <password></password>
-                    <referenceUrl>hibernate:spring:com.mycompany.myapp.domain?dialect=&amp;hibernate.ejb.naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy</referenceUrl>
+                    <referenceUrl>hibernate:spring:io.github.jhipster.sample.domain?dialect=&amp;hibernate.ejb.naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                 </configuration>
@@ -579,9 +604,6 @@
                     Enable the line below to have remote debugging of your application on port 5005
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     -->
-                    <arguments>
-                        <argument>--spring.profiles.active=dev</argument>
-                    </arguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -589,7 +611,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.5</version>
                 <configuration>
-                    <imageName>sampleapplication</imageName>
+                    <imageName>jhipstersampleapplication</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
@@ -663,14 +685,22 @@
 
     <profiles>
         <profile>
+            <id>no-liquibase</id>
+            <properties>
+                <profile.no-liquibase>,no-liquibase</profile.no-liquibase>
+            </properties>
+        </profile>
+        <profile>
+            <id>no-swagger</id>
+            <properties>
+                <profile.no-swagger>,no-swagger</profile.no-swagger>
+            </properties>
+        </profile>
+        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -694,6 +724,12 @@
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <!-- log configuration -->
+                <logback.loglevel>DEBUG</logback.loglevel>
+                <!-- default Spring profiles -->
+                <spring.profiles.active>dev${profile.no-liquibase}${profile.no-swagger}</spring.profiles.active>
+            </properties>
         </profile>
         <profile>
             <id>prod</id>
@@ -783,9 +819,6 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <executable>true</executable>
-                            <arguments>
-                                <argument>--spring.profiles.active=prod</argument>
-                            </arguments>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -793,6 +826,8 @@
             <properties>
                 <!-- log configuration -->
                 <logback.loglevel>INFO</logback.loglevel>
+                <!-- default Spring profiles -->
+                <spring.profiles.active>prod${profile.no-liquibase}${profile.no-swagger}</spring.profiles.active>
             </properties>
         </profile>
     </profiles>

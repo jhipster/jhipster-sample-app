@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('Operation', Operation);
 
     Operation.$inject = ['$resource', 'DateUtils'];

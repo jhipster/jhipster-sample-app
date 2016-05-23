@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('RequestResetController', RequestResetController);
 
     RequestResetController.$inject = ['$timeout', 'Auth'];

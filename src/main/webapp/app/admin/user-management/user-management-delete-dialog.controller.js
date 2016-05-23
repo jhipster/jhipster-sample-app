@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('UserManagementDeleteController', UserManagementDeleteController);
 
     UserManagementDeleteController.$inject = ['$uibModalInstance', 'entity', 'User'];

@@ -1,7 +1,7 @@
 {
-  "name": "sample-application",
+  "name": "jhipster-sample-application",
   "version": "0.0.0",
-  "description": "Description for sampleApplication",
+  "description": "Description for jhipsterSampleApplication",
   "private": true,
   "cacheDirectories": [
     "node_modules",

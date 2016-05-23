@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('SettingsController', SettingsController);
 
     SettingsController.$inject = ['Principal', 'Auth', 'JhiLanguageService', '$translate'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .config(pagerConfig);
 
     pagerConfig.$inject = ['uibPagerConfig', 'paginationConstants'];

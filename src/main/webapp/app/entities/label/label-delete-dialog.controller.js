@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('LabelDeleteController',LabelDeleteController);
 
     LabelDeleteController.$inject = ['$uibModalInstance', 'entity', 'Label'];

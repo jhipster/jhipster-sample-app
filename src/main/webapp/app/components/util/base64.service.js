@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('Base64', Base64);
 
     function Base64 () {

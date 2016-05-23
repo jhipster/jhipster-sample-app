@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .config(alertServiceConfig);
 
     alertServiceConfig.$inject = ['AlertServiceProvider'];

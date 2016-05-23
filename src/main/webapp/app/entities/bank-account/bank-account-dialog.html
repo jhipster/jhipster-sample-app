@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myBankAccountLabel" translate="sampleApplicationApp.bankAccount.home.createOrEditLabel">Create or edit a Bank Account</h4>
+        <h4 class="modal-title" id="myBankAccountLabel" translate="jhipsterSampleApplicationApp.bankAccount.home.createOrEditLabel">Create or edit a Bank Account</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -14,7 +14,7 @@
                     ng-model="vm.bankAccount.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.bankAccount.name" for="field_name">Name</label>
+            <label class="control-label" translate="jhipsterSampleApplicationApp.bankAccount.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.bankAccount.name"
                     required />
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" translate="sampleApplicationApp.bankAccount.balance" for="field_balance">Balance</label>
+            <label class="control-label" translate="jhipsterSampleApplicationApp.bankAccount.balance" for="field_balance">Balance</label>
             <input type="number" class="form-control" name="balance" id="field_balance"
                     ng-model="vm.bankAccount.balance"
                     required />
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            <label translate="sampleApplicationApp.bankAccount.user" for="field_user">User</label>
+            <label translate="jhipsterSampleApplicationApp.bankAccount.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" ng-model="vm.bankAccount.user" ng-options="user as user.login for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

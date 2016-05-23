@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('AuthServerProvider', AuthServerProvider);
 
     AuthServerProvider.$inject = ['$http', '$localStorage' ];

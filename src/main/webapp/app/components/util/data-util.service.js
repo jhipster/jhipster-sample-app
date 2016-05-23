@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('DataUtils', DataUtils);
 
     DataUtils.$inject = ['$window'];

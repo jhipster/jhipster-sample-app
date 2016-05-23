@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('translationHandler', translationHandler);
 
     translationHandler.$inject = ['$rootScope', '$window', '$state', '$translate'];

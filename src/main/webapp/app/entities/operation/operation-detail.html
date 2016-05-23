@@ -1,26 +1,26 @@
 
 <div>
-    <h2><span translate="sampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
+    <h2><span translate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span translate="sampleApplicationApp.operation.date">Date</span></dt>
+        <dt><span translate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
         <dd>
             <span>{{vm.operation.date | date:'medium'}}</span>
         </dd>
-        <dt><span translate="sampleApplicationApp.operation.description">Description</span></dt>
+        <dt><span translate="jhipsterSampleApplicationApp.operation.description">Description</span></dt>
         <dd>
             <span>{{vm.operation.description}}</span>
         </dd>
-        <dt><span translate="sampleApplicationApp.operation.amount">Amount</span></dt>
+        <dt><span translate="jhipsterSampleApplicationApp.operation.amount">Amount</span></dt>
         <dd>
             <span>{{vm.operation.amount}}</span>
         </dd>
-        <dt><span translate="sampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
+        <dt><span translate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
         <dd>
             <a ui-sref="bank-account-detail({id:vm.operation.bankAccount.id})">{{vm.operation.bankAccount.name}}</a>
         </dd>
-        <dt><span translate="sampleApplicationApp.operation.label">Label</span></dt>
+        <dt><span translate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
         <dd>
             <span ng-repeat="label in vm.operation.labels">
                 <a ui-sref="label-detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}

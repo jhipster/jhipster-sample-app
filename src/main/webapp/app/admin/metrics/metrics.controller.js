@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('JhiMetricsMonitoringController', JhiMetricsMonitoringController);
 
     JhiMetricsMonitoringController.$inject = ['$scope','JhiMetricsService', '$uibModal'];

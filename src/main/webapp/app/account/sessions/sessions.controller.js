@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('SessionsController', SessionsController);
 
     SessionsController.$inject = ['Sessions', 'Principal'];

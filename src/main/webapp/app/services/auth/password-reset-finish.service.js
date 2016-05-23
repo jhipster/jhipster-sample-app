@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('PasswordResetFinish', PasswordResetFinish);
 
     PasswordResetFinish.$inject = ['$resource'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('UserManagementDetailController', UserManagementDetailController);
 
     UserManagementDetailController.$inject = ['$stateParams', 'User'];

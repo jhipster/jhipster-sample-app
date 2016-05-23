@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('AuditsController', AuditsController);
 
     AuditsController.$inject = ['$filter', 'AuditsService', 'ParseLinks'];

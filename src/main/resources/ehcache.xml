@@ -17,23 +17,23 @@
             overflowToDisk="false"
             />
 
-    <cache name="com.mycompany.myapp.domain.User"
+    <cache name="io.github.jhipster.sample.domain.User"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.mycompany.myapp.domain.Authority"
+    <cache name="io.github.jhipster.sample.domain.Authority"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.mycompany.myapp.domain.User.authorities"
+    <cache name="io.github.jhipster.sample.domain.User.authorities"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.mycompany.myapp.domain.PersistentToken"
+    <cache name="io.github.jhipster.sample.domain.PersistentToken"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.mycompany.myapp.domain.User.persistentTokens"
+    <cache name="io.github.jhipster.sample.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
     </ehcache>

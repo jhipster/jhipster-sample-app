@@ -2,7 +2,7 @@
 
 describe('Controller Tests', function () {
 
-    beforeEach(module('sampleApplicationApp'));
+    beforeEach(module('jhipsterSampleApplicationApp'));
 
     describe('LoginController', function () {
         var $scope, authService;

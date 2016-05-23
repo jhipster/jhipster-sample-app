@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('PasswordController', PasswordController);
 
     PasswordController.$inject = ['Auth', 'Principal'];

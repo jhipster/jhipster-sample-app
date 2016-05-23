@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('ActivationController', ActivationController);
 
     ActivationController.$inject = ['$stateParams', 'Auth', 'LoginService'];

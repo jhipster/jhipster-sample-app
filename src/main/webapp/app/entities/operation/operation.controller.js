@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('OperationController', OperationController);
 
     OperationController.$inject = ['$scope', '$state', 'Operation', 'ParseLinks', 'AlertService'];

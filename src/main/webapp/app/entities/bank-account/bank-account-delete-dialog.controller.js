@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('BankAccountDeleteController',BankAccountDeleteController);
 
     BankAccountDeleteController.$inject = ['$uibModalInstance', 'entity', 'BankAccount'];

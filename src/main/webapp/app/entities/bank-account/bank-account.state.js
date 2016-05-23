@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .config(stateConfig);
 
     stateConfig.$inject = ['$stateProvider'];
@@ -14,7 +14,7 @@
             url: '/bank-account',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'sampleApplicationApp.bankAccount.home.title'
+                pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
             },
             views: {
                 'content@': {
@@ -36,7 +36,7 @@
             url: '/bank-account/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'sampleApplicationApp.bankAccount.detail.title'
+                pageTitle: 'jhipsterSampleApplicationApp.bankAccount.detail.title'
             },
             views: {
                 'content@': {

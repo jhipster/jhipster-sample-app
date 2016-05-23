@@ -1,8 +1,8 @@
 {
   "generator-jhipster": {
-    "baseName": "sampleApplication",
-    "packageName": "com.mycompany.myapp",
-    "packageFolder": "com/mycompany/myapp",
+    "baseName": "jhipsterSampleApplication",
+    "packageName": "io.github.jhipster.sample",
+    "packageFolder": "io/github/jhipster/sample",
     "authenticationType": "session",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": "no",

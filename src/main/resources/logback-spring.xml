@@ -22,7 +22,7 @@
     </appender>
 -->
 
-    <logger name="com.mycompany.myapp" level="@logback.loglevel@"/>
+    <logger name="io.github.jhipster.sample" level="#logback.loglevel#"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
@@ -54,7 +54,7 @@
         <resetJUL>true</resetJUL>
     </contextListener>
 
-    <root level="@logback.loglevel@">
+    <root level="#logback.loglevel#">
         <appender-ref ref="CONSOLE"/>
     </root>
 

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .directive('passwordStrengthBar', passwordStrengthBar);
 
     function passwordStrengthBar () {

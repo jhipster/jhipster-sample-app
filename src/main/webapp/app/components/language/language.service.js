@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('JhiLanguageService', JhiLanguageService);
 
     JhiLanguageService.$inject = ['$q', '$http', '$translate', 'LANGUAGES'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('NavbarController', NavbarController);
 
     NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService', 'LoginService'];

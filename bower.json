@@ -1,6 +1,6 @@
 {
   "version": "0.0.0",
-  "name": "sample-application",
+  "name": "jhipster-sample-application",
   "appPath": "src/main/webapp/",
   "testPath": "src/test/javascript/spec",
   "dependencies": {

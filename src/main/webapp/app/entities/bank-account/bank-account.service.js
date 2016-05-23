@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .factory('BankAccount', BankAccount);
 
     BankAccount.$inject = ['$resource'];

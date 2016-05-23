@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .controller('JhiLanguageController', JhiLanguageController);
 
     JhiLanguageController.$inject = ['$translate', 'JhiLanguageService', 'tmhDynamicLocale'];

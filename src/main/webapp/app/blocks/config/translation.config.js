@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .config(translationConfig);
 
     translationConfig.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider'];

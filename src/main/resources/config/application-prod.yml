@@ -18,7 +18,7 @@ spring:
         livereload:
             enabled: false
     datasource:
-        url: jdbc:mysql://localhost:3306/sampleApplication?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://localhost:3306/jhipsterSampleApplication?useUnicode=true&characterEncoding=utf8&useSSL=false
         name:
         username: root
         password:
@@ -29,7 +29,7 @@ spring:
                 prepStmtCacheSqlLimit: 2048
                 useServerPrepStmts: true
     jpa:
-        database-platform: org.hibernate.dialect.MySQLInnoDBDialect
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         database: MYSQL
         show_sql: false
         properties:
@@ -72,7 +72,7 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: 5c37379956bd1242f5636c8cb322c2966ad81277
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: sampleApplication@localhost
+        from: jhipsterSampleApplication@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
@@ -83,7 +83,7 @@ jhipster:
             enabled: false
             host: localhost
             port: 2003
-            prefix: sampleApplication
+            prefix: jhipsterSampleApplication
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             reportFrequency: 60 # in seconds

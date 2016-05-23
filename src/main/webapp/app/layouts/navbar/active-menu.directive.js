@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleApplicationApp')
+        .module('jhipsterSampleApplicationApp')
         .directive('activeMenu', activeMenu);
 
     function activeMenu($translate, $locale, tmhDynamicLocale) {
