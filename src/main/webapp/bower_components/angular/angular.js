@@ -1,9 +1,9 @@
 /**
- * @license AngularJS v1.5.2
+ * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, document, undefined) {'use strict';
+(function(window) {'use strict';
 
 /**
  * @description
@@ -57,7 +57,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message += '\nhttp://errors.angularjs.org/1.5.2/' +
+    message += '\nhttp://errors.angularjs.org/1.5.5/' +
       (module ? module + '/' : '') + code;
 
     for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
@@ -171,6 +171,7 @@ function minErr(module, ErrorConstructor) {
  * @ngdoc module
  * @name ng
  * @module ng
+ * @installation
  * @description
  *
  * # ng (core module)
@@ -237,7 +238,7 @@ var
  * documentMode is an IE-only property
  * http://msdn.microsoft.com/en-us/library/ie/cc196988(v=vs.85).aspx
  */
-msie = document.documentMode;
+msie = window.document.documentMode;
 
 
 /**
@@ -1047,6 +1048,41 @@ function shallowCopy(src, dst) {
  * @param {*} o1 Object or value to compare.
  * @param {*} o2 Object or value to compare.
  * @returns {boolean} True if arguments are equal.
+ *
+ * @example
+   <example module="equalsExample" name="equalsExample">
+     <file name="index.html">
+      <div ng-controller="ExampleController">
+        <form novalidate>
+          <h3>User 1</h3>
+          Name: <input type="text" ng-model="user1.name">
+          Age: <input type="number" ng-model="user1.age">
+
+          <h3>User 2</h3>
+          Name: <input type="text" ng-model="user2.name">
+          Age: <input type="number" ng-model="user2.age">
+
+          <div>
+            <br/>
+            <input type="button" value="Compare" ng-click="compare()">
+          </div>
+          User 1: <pre>{{user1 | json}}</pre>
+          User 2: <pre>{{user2 | json}}</pre>
+          Equal: <pre>{{result}}</pre>
+        </form>
+      </div>
+    </file>
+    <file name="script.js">
+        angular.module('equalsExample', []).controller('ExampleController', ['$scope', function($scope) {
+          $scope.user1 = {};
+          $scope.user2 = {};
+          $scope.result;
+          $scope.compare = function() {
+            $scope.result = angular.equals($scope.user1, $scope.user2);
+          };
+        }]);
+    </file>
+  </example>
  */
 function equals(o1, o2) {
   if (o1 === o2) return true;
@@ -1093,8 +1129,8 @@ var csp = function() {
   if (!isDefined(csp.rules)) {
 
 
-    var ngCspElement = (document.querySelector('[ng-csp]') ||
-                    document.querySelector('[data-ng-csp]'));
+    var ngCspElement = (window.document.querySelector('[ng-csp]') ||
+                    window.document.querySelector('[data-ng-csp]'));
 
     if (ngCspElement) {
       var ngCspAttribute = ngCspElement.getAttribute('ng-csp') ||
@@ -1169,7 +1205,7 @@ var jq = function() {
   var i, ii = ngAttrPrefixes.length, prefix, name;
   for (i = 0; i < ii; ++i) {
     prefix = ngAttrPrefixes[i];
-    if (el = document.querySelector('[' + prefix.replace(':', '\\:') + 'jq]')) {
+    if (el = window.document.querySelector('[' + prefix.replace(':', '\\:') + 'jq]')) {
       name = el.getAttribute(prefix + 'jq');
       break;
     }
@@ -1234,7 +1270,7 @@ function toJsonReplacer(key, value) {
     val = undefined;
   } else if (isWindow(value)) {
     val = '$WINDOW';
-  } else if (value &&  document === value) {
+  } else if (value &&  window.document === value) {
     val = '$DOCUMENT';
   } else if (isScope(value)) {
     val = '$SCOPE';
@@ -1686,11 +1722,11 @@ function bootstrap(element, modules, config) {
     element = jqLite(element);
 
     if (element.injector()) {
-      var tag = (element[0] === document) ? 'document' : startingTag(element);
+      var tag = (element[0] === window.document) ? 'document' : startingTag(element);
       //Encode angle brackets to prevent input from being sanitized to empty string #8683
       throw ngMinErr(
           'btstrpd',
-          "App Already Bootstrapped with this Element '{0}'",
+          "App already bootstrapped with this element '{0}'",
           tag.replace(/</,'&lt;').replace(/>/,'&gt;'));
     }
 
@@ -2137,9 +2173,9 @@ function setupModuleLoader(window) {
            * @ngdoc method
            * @name angular.Module#decorator
            * @module ng
-           * @param {string} The name of the service to decorate.
-           * @param {Function} This function will be invoked when the service needs to be
-           *                                    instantiated and should return the decorated service instance.
+           * @param {string} name The name of the service to decorate.
+           * @param {Function} decorFn This function will be invoked when the service needs to be
+           *                           instantiated and should return the decorated service instance.
            * @description
            * See {@link auto.$provide#decorator $provide.decorator()}.
            */
@@ -2443,11 +2479,11 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.5.2',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.5.5',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 5,
-  dot: 2,
-  codeName: 'differential-recovery'
+  dot: 5,
+  codeName: 'material-conspiration'
 };
 
 
@@ -2704,6 +2740,9 @@ function publishExternalAPI(angular) {
  * - `inheritedData()` - same as `data()`, but walks up the DOM until a value is found or the top
  *   parent element is reached.
  *
+ * @knownIssue You cannot spy on `angular.element` if you are using Jasmine version 1.x. See
+ * https://github.com/angular/angular.js/issues/14251 for more information.
+ *
  * @param {string|DOMElement} element HTML string or DOMElement to be wrapped into jQuery.
  * @returns {Object} jQuery object.
  */
@@ -2830,7 +2869,7 @@ function jqLiteBuildFragment(html, context) {
 }
 
 function jqLiteParseHTML(html, context) {
-  context = context || document;
+  context = context || window.document;
   var parsed;
 
   if ((parsed = SINGLE_TAG_REGEXP.exec(html))) {
@@ -2856,7 +2895,7 @@ function jqLiteWrapNode(node, wrapper) {
 
 
 // IE9-11 has no method "contains" in SVG element and in Node.prototype. Bug #10259.
-var jqLiteContains = Node.prototype.contains || function(arg) {
+var jqLiteContains = window.Node.prototype.contains || function(arg) {
   // jshint bitwise: false
   return !!(this.compareDocumentPosition(arg) & 16);
   // jshint bitwise: true
@@ -3128,8 +3167,8 @@ var JQLitePrototype = JQLite.prototype = {
     }
 
     // check if document is already loaded
-    if (document.readyState === 'complete') {
-      setTimeout(trigger);
+    if (window.document.readyState === 'complete') {
+      window.setTimeout(trigger);
     } else {
       this.on('DOMContentLoaded', trigger); // works for modern browsers and IE9
       // we can not use jqLite since we are not done loading and jQuery could be loaded later.
@@ -3819,6 +3858,7 @@ var $$HashMapProvider = [function() {
 /**
  * @ngdoc module
  * @name auto
+ * @installation
  * @description
  *
  * Implicit module which gets automatically added to each {@link auto.$injector $injector}.
@@ -3832,7 +3872,7 @@ var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 var $injectorMinErr = minErr('$injector');
 
 function extractArgs(fn) {
-  var fnText = fn.toString().replace(STRIP_COMMENTS, ''),
+  var fnText = Function.prototype.toString.call(fn).replace(STRIP_COMMENTS, ''),
       args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
   return args;
 }
@@ -5252,6 +5292,9 @@ var $AnimateProvider = ['$provide', function($provide) {
        * // remove all the animation event listeners listening for `enter`
        * $animate.off('enter');
        *
+       * // remove listeners for all animation events from the container element
+       * $animate.off(container);
+       *
        * // remove all the animation event listeners listening for `enter` on the given element and its children
        * $animate.off('enter', container);
        *
@@ -5260,7 +5303,9 @@ var $AnimateProvider = ['$provide', function($provide) {
        * $animate.off('enter', container, callback);
        * ```
        *
-       * @param {string} event the animation event (e.g. enter, leave, move, addClass, removeClass, etc...)
+       * @param {string|DOMElement} event|container the animation event (e.g. enter, leave, move,
+       * addClass, removeClass, etc...), or the container element. If it is the element, all other
+       * arguments are ignored.
        * @param {DOMElement=} container the container element the event listener was placed on
        * @param {Function=} callback the callback function that was registered as the listener
        */
@@ -5862,7 +5907,14 @@ function Browser(window, document, $log, $sniffer) {
   var cachedState, lastHistoryState,
       lastBrowserUrl = location.href,
       baseElement = document.find('base'),
-      pendingLocation = null;
+      pendingLocation = null,
+      getCurrentState = !$sniffer.history ? noop : function getCurrentState() {
+        try {
+          return history.state;
+        } catch (e) {
+          // MSIE can reportedly throw when there is no state (UNCONFIRMED).
+        }
+      };
 
   cacheState();
   lastHistoryState = cachedState;
@@ -5968,14 +6020,6 @@ function Browser(window, document, $log, $sniffer) {
     pendingLocation = null;
     cacheState();
     fireUrlChange();
-  }
-
-  function getCurrentState() {
-    try {
-      return history.state;
-    } catch (e) {
-      // MSIE can reportedly throw when there is no state (UNCONFIRMED).
-    }
   }
 
   // This variable should be used *only* inside the cacheState function.
@@ -6829,9 +6873,23 @@ function $TemplateCacheProvider() {
  *    `true` if the specified slot contains content (i.e. one or more DOM nodes).
  *
  * The controller can provide the following methods that act as life-cycle hooks:
- * * `$onInit` - Called on each controller after all the controllers on an element have been constructed and
+ * * `$onInit()` - Called on each controller after all the controllers on an element have been constructed and
  *   had their bindings initialized (and before the pre &amp; post linking functions for the directives on
  *   this element). This is a good place to put initialization code for your controller.
+ * * `$onChanges(changesObj)` - Called whenever one-way (`<`) or interpolation (`@`) bindings are updated. The
+ *   `changesObj` is a hash whose keys are the names of the bound properties that have changed, and the values are an
+ *   object of the form `{ currentValue, previousValue, isFirstChange() }`. Use this hook to trigger updates within a
+ *   component such as cloning the bound value to prevent accidental mutation of the outer value.
+ * * `$onDestroy()` - Called on a controller when its containing scope is destroyed. Use this hook for releasing
+ *   external resources, watches and event handlers. Note that components have their `$onDestroy()` hooks called in
+ *   the same order as the `$scope.$broadcast` events are triggered, which is top down. This means that parent
+ *   components will have their `$onDestroy()` hook called before child components.
+ * * `$postLink()` - Called after this controller's element and its children have been linked. Similar to the post-link
+ *   function this hook can be used to set up DOM event handlers and do direct DOM manipulation.
+ *   Note that child elements that contain `templateUrl` directives will not have been compiled and linked since
+ *   they are waiting for their template to load asynchronously and their own compilation and linking has been
+ *   suspended until that occurs.
+ *
  *
  * #### `require`
  * Require another directive and inject its controller as the fourth argument to the linking function. The
@@ -7368,6 +7426,9 @@ function $TemplateCacheProvider() {
 
 var $compileMinErr = minErr('$compile');
 
+function UNINITIALIZED_VALUE() {}
+var _UNINITIALIZED_VALUE = new UNINITIALIZED_VALUE();
+
 /**
  * @ngdoc provider
  * @name $compileProvider
@@ -7392,7 +7453,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
   function parseIsolateBindings(scope, directiveName, isController) {
     var LOCAL_REGEXP = /^\s*([@&<]|=(\*?))(\??)\s*(\w*)\s*$/;
 
-    var bindings = {};
+    var bindings = createMap();
 
     forEach(scope, function(definition, scopeName) {
       if (definition in bindingCache) {
@@ -7464,11 +7525,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
   function assertValidDirectiveName(name) {
     var letter = name.charAt(0);
     if (!letter || letter !== lowercase(letter)) {
-      throw $compileMinErr('baddir', "Directive name '{0}' is invalid. The first character must be a lowercase letter", name);
+      throw $compileMinErr('baddir', "Directive/Component name '{0}' is invalid. The first character must be a lowercase letter", name);
     }
     if (name !== name.trim()) {
       throw $compileMinErr('baddir',
-            "Directive name '{0}' is invalid. The name should not contain leading or trailing whitespaces",
+            "Directive/Component name '{0}' is invalid. The name should not contain leading or trailing whitespaces",
             name);
     }
   }
@@ -7566,6 +7627,9 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *      See {@link ng.$compile#-bindtocontroller- `bindToController`}.
    *    - `transclude` – `{boolean=}` – whether {@link $compile#transclusion content transclusion} is enabled.
    *      Disabled by default.
+   *    - `require` - `{Object<string, string>=}` - requires the controllers of other directives and binds them to
+   *      this component's controller. The object keys specify the property names under which the required
+   *      controllers (object values) will be bound. See {@link ng.$compile#-require- `require`}.
    *    - `$...` – additional properties to attach to the directive factory function and the controller
    *      constructor function. (This is used by the component router to annotate)
    *
@@ -7611,7 +7675,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    * See also {@link ng.$compileProvider#directive $compileProvider.directive()}.
    */
   this.component = function registerComponent(name, options) {
-    var controller = options.controller || noop;
+    var controller = options.controller || function() {};
 
     function factory($injector) {
       function makeInjectable(fn) {
@@ -7625,7 +7689,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       }
 
       var template = (!options.template && !options.templateUrl ? '' : options.template);
-      return {
+      var ddo = {
         controller: controller,
         controllerAs: identifierForController(options.controller) || options.controllerAs || '$ctrl',
         template: makeInjectable(template),
@@ -7636,14 +7700,27 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         restrict: 'E',
         require: options.require
       };
+
+      // Copy annotations (starting with $) over to the DDO
+      forEach(options, function(val, key) {
+        if (key.charAt(0) === '$') ddo[key] = val;
+      });
+
+      return ddo;
     }
 
-    // Copy any annotation properties (starting with $) over to the factory function
+    // TODO(pete) remove the following `forEach` before we release 1.6.0
+    // The component-router@0.2.0 looks for the annotations on the controller constructor
+    // Nothing in Angular looks for annotations on the factory function but we can't remove
+    // it from 1.5.x yet.
+
+    // Copy any annotation properties (starting with $) over to the factory and controller constructor functions
     // These could be used by libraries such as the new component router
     forEach(options, function(val, key) {
       if (key.charAt(0) === '$') {
         factory[key] = val;
-        controller[key] = val;
+        // Don't try to copy over annotations to named controller
+        if (isFunction(controller)) controller[key] = val;
       }
     });
 
@@ -7743,6 +7820,36 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     return debugInfoEnabled;
   };
 
+
+  var TTL = 10;
+  /**
+   * @ngdoc method
+   * @name $compileProvider#onChangesTtl
+   * @description
+   *
+   * Sets the number of times `$onChanges` hooks can trigger new changes before giving up and
+   * assuming that the model is unstable.
+   *
+   * The current default is 10 iterations.
+   *
+   * In complex applications it's possible that dependencies between `$onChanges` hooks and bindings will result
+   * in several iterations of calls to these hooks. However if an application needs more than the default 10
+   * iterations to stabilize then you should investigate what is causing the model to continuously change during
+   * the `$onChanges` hook execution.
+   *
+   * Increasing the TTL could have performance implications, so you should not change it without proper justification.
+   *
+   * @param {number} limit The number of `$onChanges` hook iterations.
+   * @returns {number|object} the current limit (or `this` if called as a setter for chaining)
+   */
+  this.onChangesTtl = function(value) {
+    if (arguments.length) {
+      TTL = value;
+      return this;
+    }
+    return TTL;
+  };
+
   this.$get = [
             '$injector', '$interpolate', '$exceptionHandler', '$templateRequest', '$parse',
             '$controller', '$rootScope', '$sce', '$animate', '$$sanitizeUri',
@@ -7750,7 +7857,37 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
              $controller,   $rootScope,   $sce,   $animate,   $$sanitizeUri) {
 
     var SIMPLE_ATTR_NAME = /^\w/;
-    var specialAttrHolder = document.createElement('div');
+    var specialAttrHolder = window.document.createElement('div');
+
+
+
+    var onChangesTtl = TTL;
+    // The onChanges hooks should all be run together in a single digest
+    // When changes occur, the call to trigger their hooks will be added to this queue
+    var onChangesQueue;
+
+    // This function is called in a $$postDigest to trigger all the onChanges hooks in a single digest
+    function flushOnChangesQueue() {
+      try {
+        if (!(--onChangesTtl)) {
+          // We have hit the TTL limit so reset everything
+          onChangesQueue = undefined;
+          throw $compileMinErr('infchng', '{0} $onChanges() iterations reached. Aborting!\n', TTL);
+        }
+        // We must run this hook in an apply since the $$postDigest runs outside apply
+        $rootScope.$apply(function() {
+          for (var i = 0, ii = onChangesQueue.length; i < ii; ++i) {
+            onChangesQueue[i]();
+          }
+          // Reset the queue to trigger a new schedule next time there is a change
+          onChangesQueue = undefined;
+        });
+      } finally {
+        onChangesTtl++;
+      }
+    }
+
+
     function Attributes(element, attributesToCopy) {
       if (attributesToCopy) {
         var keys = Object.keys(attributesToCopy);
@@ -8051,7 +8188,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       if (debugInfoEnabled) {
         content = ' ' + (directiveName || '') + ': ' + (comment || '') + ' ';
       }
-      return document.createComment(content);
+      return window.document.createComment(content);
     };
 
     return compile;
@@ -8074,7 +8211,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         var domNode = $compileNodes[i];
 
         if (domNode.nodeType === NODE_TYPE_TEXT && domNode.nodeValue.match(NOT_EMPTY) /* non-empty */) {
-          jqLiteWrapNode(domNode, $compileNodes[i] = document.createElement('span'));
+          jqLiteWrapNode(domNode, $compileNodes[i] = window.document.createElement('span'));
         }
       }
 
@@ -8616,6 +8753,17 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             compileNode = $compileNode[0];
             replaceWith(jqCollection, sliceArgs($template), compileNode);
 
+            // Support: Chrome < 50
+            // https://github.com/angular/angular.js/issues/14041
+
+            // In the versions of V8 prior to Chrome 50, the document fragment that is created
+            // in the `replaceWith` function is improperly garbage collected despite still
+            // being referenced by the `parentNode` property of all of the child nodes.  By adding
+            // a reference to the fragment via a different property, we can avoid that incorrect
+            // behavior.
+            // TODO: remove this line after Chrome 50 has been released
+            $template[0].$$parentNode = $template[0].parentNode;
+
             childTranscludeFn = compilationGenerator(mightHaveMultipleTransclusionError, $template, transcludeFn, terminalPriority,
                                         replaceDirective && replaceDirective.name, {
                                           // Don't pass in:
@@ -8756,7 +8904,9 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             replaceDirective = directive;
           }
 
+          /* jshint -W021 */
           nodeLinkFn = compileTemplateUrl(directives.splice(i, directives.length - i), $compileNode,
+          /* jshint +W021 */
               templateAttrs, jqCollection, hasTranscludeDirective && childTranscludeFn, preLinkFns, postLinkFns, {
                 controllerDirectives: controllerDirectives,
                 newScopeDirective: (newScopeDirective !== directive) && newScopeDirective,
@@ -8820,7 +8970,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
       function nodeLinkFn(childLinkFn, scope, linkNode, $rootElement, boundTranscludeFn) {
         var i, ii, linkFn, isolateScope, controllerScope, elementControllers, transcludeFn, $element,
-            attrs, removeScopeBindingWatches, removeControllerBindingWatches;
+            attrs, scopeBindingInfo;
 
         if (compileNode === linkNode) {
           attrs = templateAttrs;
@@ -8859,11 +9009,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           compile.$$addScopeClass($element, true);
           isolateScope.$$isolateBindings =
               newIsolateScopeDirective.$$isolateBindings;
-          removeScopeBindingWatches = initializeDirectiveBindings(scope, attrs, isolateScope,
+          scopeBindingInfo = initializeDirectiveBindings(scope, attrs, isolateScope,
                                         isolateScope.$$isolateBindings,
                                         newIsolateScopeDirective);
-          if (removeScopeBindingWatches) {
-            isolateScope.$on('$destroy', removeScopeBindingWatches);
+          if (scopeBindingInfo.removeWatches) {
+            isolateScope.$on('$destroy', scopeBindingInfo.removeWatches);
           }
         }
 
@@ -8874,8 +9024,10 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           var bindings = controllerDirective.$$bindings.bindToController;
 
           if (controller.identifier && bindings) {
-            removeControllerBindingWatches =
+            controller.bindingInfo =
               initializeDirectiveBindings(controllerScope, attrs, controller.instance, bindings, controllerDirective);
+          } else {
+            controller.bindingInfo = {};
           }
 
           var controllerResult = controller();
@@ -8884,8 +9036,8 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             // from setupControllers
             controller.instance = controllerResult;
             $element.data('$' + controllerDirective.name + 'Controller', controllerResult);
-            removeControllerBindingWatches && removeControllerBindingWatches();
-            removeControllerBindingWatches =
+            controller.bindingInfo.removeWatches && controller.bindingInfo.removeWatches();
+            controller.bindingInfo =
               initializeDirectiveBindings(controllerScope, attrs, controller.instance, bindings, controllerDirective);
           }
         }
@@ -8898,10 +9050,19 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           }
         });
 
-        // Trigger the `$onInit` method on all controllers that have one
+        // Handle the init and destroy lifecycle hooks on all controllers that have them
         forEach(elementControllers, function(controller) {
-          if (isFunction(controller.instance.$onInit)) {
-            controller.instance.$onInit();
+          var controllerInstance = controller.instance;
+          if (isFunction(controllerInstance.$onChanges)) {
+            controllerInstance.$onChanges(controller.bindingInfo.initialChanges);
+          }
+          if (isFunction(controllerInstance.$onInit)) {
+            controllerInstance.$onInit();
+          }
+          if (isFunction(controllerInstance.$onDestroy)) {
+            controllerScope.$on('$destroy', function callOnDestroyHook() {
+              controllerInstance.$onDestroy();
+            });
           }
         });
 
@@ -8937,6 +9098,14 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               transcludeFn
           );
         }
+
+        // Trigger $postLink lifecycle hooks
+        forEach(elementControllers, function(controller) {
+          var controllerInstance = controller.instance;
+          if (isFunction(controllerInstance.$postLink)) {
+            controllerInstance.$postLink();
+          }
+        });
 
         // This is the function that is injected as `$transclude`.
         // Note: all arguments are optional!
@@ -9343,7 +9512,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       switch (type) {
       case 'svg':
       case 'math':
-        var wrapper = document.createElement('div');
+        var wrapper = window.document.createElement('div');
         wrapper.innerHTML = '<' + type + '>' + template + '</' + type + '>';
         return wrapper.childNodes[0].childNodes;
       default:
@@ -9487,7 +9656,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       // - remove them from the DOM
       // - allow them to still be traversed with .nextSibling
       // - allow a single fragment.qSA to fetch all elements being removed
-      var fragment = document.createDocumentFragment();
+      var fragment = window.document.createDocumentFragment();
       for (i = 0; i < removeCount; i++) {
         fragment.appendChild(elementsToRemove[i]);
       }
@@ -9533,6 +9702,8 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     // only occurs for isolate scopes and new scopes with controllerAs.
     function initializeDirectiveBindings(scope, attrs, destination, bindings, directive) {
       var removeWatchCollection = [];
+      var initialChanges = {};
+      var changes;
       forEach(bindings, function initializeBinding(definition, scopeName) {
         var attrName = definition.attrName,
         optional = definition.optional,
@@ -9547,7 +9718,9 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               destination[scopeName] = attrs[attrName] = void 0;
             }
             attrs.$observe(attrName, function(value) {
-              if (isString(value)) {
+              if (isString(value) || isBoolean(value)) {
+                var oldValue = destination[scopeName];
+                recordChanges(scopeName, value, oldValue);
                 destination[scopeName] = value;
               }
             });
@@ -9562,6 +9735,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               // the value to boolean rather than a string, so we special case this situation
               destination[scopeName] = lastValue;
             }
+            initialChanges[scopeName] = new SimpleChange(_UNINITIALIZED_VALUE, destination[scopeName]);
             break;
 
           case '=':
@@ -9617,9 +9791,16 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             parentGet = $parse(attrs[attrName]);
 
             destination[scopeName] = parentGet(scope);
+            initialChanges[scopeName] = new SimpleChange(_UNINITIALIZED_VALUE, destination[scopeName]);
 
-            removeWatch = scope.$watch(parentGet, function parentValueWatchAction(newParentValue) {
-              destination[scopeName] = newParentValue;
+            removeWatch = scope.$watch(parentGet, function parentValueWatchAction(newValue, oldValue) {
+              if (newValue === oldValue) {
+                // If the new and old values are identical then this is the first time the watch has been triggered
+                // So instead we use the current value on the destination as the old value
+                oldValue = destination[scopeName];
+              }
+              recordChanges(scopeName, newValue, oldValue);
+              destination[scopeName] = newValue;
             }, parentGet.literal);
 
             removeWatchCollection.push(removeWatch);
@@ -9639,14 +9820,51 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         }
       });
 
-      return removeWatchCollection.length && function removeWatches() {
-        for (var i = 0, ii = removeWatchCollection.length; i < ii; ++i) {
-          removeWatchCollection[i]();
+      function recordChanges(key, currentValue, previousValue) {
+        if (isFunction(destination.$onChanges) && currentValue !== previousValue) {
+          // If we have not already scheduled the top level onChangesQueue handler then do so now
+          if (!onChangesQueue) {
+            scope.$$postDigest(flushOnChangesQueue);
+            onChangesQueue = [];
+          }
+          // If we have not already queued a trigger of onChanges for this controller then do so now
+          if (!changes) {
+            changes = {};
+            onChangesQueue.push(triggerOnChangesHook);
+          }
+          // If the has been a change on this property already then we need to reuse the previous value
+          if (changes[key]) {
+            previousValue = changes[key].previousValue;
+          }
+          // Store this change
+          changes[key] = new SimpleChange(previousValue, currentValue);
+        }
+      }
+
+      function triggerOnChangesHook() {
+        destination.$onChanges(changes);
+        // Now clear the changes so that we schedule onChanges when more changes arrive
+        changes = undefined;
+      }
+
+      return {
+        initialChanges: initialChanges,
+        removeWatches: removeWatchCollection.length && function removeWatches() {
+          for (var i = 0, ii = removeWatchCollection.length; i < ii; ++i) {
+            removeWatchCollection[i]();
+          }
         }
       };
     }
   }];
 }
+
+function SimpleChange(previous, current) {
+  this.previousValue = previous;
+  this.currentValue = current;
+}
+SimpleChange.prototype.isFirstChange = function() { return this.previousValue === _UNINITIALIZED_VALUE; };
+
 
 var PREFIX_REGEXP = /^((?:x|data)[\:\-_])/i;
 /**
@@ -10587,7 +10805,7 @@ function $HttpProvider() {
      * That means changes to the properties of `data` are not local to the transform function (since Javascript passes objects by reference).
      * For example, when calling `$http.get(url, $scope.myObject)`, modifications to the object's properties in a transformRequest
      * function will be reflected on the scope and in any templates where the object is data-bound.
-     * To prevent his, transform functions should have no side-effects.
+     * To prevent this, transform functions should have no side-effects.
      * If you need to modify properties, it is recommended to make a copy of the data, or create new object to return.
      * </div>
      *
@@ -10833,6 +11051,12 @@ function $HttpProvider() {
      *    - **headers** – `{Object}` – Map of strings or functions which return strings representing
      *      HTTP headers to send to the server. If the return value of a function is null, the
      *      header will not be sent. Functions accept a config object as an argument.
+     *    - **eventHandlers** - `{Object}` - Event listeners to be bound to the XMLHttpRequest object.
+     *      To bind events to the XMLHttpRequest upload object, use `uploadEventHandlers`.
+     *      The handler will be called in the context of a `$apply` block.
+     *    - **uploadEventHandlers** - `{Object}` - Event listeners to be bound to the XMLHttpRequest upload
+     *      object. To bind events to the XMLHttpRequest object, use `eventHandlers`.
+     *      The handler will be called in the context of a `$apply` block.
      *    - **xsrfHeaderName** – `{string}` – Name of HTTP header to populate with the XSRF token.
      *    - **xsrfCookieName** – `{string}` – Name of cookie containing the XSRF token.
      *    - **transformRequest** –
@@ -11291,10 +11515,34 @@ function $HttpProvider() {
         }
 
         $httpBackend(config.method, url, reqData, done, reqHeaders, config.timeout,
-            config.withCredentials, config.responseType);
+            config.withCredentials, config.responseType,
+            createApplyHandlers(config.eventHandlers),
+            createApplyHandlers(config.uploadEventHandlers));
       }
 
       return promise;
+
+      function createApplyHandlers(eventHandlers) {
+        if (eventHandlers) {
+          var applyHandlers = {};
+          forEach(eventHandlers, function(eventHandler, key) {
+            applyHandlers[key] = function(event) {
+              if (useApplyAsync) {
+                $rootScope.$applyAsync(callEventHandler);
+              } else if ($rootScope.$$phase) {
+                callEventHandler();
+              } else {
+                $rootScope.$apply(callEventHandler);
+              }
+
+              function callEventHandler() {
+                eventHandler(event);
+              }
+            };
+          });
+          return applyHandlers;
+        }
+      }
 
 
       /**
@@ -11416,7 +11664,7 @@ function $HttpBackendProvider() {
 
 function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDocument) {
   // TODO(vojta): fix the signature
-  return function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
+  return function(method, url, post, callback, headers, timeout, withCredentials, responseType, eventHandlers, uploadEventHandlers) {
     $browser.$$incOutstandingRequestCount();
     url = url || $browser.url();
 
@@ -11475,6 +11723,14 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
 
       xhr.onerror = requestError;
       xhr.onabort = requestError;
+
+      forEach(eventHandlers, function(value, key) {
+          xhr.addEventListener(key, value);
+      });
+
+      forEach(uploadEventHandlers, function(value, key) {
+        xhr.upload.addEventListener(key, value);
+      });
 
       if (withCredentials) {
         xhr.withCredentials = true;
@@ -13454,7 +13710,7 @@ Lexer.prototype = {
         this.readString(ch);
       } else if (this.isNumber(ch) || ch === '.' && this.isNumber(this.peek())) {
         this.readNumber();
-      } else if (this.isIdent(ch)) {
+      } else if (this.isIdentifierStart(this.peekMultichar())) {
         this.readIdent();
       } else if (this.is(ch, '(){}[].,;:?')) {
         this.tokens.push({index: this.index, text: ch});
@@ -13498,10 +13754,47 @@ Lexer.prototype = {
             ch === '\n' || ch === '\v' || ch === '\u00A0');
   },
 
-  isIdent: function(ch) {
+  isIdentifierStart: function(ch) {
+    return this.options.isIdentifierStart ?
+        this.options.isIdentifierStart(ch, this.codePointAt(ch)) :
+        this.isValidIdentifierStart(ch);
+  },
+
+  isValidIdentifierStart: function(ch) {
     return ('a' <= ch && ch <= 'z' ||
             'A' <= ch && ch <= 'Z' ||
             '_' === ch || ch === '$');
+  },
+
+  isIdentifierContinue: function(ch) {
+    return this.options.isIdentifierContinue ?
+        this.options.isIdentifierContinue(ch, this.codePointAt(ch)) :
+        this.isValidIdentifierContinue(ch);
+  },
+
+  isValidIdentifierContinue: function(ch, cp) {
+    return this.isValidIdentifierStart(ch, cp) || this.isNumber(ch);
+  },
+
+  codePointAt: function(ch) {
+    if (ch.length === 1) return ch.charCodeAt(0);
+    /*jshint bitwise: false*/
+    return (ch.charCodeAt(0) << 10) + ch.charCodeAt(1) - 0x35FDC00;
+    /*jshint bitwise: true*/
+  },
+
+  peekMultichar: function() {
+    var ch = this.text.charAt(this.index);
+    var peek = this.peek();
+    if (!peek) {
+      return ch;
+    }
+    var cp1 = ch.charCodeAt(0);
+    var cp2 = peek.charCodeAt(0);
+    if (cp1 >= 0xD800 && cp1 <= 0xDBFF && cp2 >= 0xDC00 && cp2 <= 0xDFFF) {
+      return ch + peek;
+    }
+    return ch;
   },
 
   isExpOperator: function(ch) {
@@ -13552,12 +13845,13 @@ Lexer.prototype = {
 
   readIdent: function() {
     var start = this.index;
+    this.index += this.peekMultichar().length;
     while (this.index < this.text.length) {
-      var ch = this.text.charAt(this.index);
-      if (!(this.isIdent(ch) || this.isNumber(ch))) {
+      var ch = this.peekMultichar();
+      if (!this.isIdentifierContinue(ch)) {
         break;
       }
-      this.index++;
+      this.index += ch.length;
     }
     this.tokens.push({
       index: start,
@@ -14487,7 +14781,13 @@ ASTCompiler.prototype = {
   },
 
   nonComputedMember: function(left, right) {
-    return left + '.' + right;
+    var SAFE_IDENTIFIER = /[$_a-zA-Z][$_a-zA-Z0-9]*/;
+    var UNSAFE_CHARACTERS = /[^$_a-zA-Z0-9]/g;
+    if (SAFE_IDENTIFIER.test(right)) {
+      return left + '.' + right;
+    } else {
+      return left  + '["' + right.replace(UNSAFE_CHARACTERS, this.stringEscapeFn) + '"]';
+    }
   },
 
   computedMember: function(left, right) {
@@ -15050,6 +15350,7 @@ function $ParseProvider() {
     'null': null,
     'undefined': undefined
   };
+  var identStart, identContinue;
 
   /**
    * @ngdoc method
@@ -15066,17 +15367,50 @@ function $ParseProvider() {
     literals[literalName] = literalValue;
   };
 
+ /**
+  * @ngdoc method
+  * @name $parseProvider#setIdentifierFns
+  * @description
+  *
+  * Allows defining the set of characters that are allowed in Angular expressions. The function
+  * `identifierStart` will get called to know if a given character is a valid character to be the
+  * first character for an identifier. The function `identifierContinue` will get called to know if
+  * a given character is a valid character to be a follow-up identifier character. The functions
+  * `identifierStart` and `identifierContinue` will receive as arguments the single character to be
+  * identifier and the character code point. These arguments will be `string` and `numeric`. Keep in
+  * mind that the `string` parameter can be two characters long depending on the character
+  * representation. It is expected for the function to return `true` or `false`, whether that
+  * character is allowed or not.
+  *
+  * Since this function will be called extensivelly, keep the implementation of these functions fast,
+  * as the performance of these functions have a direct impact on the expressions parsing speed.
+  *
+  * @param {function=} identifierStart The function that will decide whether the given character is
+  *   a valid identifier start character.
+  * @param {function=} identifierContinue The function that will decide whether the given character is
+  *   a valid identifier continue character.
+  */
+  this.setIdentifierFns = function(identifierStart, identifierContinue) {
+    identStart = identifierStart;
+    identContinue = identifierContinue;
+    return this;
+  };
+
   this.$get = ['$filter', function($filter) {
     var noUnsafeEval = csp().noUnsafeEval;
     var $parseOptions = {
           csp: noUnsafeEval,
           expensiveChecks: false,
-          literals: copy(literals)
+          literals: copy(literals),
+          isIdentifierStart: isFunction(identStart) && identStart,
+          isIdentifierContinue: isFunction(identContinue) && identContinue
         },
         $parseOptionsExpensive = {
           csp: noUnsafeEval,
           expensiveChecks: true,
-          literals: copy(literals)
+          literals: copy(literals),
+          isIdentifierStart: isFunction(identStart) && identStart,
+          isIdentifierContinue: isFunction(identContinue) && identContinue
         };
     var runningChecksEnabled = false;
 
@@ -15325,15 +15659,15 @@ function $ParseProvider() {
  * [Kris Kowal's Q](https://github.com/kriskowal/q).
  *
  * $q can be used in two fashions --- one which is more similar to Kris Kowal's Q or jQuery's Deferred
- * implementations, and the other which resembles ES6 promises to some degree.
+ * implementations, and the other which resembles ES6 (ES2015) promises to some degree.
  *
  * # $q constructor
  *
  * The streamlined ES6 style promise is essentially just using $q as a constructor which takes a `resolver`
- * function as the first argument. This is similar to the native Promise implementation from ES6 Harmony,
+ * function as the first argument. This is similar to the native Promise implementation from ES6,
  * see [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
  *
- * While the constructor-style use is supported, not all of the supporting methods from ES6 Harmony promises are
+ * While the constructor-style use is supported, not all of the supporting methods from ES6 promises are
  * available yet.
  *
  * It can be used like so:
@@ -18471,6 +18805,10 @@ function $SceProvider() {
 function $SnifferProvider() {
   this.$get = ['$window', '$document', function($window, $document) {
     var eventSupport = {},
+        // Chrome Packaged Apps are not allowed to access `history.pushState`. They can be detected by
+        // the presence of `chrome.app.runtime` (see https://developer.chrome.com/apps/api_index)
+        isChromePackagedApp = $window.chrome && $window.chrome.app && $window.chrome.app.runtime,
+        hasHistoryPushState = !isChromePackagedApp && $window.history && $window.history.pushState,
         android =
           toInt((/android (\d+)/.exec(lowercase(($window.navigator || {}).userAgent)) || [])[1]),
         boxee = /Boxee/i.test(($window.navigator || {}).userAgent),
@@ -18515,7 +18853,7 @@ function $SnifferProvider() {
       // so let's not use the history API also
       // We are purposefully using `!(android < 4)` to cover the case when `android` is undefined
       // jshint -W018
-      history: !!($window.history && $window.history.pushState && !(android < 4) && !boxee),
+      history: !!(hasHistoryPushState && !(android < 4) && !boxee),
       // jshint +W018
       hasEvent: function(event) {
         // IE9 implements 'input' event it's so fubared that we rather pretend that it doesn't have
@@ -18867,7 +19205,7 @@ function $TimeoutProvider() {
 // doesn't know about mocked locations and resolves URLs to the real document - which is
 // exactly the behavior needed here.  There is little value is mocking these out for this
 // service.
-var urlParsingNode = document.createElement("a");
+var urlParsingNode = window.document.createElement("a");
 var originUrl = urlResolve(window.location.href);
 
 
@@ -19567,7 +19905,9 @@ function currencyFilter($locale) {
  * @param {(number|string)=} fractionSize Number of decimal places to round the number to.
  * If this is not provided then the fraction size is computed from the current locale's number
  * formatting pattern. In the case of the default locale, it will be 3.
- * @returns {string} Number rounded to fractionSize and places a “,” after each third digit.
+ * @returns {string} Number rounded to `fractionSize` appropriately formatted based on the current
+ *                   locale (e.g., in the en_US locale it will have "." as the decimal separator and
+ *                   include "," group separators after each third digit).
  *
  * @example
    <example module="numberFilterExample">
@@ -19797,7 +20137,7 @@ function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
 
     // format the integer digits with grouping separators
     var groups = [];
-    if (digits.length > pattern.lgSize) {
+    if (digits.length >= pattern.lgSize) {
       groups.unshift(digits.splice(-pattern.lgSize).join(''));
     }
     while (digits.length > pattern.gSize) {
@@ -22033,7 +22373,7 @@ var inputType = {
         }]);
      </script>
      <form name="myForm" ng-controller="DateController as dateCtrl">
-        <label for="exampleInput">Pick a between 8am and 5pm:</label>
+        <label for="exampleInput">Pick a time between 8am and 5pm:</label>
         <input type="time" id="exampleInput" name="input" ng-model="example.value"
             placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
         <div role="alert">
@@ -23796,7 +24136,11 @@ function classDirective(name, selector) {
               updateClasses(oldClasses, newClasses);
             }
           }
-          oldVal = shallowCopy(newVal);
+          if (isArray(newVal)) {
+            oldVal = newVal.map(function(v) { return shallowCopy(v); });
+          } else {
+            oldVal = shallowCopy(newVal);
+          }
         }
       }
     };
@@ -25512,7 +25856,7 @@ var ngIncludeFillContentDirective = ['$compile',
           // support innerHTML, so detect this here and try to generate the contents
           // specially.
           $element.empty();
-          $compile(jqLiteBuildFragment(ctrl.template, document).childNodes)(scope,
+          $compile(jqLiteBuildFragment(ctrl.template, window.document).childNodes)(scope,
               function namespaceAdaptedClone(clone) {
             $element.append(clone);
           }, {futureParentElement: $element});
@@ -27426,7 +27770,7 @@ var NG_OPTIONS_REGEXP = /^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+group\s+by\s
 // jshint maxlen: 100
 
 
-var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
+var ngOptionsDirective = ['$compile', '$document', '$parse', function($compile, $document, $parse) {
 
   function parseOptionsExpression(optionsExp, selectElement, scope) {
 
@@ -27587,8 +27931,8 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
 
   // we can't just jqLite('<option>') since jqLite is not smart enough
   // to create it in <select> and IE barfs otherwise.
-  var optionTemplate = document.createElement('option'),
-      optGroupTemplate = document.createElement('optgroup');
+  var optionTemplate = window.document.createElement('option'),
+      optGroupTemplate = window.document.createElement('optgroup');
 
     function ngOptionsPostLink(scope, selectElement, attr, ctrls) {
 
@@ -27613,7 +27957,10 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
 
       var options;
       var ngOptions = parseOptionsExpression(attr.ngOptions, selectElement, scope);
-
+      // This stores the newly created options before they are appended to the select.
+      // Since the contents are removed from the fragment when it is appended,
+      // we only need to create it once.
+      var listFragment = $document[0].createDocumentFragment();
 
       var renderEmptyOption = function() {
         if (!providedEmptyOption) {
@@ -27648,7 +27995,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
         selectCtrl.writeValue = function writeNgOptionsValue(value) {
           var option = options.getOptionFromViewValue(value);
 
-          if (option && !option.disabled) {
+          if (option) {
             // Don't update the option when it is already selected.
             // For example, the browser will select the first option by default. In that case,
             // most properties are set automatically - except the `selected` attribute, which we
@@ -27710,7 +28057,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
           if (value) {
             value.forEach(function(item) {
               var option = options.getOptionFromViewValue(item);
-              if (option && !option.disabled) option.element.selected = true;
+              if (option) option.element.selected = true;
             });
           }
         };
@@ -27762,6 +28109,8 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
         emptyOption = jqLite(optionTemplate.cloneNode(false));
       }
 
+      selectElement.empty();
+
       // We need to do this here to ensure that the options object is defined
       // when we first hit it in writeNgOptionsValue
       updateOptions();
@@ -27770,6 +28119,12 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
       scope.$watchCollection(ngOptions.getWatchables, updateOptions);
 
       // ------------------------------------------------------------------ //
+
+      function addOptionElement(option, parent) {
+        var optionElement = optionTemplate.cloneNode(false);
+        parent.appendChild(optionElement);
+        updateOptionElement(option, optionElement);
+      }
 
 
       function updateOptionElement(option, element) {
@@ -27787,133 +28142,66 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
         if (option.value !== element.value) element.value = option.selectValue;
       }
 
-      function addOrReuseElement(parent, current, type, templateElement) {
-        var element;
-        // Check whether we can reuse the next element
-        if (current && lowercase(current.nodeName) === type) {
-          // The next element is the right type so reuse it
-          element = current;
-        } else {
-          // The next element is not the right type so create a new one
-          element = templateElement.cloneNode(false);
-          if (!current) {
-            // There are no more elements so just append it to the select
-            parent.appendChild(element);
-          } else {
-            // The next element is not a group so insert the new one
-            parent.insertBefore(element, current);
-          }
-        }
-        return element;
-      }
-
-
-      function removeExcessElements(current) {
-        var next;
-        while (current) {
-          next = current.nextSibling;
-          jqLiteRemove(current);
-          current = next;
-        }
-      }
-
-
-      function skipEmptyAndUnknownOptions(current) {
-        var emptyOption_ = emptyOption && emptyOption[0];
-        var unknownOption_ = unknownOption && unknownOption[0];
-
-        // We cannot rely on the extracted empty option being the same as the compiled empty option,
-        // because the compiled empty option might have been replaced by a comment because
-        // it had an "element" transclusion directive on it (such as ngIf)
-        if (emptyOption_ || unknownOption_) {
-          while (current &&
-                (current === emptyOption_ ||
-                current === unknownOption_ ||
-                current.nodeType === NODE_TYPE_COMMENT ||
-                (nodeName_(current) === 'option' && current.value === ''))) {
-            current = current.nextSibling;
-          }
-        }
-        return current;
-      }
-
-
       function updateOptions() {
-
         var previousValue = options && selectCtrl.readValue();
+
+        // We must remove all current options, but cannot simply set innerHTML = null
+        // since the providedEmptyOption might have an ngIf on it that inserts comments which we
+        // must preserve.
+        // Instead, iterate over the current option elements and remove them or their optgroup
+        // parents
+        if (options) {
+
+          for (var i = options.items.length - 1; i >= 0; i--) {
+            var option = options.items[i];
+            if (option.group) {
+              jqLiteRemove(option.element.parentNode);
+            } else {
+              jqLiteRemove(option.element);
+            }
+          }
+        }
 
         options = ngOptions.getOptions();
 
-        var groupMap = {};
-        var currentElement = selectElement[0].firstChild;
+        var groupElementMap = {};
 
         // Ensure that the empty option is always there if it was explicitly provided
         if (providedEmptyOption) {
           selectElement.prepend(emptyOption);
         }
 
-        currentElement = skipEmptyAndUnknownOptions(currentElement);
-
-        options.items.forEach(function updateOption(option) {
-          var group;
+        options.items.forEach(function addOption(option) {
           var groupElement;
-          var optionElement;
 
           if (isDefined(option.group)) {
 
             // This option is to live in a group
             // See if we have already created this group
-            group = groupMap[option.group];
+            groupElement = groupElementMap[option.group];
 
-            if (!group) {
+            if (!groupElement) {
 
-              // We have not already created this group
-              groupElement = addOrReuseElement(selectElement[0],
-                                               currentElement,
-                                               'optgroup',
-                                               optGroupTemplate);
-              // Move to the next element
-              currentElement = groupElement.nextSibling;
+              groupElement = optGroupTemplate.cloneNode(false);
+              listFragment.appendChild(groupElement);
 
               // Update the label on the group element
               groupElement.label = option.group;
 
               // Store it for use later
-              group = groupMap[option.group] = {
-                groupElement: groupElement,
-                currentOptionElement: groupElement.firstChild
-              };
-
+              groupElementMap[option.group] = groupElement;
             }
 
-            // So now we have a group for this option we add the option to the group
-            optionElement = addOrReuseElement(group.groupElement,
-                                              group.currentOptionElement,
-                                              'option',
-                                              optionTemplate);
-            updateOptionElement(option, optionElement);
-            // Move to the next element
-            group.currentOptionElement = optionElement.nextSibling;
+            addOptionElement(option, groupElement);
 
           } else {
 
             // This option is not in a group
-            optionElement = addOrReuseElement(selectElement[0],
-                                              currentElement,
-                                              'option',
-                                              optionTemplate);
-            updateOptionElement(option, optionElement);
-            // Move to the next element
-            currentElement = optionElement.nextSibling;
+            addOptionElement(option, listFragment);
           }
         });
 
-
-        // Now remove all excess options and group
-        Object.keys(groupMap).forEach(function(key) {
-          removeExcessElements(groupMap[key].currentOptionElement);
-        });
-        removeExcessElements(currentElement);
+        selectElement[0].appendChild(listFragment);
 
         ngModelCtrl.$render();
 
@@ -29608,7 +29896,7 @@ var SelectController =
   //
   // We can't just jqLite('<option>') since jqLite is not smart enough
   // to create it in <select> and IE barfs otherwise.
-  self.unknownOption = jqLite(document.createElement('option'));
+  self.unknownOption = jqLite(window.document.createElement('option'));
   self.renderUnknownOption = function(val) {
     var unknownVal = '? ' + hashKey(val) + ' ?';
     self.unknownOption.val(unknownVal);
@@ -30571,10 +30859,10 @@ $provide.value("$locale", {
 });
 }]);
 
-  jqLite(document).ready(function() {
-    angularInit(document, bootstrap);
+  jqLite(window.document).ready(function() {
+    angularInit(window.document, bootstrap);
   });
 
-})(window, document);
+})(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');

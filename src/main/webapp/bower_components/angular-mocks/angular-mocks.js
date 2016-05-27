@@ -1,9 +1,9 @@
 /**
- * @license AngularJS v1.5.2
+ * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, angular, undefined) {
+(function(window, angular) {
 
 'use strict';
 
@@ -1328,11 +1328,14 @@ function createHttpBackendMock($rootScope, $timeout, $delegate, $browser) {
   }
 
   // TODO(vojta): change params to: method, url, data, headers, callback
-  function $httpBackend(method, url, data, callback, headers, timeout, withCredentials, responseType) {
+  function $httpBackend(method, url, data, callback, headers, timeout, withCredentials, responseType, eventHandlers, uploadEventHandlers) {
 
     var xhr = new MockXhr(),
         expectation = expectations[0],
         wasExpected = false;
+
+    xhr.$$events = eventHandlers;
+    xhr.upload.$$events = uploadEventHandlers;
 
     function prettyPrint(data) {
       return (angular.isString(data) || angular.isFunction(data) || data instanceof RegExp)
@@ -1423,12 +1426,14 @@ function createHttpBackendMock($rootScope, $timeout, $delegate, $browser) {
    *   order to change how a matched request is handled.
    *
    *  - respond –
-   *      `{function([status,] data[, headers, statusText])
-   *      | function(function(method, url, data, headers, params)}`
+   *      ```js
+   *      {function([status,] data[, headers, statusText])
+   *      | function(function(method, url, data, headers, params)}
+   *      ```
    *    – The respond method takes a set of static data to be returned or a function that can
-   *    return an array containing response status (number), response data (string), response
-   *    headers (Object), and the text for the status (string). The respond method returns the
-   *    `requestHandler` object for possible overrides.
+   *    return an array containing response status (number), response data (Array|Object|string),
+   *    response headers (Object), and the text for the status (string). The respond method returns
+   *    the `requestHandler` object for possible overrides.
    */
   $httpBackend.when = function(method, url, data, headers, keys) {
     var definition = new MockHttpExpectation(method, url, data, headers, keys),
@@ -1613,12 +1618,14 @@ function createHttpBackendMock($rootScope, $timeout, $delegate, $browser) {
    *  order to change how a matched request is handled.
    *
    *  - respond –
-   *    `{function([status,] data[, headers, statusText])
-   *    | function(function(method, url, data, headers, params)}`
+   *    ```
+   *    { function([status,] data[, headers, statusText])
+   *    | function(function(method, url, data, headers, params)}
+   *    ```
    *    – The respond method takes a set of static data to be returned or a function that can
-   *    return an array containing response status (number), response data (string), response
-   *    headers (Object), and the text for the status (string). The respond method returns the
-   *    `requestHandler` object for possible overrides.
+   *    return an array containing response status (number), response data (Array|Object|string),
+   *    response headers (Object), and the text for the status (string). The respond method returns
+   *    the `requestHandler` object for possible overrides.
    */
   $httpBackend.expect = function(method, url, data, headers, keys) {
     var expectation = new MockHttpExpectation(method, url, data, headers, keys),
@@ -2012,6 +2019,20 @@ function MockXhr() {
   };
 
   this.abort = angular.noop;
+
+  // This section simulates the events on a real XHR object (and the upload object)
+  // When we are testing $httpBackend (inside the angular project) we make partial use of this
+  // but store the events directly ourselves on `$$events`, instead of going through the `addEventListener`
+  this.$$events = {};
+  this.addEventListener = function(name, listener) {
+    if (angular.isUndefined(this.$$events[name])) this.$$events[name] = [];
+    this.$$events[name].push(listener);
+  };
+
+  this.upload = {
+    $$events: {},
+    addEventListener: this.addEventListener
+  };
 }
 
 
@@ -2181,8 +2202,8 @@ angular.mock.$ControllerDecorator = ['$delegate', function($delegate) {
  * A service that can be used to create instances of component controllers.
  * <div class="alert alert-info">
  * Be aware that the controller will be instantiated and attached to the scope as specified in
- * the component definition object. That means that you must always provide a `$scope` object
- * in the `locals` param.
+ * the component definition object. If you do not provide a `$scope` object in the `locals` param
+ * then the helper will create a new isolated scope as a child of `$rootScope`.
  * </div>
  * @param {string} componentName the name of the component whose controller we want to instantiate
  * @param {Object} locals Injection locals for Controller.
@@ -2192,7 +2213,7 @@ angular.mock.$ControllerDecorator = ['$delegate', function($delegate) {
  * @return {Object} Instance of requested controller.
  */
 angular.mock.$ComponentControllerProvider = ['$compileProvider', function($compileProvider) {
-  this.$get = ['$controller','$injector', function($controller,$injector) {
+  this.$get = ['$controller','$injector', '$rootScope', function($controller, $injector, $rootScope) {
     return function $componentController(componentName, locals, bindings, ident) {
       // get all directives associated to the component name
       var directives = $injector.get(componentName + 'Directive');
@@ -2210,6 +2231,9 @@ angular.mock.$ComponentControllerProvider = ['$compileProvider', function($compi
       }
       // get the info of the component
       var directiveInfo = candidateDirectives[0];
+      // create a scope if needed
+      locals = locals || {};
+      locals.$scope = locals.$scope || $rootScope.$new(true);
       return $controller(directiveInfo.controller, locals, bindings, ident || directiveInfo.controllerAs);
     };
   }];
@@ -2333,11 +2357,13 @@ angular.module('ngMockE2E', ['ng']).config(['$provide', function($provide) {
  *   `respond` or `passThrough` again in order to change how a matched request is handled.
  *
  *  - respond –
- *    `{function([status,] data[, headers, statusText])
- *    | function(function(method, url, data, headers, params)}`
+ *    ```
+ *    { function([status,] data[, headers, statusText])
+ *    | function(function(method, url, data, headers, params)}
+ *    ```
  *    – The respond method takes a set of static data to be returned or a function that can return
- *    an array containing response status (number), response data (string), response headers
- *    (Object), and the text for the status (string).
+ *    an array containing response status (number), response data (Array|Object|string), response
+ *    headers (Object), and the text for the status (string).
  *  - passThrough – `{function()}` – Any request matching a backend definition with
  *    `passThrough` handler will be passed through to the real backend (an XHR request will be made
  *    to the server.)
@@ -2899,6 +2925,12 @@ angular.mock.$RootScopeDecorator = ['$delegate', function($delegate) {
   window.inject = angular.mock.inject = function() {
     var blockFns = Array.prototype.slice.call(arguments, 0);
     var errorForStack = new Error('Declaration Location');
+    // IE10+ and PhanthomJS do not set stack trace information, until the error is thrown
+    if (!errorForStack.stack) {
+      try {
+        throw errorForStack;
+      } catch (e) {}
+    }
     return wasInjectorCreated() ? workFn.call(currentSpec) : workFn;
     /////////////////////
     function workFn() {

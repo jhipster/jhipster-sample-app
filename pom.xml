@@ -13,7 +13,7 @@
     <artifactId>jhipster-sample-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Jhipster sample application</name>
+    <name>Jhipster Sample Application</name>
 
     <prerequisites>
         <maven>3.0.0</maven>
@@ -48,7 +48,7 @@
         <springfox.version>2.4.0</springfox.version>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
-        <sonar-maven-plugin.version>2.7.1</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.0.2</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
         <sonar.exclusions>src/main/webapp/content/**/*.*, src/main/webapp/bower_components/**/*.*, target/www/**/*.*</sonar.exclusions>
         <sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>

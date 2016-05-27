@@ -9,14 +9,15 @@
 
     function BankAccountController ($scope, $state, BankAccount) {
         var vm = this;
+        
         vm.bankAccounts = [];
-        vm.loadAll = function() {
+
+        loadAll();
+
+        function loadAll() {
             BankAccount.query(function(result) {
                 vm.bankAccounts = result;
             });
-        };
-
-        vm.loadAll();
-        
+        }
     }
 })();

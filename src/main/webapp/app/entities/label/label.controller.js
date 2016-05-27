@@ -9,14 +9,15 @@
 
     function LabelController ($scope, $state, Label) {
         var vm = this;
+        
         vm.labels = [];
-        vm.loadAll = function() {
+
+        loadAll();
+
+        function loadAll() {
             Label.query(function(result) {
                 vm.labels = result;
             });
-        };
-
-        vm.loadAll();
-        
+        }
     }
 })();

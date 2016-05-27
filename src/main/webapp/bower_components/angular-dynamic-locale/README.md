@@ -79,6 +79,15 @@ angular.module('myApp').controller('myController', [..., 'tmhDynamicLocale',
 ])
 ```
 
+Also, here's an example of how you may optionally override the default path (`angular/i18n/angular-locale_{{locale}}.js`) to the stored Angular i18n locale files in your project:
+
+```javascript
+angular.module('myApp', ['tmh.dynamicLocale'])
+  .config(function(tmhDynamicLocaleProvider) {
+    tmhDynamicLocaleProvider.localeLocationPattern('/base/node_modules/angular-i18n/angular-locale_{{locale}}.js');
+  });
+```
+
 ## Development
 
 ### Requirements

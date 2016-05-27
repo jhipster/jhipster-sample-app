@@ -9,11 +9,17 @@
 
     function OperationController ($scope, $state, Operation, ParseLinks, AlertService) {
         var vm = this;
+        
         vm.operations = [];
-        vm.predicate = 'id';
-        vm.reverse = true;
+        vm.loadPage = loadPage;
         vm.page = 0;
-        vm.loadAll = function() {
+        vm.predicate = 'id';
+        vm.reset = reset;
+        vm.reverse = true;
+
+        loadAll();
+
+        function loadAll () {
             Operation.query({
                 page: vm.page,
                 size: 20,
@@ -36,18 +42,17 @@
             function onError(error) {
                 AlertService.error(error.data.message);
             }
-        };
-        vm.reset = function() {
+        }
+
+        function reset () {
             vm.page = 0;
             vm.operations = [];
-            vm.loadAll();
-        };
-        vm.loadPage = function(page) {
+            loadAll();
+        }
+
+        function loadPage(page) {
             vm.page = page;
-            vm.loadAll();
-        };
-
-        vm.loadAll();
-
+            loadAll();
+        }
     }
 })();

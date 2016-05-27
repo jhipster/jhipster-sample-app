@@ -9,15 +9,20 @@
 
     function BankAccountDeleteController($uibModalInstance, entity, BankAccount) {
         var vm = this;
+
         vm.bankAccount = entity;
-        vm.clear = function() {
+        vm.clear = clear;
+        vm.confirmDelete = confirmDelete;
+        
+        function clear () {
             $uibModalInstance.dismiss('cancel');
-        };
-        vm.confirmDelete = function (id) {
+        }
+
+        function confirmDelete (id) {
             BankAccount.delete({id: id},
                 function () {
                     $uibModalInstance.close(true);
                 });
-        };
+        }
     }
 })();
