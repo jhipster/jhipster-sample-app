@@ -5,6 +5,7 @@ import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.repository.AuthorityRepository;
 import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
+import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.security.SecurityUtils;
 import io.github.jhipster.sample.service.util.RandomUtil;
 import io.github.jhipster.sample.web.rest.dto.ManagedUserDTO;
@@ -89,7 +90,7 @@ public class UserService {
         String langKey) {
 
         User newUser = new User();
-        Authority authority = authorityRepository.findOne("ROLE_USER");
+        Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);

@@ -1,5 +1,5 @@
 // Karma configuration
-// http://karma-runner.github.io/0.10/config/configuration-file.html
+// http://karma-runner.github.io/0.13/config/configuration-file.html
 
 var sourcePreprocessors = ['coverage'];
 
@@ -63,15 +63,13 @@ module.exports = function (config) {
             './**/*.js': sourcePreprocessors
         },
 
-        reporters: ['dots', 'jenkins', 'coverage', 'progress'],
+        reporters: ['dots', 'junit', 'coverage', 'progress'],
 
-        jenkinsReporter: {
-            
+        junitReporter: {
             outputFile: 'target/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
-            
             dir: 'target/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}
