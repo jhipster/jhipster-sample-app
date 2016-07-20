@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -43,7 +42,4 @@ public class PaginationUtil {
     private static String generateUri(String baseUrl, int page, int size) throws URISyntaxException {
         return UriComponentsBuilder.fromUriString(baseUrl).queryParam("page", page).queryParam("size", size).toUriString();
     }
-
-
-    
 }

@@ -40,7 +40,7 @@ these new files.
 
 To ensure everything worked, run:
 
-    java -jar target/*.war --spring.profiles.active=prod
+    java -jar target/*.war
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 

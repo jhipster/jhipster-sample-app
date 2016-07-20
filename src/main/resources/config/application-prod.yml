@@ -31,7 +31,7 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         database: MYSQL
-        show_sql: false
+        show-sql: false
         properties:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
@@ -93,5 +93,3 @@ jhipster:
             host: localhost
             port: 5000
             queueSize: 512
-    swagger: # swagger is disabled. It can be disabled by pasing 'no-swagger' profile at run time as well
-        enabled: false

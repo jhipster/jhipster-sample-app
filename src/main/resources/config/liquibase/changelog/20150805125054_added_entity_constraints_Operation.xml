@@ -16,12 +16,12 @@
 
         <addForeignKeyConstraint baseColumnNames="operations_id"
                                  baseTableName="operation_label"
-                                 constraintName="fk_operation_label_label_id"
+                                 constraintName="fk_operation_label_operations_id"
                                  referencedColumnNames="id"
                                  referencedTableName="operation"/>
         <addForeignKeyConstraint baseColumnNames="labels_id"
                                  baseTableName="operation_label"
-                                 constraintName="fk_operation_label_operation_id"
+                                 constraintName="fk_operation_label_labels_id"
                                  referencedColumnNames="id"
                                  referencedTableName="label"/>
         

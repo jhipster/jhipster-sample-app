@@ -29,7 +29,7 @@ describe('Label e2e test', function () {
 
     it('should load create Label dialog', function () {
         element(by.css('[ui-sref="label.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getText()).toMatch(/Create or edit a Label/);
+            expect(element(by.css('h4.modal-title')).getAttribute("translate")).toMatch(/jhipsterSampleApplicationApp.label.home.createOrEditLabel/);
             element(by.css('button.close')).click();
         });
     });

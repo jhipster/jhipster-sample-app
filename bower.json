@@ -34,17 +34,17 @@
     "angular-mocks": "1.5.5"
   },
   "overrides": {
-    "angular" : {
+    "angular": {
       "dependencies": {
         "jquery": "2.2.4"
       }
     },
-    "angular-cache-buster" : {
+    "angular-cache-buster": {
       "dependencies": {
         "angular": "1.5.5"
       }
     },
-    "angular-dynamic-locale" : {
+    "angular-dynamic-locale": {
       "dependencies": {
         "angular": "1.5.5"
       }

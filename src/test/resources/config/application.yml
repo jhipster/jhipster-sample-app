@@ -13,6 +13,8 @@
 spring:
     application:
         name: jhipsterSampleApplication
+    jackson:
+        serialization.write_dates_as_timestamps: false
     datasource:
         url: jdbc:h2:mem:jhipsterSampleApplication;DB_CLOSE_DELAY=-1
         name:
@@ -22,7 +24,7 @@ spring:
         database-platform: io.github.jhipster.sample.domain.util.FixedH2Dialect
         database: H2
         open-in-view: false
-        show_sql: true
+        show-sql: true
         hibernate:
             ddl-auto: none
             naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
@@ -75,4 +77,3 @@ jhipster:
         contactEmail:
         license:
         licenseUrl:
-        enabled: false
