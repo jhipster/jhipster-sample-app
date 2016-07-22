@@ -64,30 +64,30 @@
             }
         })
         .state('label-detail.edit', {
-               parent: 'label-detail',
-               url: '/detail/edit',
-               data: {
-                   authorities: ['ROLE_USER']
-               },
-               onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                   $uibModal.open({
-                       templateUrl: 'app/entities/label/label-dialog.html',
-                       controller: 'LabelDialogController',
-                       controllerAs: 'vm',
-                       backdrop: 'static',
-                       size: 'lg',
-                       resolve: {
-                           entity: ['Label', function(Label) {
-                               return Label.get({id : $stateParams.id}).$promise;
-                           }]
-                       }
-                   }).result.then(function() {
-                       $state.go('^', {}, { reload: false });
-                   }, function() {
-                       $state.go('^');
-                   });
-               }]
-           })
+            parent: 'label-detail',
+            url: '/detail/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/label/label-dialog.html',
+                    controller: 'LabelDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Label', function(Label) {
+                            return Label.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('^', {}, { reload: false });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        })
         .state('label.new', {
             parent: 'label',
             url: '/new',

@@ -1,4 +1,4 @@
-// Generated on 2016-07-20 using generator-jhipster 3.5.0
+// Generated on 2016-07-22 using generator-jhipster 3.5.1
 'use strict';
 
 var gulp = require('gulp'),
@@ -182,7 +182,7 @@ gulp.task('swagger-ui', function () {
             .pipe(gulp.dest(config.dist + 'swagger-ui/')),
         gulp.src(config.bower  + 'swagger-ui/dist/swagger-ui.min.js')
             .pipe(gulp.dest(config.dist + 'swagger-ui/lib/'))
-    )
+    );
 });
 
 gulp.task('ngconstant:dev', function () {

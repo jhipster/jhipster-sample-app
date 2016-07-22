@@ -23,7 +23,7 @@
         <dt><span translate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
         <dd>
             <span ng-repeat="label in vm.operation.labels">
-                <a ui-sref="label-detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}
+                <a ui-sref="label-detail({id: label.id})">{{label.label}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
     </dl>

@@ -64,30 +64,30 @@
             }
         })
         .state('bank-account-detail.edit', {
-               parent: 'bank-account-detail',
-               url: '/detail/edit',
-               data: {
-                   authorities: ['ROLE_USER']
-               },
-               onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                   $uibModal.open({
-                       templateUrl: 'app/entities/bank-account/bank-account-dialog.html',
-                       controller: 'BankAccountDialogController',
-                       controllerAs: 'vm',
-                       backdrop: 'static',
-                       size: 'lg',
-                       resolve: {
-                           entity: ['BankAccount', function(BankAccount) {
-                               return BankAccount.get({id : $stateParams.id}).$promise;
-                           }]
-                       }
-                   }).result.then(function() {
-                       $state.go('^', {}, { reload: false });
-                   }, function() {
-                       $state.go('^');
-                   });
-               }]
-           })
+            parent: 'bank-account-detail',
+            url: '/detail/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/bank-account/bank-account-dialog.html',
+                    controller: 'BankAccountDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['BankAccount', function(BankAccount) {
+                            return BankAccount.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('^', {}, { reload: false });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        })
         .state('bank-account.new', {
             parent: 'bank-account',
             url: '/new',
