@@ -112,7 +112,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('operation', null, { reload: true });
+                    $state.go('operation', null, { reload: 'operation' });
                 }, function() {
                     $state.go('operation');
                 });
@@ -137,7 +137,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('operation', null, { reload: true });
+                    $state.go('operation', null, { reload: 'operation' });
                 }, function() {
                     $state.go('^');
                 });
@@ -161,7 +161,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('operation', null, { reload: true });
+                    $state.go('operation', null, { reload: 'operation' });
                 }, function() {
                     $state.go('^');
                 });

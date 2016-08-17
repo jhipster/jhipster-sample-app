@@ -22,14 +22,14 @@
     "test",
     "tests"
   ],
-  "version": "2.1.4",
-  "_release": "2.1.4",
+  "version": "2.1.5",
+  "_release": "2.1.5",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.4",
-    "commit": "5e5e33ace1214e453e2484b9e08220a3236c46a5"
+    "tag": "v2.1.5",
+    "commit": "b2f82f81f85886c5abfa3b5657a8257c7999c627"
   },
   "_source": "https://github.com/wordnik/swagger-ui.git",
-  "_target": "2.1.4",
+  "_target": "2.1.5",
   "_originalSource": "swagger-ui"
 }

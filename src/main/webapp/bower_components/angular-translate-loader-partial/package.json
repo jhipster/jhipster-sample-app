@@ -1,6 +1,6 @@
 {
   "name": "angular-translate-loader-partial",
-  "version": "2.11.0",
+  "version": "2.11.1",
   "description": "angular-translate-loader-partial",
   "main": "angular-translate-loader-partial.js",
   "repository": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://angular-translate.github.io",
   "dependencies": {
-    "angular-translate": "~2.11.0"
+    "angular-translate": "~2.11.1"
   }
 }

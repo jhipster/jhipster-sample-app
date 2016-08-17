@@ -16,6 +16,7 @@ spring:
     jackson:
         serialization.write_dates_as_timestamps: false
     datasource:
+        type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhipsterSampleApplication;DB_CLOSE_DELAY=-1
         name:
         username:
@@ -27,7 +28,8 @@ spring:
         show-sql: true
         hibernate:
             ddl-auto: none
-            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+            naming:
+                strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
         properties:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false

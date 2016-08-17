@@ -110,7 +110,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('label', null, { reload: true });
+                    $state.go('label', null, { reload: 'label' });
                 }, function() {
                     $state.go('label');
                 });
@@ -135,7 +135,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('label', null, { reload: true });
+                    $state.go('label', null, { reload: 'label' });
                 }, function() {
                     $state.go('^');
                 });
@@ -159,7 +159,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('label', null, { reload: true });
+                    $state.go('label', null, { reload: 'label' });
                 }, function() {
                     $state.go('^');
                 });

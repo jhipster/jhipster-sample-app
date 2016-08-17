@@ -14,7 +14,7 @@
             url: '/user-management?page&sort',
             data: {
                 authorities: ['ROLE_ADMIN'],
-                pageTitle: 'user-management.home.title'
+                pageTitle: 'userManagement.home.title'
             },
             views: {
                 'content@': {

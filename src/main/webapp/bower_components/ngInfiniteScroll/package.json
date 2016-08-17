@@ -1,19 +1,20 @@
 {
   "name": "ng-infinite-scroll",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Infinite scrolling for AngularJS",
   "repository": {
     "type": "git",
     "url": "git://github.com/sroze/ngInfiniteScroll.git"
   },
+  "main": "build/ng-infinite-scroll.js",
   "browser": "build/ng-infinite-scroll.js",
   "scripts": {
     "test": "grunt test:protractor-local"
   },
   "author": {
-    "name": "Brandon Tilley",
-    "email": "brandon@brandontilley.com",
-    "url": "http://brandontilley.com"
+    "name": "Michelle Tilley",
+    "email": "michelle@michelletilley.net",
+    "url": "http://michelletilley.net"
   },
   "contributors": [
     {

@@ -10,7 +10,7 @@
         
         <addForeignKeyConstraint baseColumnNames="bank_account_id"
                                  baseTableName="operation"
-                                 constraintName="fk_operation_bankaccount_id"
+                                 constraintName="fk_operation_bank_account_id"
                                  referencedColumnNames="id"
                                  referencedTableName="bank_account"/>
 

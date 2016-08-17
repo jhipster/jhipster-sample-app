@@ -20,6 +20,7 @@ spring:
     jackson:
         serialization.indent_output: true
     datasource:
+        type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1
         name:
         username: jhipsterSampleApplication

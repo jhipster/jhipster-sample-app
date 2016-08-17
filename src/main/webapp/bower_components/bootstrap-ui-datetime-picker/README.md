@@ -2,7 +2,7 @@
 
 AngularJs directive to use a date and/or time picker as a dropdown from an input. 
 
-[Demo](http://plnkr.co/edit/S8UqwvXNGmDcPXV7a0N3)
+[Demo](https://rawgit.com/Gillardo/bootstrap-ui-datetime-picker/master/example/index.html)
 
 ## Installation
 To use the directive you must have the following angular-ui bootstrap directives included already

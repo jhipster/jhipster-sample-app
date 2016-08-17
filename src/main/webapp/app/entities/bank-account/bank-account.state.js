@@ -111,7 +111,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('bank-account', null, { reload: true });
+                    $state.go('bank-account', null, { reload: 'bank-account' });
                 }, function() {
                     $state.go('bank-account');
                 });
@@ -136,7 +136,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('bank-account', null, { reload: true });
+                    $state.go('bank-account', null, { reload: 'bank-account' });
                 }, function() {
                     $state.go('^');
                 });
@@ -160,7 +160,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('bank-account', null, { reload: true });
+                    $state.go('bank-account', null, { reload: 'bank-account' });
                 }, function() {
                     $state.go('^');
                 });

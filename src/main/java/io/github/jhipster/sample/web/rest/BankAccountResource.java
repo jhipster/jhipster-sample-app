@@ -2,6 +2,7 @@ package io.github.jhipster.sample.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.BankAccount;
+
 import io.github.jhipster.sample.repository.BankAccountRepository;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class BankAccountResource {
         
     @Inject
     private BankAccountRepository bankAccountRepository;
-    
+
     /**
      * POST  /bank-accounts : Create a new bankAccount.
      *

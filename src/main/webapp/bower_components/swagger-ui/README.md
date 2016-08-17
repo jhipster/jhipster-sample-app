@@ -1,7 +1,7 @@
 # Swagger UI
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
-[![NPM version](https://badge.fury.io/js/swagger-ui.png)](http://badge.fury.io/js/swagger-ui)
+[![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
 [![Dependency Status](https://david-dm.org/swagger-api/swagger-ui/status.svg)](https://david-dm.org/swagger-api/swagger-ui)
 [![devDependency Status](https://david-dm.org/swagger-api/swagger-ui/dev-status.svg)](https://david-dm.org/swagger-api/swagger-ui#info=devDependencies)
@@ -24,7 +24,8 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
+2.1.4              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v.2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
+2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.4) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -40,12 +41,14 @@ Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). In
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
+### Windows Users: Please install [Python](https://www.python.org/downloads/windows/) before follow below guidelines for node-gyp rebuild to run.
+
 1. `npm install`
-2. `gulp`
+2. `npm run build`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
 
 ### Development
-Use `gulp watch` to make a new build and watch for changes in files.
+Use `npm run serve` to make a new build, watch for changes, and serve the result at http://localhost:8080/.
 
 ### Build using Docker
 
@@ -53,10 +56,10 @@ To build swagger-ui using a docker container:
 
 ```
 docker build -t swagger-ui-builder .
-docker run -p 127.0.0.1:8080:8080 swagger-ui-builder
+docker run -p 80:8080 swagger-ui-builder
 ```
 
-This will start Swagger UI at `http://localhost:8080`.
+This will start Swagger UI at `http://localhost`.
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
@@ -122,12 +125,12 @@ Header params are supported through a pluggable mechanism in [swagger-js](https:
 $('#input_apiKey').change(function() {
   var key = $('#input_apiKey')[0].value;
   if(key && key.trim() != "") {
-    swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
+    swaggerUi.api.clientAuthorizations.add("auth_name", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
   }
 })
 ```
 
-This will add header `api_key` with value `key` on every call to the server.  You can substitute `query` to send the values as a query param.
+This will add the header `api_key` with value `key` on calls that have the `auth_name` security scheme as part of their swaggerDefinitions.  You can substitute `query` to send the values as a query param.
 
 ### Custom Header Parameters - (For Basic auth etc)
 If you have some header parameters which you need to send with every request, use the headers as below:
@@ -236,7 +239,7 @@ Please see [releases](https://github.com/swagger-api/swagger-ui/releases) for ch
 
 ## License
 
-Copyright 2011-2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -247,3 +250,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+---
+<img src="http://swagger.io/wp-content/uploads/2016/02/logo.jpg"/>

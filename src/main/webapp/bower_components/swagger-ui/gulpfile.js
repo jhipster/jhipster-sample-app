@@ -51,6 +51,7 @@ gulp.task('dist', ['clean', 'lint'], _dist);
 function _dist() {
   return es.merge(
     gulp.src([
+        './node_modules/es5-shim/es5-shim.js',
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
@@ -91,7 +92,7 @@ function _less() {
       './src/main/less/style.less'
     ])
     .pipe(less())
-    .on('error', log)
+    .on('error', function(err){ log(err); this.emit('end');})
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
 }
@@ -104,7 +105,7 @@ gulp.task('copy', ['less'], _copy);
 function _copy() {
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.{js,map}'])
+    .src(['./lib/**/*.{js,map}', './node_modules/es5-shim/es5-shim.js'])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 

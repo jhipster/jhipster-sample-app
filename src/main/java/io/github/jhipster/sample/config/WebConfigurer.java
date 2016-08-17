@@ -4,14 +4,15 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 import io.github.jhipster.sample.web.filter.CachingHttpHeadersFilter;
+
+import org.apache.catalina.webresources.StandardRoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.MimeMappings;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.context.embedded.*;
+import org.springframework.boot.context.embedded.tomcat.*;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -59,7 +60,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     /**
-     * Set up Mime types and, if needed, set the document root.
+     * Customize the Tomcat engine: Mime types, the document root, the cache.
      */
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container) {
@@ -69,9 +70,25 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
         mappings.add("json", "text/html;charset=utf-8");
         container.setMimeMappings(mappings);
-
+        customizeTomcat(container);
         // When running in an IDE or with ./mvnw spring-boot:run, set location of the static web assets.
         setLocationForStaticAssets(container);
+    }
+
+    /**
+     * Customize Tomcat configuration.
+     */
+    private void customizeTomcat(ConfigurableEmbeddedServletContainer container) {
+        if (container instanceof TomcatEmbeddedServletContainerFactory) {
+            TomcatEmbeddedServletContainerFactory tomcatFactory = (TomcatEmbeddedServletContainerFactory) container;
+            tomcatFactory.addContextCustomizers((TomcatContextCustomizer) context -> {
+                // See https://github.com/jhipster/generator-jhipster/issues/3995
+                StandardRoot resources = new StandardRoot();
+                resources.setCacheMaxSize(40960);
+                resources.setCacheObjectMaxSize(2048);
+                context.setResources(resources);
+            });
+        }
     }
 
     private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
