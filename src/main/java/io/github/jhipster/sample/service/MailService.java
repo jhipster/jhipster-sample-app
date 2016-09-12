@@ -3,7 +3,7 @@ package io.github.jhipster.sample.service;
 import io.github.jhipster.sample.config.JHipsterProperties;
 import io.github.jhipster.sample.domain.User;
 
-import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

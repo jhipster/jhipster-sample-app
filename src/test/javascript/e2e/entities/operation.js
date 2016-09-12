@@ -22,14 +22,18 @@ describe('Operation e2e test', function () {
 
     it('should load Operations', function () {
         entityMenu.click();
-        element(by.css('[ui-sref="operation"]')).click().then(function() {
-            expect(element.all(by.css('h2')).first().getText()).toMatch(/Operations/);
+        element.all(by.css('[ui-sref="operation"]')).first().click().then(function() {
+            element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.operation.home.title/);
+            });
         });
     });
 
     it('should load create Operation dialog', function () {
         element(by.css('[ui-sref="operation.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getAttribute("translate")).toMatch(/jhipsterSampleApplicationApp.operation.home.createOrEditLabel/);
+            element(by.css('h4.modal-title')).getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.operation.home.createOrEditLabel/);
+            });
             element(by.css('button.close')).click();
         });
     });

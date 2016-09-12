@@ -42,7 +42,7 @@ class OperationGatlingTest extends Simulation {
         .get("/api/account")
         .headers(headers_http)
         .check(status.is(401))
-        .check(headerRegex("Set-Cookie", "CSRF-TOKEN=(.*);[P,p]ath=/").saveAs("csrf_token"))).exitHereIfFailed
+        .check(headerRegex("Set-Cookie", "CSRF-TOKEN=(.*);[\\s]?[P,p]ath=/").saveAs("csrf_token"))).exitHereIfFailed
         .pause(10)
         .exec(http("Authentication")
         .post("/api/authentication")
@@ -56,7 +56,7 @@ class OperationGatlingTest extends Simulation {
         .get("/api/account")
         .headers(headers_http_authenticated)
         .check(status.is(200))
-        .check(headerRegex("Set-Cookie", "CSRF-TOKEN=(.*);[P,p]ath=/").saveAs("csrf_token")))
+        .check(headerRegex("Set-Cookie", "CSRF-TOKEN=(.*);[\\s]?[P,p]ath=/").saveAs("csrf_token")))
         .pause(10)
         .repeat(2) {
             exec(http("Get all operations")

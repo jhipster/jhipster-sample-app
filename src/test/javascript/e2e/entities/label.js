@@ -22,14 +22,18 @@ describe('Label e2e test', function () {
 
     it('should load Labels', function () {
         entityMenu.click();
-        element(by.css('[ui-sref="label"]')).click().then(function() {
-            expect(element.all(by.css('h2')).first().getText()).toMatch(/Labels/);
+        element.all(by.css('[ui-sref="label"]')).first().click().then(function() {
+            element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.label.home.title/);
+            });
         });
     });
 
     it('should load create Label dialog', function () {
         element(by.css('[ui-sref="label.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getAttribute("translate")).toMatch(/jhipsterSampleApplicationApp.label.home.createOrEditLabel/);
+            element(by.css('h4.modal-title')).getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.label.home.createOrEditLabel/);
+            });
             element(by.css('button.close')).click();
         });
     });

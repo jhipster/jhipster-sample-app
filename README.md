@@ -53,6 +53,11 @@ Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in `src/test/javascript/e2e`
 and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
 
+Performance tests are run by [Gatling]() and written in Scala. They're located in `src/test/gatling` and can be run with:
+
+    ./mvnw gatling:execute
+
+    
 ## Continuous Integration
 
 To setup this project in Jenkins, use the following configuration:
@@ -78,6 +83,7 @@ To setup this project in Jenkins, use the following configuration:
     * Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml,build/reports/e2e/*.xml`
 
 [JHipster]: https://jhipster.github.io/
+[Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
 [Bower]: http://bower.io/
 [Gulp]: http://gulpjs.com/

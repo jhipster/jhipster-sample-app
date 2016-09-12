@@ -1,7 +1,6 @@
 package io.github.jhipster.sample.config;
 
 import javax.validation.constraints.NotNull;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -460,9 +459,7 @@ public class JHipsterProperties {
 
             public void setQueueSize(int queueSize) { this.queueSize = queueSize; }
         }
-
     }
-
 
     public static class Ribbon {
 

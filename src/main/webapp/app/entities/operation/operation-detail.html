@@ -1,26 +1,26 @@
 
 <div>
-    <h2><span translate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
+    <h2><span data-translate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span translate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
+        <dt><span data-translate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
         <dd>
             <span>{{vm.operation.date | date:'medium'}}</span>
         </dd>
-        <dt><span translate="jhipsterSampleApplicationApp.operation.description">Description</span></dt>
+        <dt><span data-translate="jhipsterSampleApplicationApp.operation.description">Description</span></dt>
         <dd>
             <span>{{vm.operation.description}}</span>
         </dd>
-        <dt><span translate="jhipsterSampleApplicationApp.operation.amount">Amount</span></dt>
+        <dt><span data-translate="jhipsterSampleApplicationApp.operation.amount">Amount</span></dt>
         <dd>
             <span>{{vm.operation.amount}}</span>
         </dd>
-        <dt><span translate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
+        <dt><span data-translate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
         <dd>
             <a ui-sref="bank-account-detail({id:vm.operation.bankAccount.id})">{{vm.operation.bankAccount.name}}</a>
         </dd>
-        <dt><span translate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
+        <dt><span data-translate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
         <dd>
             <span ng-repeat="label in vm.operation.labels">
                 <a ui-sref="label-detail({id: label.id})">{{label.label}}</a>{{$last ? '' : ', '}}
@@ -31,11 +31,11 @@
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
     </button>
 
     <button type="button" ui-sref="operation-detail.edit({id:vm.operation.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" translate="entity.action.edit"> Edit</span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
     </button>
 </div>

@@ -22,14 +22,18 @@ describe('BankAccount e2e test', function () {
 
     it('should load BankAccounts', function () {
         entityMenu.click();
-        element(by.css('[ui-sref="bank-account"]')).click().then(function() {
-            expect(element.all(by.css('h2')).first().getText()).toMatch(/Bank Accounts/);
+        element.all(by.css('[ui-sref="bank-account"]')).first().click().then(function() {
+            element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.bankAccount.home.title/);
+            });
         });
     });
 
     it('should load create BankAccount dialog', function () {
         element(by.css('[ui-sref="bank-account.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getAttribute("translate")).toMatch(/jhipsterSampleApplicationApp.bankAccount.home.createOrEditLabel/);
+            element(by.css('h4.modal-title')).getAttribute('data-translate').then(function (value) {
+                expect(value).toMatch(/jhipsterSampleApplicationApp.bankAccount.home.createOrEditLabel/);
+            });
             element(by.css('button.close')).click();
         });
     });

@@ -31,7 +31,6 @@ public class DatabaseConfiguration {
     @Inject
     private Environment env;
 
-
     /**
      * Open the TCP port for the H2 database, so it is available remotely.
      *
