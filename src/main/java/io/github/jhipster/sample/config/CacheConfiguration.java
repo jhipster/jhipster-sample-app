@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.PluralAttribute;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -52,22 +53,28 @@ public class CacheConfiguration {
         log.debug("Registering Ehcache Metrics gauges");
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
         for (EntityType<?> entity : entities) {
-
             String name = entity.getName();
             if (name == null || entity.getJavaType() != null) {
                 name = entity.getJavaType().getName();
             }
-            Assert.notNull(name, "entity cannot exist without a identifier");
-
-            net.sf.ehcache.Cache cache = cacheManager.getCache(name);
-            if (cache != null) {
-                cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
-                net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
-                cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
+            Assert.notNull(name, "entity cannot exist without an identifier");
+            reconfigureCache(name, jHipsterProperties);
+            for (PluralAttribute pluralAttribute : entity.getPluralAttributes()) {
+                reconfigureCache(name + "." + pluralAttribute.getName(), jHipsterProperties);
             }
         }
         EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
         ehCacheManager.setCacheManager(cacheManager);
         return ehCacheManager;
     }
+
+    private void reconfigureCache(String name, JHipsterProperties jHipsterProperties) {
+        net.sf.ehcache.Cache cache = cacheManager.getCache(name);
+        if (cache != null) {
+            cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
+            net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
+            cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
+        }
+    }
+
 }

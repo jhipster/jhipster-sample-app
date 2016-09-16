@@ -36,4 +36,30 @@
     <cache name="io.github.jhipster.sample.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    </ehcache>
+    
+    <cache name="io.github.jhipster.sample.domain.BankAccount"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="io.github.jhipster.sample.domain.BankAccount.operations"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="io.github.jhipster.sample.domain.Label"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="io.github.jhipster.sample.domain.Label.operations"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="io.github.jhipster.sample.domain.Operation"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="io.github.jhipster.sample.domain.Operation.labels"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <!-- jhipster-needle-ehcache-add-entry -->
+</ehcache>
