@@ -22,7 +22,7 @@
         vm.alerts = [];
 
         function addErrorAlert (message, key, data) {
-            key = key && key !== null ? key : message;
+            key = key ? key : message;
             vm.alerts.push(
                 AlertService.add(
                     {

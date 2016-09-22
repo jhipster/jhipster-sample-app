@@ -24,9 +24,10 @@
       "en"
     ],
     "serverPort": 8080,
-    "jhipsterVersion": "3.7.1",
+    "jhipsterVersion": "3.8.0",
     "enableSocialSignIn": false,
     "useSass": false,
-    "jhiPrefix": "jhi"
+    "jhiPrefix": "jhi",
+    "messageBroker": false
   }
 }
