@@ -13,8 +13,7 @@
 
 spring:
     profiles:
-        active: dev
-        include: swagger
+        active: dev, swagger
     devtools:
         restart:
             enabled: true
