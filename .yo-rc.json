@@ -28,6 +28,7 @@
     "enableSocialSignIn": false,
     "useSass": false,
     "jhiPrefix": "jhi",
-    "messageBroker": false
+    "messageBroker": false,
+    "serviceDiscoveryType": false
   }
 }

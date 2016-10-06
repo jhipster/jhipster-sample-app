@@ -25,6 +25,7 @@ public class LoggingConfiguration {
     @Value("${server.port}")
     private String serverPort;
 
+
     @Inject
     private JHipsterProperties jHipsterProperties;
 
