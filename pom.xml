@@ -47,7 +47,7 @@
         <logstash-logback-encoder.version>4.7</logstash-logback-encoder.version>
         <run.addResources>false</run.addResources>
         <spring-security.version>4.1.0.RELEASE</spring-security.version>
-        <springfox.version>2.5.0</springfox.version>
+        <springfox.version>2.6.0</springfox.version>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
@@ -941,6 +941,21 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev,swagger</spring.profiles.active>
             </properties>
+        </profile>
+        <profile>
+            <!--
+                Profile for applying IDE-specific configuration.
+                At the moment it only configures MapStruct, which you need when working 
+                with DTOs.
+            -->
+            <id>IDE</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct-processor</artifactId>
+                    <version>${mapstruct.version}</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>
