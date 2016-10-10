@@ -6,7 +6,6 @@ import io.github.jhipster.sample.domain.Operation;
 import io.github.jhipster.sample.repository.OperationRepository;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -93,7 +92,7 @@ public class OperationResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Operation>> getAllOperations(@ApiParam Pageable pageable)
+    public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Operations");
         Page<Operation> page = operationRepository.findAll(pageable);
