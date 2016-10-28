@@ -46,7 +46,7 @@
         <metrics-spring.version>3.1.3</metrics-spring.version>
         <logstash-logback-encoder.version>4.7</logstash-logback-encoder.version>
         <run.addResources>false</run.addResources>
-        <spring-security.version>4.1.0.RELEASE</spring-security.version>
+        <spring-security.version>4.1.3.RELEASE</spring-security.version>
         <springfox.version>2.5.0</springfox.version>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
@@ -164,6 +164,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.mattbertolini</groupId>
             <artifactId>liquibase-slf4j</artifactId>
             <version>${liquibase-slf4j.version}</version>
@@ -214,7 +219,6 @@
             <version>${gatling.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- include netty handler explicitly to overcome dependency mismatch when using cassandra -->
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
@@ -355,16 +359,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-spring-service-connector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-localconfig-connector</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cloud-connectors</artifactId>
         </dependency>
         <!-- security -->
         <dependency>

@@ -124,18 +124,7 @@ public class JHipsterProperties {
     }
 
     public static class Cache {
-
-        private int timeToLiveSeconds = 3600;
-
         private final Ehcache ehcache = new Ehcache();
-
-        public int getTimeToLiveSeconds() {
-            return timeToLiveSeconds;
-        }
-
-        public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-            this.timeToLiveSeconds = timeToLiveSeconds;
-        }
 
         public Ehcache getEhcache() {
             return ehcache;

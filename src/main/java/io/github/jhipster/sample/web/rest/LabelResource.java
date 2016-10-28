@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +38,7 @@ public class LabelResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new label, or with status 400 (Bad Request) if the label has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @RequestMapping(value = "/labels",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/labels")
     @Timed
     public ResponseEntity<Label> createLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to save Label : {}", label);
@@ -63,9 +60,7 @@ public class LabelResource {
      * or with status 500 (Internal Server Error) if the label couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @RequestMapping(value = "/labels",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping("/labels")
     @Timed
     public ResponseEntity<Label> updateLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to update Label : {}", label);
@@ -83,9 +78,7 @@ public class LabelResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of labels in body
      */
-    @RequestMapping(value = "/labels",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/labels")
     @Timed
     public List<Label> getAllLabels() {
         log.debug("REST request to get all Labels");
@@ -99,9 +92,7 @@ public class LabelResource {
      * @param id the id of the label to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the label, or with status 404 (Not Found)
      */
-    @RequestMapping(value = "/labels/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/labels/{id}")
     @Timed
     public ResponseEntity<Label> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
@@ -119,9 +110,7 @@ public class LabelResource {
      * @param id the id of the label to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @RequestMapping(value = "/labels/{id}",
-        method = RequestMethod.DELETE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping("/labels/{id}")
     @Timed
     public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);

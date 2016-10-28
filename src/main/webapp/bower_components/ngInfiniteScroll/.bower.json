@@ -13,7 +13,7 @@
   "dependencies": {
     "angular": ">=1.2.0"
   },
-  "homepage": "https://github.com/sroze/ngInfiniteScroll",
+  "homepage": "https://github.com/ng-infinite-scroll/ng-infinite-scroll-bower",
   "version": "1.3.0",
   "_release": "1.3.0",
   "_resolution": {
@@ -21,7 +21,7 @@
     "tag": "1.3.0",
     "commit": "d44e8e3f3207da5ee15e0027d253f617b9334ac8"
   },
-  "_source": "https://github.com/sroze/ngInfiniteScroll.git",
+  "_source": "https://github.com/ng-infinite-scroll/ng-infinite-scroll-bower.git",
   "_target": "1.3.0",
   "_originalSource": "ngInfiniteScroll"
 }

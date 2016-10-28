@@ -150,8 +150,8 @@ public class UserService {
     public void updateUser(Long id, String login, String firstName, String lastName, String email,
         boolean activated, String langKey, Set<String> authorities) {
 
-        userRepository
-            .findOneById(id)
+        Optional.of(userRepository
+            .findOne(id))
             .ifPresent(u -> {
                 u.setLogin(login);
                 u.setFirstName(firstName);
