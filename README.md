@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 3.9.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.9.1](https://jhipster.github.io/documentation-archive/v3.9.1).
+This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
 
 ## Development
 
@@ -93,13 +93,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To set up a CI environment, consult the [Setting up Continuous Integration][] page.
 
 [JHipster Homepage and latest documentation]: https://jhipster.github.io
-[JHipster 3.9.1 archive]: https://jhipster.github.io/documentation-archive/v3.9.1
+[JHipster 3.10.0 archive]: https://jhipster.github.io/documentation-archive/v3.10.0
 
-[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v3.9.1/development/
-[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v3.9.1/docker-compose
-[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v3.9.1/production/
-[Running tests page]: https://jhipster.github.io/documentation-archive/v3.9.1/running-tests/
-[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v3.9.1/setting-up-ci/
+[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v3.10.0/development/
+[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v3.10.0/docker-compose
+[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v3.10.0/production/
+[Running tests page]: https://jhipster.github.io/documentation-archive/v3.10.0/running-tests/
+[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v3.10.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
