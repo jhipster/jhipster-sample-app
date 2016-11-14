@@ -6,7 +6,6 @@ import java.util.Set;
 
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.service.dto.UserDTO;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
