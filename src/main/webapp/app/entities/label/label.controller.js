@@ -9,7 +9,7 @@
 
     function LabelController ($scope, $state, Label) {
         var vm = this;
-        
+
         vm.labels = [];
 
         loadAll();

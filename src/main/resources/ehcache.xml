@@ -36,7 +36,7 @@
     <cache name="io.github.jhipster.sample.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
     <cache name="io.github.jhipster.sample.domain.BankAccount"
         timeToLiveSeconds="3600">
     </cache>

@@ -9,7 +9,7 @@
 
     function OperationController ($scope, $state, Operation, ParseLinks, AlertService) {
         var vm = this;
-        
+
         vm.operations = [];
         vm.loadPage = loadPage;
         vm.page = 0;
