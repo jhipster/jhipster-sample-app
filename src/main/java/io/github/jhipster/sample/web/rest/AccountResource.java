@@ -2,7 +2,6 @@ package io.github.jhipster.sample.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
-import io.github.jhipster.sample.config.JHipsterProperties;
 import io.github.jhipster.sample.domain.PersistentToken;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.repository.PersistentTokenRepository;
@@ -41,9 +40,6 @@ public class AccountResource {
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
     @Inject
-    private JHipsterProperties jHipsterProperties;
-
-    @Inject
     private UserRepository userRepository;
 
     @Inject
@@ -59,13 +55,12 @@ public class AccountResource {
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
-     * @param request the HTTP request
      * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or e-mail is already in use
      */
     @PostMapping(path = "/register",
                     produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM, HttpServletRequest request) {
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
@@ -80,18 +75,7 @@ public class AccountResource {
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
                             managedUserVM.getEmail().toLowerCase(), managedUserVM.getLangKey());
 
-
-                    String baseUrl = jHipsterProperties.getMail().getBaseUrl();
-                    if (baseUrl.equals("")) {
-                        baseUrl = request.getScheme() + // "http"
-                        "://" +                         // "://"
-                        request.getServerName() +       // "myhost"
-                        ":" +                           // ":"
-                        request.getServerPort() +       // "80"
-                        request.getContextPath();       // "/myContextPath" or "" if deployed in root context
-                    }
-
-                    mailService.sendActivationEmail(user, baseUrl);
+                    mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 })
         );
@@ -224,22 +208,15 @@ public class AccountResource {
      * POST   /account/reset_password/init : Send an e-mail to reset the password of the user
      *
      * @param mail the mail of the user
-     * @param request the HTTP request
      * @return the ResponseEntity with status 200 (OK) if the e-mail was sent, or status 400 (Bad Request) if the e-mail address is not registered
      */
     @PostMapping(path = "/account/reset_password/init",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public ResponseEntity<?> requestPasswordReset(@RequestBody String mail, HttpServletRequest request) {
+    public ResponseEntity<?> requestPasswordReset(@RequestBody String mail) {
         return userService.requestPasswordReset(mail)
             .map(user -> {
-                String baseUrl = request.getScheme() +
-                    "://" +
-                    request.getServerName() +
-                    ":" +
-                    request.getServerPort() +
-                    request.getContextPath();
-                mailService.sendPasswordResetMail(user, baseUrl);
+                mailService.sendPasswordResetMail(user);
                 return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
             }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
     }

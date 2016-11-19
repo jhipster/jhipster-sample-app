@@ -8,7 +8,7 @@
     AuditsService.$inject = ['$resource'];
 
     function AuditsService ($resource) {
-        var service = $resource('management/jhipster/audits/:id', {}, {
+        var service = $resource('management/audits/:id', {}, {
             'get': {
                 method: 'GET',
                 isArray: true

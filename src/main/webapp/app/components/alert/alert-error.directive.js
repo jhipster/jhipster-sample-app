@@ -48,8 +48,11 @@
                 break;
 
             case 400:
-                var errorHeader = httpResponse.headers('X-jhipsterSampleApplicationApp-error');
-                var entityKey = httpResponse.headers('X-jhipsterSampleApplicationApp-params');
+                var headers = Object.keys(httpResponse.headers()).filter(function (header) {
+                    return header.endsWith('app-error') || header.endsWith('app-params')
+                }).sort();
+                var errorHeader = httpResponse.headers(headers[0]);
+                var entityKey = httpResponse.headers(headers[1]);
                 if (errorHeader) {
                     var entityName = $translate.instant('global.menu.entities.' + entityKey);
                     addErrorAlert(errorHeader, errorHeader, {entityName: entityName});
