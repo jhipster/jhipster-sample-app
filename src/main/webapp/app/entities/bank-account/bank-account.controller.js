@@ -17,6 +17,7 @@
         function loadAll() {
             BankAccount.query(function(result) {
                 vm.bankAccounts = result;
+                vm.searchQuery = null;
             });
         }
     }

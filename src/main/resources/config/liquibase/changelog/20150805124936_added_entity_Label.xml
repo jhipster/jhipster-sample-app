@@ -25,7 +25,7 @@
                 <constraints nullable="false" />
             </column>
             
-            <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
     </changeSet>

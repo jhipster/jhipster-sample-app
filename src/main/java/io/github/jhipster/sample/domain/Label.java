@@ -68,7 +68,7 @@ public class Label implements Serializable {
             return false;
         }
         Label label = (Label) o;
-        if(label.id == null || id == null) {
+        if (label.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, label.id);

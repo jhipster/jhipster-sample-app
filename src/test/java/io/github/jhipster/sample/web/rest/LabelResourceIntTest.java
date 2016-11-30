@@ -8,12 +8,11 @@ import io.github.jhipster.sample.repository.LabelRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +24,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -91,9 +91,9 @@ public class LabelResourceIntTest {
         // Create the Label
 
         restLabelMockMvc.perform(post("/api/labels")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(label)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(label)))
+            .andExpect(status().isCreated());
 
         // Validate the Label in the database
         List<Label> labels = labelRepository.findAll();
@@ -112,9 +112,9 @@ public class LabelResourceIntTest {
         // Create the Label, which fails.
 
         restLabelMockMvc.perform(post("/api/labels")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(label)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(label)))
+            .andExpect(status().isBadRequest());
 
         List<Label> labels = labelRepository.findAll();
         assertThat(labels).hasSize(databaseSizeBeforeTest);
@@ -128,10 +128,10 @@ public class LabelResourceIntTest {
 
         // Get all the labels
         restLabelMockMvc.perform(get("/api/labels?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
-                .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
+            .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class LabelResourceIntTest {
     public void getNonExistingLabel() throws Exception {
         // Get the label
         restLabelMockMvc.perform(get("/api/labels/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -168,9 +168,9 @@ public class LabelResourceIntTest {
         updatedLabel.setLabel(UPDATED_LABEL);
 
         restLabelMockMvc.perform(put("/api/labels")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedLabel)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedLabel)))
+            .andExpect(status().isOk());
 
         // Validate the Label in the database
         List<Label> labels = labelRepository.findAll();
@@ -188,8 +188,8 @@ public class LabelResourceIntTest {
 
         // Get the label
         restLabelMockMvc.perform(delete("/api/labels/{id}", label.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate the database is empty
         List<Label> labels = labelRepository.findAll();

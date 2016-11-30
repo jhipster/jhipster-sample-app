@@ -5,13 +5,14 @@
         .module('jhipsterSampleApplicationApp')
         .controller('OperationController', OperationController);
 
-    OperationController.$inject = ['$scope', '$state', 'Operation', 'ParseLinks', 'AlertService'];
+    OperationController.$inject = ['$scope', '$state', 'Operation', 'ParseLinks', 'AlertService', 'paginationConstants'];
 
-    function OperationController ($scope, $state, Operation, ParseLinks, AlertService) {
+    function OperationController ($scope, $state, Operation, ParseLinks, AlertService, paginationConstants) {
         var vm = this;
 
         vm.operations = [];
         vm.loadPage = loadPage;
+        vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.page = 0;
         vm.links = {
             last: 0
@@ -25,7 +26,7 @@
         function loadAll () {
             Operation.query({
                 page: vm.page,
-                size: 20,
+                size: vm.itemsPerPage,
                 sort: sort()
             }, onSuccess, onError);
             function sort() {

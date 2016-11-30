@@ -17,6 +17,7 @@
         function loadAll() {
             Label.query(function(result) {
                 vm.labels = result;
+                vm.searchQuery = null;
             });
         }
     }

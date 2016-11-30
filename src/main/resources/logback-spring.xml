@@ -33,7 +33,7 @@
     <logger name="com.sun" level="WARN"/>
     <logger name="com.zaxxer" level="WARN"/>
     <logger name="io.undertow" level="WARN"/>
-    <logger name="net.sf.ehcache" level="WARN"/>
+    <logger name="org.ehcache" level="WARN"/>
     <logger name="org.apache" level="WARN"/>
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
     <logger name="org.bson" level="WARN"/>
@@ -49,6 +49,7 @@
     <logger name="springfox" level="WARN"/>
     <logger name="sun.rmi" level="WARN"/>
     <logger name="liquibase" level="WARN"/>
+    <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="sun.rmi.transport" level="WARN"/>
 
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">

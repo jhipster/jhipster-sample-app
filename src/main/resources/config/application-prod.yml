@@ -37,7 +37,12 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
+            hibernate.javax.cache.uri: ${spring.cache.jcache.config}
+            hibernate.cache.region.factory_class: io.github.jhipster.sample.config.jcache.SpringCacheRegionFactory
+    cache:
+        jcache:
+            config: ehcache.xml
     mail:
         host: localhost
         port: 25
@@ -81,6 +86,9 @@ jhipster:
             host: localhost
             port: 2003
             prefix: jhipsterSampleApplication
+        prometheus:
+            enabled: false
+            endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             reportFrequency: 60 # in seconds

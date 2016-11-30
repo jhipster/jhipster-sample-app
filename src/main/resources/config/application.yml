@@ -31,7 +31,8 @@ spring:
         hibernate:
             ddl-auto: none
             naming:
-                strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     messages:
         basename: i18n/messages
     mvc:

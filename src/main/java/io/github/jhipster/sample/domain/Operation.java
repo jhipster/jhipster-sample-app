@@ -104,7 +104,7 @@ public class Operation implements Serializable {
             return false;
         }
         Operation operation = (Operation) o;
-        if(operation.id == null || id == null) {
+        if (operation.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, operation.id);
