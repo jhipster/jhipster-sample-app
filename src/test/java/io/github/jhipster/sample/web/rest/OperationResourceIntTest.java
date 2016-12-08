@@ -110,12 +110,32 @@ public class OperationResourceIntTest {
             .andExpect(status().isCreated());
 
         // Validate the Operation in the database
-        List<Operation> operations = operationRepository.findAll();
-        assertThat(operations).hasSize(databaseSizeBeforeCreate + 1);
-        Operation testOperation = operations.get(operations.size() - 1);
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeCreate + 1);
+        Operation testOperation = operationList.get(operationList.size() - 1);
         assertThat(testOperation.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testOperation.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testOperation.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void createOperationWithExistingId() throws Exception {
+        int databaseSizeBeforeCreate = operationRepository.findAll().size();
+
+        // Create the Operation with an existing ID
+        Operation existingOperation = new Operation();
+        existingOperation.setId(1L);
+
+        // An entity with an existing ID cannot be created, so this API call must fail
+        restOperationMockMvc.perform(post("/api/operations")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(existingOperation)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Alice in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
@@ -132,8 +152,8 @@ public class OperationResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
-        List<Operation> operations = operationRepository.findAll();
-        assertThat(operations).hasSize(databaseSizeBeforeTest);
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -150,8 +170,8 @@ public class OperationResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
-        List<Operation> operations = operationRepository.findAll();
-        assertThat(operations).hasSize(databaseSizeBeforeTest);
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -160,7 +180,7 @@ public class OperationResourceIntTest {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
 
-        // Get all the operations
+        // Get all the operationList
         restOperationMockMvc.perform(get("/api/operations?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -213,12 +233,30 @@ public class OperationResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the Operation in the database
-        List<Operation> operations = operationRepository.findAll();
-        assertThat(operations).hasSize(databaseSizeBeforeUpdate);
-        Operation testOperation = operations.get(operations.size() - 1);
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
+        Operation testOperation = operationList.get(operationList.size() - 1);
         assertThat(testOperation.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testOperation.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testOperation.getAmount()).isEqualTo(UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void updateNonExistingOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+
+        // Create the Operation
+
+        // If the entity doesn't have an ID, it will be created instead of just being updated
+        restOperationMockMvc.perform(put("/api/operations")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(operation)))
+            .andExpect(status().isCreated());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
@@ -234,7 +272,7 @@ public class OperationResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Operation> operations = operationRepository.findAll();
-        assertThat(operations).hasSize(databaseSizeBeforeDelete - 1);
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

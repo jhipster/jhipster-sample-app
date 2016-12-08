@@ -101,11 +101,31 @@ public class BankAccountResourceIntTest {
             .andExpect(status().isCreated());
 
         // Validate the BankAccount in the database
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-        assertThat(bankAccounts).hasSize(databaseSizeBeforeCreate + 1);
-        BankAccount testBankAccount = bankAccounts.get(bankAccounts.size() - 1);
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeCreate + 1);
+        BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testBankAccount.getBalance()).isEqualTo(DEFAULT_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    public void createBankAccountWithExistingId() throws Exception {
+        int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
+
+        // Create the BankAccount with an existing ID
+        BankAccount existingBankAccount = new BankAccount();
+        existingBankAccount.setId(1L);
+
+        // An entity with an existing ID cannot be created, so this API call must fail
+        restBankAccountMockMvc.perform(post("/api/bank-accounts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(existingBankAccount)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Alice in the database
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
@@ -122,8 +142,8 @@ public class BankAccountResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
             .andExpect(status().isBadRequest());
 
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-        assertThat(bankAccounts).hasSize(databaseSizeBeforeTest);
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -140,8 +160,8 @@ public class BankAccountResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
             .andExpect(status().isBadRequest());
 
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-        assertThat(bankAccounts).hasSize(databaseSizeBeforeTest);
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -150,7 +170,7 @@ public class BankAccountResourceIntTest {
         // Initialize the database
         bankAccountRepository.saveAndFlush(bankAccount);
 
-        // Get all the bankAccounts
+        // Get all the bankAccountList
         restBankAccountMockMvc.perform(get("/api/bank-accounts?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -200,11 +220,29 @@ public class BankAccountResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the BankAccount in the database
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-        assertThat(bankAccounts).hasSize(databaseSizeBeforeUpdate);
-        BankAccount testBankAccount = bankAccounts.get(bankAccounts.size() - 1);
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
+        BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testBankAccount.getBalance()).isEqualTo(UPDATED_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    public void updateNonExistingBankAccount() throws Exception {
+        int databaseSizeBeforeUpdate = bankAccountRepository.findAll().size();
+
+        // Create the BankAccount
+
+        // If the entity doesn't have an ID, it will be created instead of just being updated
+        restBankAccountMockMvc.perform(put("/api/bank-accounts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
+            .andExpect(status().isCreated());
+
+        // Validate the BankAccount in the database
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
@@ -220,7 +258,7 @@ public class BankAccountResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-        assertThat(bankAccounts).hasSize(databaseSizeBeforeDelete - 1);
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }
