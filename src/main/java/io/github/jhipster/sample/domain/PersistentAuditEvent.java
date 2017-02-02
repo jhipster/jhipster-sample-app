@@ -1,5 +1,7 @@
 package io.github.jhipster.sample.domain;
 
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,10 +14,10 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "jhi_persistent_audit_event")
-public class PersistentAuditEvent {
+public class PersistentAuditEvent implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long id;
 

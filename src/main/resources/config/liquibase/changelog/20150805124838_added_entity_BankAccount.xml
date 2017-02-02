@@ -27,11 +27,11 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="balance" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>

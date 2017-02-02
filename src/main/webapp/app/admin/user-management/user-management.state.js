@@ -47,29 +47,7 @@
                 }]
 
             }        })
-        .state('user-management-detail', {
-            parent: 'admin',
-            url: '/user/:login',
-            data: {
-                authorities: ['ROLE_ADMIN'],
-                pageTitle: 'user-management.detail.title'
-            },
-            views: {
-                'content@': {
-                    templateUrl: 'app/admin/user-management/user-management-detail.html',
-                    controller: 'UserManagementDetailController',
-                    controllerAs: 'vm'
-                }
-            },
-            resolve: {
-                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('user-management');
-                    return $translate.refresh();
-                }]
-            }
-        })
         .state('user-management.new', {
-            parent: 'user-management',
             url: '/new',
             data: {
                 authorities: ['ROLE_ADMIN']
@@ -99,7 +77,6 @@
             }]
         })
         .state('user-management.edit', {
-            parent: 'user-management',
             url: '/{login}/edit',
             data: {
                 authorities: ['ROLE_ADMIN']
@@ -123,8 +100,28 @@
                 });
             }]
         })
-        .state('user-management.delete', {
+        .state('user-management-detail', {
             parent: 'user-management',
+            url: '/user/{login}',
+            data: {
+                authorities: ['ROLE_ADMIN'],
+                pageTitle: 'user-management.detail.title'
+            },
+            views: {
+                'content@': {
+                    templateUrl: 'app/admin/user-management/user-management-detail.html',
+                    controller: 'UserManagementDetailController',
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    $translatePartialLoader.addPart('user-management');
+                    return $translate.refresh();
+                }]
+            }
+        })
+        .state('user-management.delete', {
             url: '/{login}/delete',
             data: {
                 authorities: ['ROLE_ADMIN']

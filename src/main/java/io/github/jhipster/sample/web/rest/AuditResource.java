@@ -2,6 +2,8 @@ package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.service.AuditEventService;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
+
+import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
@@ -11,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,9 +24,8 @@ import java.util.List;
 @RequestMapping("/management/audits")
 public class AuditResource {
 
-    private AuditEventService auditEventService;
+    private final AuditEventService auditEventService;
 
-    @Inject
     public AuditResource(AuditEventService auditEventService) {
         this.auditEventService = auditEventService;
     }
@@ -73,8 +73,6 @@ public class AuditResource {
      */
     @GetMapping("/{id:.+}")
     public ResponseEntity<AuditEvent> get(@PathVariable Long id) {
-        return auditEventService.find(id)
-                .map((entity) -> new ResponseEntity<>(entity, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ResponseUtil.wrapOrNotFound(auditEventService.find(id));
     }
 }

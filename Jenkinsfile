@@ -1,48 +1,55 @@
+#!/usr/bin/env groovy
+
 node {
     stage('checkout') {
         checkout scm
     }
 
-    // uncomment these 2 lines and edit the name 'node-4.6.0' according to what you choose in configuration
-    // def nodeHome = tool name: 'node-4.6.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    // env.PATH = "${nodeHome}/bin:${env.PATH}"
-
-    stage('check tools') {
-        sh "node -v"
-        sh "npm -v"
-        sh "bower -v"
-        sh "gulp -v"
-    }
-
-    stage('npm install') {
-        sh "npm install"
+    stage('check java') {
+        sh "java -version"
     }
 
     stage('clean') {
         sh "./mvnw clean"
     }
 
+    stage('install tools') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.9.4 -DyarnVersion=v0.19.1"
+    }
+
+    stage('yarn install') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
+    }
     stage('backend tests') {
         try {
             sh "./mvnw test"
         } catch(err) {
             throw err
         } finally {
-            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+            junit '**/target/surefire-reports/TEST-*.xml'
         }
     }
 
     stage('frontend tests') {
         try {
-            sh "gulp test"
+            sh "./mvnw com.github.eirslett:frontend-maven-plugin:gulp -Dfrontend.gulp.arguments=test"
         } catch(err) {
             throw err
         } finally {
-            step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
+            junit '**/target/test-results/karma/TESTS-*.xml'
         }
     }
 
     stage('packaging') {
         sh "./mvnw package -Pprod -DskipTests"
+        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
     }
+
+    // Uncomment the following block to add Sonar analysis.
+    /*stage('quality analysis') {
+        withSonarQubeEnv('Sonar Server') {
+            sh "./mvnw sonar:sonar"
+        }
+    }*/
+
 }

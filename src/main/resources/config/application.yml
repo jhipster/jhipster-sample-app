@@ -3,6 +3,9 @@
 #
 # This configuration will be overriden by the Spring profile you use,
 # for example application-dev.yml if you use the "dev" profile.
+#
+# More information on profiles: https://jhipster.github.io/profiles/
+# More information on configuration properties: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -52,14 +55,17 @@ server:
 
 # ===================================================================
 # JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 jhipster:
     async:
-        corePoolSize: 2
-        maxPoolSize: 50
-        queueCapacity: 10000
-    #cors: #By default CORS are not enabled. Uncomment to enable.
+        core-pool-size: 2
+        max-pool-size: 50
+        queue-capacity: 10000
+    # By default CORS is disabled. Uncomment to enable.
+    #cors:
         #allowed-origins: "*"
         #allowed-methods: GET, PUT, POST, DELETE, OPTIONS
         #allowed-headers: "*"
@@ -69,15 +75,26 @@ jhipster:
     mail:
         from: jhipsterSampleApplication@localhost
     swagger:
+        default-include-pattern: /api/.*
         title: jhipsterSampleApplication API
         description: jhipsterSampleApplication API documentation
         version: 0.0.1
-        termsOfServiceUrl:
-        contactName:
-        contactUrl:
-        contactEmail:
+        terms-of-service-url:
+        contact-name:
+        contact-url:
+        contact-email:
         license:
-        licenseUrl:
+        license-url:
     ribbon:
-        # comma separated list of profiles to show a ribbon on the GUI
-        displayOnActiveProfiles: dev
+        display-on-active-profiles: dev
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+application:

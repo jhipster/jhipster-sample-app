@@ -3,7 +3,7 @@
     <h2><span data-translate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
+    <dl class="row jh-entity-details">
         <dt><span data-translate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
         <dd>
             <span>{{vm.operation.date | date:'medium'}}</span>
@@ -36,6 +36,6 @@
 
     <button type="button" ui-sref="operation-detail.edit({id:vm.operation.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
     </button>
 </div>

@@ -32,7 +32,7 @@
             }
         })
         .state('label-detail', {
-            parent: 'entity',
+            parent: 'label',
             url: '/label/{id}',
             data: {
                 authorities: ['ROLE_USER'],

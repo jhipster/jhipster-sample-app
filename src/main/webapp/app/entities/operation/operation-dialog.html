@@ -17,7 +17,7 @@
             <label class="control-label" data-translate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
                 <div class="input-group">
                     <input id="field_date" type="text" class="form-control" name="date" datetime-picker="{{dateformat}}" ng-model="vm.operation.date" is-open="vm.datePickerOpenStatus.date"
-                    required  />
+                    required/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('date')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
@@ -37,13 +37,13 @@
             <label class="control-label" data-translate="jhipsterSampleApplicationApp.operation.description" for="field_description">Description</label>
             <input type="text" class="form-control" name="description" id="field_description"
                     ng-model="vm.operation.description"
-                     />
+                    />
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
             <input type="number" class="form-control" name="amount" id="field_amount"
                     ng-model="vm.operation.amount"
-                    required />
+                    required/>
             <div ng-show="editForm.amount.$invalid">
                 <p class="help-block"
                     ng-show="editForm.amount.$error.required" data-translate="entity.validation.required">

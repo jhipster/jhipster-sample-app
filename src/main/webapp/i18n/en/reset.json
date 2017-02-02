@@ -9,9 +9,7 @@
                 "info": "Enter the e-mail address you used to register",
                 "success": "Check your e-mails for details on how to reset your password.",
                 "notfound": "<strong>E-Mail address isn't registered!</strong> Please check and try again"
-
             }
-
         },
         "finish" : {
             "title": "Reset password",
@@ -26,5 +24,4 @@
             }
         }
     }
-
 }

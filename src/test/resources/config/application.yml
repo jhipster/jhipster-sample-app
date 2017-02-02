@@ -2,6 +2,9 @@
 # Spring Boot configuration.
 #
 # This configuration is used for unit/integration tests.
+#
+# More information on profiles: https://jhipster.github.io/profiles/
+# More information on configuration properties: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -23,7 +26,7 @@ spring:
         username:
         password:
     jpa:
-        database-platform: io.github.jhipster.sample.domain.util.FixedH2Dialect
+        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
         database: H2
         open-in-view: false
         show-sql: true
@@ -33,6 +36,7 @@ spring:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         properties:
+            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
@@ -58,26 +62,29 @@ server:
 
 # ===================================================================
 # JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 jhipster:
     async:
-        corePoolSize: 2
-        maxPoolSize: 50
-        queueCapacity: 10000
+        core-pool-size: 2
+        max-pool-size: 50
+        queue-capacity: 10000
     security:
-        rememberMe:
+        remember-me:
             # security key (this key should be unique for your application, and kept secret)
             key: 5c37379956bd1242f5636c8cb322c2966ad81277
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-    swagger:
-        title: jhipsterSampleApplication API
-        description: jhipsterSampleApplication API documentation
-        version: 0.0.1
-        termsOfServiceUrl:
-        contactName:
-        contactUrl:
-        contactEmail:
-        license:
-        licenseUrl:
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+application:

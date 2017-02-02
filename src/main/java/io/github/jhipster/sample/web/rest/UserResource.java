@@ -7,10 +7,13 @@ import io.github.jhipster.sample.repository.UserRepository;
 import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.service.MailService;
 import io.github.jhipster.sample.service.UserService;
+import io.github.jhipster.sample.service.dto.UserDTO;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,11 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing users.
@@ -57,14 +58,21 @@ public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-    @Inject
-    private UserRepository userRepository;
+    private static final String ENTITY_NAME = "userManagement";
 
-    @Inject
-    private MailService mailService;
+    private final UserRepository userRepository;
 
-    @Inject
-    private UserService userService;
+    private final MailService mailService;
+
+    private final UserService userService;
+
+    public UserResource(UserRepository userRepository, MailService mailService,
+            UserService userService) {
+
+        this.userRepository = userRepository;
+        this.mailService = mailService;
+        this.userService = userService;
+    }
 
     /**
      * POST  /users  : Creates a new user.
@@ -81,17 +89,17 @@ public class UserResource {
     @PostMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> createUser(@RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
+    public ResponseEntity createUser(@RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
         log.debug("REST request to save User : {}", managedUserVM);
 
         //Lowercase the user login before comparing with database
         if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert("userManagement", "userexists", "Login already in use"))
+                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
                 .body(null);
         } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
             return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert("userManagement", "emailexists", "Email already in use"))
+                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
                 .body(null);
         } else {
             User newUser = userService.createUser(managedUserVM);
@@ -113,23 +121,20 @@ public class UserResource {
     @PutMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<ManagedUserVM> updateUser(@RequestBody ManagedUserVM managedUserVM) {
+    public ResponseEntity<UserDTO> updateUser(@RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST request to update User : {}", managedUserVM);
         Optional<User> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "emailexists", "E-mail already in use")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "E-mail already in use")).body(null);
         }
         existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "userexists", "Login already in use")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use")).body(null);
         }
-        userService.updateUser(managedUserVM.getId(), managedUserVM.getLogin(), managedUserVM.getFirstName(),
-            managedUserVM.getLastName(), managedUserVM.getEmail(), managedUserVM.isActivated(),
-            managedUserVM.getLangKey(), managedUserVM.getAuthorities());
+        Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
 
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()))
-            .body(new ManagedUserVM(userService.getUserWithAuthorities(managedUserVM.getId())));
+        return ResponseUtil.wrapOrNotFound(updatedUser,
+            HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));
     }
 
     /**
@@ -141,14 +146,11 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<ManagedUserVM>> getAllUsers(@ApiParam Pageable pageable)
+    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable)
         throws URISyntaxException {
-        Page<User> page = userRepository.findAllWithAuthorities(pageable);
-        List<ManagedUserVM> managedUserVMs = page.getContent().stream()
-            .map(ManagedUserVM::new)
-            .collect(Collectors.toList());
+        final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(managedUserVMs, headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -159,12 +161,11 @@ public class UserResource {
      */
     @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
     @Timed
-    public ResponseEntity<ManagedUserVM> getUser(@PathVariable String login) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
-        return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserVM::new)
-                .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ResponseUtil.wrapOrNotFound(
+            userService.getUserWithAuthoritiesByLogin(login)
+                .map(UserDTO::new));
     }
 
     /**

@@ -3,22 +3,22 @@ package io.github.jhipster.sample.security;
 import io.github.jhipster.sample.domain.PersistentToken;
 import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
-import io.github.jhipster.sample.config.JHipsterProperties;
+import io.github.jhipster.sample.service.util.RandomUtil;
+
+import io.github.jhipster.config.JHipsterProperties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.authentication.rememberme.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -46,34 +46,27 @@ import java.util.Arrays;
  * couldn't be cleanly extended.
  */
 @Service
-public class CustomPersistentRememberMeServices extends
+public class PersistentTokenRememberMeServices extends
     AbstractRememberMeServices {
 
-    private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
+    private final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
 
     private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
 
-    private static final int DEFAULT_SERIES_LENGTH = 16;
+    private final PersistentTokenRepository persistentTokenRepository;
 
-    private static final int DEFAULT_TOKEN_LENGTH = 16;
+    private final UserRepository userRepository;
 
-    private SecureRandom random;
-
-    @Inject
-    private PersistentTokenRepository persistentTokenRepository;
-
-    @Inject
-    private UserRepository userRepository;
-
-    @Inject
-    public CustomPersistentRememberMeServices(JHipsterProperties jHipsterProperties, org.springframework.security.core.userdetails
-        .UserDetailsService userDetailsService) {
+    public PersistentTokenRememberMeServices(JHipsterProperties jHipsterProperties,
+            org.springframework.security.core.userdetails.UserDetailsService userDetailsService,
+            PersistentTokenRepository persistentTokenRepository, UserRepository userRepository) {
 
         super(jHipsterProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
-        random = new SecureRandom();
+        this.persistentTokenRepository = persistentTokenRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -86,7 +79,7 @@ public class CustomPersistentRememberMeServices extends
         // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
         log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
         token.setTokenDate(LocalDate.now());
-        token.setTokenValue(generateTokenData());
+        token.setTokenValue(RandomUtil.generateTokenData());
         token.setIpAddress(request.getRemoteAddr());
         token.setUserAgent(request.getHeader("User-Agent"));
         try {
@@ -108,9 +101,9 @@ public class CustomPersistentRememberMeServices extends
         log.debug("Creating new persistent login for user {}", login);
         PersistentToken token = userRepository.findOneByLogin(login).map(u -> {
             PersistentToken t = new PersistentToken();
-            t.setSeries(generateSeriesData());
+            t.setSeries(RandomUtil.generateSeriesData());
             t.setUser(u);
-            t.setTokenValue(generateTokenData());
+            t.setTokenValue(RandomUtil.generateTokenData());
             t.setTokenDate(LocalDate.now());
             t.setIpAddress(request.getRemoteAddr());
             t.setUserAgent(request.getHeader("User-Agent"));
@@ -179,18 +172,6 @@ public class CustomPersistentRememberMeServices extends
             throw new RememberMeAuthenticationException("Remember-me login has expired");
         }
         return token;
-    }
-
-    private String generateSeriesData() {
-        byte[] newSeries = new byte[DEFAULT_SERIES_LENGTH];
-        random.nextBytes(newSeries);
-        return new String(Base64.encode(newSeries));
-    }
-
-    private String generateTokenData() {
-        byte[] newToken = new byte[DEFAULT_TOKEN_LENGTH];
-        random.nextBytes(newToken);
-        return new String(Base64.encode(newToken));
     }
 
     private void addCookie(PersistentToken token, HttpServletRequest request, HttpServletResponse response) {

@@ -2,6 +2,9 @@
 # Spring Boot configuration for the "dev" profile.
 #
 # This configuration overrides the application.yml file.
+#
+# More information on profiles: https://jhipster.github.io/profiles/
+# More information on configuration properties: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -9,7 +12,6 @@
 # Full reference is available at:
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
-
 
 spring:
     profiles:
@@ -25,23 +27,23 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1
-        name:
         username: jhipsterSampleApplication
         password:
     h2:
         console:
             enabled: false
     jpa:
-        database-platform: io.github.jhipster.sample.domain.util.FixedH2Dialect
+        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
         database: H2
         show-sql: true
         properties:
+            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
             hibernate.javax.cache.uri: ${spring.cache.jcache.config}
-            hibernate.cache.region.factory_class: io.github.jhipster.sample.config.jcache.SpringCacheRegionFactory
+            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.SpringCacheRegionFactory
     cache:
         jcache:
             config: ehcache.xml
@@ -63,27 +65,29 @@ server:
 
 # ===================================================================
 # JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
 jhipster:
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        ehcache:
-            maxBytesLocalHeap: 16M
+    cache: # Cache configuration
+        ehcache: # Hibernate 2nd level cache
+            max-bytes-local-heap: 16M
     security:
-        rememberMe:
+        remember-me:
             # security key (this key should be unique for your application, and kept secret)
             key: 5c37379956bd1242f5636c8cb322c2966ad81277
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: jhipsterSampleApplication@localhost
-        baseUrl: http://127.0.0.1:8080
+        base-url: http://127.0.0.1:8080
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        graphite:
+        graphite: # Use the "graphite" Maven profile to have the Graphite dependencies
             enabled: false
             host: localhost
             port: 2003
             prefix: jhipsterSampleApplication
-        prometheus:
+        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
             enabled: false
             endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
@@ -94,4 +98,15 @@ jhipster:
             enabled: false
             host: localhost
             port: 5000
-            queueSize: 512
+            queue-size: 512
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+application:

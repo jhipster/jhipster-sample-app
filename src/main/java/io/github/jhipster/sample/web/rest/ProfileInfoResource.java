@@ -1,11 +1,12 @@
 package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.config.DefaultProfileUtil;
-import io.github.jhipster.sample.config.JHipsterProperties;
+
+import io.github.jhipster.config.JHipsterProperties;
+
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,43 +18,52 @@ import java.util.List;
 @RequestMapping("/api")
 public class ProfileInfoResource {
 
-    @Inject
-    private Environment env;
+    private final Environment env;
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
+    private final JHipsterProperties jHipsterProperties;
+
+    public ProfileInfoResource(Environment env, JHipsterProperties jHipsterProperties) {
+        this.env = env;
+        this.jHipsterProperties = jHipsterProperties;
+    }
 
     @GetMapping("/profile-info")
-    public ProfileInfoResponse getActiveProfiles() {
+    public ProfileInfoVM getActiveProfiles() {
         String[] activeProfiles = DefaultProfileUtil.getActiveProfiles(env);
-        return new ProfileInfoResponse(activeProfiles, getRibbonEnv(activeProfiles));
+        return new ProfileInfoVM(activeProfiles, getRibbonEnv(activeProfiles));
     }
 
     private String getRibbonEnv(String[] activeProfiles) {
         String[] displayOnActiveProfiles = jHipsterProperties.getRibbon().getDisplayOnActiveProfiles();
-
         if (displayOnActiveProfiles == null) {
             return null;
         }
-
         List<String> ribbonProfiles = new ArrayList<>(Arrays.asList(displayOnActiveProfiles));
         List<String> springBootProfiles = Arrays.asList(activeProfiles);
         ribbonProfiles.retainAll(springBootProfiles);
-
-        if (ribbonProfiles.size() > 0) {
+        if (!ribbonProfiles.isEmpty()) {
             return ribbonProfiles.get(0);
         }
         return null;
     }
 
-    class ProfileInfoResponse {
+    class ProfileInfoVM {
 
-        public String[] activeProfiles;
-        public String ribbonEnv;
+        private String[] activeProfiles;
 
-        ProfileInfoResponse(String[] activeProfiles, String ribbonEnv) {
+        private String ribbonEnv;
+
+        ProfileInfoVM(String[] activeProfiles, String ribbonEnv) {
             this.activeProfiles = activeProfiles;
             this.ribbonEnv = ribbonEnv;
+        }
+
+        public String[] getActiveProfiles() {
+            return activeProfiles;
+        }
+
+        public String getRibbonEnv() {
+            return ribbonEnv;
         }
     }
 }

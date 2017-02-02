@@ -26,43 +26,49 @@ describe('administration', function () {
 
     it('should load user management', function () {
         element(by.css('[ui-sref="user-management"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/userManagement.home.title/);
+        const expect1 = /userManagement.home.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 
     it('should load metrics', function () {
         element(by.css('[ui-sref="jhi-metrics"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/metrics.title/);
+        const expect1 = /metrics.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 
     it('should load health', function () {
         element(by.css('[ui-sref="jhi-health"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/health.title/);
+        const expect1 = /health.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 
     it('should load configuration', function () {
         element(by.css('[ui-sref="jhi-configuration"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/configuration.title/);
+        const expect1 = /configuration.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 
     it('should load audits', function () {
         element(by.css('[ui-sref="audits"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/audits.title/);
+        const expect1 = /audits.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 
     it('should load logs', function () {
         element(by.css('[ui-sref="logs"]')).click();
-        element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
-            expect(value).toMatch(/logs.title/);
+        const expect1 = /logs.title/;
+        element.all(by.css('h2')).first().getAttribute('data-translate').then((value) => {
+            expect(value).toMatch(expect1);
         });
     });
 

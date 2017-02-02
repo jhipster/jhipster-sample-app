@@ -1,6 +1,7 @@
 package io.github.jhipster.sample.config;
 
-import io.github.jhipster.sample.async.ExceptionHandlingAsyncTaskExecutor;
+import io.github.jhipster.async.ExceptionHandlingAsyncTaskExecutor;
+import io.github.jhipster.config.JHipsterProperties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-import javax.inject.Inject;
-
 @Configuration
 @EnableAsync
 @EnableScheduling
@@ -22,8 +21,11 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
+    private final JHipsterProperties jHipsterProperties;
+
+    public AsyncConfiguration(JHipsterProperties jHipsterProperties) {
+        this.jHipsterProperties = jHipsterProperties;
+    }
 
     @Override
     @Bean(name = "taskExecutor")

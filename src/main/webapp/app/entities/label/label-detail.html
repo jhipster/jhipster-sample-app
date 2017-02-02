@@ -3,7 +3,7 @@
     <h2><span data-translate="jhipsterSampleApplicationApp.label.detail.title">Label</span> {{vm.label.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
+    <dl class="row jh-entity-details">
         <dt><span data-translate="jhipsterSampleApplicationApp.label.label">Label</span></dt>
         <dd>
             <span>{{vm.label.label}}</span>
@@ -18,6 +18,6 @@
 
     <button type="button" ui-sref="label-detail.edit({id:vm.label.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
     </button>
 </div>

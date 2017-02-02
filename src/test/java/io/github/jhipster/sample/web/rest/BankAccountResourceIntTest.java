@@ -9,17 +9,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
@@ -44,16 +43,16 @@ public class BankAccountResourceIntTest {
     private static final BigDecimal DEFAULT_BALANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_BALANCE = new BigDecimal(2);
 
-    @Inject
+    @Autowired
     private BankAccountRepository bankAccountRepository;
 
-    @Inject
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    @Inject
+    @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-    @Inject
+    @Autowired
     private EntityManager em;
 
     private MockMvc restBankAccountMockMvc;
@@ -63,8 +62,7 @@ public class BankAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        BankAccountResource bankAccountResource = new BankAccountResource();
-        ReflectionTestUtils.setField(bankAccountResource, "bankAccountRepository", bankAccountRepository);
+            BankAccountResource bankAccountResource = new BankAccountResource(bankAccountRepository);
         this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -260,5 +258,10 @@ public class BankAccountResourceIntTest {
         // Validate the database is empty
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    public void equalsVerifier() throws Exception {
+        TestUtil.equalsVerifier(BankAccount.class);
     }
 }

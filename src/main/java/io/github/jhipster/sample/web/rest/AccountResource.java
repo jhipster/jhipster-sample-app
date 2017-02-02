@@ -23,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
@@ -39,17 +38,22 @@ public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    @Inject
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Inject
-    private UserService userService;
+    private final UserService userService;
 
-    @Inject
-    private PersistentTokenRepository persistentTokenRepository;
+    private final MailService mailService;
 
-    @Inject
-    private MailService mailService;
+    private final PersistentTokenRepository persistentTokenRepository;
+
+    public AccountResource(UserRepository userRepository, UserService userService,
+            MailService mailService, PersistentTokenRepository persistentTokenRepository) {
+
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.mailService = mailService;
+        this.persistentTokenRepository = persistentTokenRepository;
+    }
 
     /**
      * POST  /register : register the user.
@@ -60,7 +64,7 @@ public class AccountResource {
     @PostMapping(path = "/register",
                     produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public ResponseEntity registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
@@ -73,7 +77,7 @@ public class AccountResource {
                     User user = userService
                         .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
-                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getLangKey());
+                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(), managedUserVM.getLangKey());
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
@@ -153,7 +157,7 @@ public class AccountResource {
     @PostMapping(path = "/account/change_password",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public ResponseEntity<?> changePassword(@RequestBody String password) {
+    public ResponseEntity changePassword(@RequestBody String password) {
         if (!checkPasswordLength(password)) {
             return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
         }
@@ -197,11 +201,10 @@ public class AccountResource {
     @Timed
     public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u ->
             persistentTokenRepository.findByUser(u).stream()
                 .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                .findAny().ifPresent(t -> persistentTokenRepository.delete(decodedSeries));
-        });
+                .findAny().ifPresent(t -> persistentTokenRepository.delete(decodedSeries)));
     }
 
     /**
@@ -213,7 +216,7 @@ public class AccountResource {
     @PostMapping(path = "/account/reset_password/init",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public ResponseEntity<?> requestPasswordReset(@RequestBody String mail) {
+    public ResponseEntity requestPasswordReset(@RequestBody String mail) {
         return userService.requestPasswordReset(mail)
             .map(user -> {
                 mailService.sendPasswordResetMail(user);

@@ -3,7 +3,7 @@
     <h2><span data-translate="jhipsterSampleApplicationApp.bankAccount.detail.title">Bank Account</span> {{vm.bankAccount.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
+    <dl class="row jh-entity-details">
         <dt><span data-translate="jhipsterSampleApplicationApp.bankAccount.name">Name</span></dt>
         <dd>
             <span>{{vm.bankAccount.name}}</span>
@@ -26,6 +26,6 @@
 
     <button type="button" ui-sref="bank-account-detail.edit({id:vm.bankAccount.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
     </button>
 </div>

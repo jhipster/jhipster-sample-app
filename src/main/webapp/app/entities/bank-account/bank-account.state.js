@@ -32,7 +32,7 @@
             }
         })
         .state('bank-account-detail', {
-            parent: 'entity',
+            parent: 'bank-account',
             url: '/bank-account/{id}',
             data: {
                 authorities: ['ROLE_USER'],
