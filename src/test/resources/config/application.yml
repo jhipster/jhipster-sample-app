@@ -41,6 +41,9 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
+    cache:
+        jcache:
+            config: config/ehcache/ehcache-dev.xml
     mail:
         host: localhost
     mvc:

@@ -5,9 +5,9 @@
         .module('jhipsterSampleApplicationApp')
         .controller('BankAccountController', BankAccountController);
 
-    BankAccountController.$inject = ['$scope', '$state', 'BankAccount'];
+    BankAccountController.$inject = ['BankAccount'];
 
-    function BankAccountController ($scope, $state, BankAccount) {
+    function BankAccountController(BankAccount) {
         var vm = this;
 
         vm.bankAccounts = [];

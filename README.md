@@ -1,9 +1,10 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 4.0.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.0.1](https://jhipster.github.io/documentation-archive/v4.0.1).
+This application was generated using JHipster 4.0.2, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.0.2](https://jhipster.github.io/documentation-archive/v4.0.2).
 
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
+
 1. [Node.js][]: We use Node to run a development web server and build the project.
    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 2. [Yarn][]: We use Yarn to manage Node dependencies.
@@ -95,13 +96,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To set up a CI environment, consult the [Setting up Continuous Integration][] page.
 
 [JHipster Homepage and latest documentation]: https://jhipster.github.io
-[JHipster 4.0.1 archive]: https://jhipster.github.io/documentation-archive/v4.0.1
+[JHipster 4.0.2 archive]: https://jhipster.github.io/documentation-archive/v4.0.2
 
-[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.0.1/development/
-[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.0.1/docker-compose
-[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.0.1/production/
-[Running tests page]: https://jhipster.github.io/documentation-archive/v4.0.1/running-tests/
-[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.0.1/setting-up-ci/
+[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.0.2/development/
+[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.0.2/docker-compose
+[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.0.2/production/
+[Running tests page]: https://jhipster.github.io/documentation-archive/v4.0.2/running-tests/
+[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.0.2/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

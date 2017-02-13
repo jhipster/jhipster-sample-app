@@ -31,10 +31,10 @@
         <hibernate-validator.version>5.3.3.Final</hibernate-validator.version>
         <hibernate.version>5.2.4.Final</hibernate.version>
         <hikaricp.version>2.4.6</hikaricp.version>
-        <jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <java.version>1.8</java.version>
         <jcache.version>1.0.0</jcache.version>
-        <jhipster.server.version>1.0.0</jhipster.server.version>
+        <jhipster.server.version>1.0.1</jhipster.server.version>
         <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
         <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
         <liquibase.version>3.5.3</liquibase.version>
@@ -696,15 +696,6 @@
             <properties>
                 <profile.swagger>,swagger</profile.swagger>
             </properties>
-        </profile>
-        <profile>
-            <id>shell</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-remote-shell</artifactId>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>dev</id>

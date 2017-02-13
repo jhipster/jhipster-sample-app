@@ -7,7 +7,7 @@
         <expiry>
             <ttl unit="seconds">3600</ttl>
         </expiry>
-        <heap>100</heap>
+        <heap unit="entries">100</heap>
     </cache-template>
 
     <cache alias="io.github.jhipster.sample.domain.User" uses-template="simple"/>
@@ -20,6 +20,17 @@
 
     <cache alias="io.github.jhipster.sample.domain.User.persistentTokens" uses-template="simple"/>
 
-    <cache alias="io.github.jhipster.sample.domain.PersistentAuditEvent" uses-template="simple"/>
+    <cache alias="io.github.jhipster.sample.domain.BankAccount" uses-template="simple"/>
 
+    <cache alias="io.github.jhipster.sample.domain.BankAccount.operations" uses-template="simple"/>
+
+    <cache alias="io.github.jhipster.sample.domain.Label" uses-template="simple"/>
+
+    <cache alias="io.github.jhipster.sample.domain.Label.operations" uses-template="simple"/>
+
+    <cache alias="io.github.jhipster.sample.domain.Operation" uses-template="simple"/>
+
+    <cache alias="io.github.jhipster.sample.domain.Operation.labels" uses-template="simple"/>
+
+    <!-- jhipster-needle-ehcache-add-entry -->
 </config>

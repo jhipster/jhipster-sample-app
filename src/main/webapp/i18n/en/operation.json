@@ -4,8 +4,7 @@
             "home": {
                 "title": "Operations",
                 "createLabel": "Create a new Operation",
-                "createOrEditLabel": "Create or edit a Operation",
-                "search": "Search for Operation"
+                "createOrEditLabel": "Create or edit a Operation"
             },
             "created": "A new Operation is created with identifier {{ param }}",
             "updated": "A Operation is updated with identifier {{ param }}",

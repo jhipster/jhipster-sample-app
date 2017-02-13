@@ -44,7 +44,7 @@ spring:
             hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.SpringCacheRegionFactory
     cache:
         jcache:
-            config: ehcache.xml
+            config: config/ehcache/ehcache-dev.xml
     mail:
         host: localhost
         port: 25
@@ -73,9 +73,6 @@ jhipster:
     http:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
-    cache: # Cache configuration
-        ehcache: # Hibernate 2nd level cache
-            max-bytes-local-heap: 256M
     security:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
