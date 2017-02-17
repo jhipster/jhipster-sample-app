@@ -8,6 +8,7 @@
     OperationController.$inject = ['Operation', 'ParseLinks', 'AlertService', 'paginationConstants'];
 
     function OperationController(Operation, ParseLinks, AlertService, paginationConstants) {
+
         var vm = this;
 
         vm.operations = [];

@@ -75,8 +75,6 @@ liquibase:
 # ===================================================================
 server:
     port: 8080
-server:
-    port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json

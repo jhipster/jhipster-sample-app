@@ -8,6 +8,7 @@
     LabelController.$inject = ['Label'];
 
     function LabelController(Label) {
+
         var vm = this;
 
         vm.labels = [];
