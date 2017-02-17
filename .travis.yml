@@ -2,9 +2,9 @@ os:
   - linux
 services:
   - docker
-language: java
+language: node_js
 node_js:
-  - "6.9.4"
+  - "6.9.5"
 jdk:
   - oraclejdk8
 sudo: false
@@ -13,21 +13,25 @@ cache:
     - node
     - node_modules
     - $HOME/.m2
+    - $HOME/.yarn-cache
 env:
-  - NODE_VERSION=6.9.1
+  global:
+    - NODE_VERSION=6.9.5
+    - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+    - SPRING_JPA_SHOW_SQL=false
 before_install:
-  - nvm install $NODE_VERSION
-  - npm install -g npm
-  - npm install -g bower gulp-cli
-  - node -v
-  - npm -v
-  - bower -v
-  - gulp -v
+  - jdk_switcher use oraclejdk8
   - java -version
-install: npm install
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
+  # Repo for Yarn
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add bower gulp-cli
+install:
+  - yarn install
 script:
-  - ./mvnw clean
-  - ./mvnw test
+  - ./mvnw clean test
   - gulp test
   - ./mvnw package -Pprod -DskipTests
 notifications:

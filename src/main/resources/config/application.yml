@@ -53,6 +53,10 @@ server:
         cookie:
             http-only: true
 
+info:
+    project:
+        version: #project.version#
+
 # ===================================================================
 # JHipster specific properties
 #

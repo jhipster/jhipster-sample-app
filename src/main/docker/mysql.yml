@@ -1,7 +1,6 @@
 version: '2'
 services:
     jhipstersampleapplication-mysql:
-        container_name: jhipstersampleapplication-mysql
         image: mysql:5.7.13
         # volumes:
         #     - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/
