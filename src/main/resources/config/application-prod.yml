@@ -44,7 +44,7 @@ spring:
             hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.SpringCacheRegionFactory
     cache:
         jcache:
-            config: config/ehcache/ehcache-dev.xml
+            config: config/ehcache/ehcache-prod.xml
     mail:
         host: localhost
         port: 25
