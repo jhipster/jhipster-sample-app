@@ -23,7 +23,7 @@ public class ExceptionTranslator {
     @ExceptionHandler(ConcurrencyFailureException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
-    public ErrorVM processConcurencyError(ConcurrencyFailureException ex) {
+    public ErrorVM processConcurrencyError(ConcurrencyFailureException ex) {
         return new ErrorVM(ErrorConstants.ERR_CONCURRENCY_FAILURE);
     }
 

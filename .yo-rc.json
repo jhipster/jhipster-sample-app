@@ -24,7 +24,7 @@
       "en"
     ],
     "serverPort": 8080,
-    "jhipsterVersion": "4.0.6",
+    "jhipsterVersion": "4.0.7",
     "enableSocialSignIn": false,
     "useSass": false,
     "jhiPrefix": "jhi",

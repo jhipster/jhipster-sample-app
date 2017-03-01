@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,17 +72,17 @@ public class UserResourceIntTest {
     @Test
     public void testGetExistingUser() throws Exception {
         restUserMockMvc.perform(get("/api/users/admin")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.lastName").value("Administrator"));
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.lastName").value("Administrator"));
     }
 
     @Test
     public void testGetUnknownUser() throws Exception {
         restUserMockMvc.perform(get("/api/users/unknown")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
     }
 
     @Test

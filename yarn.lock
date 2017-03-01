@@ -1477,13 +1477,9 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-ejs@2.5.6:
+ejs@2.5.6, ejs@^2.3.1:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.6.tgz#479636bfa3fe3b1debd52087f0acb204b4f19c88"
-
-ejs@^2.3.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.1.tgz#dbc0ac40812d3b451dad063fcd369e4e47d80287"
 
 electron-to-chromium@^1.2.1:
   version "1.2.1"
@@ -2256,9 +2252,9 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
-generator-jhipster@4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.0.6.tgz#d1b17cabf52af5117a2466fdf9415b7bee572bb0"
+generator-jhipster@4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.0.7.tgz#14f5e3968f9d18b8bd6aa667080af8a18418c074"
   dependencies:
     chalk "1.1.3"
     cheerio "0.22.0"

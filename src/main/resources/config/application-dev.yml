@@ -41,12 +41,7 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
-            hibernate.javax.cache.uri: ${spring.cache.jcache.config}
-            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.SpringCacheRegionFactory
-    cache:
-        jcache:
-            config: config/ehcache/ehcache-dev.xml
+            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
     mail:
         host: localhost
         port: 25
@@ -89,6 +84,10 @@ server:
 jhipster:
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+    cache: # Cache configuration
+        ehcache: # Ehcache configuration
+            time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+            max-entries: 100 # Number of objects in each cache entry
     security:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
