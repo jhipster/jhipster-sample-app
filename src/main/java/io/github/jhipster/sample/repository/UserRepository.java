@@ -3,6 +3,7 @@ package io.github.jhipster.sample.repository;
 import io.github.jhipster.sample.domain.User;
 
 import java.time.ZonedDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

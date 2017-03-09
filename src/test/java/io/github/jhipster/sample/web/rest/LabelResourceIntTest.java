@@ -62,7 +62,7 @@ public class LabelResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            LabelResource labelResource = new LabelResource(labelRepository);
+        LabelResource labelResource = new LabelResource(labelRepository);
         this.restLabelMockMvc = MockMvcBuilders.standaloneSetup(labelResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -92,7 +92,6 @@ public class LabelResourceIntTest {
         int databaseSizeBeforeCreate = labelRepository.findAll().size();
 
         // Create the Label
-
         restLabelMockMvc.perform(post("/api/labels")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(label)))
@@ -111,13 +110,12 @@ public class LabelResourceIntTest {
         int databaseSizeBeforeCreate = labelRepository.findAll().size();
 
         // Create the Label with an existing ID
-        Label existingLabel = new Label();
-        existingLabel.setId(1L);
+        label.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLabelMockMvc.perform(post("/api/labels")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingLabel)))
+            .content(TestUtil.convertObjectToJsonBytes(label)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -238,6 +236,7 @@ public class LabelResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Label.class);
     }

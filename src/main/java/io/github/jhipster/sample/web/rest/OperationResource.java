@@ -91,8 +91,7 @@ public class OperationResource {
      */
     @GetMapping("/operations")
     @Timed
-    public ResponseEntity<List<Operation>> getAllOperations(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Operation>> getAllOperations(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Operations");
         Page<Operation> page = operationRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations");

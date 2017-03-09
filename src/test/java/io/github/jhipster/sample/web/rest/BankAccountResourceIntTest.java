@@ -66,7 +66,7 @@ public class BankAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            BankAccountResource bankAccountResource = new BankAccountResource(bankAccountRepository);
+        BankAccountResource bankAccountResource = new BankAccountResource(bankAccountRepository);
         this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -97,7 +97,6 @@ public class BankAccountResourceIntTest {
         int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
 
         // Create the BankAccount
-
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
@@ -117,13 +116,12 @@ public class BankAccountResourceIntTest {
         int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
 
         // Create the BankAccount with an existing ID
-        BankAccount existingBankAccount = new BankAccount();
-        existingBankAccount.setId(1L);
+        bankAccount.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingBankAccount)))
+            .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -266,6 +264,7 @@ public class BankAccountResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(BankAccount.class);
     }

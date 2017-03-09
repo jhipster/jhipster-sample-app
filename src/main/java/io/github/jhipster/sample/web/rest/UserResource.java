@@ -92,8 +92,12 @@ public class UserResource {
     public ResponseEntity createUser(@RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
         log.debug("REST request to save User : {}", managedUserVM);
 
-        //Lowercase the user login before comparing with database
-        if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
+        if (managedUserVM.getId() != null) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
+                .body(null);
+        // Lowercase the user login before comparing with database
+        } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
                 .body(null);
@@ -142,12 +146,10 @@ public class UserResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
-     * @throws URISyntaxException if the pagination headers couldn't be generated
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable) {
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);

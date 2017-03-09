@@ -19,6 +19,8 @@ spring:
         name: jhipsterSampleApplication
     jackson:
         serialization.write_dates_as_timestamps: false
+    cache:
+        type: none
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhipsterSampleApplication;DB_CLOSE_DELAY=-1

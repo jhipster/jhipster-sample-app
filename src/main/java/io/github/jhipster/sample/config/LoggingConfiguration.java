@@ -73,7 +73,6 @@ public class LoggingConfiguration {
         context.getLogger("ROOT").addAppender(asyncLogstashAppender);
     }
 
-
     /**
      * Logback configuration is achieved by configuration file and API.
      * When configuration file change is detected, the configuration is reset.
