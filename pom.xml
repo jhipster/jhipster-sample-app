@@ -36,7 +36,7 @@
         <javassist.version>3.21.0-GA</javassist.version>
         <jcache.version>1.0.0</jcache.version>
         <jzlib.version>1.1.3</jzlib.version>
-        <jhipster.server.version>1.1.0</jhipster.server.version>
+        <jhipster.server.version>1.1.1</jhipster.server.version>
         <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
         <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
         <logstash-logback-encoder.version>4.8</logstash-logback-encoder.version>
@@ -417,12 +417,16 @@
                     <resultsFolder>target/gatling/results</resultsFolder>
                     <bodiesFolder>src/test/gatling/bodies</bodiesFolder>
                     <simulationsFolder>src/test/gatling/simulations</simulationsFolder>
-                    <!-- This will run multiple simulations one by one. Useful when doing gatling tests in CI
-                         You must remove the simulationClass property in order to run multiple simulations -->
-                    <!--<runMultipleSimulations>true</runMultipleSimulations>-->
-                    <!-- This will force Gatling to ask which simulation to run
-                      This is useful when you have multiple simulations -->
-                    <simulationClass>*</simulationClass>
+                    <!--
+                    This will run multiple simulations one by one. Useful when doing Gatling
+                    tests in CI.
+                    -->
+                    <runMultipleSimulations>true</runMultipleSimulations>
+                    <!--
+                    To run only one simulation, you need to disable the "runMultipleSimulations"
+                    above, and write the name of your simulation below.
+                    -->
+                    <!--<simulationClass>WriteTheNameOfYourGatlingSimulation</simulationClass>-->
                 </configuration>
             </plugin>
             <plugin>
