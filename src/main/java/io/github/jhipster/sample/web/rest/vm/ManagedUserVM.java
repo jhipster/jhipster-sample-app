@@ -27,7 +27,7 @@ public class ManagedUserVM extends UserDTO {
                          String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
                         Set<String> authorities) {
 
-        super(id, login, firstName, lastName, email, activated,  imageUrl, langKey,
+        super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
             createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
 
         this.password = password;
