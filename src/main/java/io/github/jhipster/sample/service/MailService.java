@@ -19,9 +19,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Locale;
 
 /**
- * Service for sending e-mails.
+ * Service for sending emails.
  * <p>
- * We use the @Async annotation to send e-mails asynchronously.
+ * We use the @Async annotation to send emails asynchronously.
  * </p>
  */
 @Service
@@ -52,7 +52,7 @@ public class MailService {
 
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
-        log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
+        log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
 
         // Prepare message using a Spring helper
@@ -64,15 +64,15 @@ public class MailService {
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
-            log.debug("Sent e-mail to User '{}'", to);
+            log.debug("Sent email to User '{}'", to);
         } catch (Exception e) {
-            log.warn("E-mail could not be sent to user '{}'", to, e);
+            log.warn("Email could not be sent to user '{}'", to, e);
         }
     }
 
     @Async
     public void sendActivationEmail(User user) {
-        log.debug("Sending activation e-mail to '{}'", user.getEmail());
+        log.debug("Sending activation email to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);
@@ -84,7 +84,7 @@ public class MailService {
 
     @Async
     public void sendCreationEmail(User user) {
-        log.debug("Sending creation e-mail to '{}'", user.getEmail());
+        log.debug("Sending creation email to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);
@@ -96,7 +96,7 @@ public class MailService {
 
     @Async
     public void sendPasswordResetMail(User user) {
-        log.debug("Sending password reset e-mail to '{}'", user.getEmail());
+        log.debug("Sending password reset email to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);

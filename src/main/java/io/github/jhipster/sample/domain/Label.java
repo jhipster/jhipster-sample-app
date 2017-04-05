@@ -27,7 +27,7 @@ public class Label implements Serializable {
 
     @NotNull
     @Size(min = 3)
-    @Column(name = "label", nullable = false)
+    @Column(name = "jhi_label", nullable = false)
     private String label;
 
     @ManyToMany(mappedBy = "labels")
