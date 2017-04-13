@@ -1,3 +1,5 @@
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=jhipster&repoName=jhipster-sample-app&branch=master&pipelineName=jhipster-sample-app&accountName=dockermaster&type=cf-1)]( https://g.codefresh.io/repositories/jhipster/jhipster-sample-app/builds?filter=trigger:build;branch:master;service:58a2b79ebb7d2d0100e778b6~jhipster-sample-app)
+
 # jhipsterSampleApplication
 This application was generated using JHipster 4.3.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.3.0](https://jhipster.github.io/documentation-archive/v4.3.0).
 
