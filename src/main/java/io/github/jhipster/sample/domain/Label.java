@@ -68,22 +68,22 @@ public class Label implements Serializable {
             return false;
         }
         Label label = (Label) o;
-        if (label.id == null || id == null) {
+        if (label.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, label.id);
+        return Objects.equals(getId(), label.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Label{" +
-            "id=" + id +
-            ", label='" + label + "'" +
-            '}';
+            "id=" + getId() +
+            ", label='" + getLabel() + "'" +
+            "}";
     }
 }

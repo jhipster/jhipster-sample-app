@@ -5,6 +5,9 @@ import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
 import io.github.jhipster.sample.service.util.RandomUtil;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import io.github.jhipster.config.JHipsterProperties;
 
 import org.slf4j.Logger;
@@ -19,8 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
@@ -34,6 +40,10 @@ import java.util.Arrays;
  * <li>It stores more information, such as the IP address and the user agent, for audit purposes<li>
  * <li>When a user logs out, only his current session is invalidated, and not all of his sessions</li>
  * </ul>
+ * <p>
+ * Please note that it allows the use of the same token for 5 seconds, and this value stored in a specific
+ * cache during that period. This is to allow concurrent requests from the same user: otherwise, two
+ * requests being sent at the same time could invalidate each other's token.
  * <p>
  * This is inspired by:
  * <ul>
@@ -56,6 +66,12 @@ public class PersistentTokenRememberMeServices extends
 
     private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
 
+    private static final int UPGRADED_TOKEN_VALIDITY_SECONDS = 5;
+
+    private Cache<String, UpgradedRememberMeToken> upgradedTokenCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(UPGRADED_TOKEN_VALIDITY_SECONDS, TimeUnit.SECONDS)
+            .build();
+
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final UserRepository userRepository;
@@ -73,23 +89,35 @@ public class PersistentTokenRememberMeServices extends
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
         HttpServletResponse response) {
 
-        PersistentToken token = getPersistentToken(cookieTokens);
-        String login = token.getUser().getLogin();
+        synchronized (this) { // prevent 2 authentication requests from the same user in parallel
+            String login = null;
+            UpgradedRememberMeToken upgradedToken = upgradedTokenCache.getIfPresent(cookieTokens[0]);
+            if (upgradedToken != null) {
+                login = upgradedToken.getUserLoginIfValidAndRecentUpgrade(cookieTokens);
+                log.debug("Detected previously upgraded login token for user '{}'", login);
+            }
 
-        // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
-        log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
-        token.setTokenDate(LocalDate.now());
-        token.setTokenValue(RandomUtil.generateTokenData());
-        token.setIpAddress(request.getRemoteAddr());
-        token.setUserAgent(request.getHeader("User-Agent"));
-        try {
-            persistentTokenRepository.saveAndFlush(token);
-            addCookie(token, request, response);
-        } catch (DataAccessException e) {
-            log.error("Failed to update token: ", e);
-            throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
+            if (login == null) {
+                PersistentToken token = getPersistentToken(cookieTokens);
+                login = token.getUser().getLogin();
+
+                // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
+                log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
+                token.setTokenDate(LocalDate.now());
+                token.setTokenValue(RandomUtil.generateTokenData());
+                token.setIpAddress(request.getRemoteAddr());
+                token.setUserAgent(request.getHeader("User-Agent"));
+                try {
+                    persistentTokenRepository.saveAndFlush(token);
+                } catch (DataAccessException e) {
+                    log.error("Failed to update token: ", e);
+                    throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
+                }
+                addCookie(token, request, response);
+                upgradedTokenCache.put(cookieTokens[0], new UpgradedRememberMeToken(cookieTokens, login));
+            }
+            return getUserDetailsService().loadUserByUsername(login);
         }
-        return getUserDetailsService().loadUserByUsername(login);
     }
 
     @Override
@@ -178,5 +206,31 @@ public class PersistentTokenRememberMeServices extends
         setCookie(
             new String[]{token.getSeries(), token.getTokenValue()},
             TOKEN_VALIDITY_SECONDS, request, response);
+    }
+
+    private static class UpgradedRememberMeToken implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private String[] upgradedToken;
+
+        private Date upgradeTime;
+
+        private String userLogin;
+
+        UpgradedRememberMeToken(String[] upgradedToken, String userLogin) {
+            this.upgradedToken = upgradedToken;
+            this.userLogin = userLogin;
+            this.upgradeTime = new Date();
+        }
+
+        String getUserLoginIfValidAndRecentUpgrade(String[] currentToken) {
+            if (currentToken[0].equals(this.upgradedToken[0]) &&
+                    currentToken[1].equals(this.upgradedToken[1]) &&
+                    (upgradeTime.getTime() + UPGRADED_TOKEN_VALIDITY_SECONDS * 1000) > new Date().getTime()) {
+                return this.userLogin;
+            }
+            return null;
+        }
     }
 }

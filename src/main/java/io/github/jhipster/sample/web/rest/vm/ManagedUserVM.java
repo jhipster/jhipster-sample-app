@@ -3,7 +3,7 @@ package io.github.jhipster.sample.web.rest.vm;
 import io.github.jhipster.sample.service.dto.UserDTO;
 import javax.validation.constraints.Size;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Set;
 
 /**
@@ -24,7 +24,7 @@ public class ManagedUserVM extends UserDTO {
 
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String imageUrl, String langKey,
-                         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
+                         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
                         Set<String> authorities) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, langKey,

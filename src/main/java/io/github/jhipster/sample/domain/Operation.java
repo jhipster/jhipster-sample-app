@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -28,7 +28,7 @@ public class Operation implements Serializable {
 
     @NotNull
     @Column(name = "jhi_date", nullable = false)
-    private ZonedDateTime date;
+    private Instant date;
 
     @Column(name = "description")
     private String description;
@@ -55,11 +55,11 @@ public class Operation implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
@@ -104,24 +104,24 @@ public class Operation implements Serializable {
             return false;
         }
         Operation operation = (Operation) o;
-        if (operation.id == null || id == null) {
+        if (operation.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, operation.id);
+        return Objects.equals(getId(), operation.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Operation{" +
-            "id=" + id +
-            ", date='" + date + "'" +
-            ", description='" + description + "'" +
-            ", amount='" + amount + "'" +
-            '}';
+            "id=" + getId() +
+            ", date='" + getDate() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", amount='" + getAmount() + "'" +
+            "}";
     }
 }
