@@ -545,6 +545,50 @@ public class AccountResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser("save-existing-email-and-login")
+    public void testSaveExistingEmailAndLogin() throws Exception {
+        User user = new User();
+        user.setLogin("save-existing-email-and-login");
+        user.setEmail("save-existing-email-and-login@example.com");
+        user.setPassword(RandomStringUtils.random(60));
+        user.setActivated(true);
+
+        userRepository.saveAndFlush(user);
+
+        User anotherUser = new User();
+        anotherUser.setLogin("save-existing-email-and-login");
+        anotherUser.setEmail("save-existing-email-and-login@example.com");
+        anotherUser.setPassword(RandomStringUtils.random(60));
+        anotherUser.setActivated(true);
+
+        UserDTO userDTO = new UserDTO(
+            null,                   // id
+            "not-used",          // login
+            "firstname",                // firstName
+            "lastname",                  // lastName
+            "save-existing-email-and-login@example.com",    // email
+            false,                   // activated
+            "http://placehold.it/50x50", //imageUrl
+            "en",                   // langKey
+            null,                   // createdBy
+            null,                   // createdDate
+            null,                   // lastModifiedBy
+            null,                   // lastModifiedDate
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+        );
+
+        restMvc.perform(
+            post("/api/account")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+            .andExpect(status().isOk());
+
+        User updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
+        assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email-and-login@example.com");
+    }
+
+    @Test
+    @Transactional
     @WithMockUser("change-password")
     public void testChangePassword() throws Exception {
         User user = new User();
@@ -591,6 +635,23 @@ public class AccountResourceIntTest {
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
+        assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("change-password-empty")
+    public void testChangePasswordEmpty() throws Exception {
+        User user = new User();
+        user.setPassword(RandomStringUtils.random(60));
+        user.setLogin("change-password-empty");
+        user.setEmail("change-password-empty@example.com");
+        userRepository.saveAndFlush(user);
+
+        restMvc.perform(post("/api/account/change_password").content(RandomStringUtils.random(0)))
+            .andExpect(status().isBadRequest());
+
+        User updatedUser = userRepository.findOneByLogin("change-password-empty").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
     }
 
