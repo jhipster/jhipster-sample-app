@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 /**
  * Mapper for the entity User and its DTO UserDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserDTO userToUserDTO(User user);
+    default UserDTO userToUserDTO(User user) {
+        return new UserDTO(user);
+    }
 
     List<UserDTO> usersToUserDTOs(List<User> users);
 
@@ -39,11 +41,6 @@ public interface UserMapper {
         User user = new User();
         user.setId(id);
         return user;
-    }
-
-    default Set<String> stringsFromAuthorities (Set<Authority> authorities) {
-        return authorities.stream().map(Authority::getName)
-            .collect(Collectors.toSet());
     }
 
     default Set<Authority> authoritiesFromStrings(Set<String> strings) {

@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 4.4.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.4.1](https://jhipster.github.io/documentation-archive/v4.4.1).
+This application was generated using JHipster 4.5.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.5.0](https://jhipster.github.io/documentation-archive/v4.5.0).
 
 ## Development
 
@@ -89,20 +89,20 @@ Then run:
 
     docker-compose -f src/main/docker/app.yml up -d
 
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`yo jhipster:docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
 
 ## Continuous Integration (optional)
 
-To configure CI for your project, run the ci-cd sub-generator (`yo jhipster:ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: https://jhipster.github.io
-[JHipster 4.4.1 archive]: https://jhipster.github.io/documentation-archive/v4.4.1
+[JHipster 4.5.0 archive]: https://jhipster.github.io/documentation-archive/v4.5.0
 
-[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.4.1/development/
-[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.4.1/docker-compose
-[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.4.1/production/
-[Running tests page]: https://jhipster.github.io/documentation-archive/v4.4.1/running-tests/
-[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.4.1/setting-up-ci/
+[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.5.0/development/
+[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.5.0/docker-compose
+[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.5.0/production/
+[Running tests page]: https://jhipster.github.io/documentation-archive/v4.5.0/running-tests/
+[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.5.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

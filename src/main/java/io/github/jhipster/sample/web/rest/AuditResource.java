@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -50,14 +51,16 @@ public class AuditResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of AuditEvents in body
      */
-
     @GetMapping(params = {"fromDate", "toDate"})
     public ResponseEntity<List<AuditEvent>> getByDates(
         @RequestParam(value = "fromDate") LocalDate fromDate,
         @RequestParam(value = "toDate") LocalDate toDate,
         @ApiParam Pageable pageable) {
 
-        Page<AuditEvent> page = auditEventService.findByDates(fromDate.atTime(0, 0), toDate.atTime(23, 59), pageable);
+        Page<AuditEvent> page = auditEventService.findByDates(
+            fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+            toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant(),
+            pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

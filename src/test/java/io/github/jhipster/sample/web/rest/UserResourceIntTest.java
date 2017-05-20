@@ -1,10 +1,14 @@
 package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.JhipsterSampleApplicationApp;
+import io.github.jhipster.sample.domain.Authority;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.repository.UserRepository;
+import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.service.MailService;
 import io.github.jhipster.sample.service.UserService;
+import io.github.jhipster.sample.service.dto.UserDTO;
+import io.github.jhipster.sample.service.mapper.UserMapper;
 import io.github.jhipster.sample.web.rest.errors.ExceptionTranslator;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,9 +27,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -41,6 +49,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JhipsterSampleApplicationApp.class)
 public class UserResourceIntTest {
+
+    private static final Long DEFAULT_ID = 1L;
 
     private static final String DEFAULT_LOGIN = "johndoe";
     private static final String UPDATED_LOGIN = "jhipster";
@@ -71,6 +81,9 @@ public class UserResourceIntTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -512,21 +525,124 @@ public class UserResourceIntTest {
     @Transactional
     public void getAllAuthorities() throws Exception {
         restUserMockMvc.perform(get("/api/users/authorities")
-                .accept(TestUtil.APPLICATION_JSON_UTF8)
-                .contentType(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").value(containsInAnyOrder("ROLE_USER", "ROLE_ADMIN")));
+            .accept(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").value(containsInAnyOrder("ROLE_USER", "ROLE_ADMIN")));
     }
 
     @Test
     @Transactional
-    public void equalsVerifier() throws Exception {
+    public void testUserEquals() {
         User userA = new User();
+        assertThat(userA).isEqualTo(userA);
+        assertThat(userA).isNotEqualTo(null);
+        assertThat(userA).isNotEqualTo(new Object());
+        assertThat(userA.toString()).isNotNull();
+
         userA.setLogin("AAA");
         User userB = new User();
         userB.setLogin("BBB");
         assertThat(userA).isNotEqualTo(userB);
+
+        userB.setLogin("AAA");
+        assertThat(userA).isEqualTo(userB);
+        assertThat(userA.hashCode()).isEqualTo(userB.hashCode());
     }
+
+    @Test
+    public void testUserFromId() {
+        assertThat(userMapper.userFromId(DEFAULT_ID).getId()).isEqualTo(DEFAULT_ID);
+        assertThat(userMapper.userFromId(null)).isNull();
+    }
+
+    @Test
+    public void testUserDTOtoUser() {
+        UserDTO userDTO = new UserDTO(
+            DEFAULT_ID,
+            DEFAULT_LOGIN,
+            DEFAULT_FIRSTNAME,
+            DEFAULT_LASTNAME,
+            DEFAULT_EMAIL,
+            true,
+            DEFAULT_IMAGEURL,
+            DEFAULT_LANGKEY,
+            DEFAULT_LOGIN,
+            null,
+            DEFAULT_LOGIN,
+            null,
+            Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()));
+        User user = userMapper.userDTOToUser(userDTO);
+        assertThat(user.getId()).isEqualTo(DEFAULT_ID);
+        assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(user.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
+        assertThat(user.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(user.getActivated()).isEqualTo(true);
+        assertThat(user.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
+        assertThat(user.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+        assertThat(user.getCreatedBy()).isNull();
+        assertThat(user.getCreatedDate()).isNotNull();
+        assertThat(user.getLastModifiedBy()).isNull();
+        assertThat(user.getLastModifiedDate()).isNotNull();
+        assertThat(user.getAuthorities()).extracting("name").containsExactly(AuthoritiesConstants.USER);
+    }
+
+    @Test
+    public void testUserToUserDTO() {
+        user.setId(DEFAULT_ID);
+        user.setCreatedBy(DEFAULT_LOGIN);
+        user.setCreatedDate(Instant.now());
+        user.setLastModifiedBy(DEFAULT_LOGIN);
+        user.setLastModifiedDate(Instant.now());
+
+        Set<Authority> authorities = new HashSet<>();
+        Authority authority = new Authority();
+        authority.setName(AuthoritiesConstants.USER);
+        authorities.add(authority);
+        user.setAuthorities(authorities);
+
+        UserDTO userDTO = userMapper.userToUserDTO(user);
+
+        assertThat(userDTO.getId()).isEqualTo(DEFAULT_ID);
+        assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
+        assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(userDTO.isActivated()).isEqualTo(true);
+        assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
+        assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+        assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
+        assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
+        assertThat(userDTO.getAuthorities()).containsExactly(AuthoritiesConstants.USER);
+        assertThat(userDTO.toString()).isNotNull();
+    }
+
+    @Test
+    public void testAuthorityEquals() throws Exception {
+        Authority authorityA = new Authority();
+        assertThat(authorityA).isEqualTo(authorityA);
+        assertThat(authorityA).isNotEqualTo(null);
+        assertThat(authorityA).isNotEqualTo(new Object());
+        assertThat(authorityA.hashCode()).isEqualTo(0);
+        assertThat(authorityA.toString()).isNotNull();
+
+        Authority authorityB = new Authority();
+        assertThat(authorityA).isEqualTo(authorityB);
+
+        authorityB.setName(AuthoritiesConstants.ADMIN);
+        assertThat(authorityA).isNotEqualTo(authorityB);
+
+        authorityA.setName(AuthoritiesConstants.USER);
+        assertThat(authorityA).isNotEqualTo(authorityB);
+
+        authorityB.setName(AuthoritiesConstants.USER);
+        assertThat(authorityA).isEqualTo(authorityB);
+        assertThat(authorityA.hashCode()).isEqualTo(authorityB.hashCode());
+    }
+
 }

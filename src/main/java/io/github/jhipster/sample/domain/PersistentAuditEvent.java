@@ -1,10 +1,9 @@
 package io.github.jhipster.sample.domain;
 
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class PersistentAuditEvent implements Serializable {
     private String principal;
 
     @Column(name = "event_date")
-    private LocalDateTime auditEventDate;
+    private Instant auditEventDate;
     @Column(name = "event_type")
     private String auditEventType;
 
@@ -52,11 +51,11 @@ public class PersistentAuditEvent implements Serializable {
         this.principal = principal;
     }
 
-    public LocalDateTime getAuditEventDate() {
+    public Instant getAuditEventDate() {
         return auditEventDate;
     }
 
-    public void setAuditEventDate(LocalDateTime auditEventDate) {
+    public void setAuditEventDate(Instant auditEventDate) {
         this.auditEventDate = auditEventDate;
     }
 
