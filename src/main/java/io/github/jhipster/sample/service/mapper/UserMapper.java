@@ -3,38 +3,61 @@ package io.github.jhipster.sample.service.mapper;
 import io.github.jhipster.sample.domain.Authority;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.service.dto.UserDTO;
-import org.mapstruct.*;
 
-import java.util.List;
-import java.util.Set;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Mapper for the entity User and its DTO UserDTO.
+ * Mapper for the entity User and its DTO called UserDTO.
+ *
+ * Normal mappers are generated using MapStruct, this one is hand-coded as MapStruct
+ * support is still in beta, and requires a manual step with an IDE.
  */
-@Mapper(componentModel = "spring")
-public interface UserMapper {
+@Service
+public class UserMapper {
 
-    default UserDTO userToUserDTO(User user) {
+    public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
     }
 
-    List<UserDTO> usersToUserDTOs(List<User> users);
+    public List<UserDTO> usersToUserDTOs(List<User> users) {
+        return users.stream()
+            .filter(Objects::nonNull)
+            .map(this::userToUserDTO)
+            .collect(Collectors.toList());
+    }
 
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "createdDate", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
-    @Mapping(target = "lastModifiedDate", ignore = true)
-    @Mapping(target = "persistentTokens", ignore = true)
-    @Mapping(target = "activationKey", ignore = true)
-    @Mapping(target = "resetKey", ignore = true)
-    @Mapping(target = "resetDate", ignore = true)
-    @Mapping(target = "password", ignore = true)
-    User userDTOToUser(UserDTO userDTO);
+    public User userDTOToUser(UserDTO userDTO) {
+        if (userDTO == null) {
+            return null;
+        } else {
+            User user = new User();
+            user.setId(userDTO.getId());
+            user.setLogin(userDTO.getLogin());
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setEmail(userDTO.getEmail());
+            user.setImageUrl(userDTO.getImageUrl());
+            user.setActivated(userDTO.isActivated());
+            user.setLangKey(userDTO.getLangKey());
+            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
+            if(authorities != null) {
+                user.setAuthorities(authorities);
+            }
+            return user;
+        }
+    }
 
-    List<User> userDTOsToUsers(List<UserDTO> userDTOs);
+    public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
+        return userDTOs.stream()
+            .filter(Objects::nonNull)
+            .map(this::userDTOToUser)
+            .collect(Collectors.toList());
+    }
 
-    default User userFromId(Long id) {
+    public User userFromId(Long id) {
         if (id == null) {
             return null;
         }
@@ -43,7 +66,7 @@ public interface UserMapper {
         return user;
     }
 
-    default Set<Authority> authoritiesFromStrings(Set<String> strings) {
+    public Set<Authority> authoritiesFromStrings(Set<String> strings) {
         return strings.stream().map(string -> {
             Authority auth = new Authority();
             auth.setName(string);
