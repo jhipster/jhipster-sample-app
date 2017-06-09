@@ -1,12 +1,13 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>jhipsterSampleApplication</title>
     <meta name="description" content="">
     <meta name="google" value="notranslate">
-    <meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css content/css/vendor.css -->
     <!-- bower:css -->
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.webapp" />
 </head>
 <body ng-app="jhipsterSampleApplicationApp" ng-strict-di>
     <!--[if lt IE 9]>
@@ -34,7 +36,18 @@
             <p data-translate="footer">This is your footer</p>
         </div>
     </div>
-
+    <noscript>
+        <h1>You must enable javascript to view this page.</h1>
+    </noscript>
+    <!-- uncomment this for adding service worker
+        <script>
+            if ('serviceWorker' in navigator) {
+                 navigator.serviceWorker
+                    .register('./sw.js')
+                    .then(function() { console.log('Service Worker Registered'); });
+            }
+        </script>
+    -->
     <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
     <script>
         (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -94,25 +107,7 @@
     <script src="app/layouts/error/error.state.js"></script>
     <script src="app/home/home.state.js"></script>
     <script src="app/home/home.controller.js"></script>
-    <script src="app/entities/operation/operation-dialog.controller.js"></script>
-    <script src="app/entities/operation/operation-detail.controller.js"></script>
-    <script src="app/entities/operation/operation-delete-dialog.controller.js"></script>
-    <script src="app/entities/operation/operation.state.js"></script>
-    <script src="app/entities/operation/operation.service.js"></script>
-    <script src="app/entities/operation/operation.controller.js"></script>
-    <script src="app/entities/label/label-dialog.controller.js"></script>
-    <script src="app/entities/label/label-detail.controller.js"></script>
-    <script src="app/entities/label/label-delete-dialog.controller.js"></script>
-    <script src="app/entities/label/label.state.js"></script>
-    <script src="app/entities/label/label.service.js"></script>
-    <script src="app/entities/label/label.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
-    <script src="app/entities/bank-account/bank-account-dialog.controller.js"></script>
-    <script src="app/entities/bank-account/bank-account-detail.controller.js"></script>
-    <script src="app/entities/bank-account/bank-account-delete-dialog.controller.js"></script>
-    <script src="app/entities/bank-account/bank-account.state.js"></script>
-    <script src="app/entities/bank-account/bank-account.service.js"></script>
-    <script src="app/entities/bank-account/bank-account.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>

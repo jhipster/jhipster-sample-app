@@ -275,6 +275,35 @@ public class AccountResourceIntTest {
 
     @Test
     @Transactional
+    public void testRegisterNullPassword() throws Exception {
+        ManagedUserVM invalidUser = new ManagedUserVM(
+            null,               // id
+            "bob",              // login
+            null,               // invalid null password
+            "Bob",              // firstName
+            "Green",            // lastName
+            "bob@example.com",  // email
+            true,               // activated
+            "http://placehold.it/50x50", //imageUrl
+            "en",                   // langKey
+            null,                   // createdBy
+            null,                   // createdDate
+            null,                   // lastModifiedBy
+            null,                   // lastModifiedDate
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+
+        restUserMockMvc.perform(
+            post("/api/register")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
+            .andExpect(status().isBadRequest());
+
+        Optional<User> user = userRepository.findOneByLogin("bob");
+        assertThat(user.isPresent()).isFalse();
+    }
+
+    @Test
+    @Transactional
     public void testRegisterDuplicateLogin() throws Exception {
         // Good
         ManagedUserVM validUser = new ManagedUserVM(
@@ -554,12 +583,6 @@ public class AccountResourceIntTest {
         user.setActivated(true);
 
         userRepository.saveAndFlush(user);
-
-        User anotherUser = new User();
-        anotherUser.setLogin("save-existing-email-and-login");
-        anotherUser.setEmail("save-existing-email-and-login@example.com");
-        anotherUser.setPassword(RandomStringUtils.random(60));
-        anotherUser.setActivated(true);
 
         UserDTO userDTO = new UserDTO(
             null,                   // id

@@ -3,7 +3,6 @@ package io.github.jhipster.sample.config;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
 
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import liquibase.integration.spring.SpringLiquibase;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
@@ -66,10 +65,5 @@ public class DatabaseConfiguration {
             log.debug("Configuring Liquibase");
         }
         return liquibase;
-    }
-
-    @Bean
-    public Hibernate5Module hibernate5Module() {
-        return new Hibernate5Module();
     }
 }

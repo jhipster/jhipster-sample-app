@@ -42,12 +42,6 @@ public class CacheConfiguration {
             cm.createCache(io.github.jhipster.sample.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(io.github.jhipster.sample.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(io.github.jhipster.sample.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.BankAccount.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.BankAccount.class.getName() + ".operations", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Label.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Label.class.getName() + ".operations", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Operation.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Operation.class.getName() + ".labels", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
