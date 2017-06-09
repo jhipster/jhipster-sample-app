@@ -67,11 +67,7 @@ public class ExceptionTranslator {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorVM> processException(Exception ex) {
-        if (log.isDebugEnabled()) {
-            log.debug("An unexpected error occured: {}", ex.getMessage(), ex);
-        } else {
-            log.error("An unexpected error occured: {}", ex.getMessage());
-        }
+        log.error(ex.getMessage(), ex);
         BodyBuilder builder;
         ErrorVM errorVM;
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
