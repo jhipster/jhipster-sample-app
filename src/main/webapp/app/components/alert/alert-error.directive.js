@@ -53,7 +53,7 @@
                 }).sort();
                 var errorHeader = httpResponse.headers(headers[0]);
                 var entityKey = httpResponse.headers(headers[1]);
-                if (errorHeader) {
+                if (angular.isString(errorHeader)) {
                     var entityName = $translate.instant('global.menu.entities.' + entityKey);
                     addErrorAlert(errorHeader, errorHeader, {entityName: entityName});
                 } else if (httpResponse.data && httpResponse.data.fieldErrors) {
