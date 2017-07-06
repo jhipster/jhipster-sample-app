@@ -26,6 +26,7 @@
             });
         }
 
+
         // update the window title using params in the following
         // precedence
         // 1. titleKey parameter

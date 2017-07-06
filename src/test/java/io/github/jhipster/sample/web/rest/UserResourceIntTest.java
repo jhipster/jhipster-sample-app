@@ -535,21 +535,17 @@ public class UserResourceIntTest {
 
     @Test
     @Transactional
-    public void testUserEquals() {
-        User userA = new User();
-        assertThat(userA).isEqualTo(userA);
-        assertThat(userA).isNotEqualTo(null);
-        assertThat(userA).isNotEqualTo(new Object());
-        assertThat(userA.toString()).isNotNull();
-
-        userA.setLogin("AAA");
-        User userB = new User();
-        userB.setLogin("BBB");
-        assertThat(userA).isNotEqualTo(userB);
-
-        userB.setLogin("AAA");
-        assertThat(userA).isEqualTo(userB);
-        assertThat(userA.hashCode()).isEqualTo(userB.hashCode());
+    public void testUserEquals() throws Exception {
+        TestUtil.equalsVerifier(User.class);
+        User user1 = new User();
+        user1.setId(1L);
+        User user2 = new User();
+        user2.setId(user1.getId());
+        assertThat(user1).isEqualTo(user2);
+        user2.setId(2L);
+        assertThat(user1).isNotEqualTo(user2);
+        user1.setId(null);
+        assertThat(user1).isNotEqualTo(user2);
     }
 
     @Test

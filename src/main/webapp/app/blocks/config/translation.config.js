@@ -5,12 +5,12 @@
         .module('jhipsterSampleApplicationApp')
         .config(translationConfig);
 
-    translationConfig.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider'];
+    translationConfig.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider', 'BUILD_TIMESTAMP'];
 
-    function translationConfig($translateProvider, tmhDynamicLocaleProvider) {
+    function translationConfig($translateProvider, tmhDynamicLocaleProvider, BUILD_TIMESTAMP) {
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
-            urlTemplate: 'i18n/{lang}/{part}.json'
+            urlTemplate: 'i18n/{lang}/{part}.json' + (BUILD_TIMESTAMP ? '?build=' + BUILD_TIMESTAMP : '')
         });
 
         $translateProvider.preferredLanguage('en');

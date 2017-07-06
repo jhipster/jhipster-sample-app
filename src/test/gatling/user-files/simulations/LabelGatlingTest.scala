@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Operation entity.
+ * Performance test for the Label entity.
  */
-class OperationGatlingTest extends Simulation {
+class LabelGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -37,7 +37,7 @@ class OperationGatlingTest extends Simulation {
         "X-XSRF-TOKEN" -> "${xsrf_token}"
     )
 
-    val scn = scenario("Test the Operation entity")
+    val scn = scenario("Test the Label entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -59,26 +59,26 @@ class OperationGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all operations")
-            .get("/api/operations")
+            exec(http("Get all labels")
+            .get("/api/labels")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new operation")
-            .post("/api/operations")
+            .exec(http("Create new label")
+            .post("/api/labels")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "description":"SAMPLE_TEXT", "amount":null}""")).asJSON
+            .body(StringBody("""{"id":null, "label":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_operation_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_label_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created operation")
-                .get("${new_operation_url}")
+                exec(http("Get created label")
+                .get("${new_label_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created operation")
-            .delete("${new_operation_url}")
+            .exec(http("Delete created label")
+            .delete("${new_label_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }
@@ -86,6 +86,6 @@ class OperationGatlingTest extends Simulation {
     val users = scenario("Users").exec(scn)
 
     setUp(
-        users.inject(rampUsers(100) over (1 minutes))
+        users.inject(rampUsers(Integer.getInteger("users", 100)) over (Integer.getInteger("ramp", 1) minutes))
     ).protocols(httpConf)
 }
