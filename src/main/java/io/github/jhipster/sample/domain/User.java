@@ -3,6 +3,7 @@ package io.github.jhipster.sample.domain;
 import io.github.jhipster.sample.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -112,7 +113,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     //Lowercase the login before saving it in database
     public void setLogin(String login) {
-        this.login = login == null ? null : login.toLowerCase(Locale.ENGLISH);
+        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
     public String getPassword() {
