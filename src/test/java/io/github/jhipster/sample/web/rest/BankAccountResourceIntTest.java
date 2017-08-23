@@ -66,7 +66,7 @@ public class BankAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        BankAccountResource bankAccountResource = new BankAccountResource(bankAccountRepository);
+        final BankAccountResource bankAccountResource = new BankAccountResource(bankAccountRepository);
         this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

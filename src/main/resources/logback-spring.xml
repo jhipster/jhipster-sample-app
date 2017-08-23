@@ -55,6 +55,9 @@
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="sun.rmi.transport" level="WARN"/>
 
+    <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>

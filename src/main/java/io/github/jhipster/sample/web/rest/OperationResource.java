@@ -36,7 +36,6 @@ public class OperationResource {
     private static final String ENTITY_NAME = "operation";
 
     private final OperationRepository operationRepository;
-
     public OperationResource(OperationRepository operationRepository) {
         this.operationRepository = operationRepository;
     }

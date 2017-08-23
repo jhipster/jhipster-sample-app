@@ -30,7 +30,6 @@ public class LabelResource {
     private static final String ENTITY_NAME = "label";
 
     private final LabelRepository labelRepository;
-
     public LabelResource(LabelRepository labelRepository) {
         this.labelRepository = labelRepository;
     }
@@ -87,7 +86,7 @@ public class LabelResource {
     public List<Label> getAllLabels() {
         log.debug("REST request to get all Labels");
         return labelRepository.findAll();
-    }
+        }
 
     /**
      * GET  /labels/:id : get the "id" label.

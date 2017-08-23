@@ -30,7 +30,6 @@ public class BankAccountResource {
     private static final String ENTITY_NAME = "bankAccount";
 
     private final BankAccountRepository bankAccountRepository;
-
     public BankAccountResource(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
     }
@@ -87,7 +86,7 @@ public class BankAccountResource {
     public List<BankAccount> getAllBankAccounts() {
         log.debug("REST request to get all BankAccounts");
         return bankAccountRepository.findAll();
-    }
+        }
 
     /**
      * GET  /bank-accounts/:id : get the "id" bankAccount.

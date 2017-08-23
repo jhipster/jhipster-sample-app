@@ -12,12 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface OperationRepository extends JpaRepository<Operation,Long> {
-    
+public interface OperationRepository extends JpaRepository<Operation, Long> {
     @Query("select distinct operation from Operation operation left join fetch operation.labels")
     List<Operation> findAllWithEagerRelationships();
 
     @Query("select operation from Operation operation left join fetch operation.labels where operation.id =:id")
     Operation findOneWithEagerRelationships(@Param("id") Long id);
-    
+
 }
