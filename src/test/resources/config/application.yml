@@ -3,8 +3,8 @@
 #
 # This configuration is used for unit/integration tests.
 #
-# More information on profiles: https://jhipster.github.io/profiles/
-# More information on configuration properties: https://jhipster.github.io/common-application-properties/
+# More information on profiles: http://www.jhipster.tech/profiles/
+# More information on configuration properties: http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -71,7 +71,7 @@ info:
 # ===================================================================
 # JHipster specific properties
 #
-# Full reference is available at: https://jhipster.github.io/common-application-properties/
+# Full reference is available at: http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 jhipster:
@@ -90,9 +90,11 @@ jhipster:
         from: test@localhost
         base-url: http://127.0.0.1:8080
     security:
-        remember-me:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 5c37379956bd1242f5636c8cb322c2966ad81277
+        authentication:
+            jwt:
+                secret: 07a00779cfd8d372c73b40631b62c81503e1b18e
+                # Token is valid 24 hours
+                token-validity-in-seconds: 86400
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         logs: # Reports Dropwizard metrics in the logs
@@ -105,7 +107,7 @@ jhipster:
 # to have type-safe configuration, like in the JHipsterProperties above
 #
 # More documentation is available at:
-# https://jhipster.github.io/common-application-properties/
+# http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 application:

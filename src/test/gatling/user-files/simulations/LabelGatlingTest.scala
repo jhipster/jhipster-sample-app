@@ -32,26 +32,27 @@ class LabelGatlingTest extends Simulation {
         "Accept" -> """application/json"""
     )
 
+    val headers_http_authentication = Map(
+        "Content-Type" -> """application/json""",
+        "Accept" -> """application/json"""
+    )
+
     val headers_http_authenticated = Map(
         "Accept" -> """application/json""",
-        "X-XSRF-TOKEN" -> "${xsrf_token}"
+        "Authorization" -> "${access_token}"
     )
 
     val scn = scenario("Test the Label entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
-        .check(status.is(401))
-        .check(headerRegex("Set-Cookie", "XSRF-TOKEN=(.*);[\\s]").saveAs("xsrf_token"))).exitHereIfFailed
+        .check(status.is(401))).exitHereIfFailed
         .pause(10)
         .exec(http("Authentication")
-        .post("/api/authentication")
-        .headers(headers_http_authenticated)
-        .formParam("j_username", "admin")
-        .formParam("j_password", "admin")
-        .formParam("remember-me", "true")
-        .formParam("submit", "Login")
-        .check(headerRegex("Set-Cookie", "XSRF-TOKEN=(.*);[\\s]").saveAs("xsrf_token"))).exitHereIfFailed
+        .post("/api/authenticate")
+        .headers(headers_http_authentication)
+        .body(StringBody("""{"username":"admin", "password":"admin"}""")).asJSON
+        .check(header.get("Authorization").saveAs("access_token"))).exitHereIfFailed
         .pause(1)
         .exec(http("Authenticated request")
         .get("/api/account")

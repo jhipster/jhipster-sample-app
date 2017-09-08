@@ -3,7 +3,9 @@ package io.github.jhipster.sample.web.rest.errors;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,6 +35,16 @@ public class ExceptionTranslatorTestController {
         params.put("foo", "foo_value");
         params.put("bar", "bar_value");
         throw new CustomParameterizedException("test parameterized error", params);
+    }
+
+    @GetMapping("/test/missing-servlet-request-part")
+    public void missingServletRequestPartException() throws Exception {
+        throw new MissingServletRequestPartException("missing Servlet request part");
+    }
+
+    @GetMapping("/test/missing-servlet-request-parameter")
+    public void missingServletRequestParameterException() throws Exception {
+        throw new MissingServletRequestParameterException("missing Servlet request parameter", "parameter type");
     }
 
     @GetMapping("/test/access-denied")

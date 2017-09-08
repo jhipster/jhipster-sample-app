@@ -38,23 +38,4 @@ public final class RandomUtil {
     public static String generateResetKey() {
         return RandomStringUtils.randomNumeric(DEF_COUNT);
     }
-
-    /**
-    * Generate a unique series to validate a persistent token, used in the
-    * authentication remember-me mechanism.
-    *
-    * @return the generated series data
-    */
-    public static String generateSeriesData() {
-        return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
-    }
-
-    /**
-    * Generate a persistent token, used in the authentication remember-me mechanism.
-    *
-    * @return the generated token data
-    */
-    public static String generateTokenData() {
-        return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
-    }
 }

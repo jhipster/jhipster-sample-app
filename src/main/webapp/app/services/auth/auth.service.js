@@ -16,6 +16,7 @@
             getPreviousState: getPreviousState,
             login: login,
             logout: logout,
+            loginWithToken: loginWithToken,
             resetPasswordFinish: resetPasswordFinish,
             resetPasswordInit: resetPasswordInit,
             resetPreviousState: resetPreviousState,
@@ -46,7 +47,7 @@
                 var isAuthenticated = Principal.isAuthenticated();
 
                 // an authenticated user can't access to login and register pages
-                if (isAuthenticated && $rootScope.toState.parent === 'account' && ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
+                if (isAuthenticated && $rootScope.toState.parent === 'account' && ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register' || $rootScope.toState.name === 'social-auth')) {
                     $state.go('home');
                 }
 
@@ -128,6 +129,9 @@
             return deferred.promise;
         }
 
+        function loginWithToken(jwt, rememberMe) {
+            return AuthServerProvider.loginWithToken(jwt, rememberMe);
+        }
 
         function logout () {
             AuthServerProvider.logout();

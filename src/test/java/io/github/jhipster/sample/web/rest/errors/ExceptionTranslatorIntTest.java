@@ -76,10 +76,24 @@ public class ExceptionTranslatorIntTest {
     }
 
     @Test
+    public void testMissingServletRequestPartException() throws Exception {
+        mockMvc.perform(get("/test/missing-servlet-request-part"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("error.http.400"));
+    }
+
+    @Test
+    public void testMissingServletRequestParameterException() throws Exception {
+        mockMvc.perform(get("/test/missing-servlet-request-parameter"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("error.http.400"));
+    }
+
+    @Test
     public void testAccessDenied() throws Exception {
         mockMvc.perform(get("/test/access-denied"))
             .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.message").value(ErrorConstants.ERR_ACCESS_DENIED))
+            .andExpect(jsonPath("$.message").value("error.http.403"))
             .andExpect(jsonPath("$.description").value("test access denied!"));
     }
 
@@ -95,7 +109,7 @@ public class ExceptionTranslatorIntTest {
     public void testExceptionWithResponseStatus() throws Exception {
         mockMvc.perform(get("/test/response-status"))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.message").value("error.400"))
+            .andExpect(jsonPath("$.message").value("error.http.400"))
             .andExpect(jsonPath("$.description").value("test response status"));
     }
 

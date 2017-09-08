@@ -131,7 +131,7 @@ public class OperationResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Alice in the database
+        // Validate the Operation in the database
         List<Operation> operationList = operationRepository.findAll();
         assertThat(operationList).hasSize(databaseSizeBeforeCreate);
     }
