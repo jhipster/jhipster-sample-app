@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.5.6.RELEASE</version>
+        <version>1.5.7.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -503,7 +503,7 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/docker/</directory>
-                                    <filtering>true</filtering>
+                                    <filtering>false</filtering>
                                     <excludes>
                                         <exclude>**/*.yml</exclude>
                                     </excludes>
