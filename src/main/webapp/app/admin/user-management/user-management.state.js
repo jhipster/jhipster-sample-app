@@ -90,7 +90,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['User', function(User) {
-                            return User.get({login : $stateParams.login});
+                            return User.get({login : $stateParams.login}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -134,7 +134,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['User', function(User) {
-                            return User.get({login : $stateParams.login});
+                            return User.get({login : $stateParams.login}).$promise;
                         }]
                     }
                 }).result.then(function() {

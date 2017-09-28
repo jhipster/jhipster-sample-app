@@ -120,6 +120,7 @@ jhipster:
             port: 5000
             queue-size: 512
 
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

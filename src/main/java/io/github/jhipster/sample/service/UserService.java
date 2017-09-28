@@ -77,7 +77,7 @@ public class UserService {
     }
 
     public Optional<User> requestPasswordReset(String mail) {
-        return userRepository.findOneByEmail(mail)
+        return userRepository.findOneByEmailIgnoreCase(mail)
             .filter(User::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
@@ -121,7 +121,7 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setImageUrl(userDTO.getImageUrl());
         if (userDTO.getLangKey() == null) {
-            user.setLangKey("en"); // default language
+            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
