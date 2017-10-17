@@ -20,19 +20,19 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="login" type="varchar(50)">
-                <constraints unique="true" nullable="false"/>
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
             </column>
             <column name="password_hash" type="varchar(60)"/>
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(100)">
-                <constraints unique="true" nullable="true"/>
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_email"/>
             </column>
             <column name="image_url" type="varchar(256)"/>
             <column name="activated" type="boolean" valueBoolean="false">
                 <constraints nullable="false" />
             </column>
-            <column name="lang_key" type="varchar(5)"/>
+            <column name="lang_key" type="varchar(6)"/>
             <column name="activation_key" type="varchar(20)"/>
             <column name="reset_key" type="varchar(20)"/>
             <column name="created_by" type="varchar(50)">
@@ -80,7 +80,6 @@
                                  constraintName="fk_authority_name"
                                  referencedColumnNames="name"
                                  referencedTableName="jhi_authority"/>
-
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="jhi_user_authority"
                                  constraintName="fk_user_id"
@@ -94,7 +93,6 @@
             <column name="created_date" type="timestamp"/>
         </loadData>
         <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
-
         <loadData encoding="UTF-8"
                   file="config/liquibase/authorities.csv"
                   separator=";"
@@ -145,5 +143,4 @@
                                  referencedColumnNames="event_id"
                                  referencedTableName="jhi_persistent_audit_event"/>
     </changeSet>
-
 </databaseChangeLog>

@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Operation;
 
 import io.github.jhipster.sample.repository.OperationRepository;
+import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -53,7 +54,7 @@ public class OperationResource {
     public ResponseEntity<Operation> createOperation(@Valid @RequestBody Operation operation) throws URISyntaxException {
         log.debug("REST request to save Operation : {}", operation);
         if (operation.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new operation cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new operation cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Operation result = operationRepository.save(operation);
         return ResponseEntity.created(new URI("/api/operations/" + result.getId()))

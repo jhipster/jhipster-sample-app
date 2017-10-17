@@ -3,11 +3,11 @@ package io.github.jhipster.sample.config;
 import io.github.jhipster.sample.security.*;
 import io.github.jhipster.sample.security.jwt.*;
 
-import io.github.jhipster.security.*;
 
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,11 +20,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
+import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 import javax.annotation.PostConstruct;
 
+@Import(SecurityProblemSupport.class)
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -38,14 +40,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
 
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService,
-            TokenProvider tokenProvider,
-        CorsFilter corsFilter) {
+    private final SecurityProblemSupport problemSupport;
 
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService,
+            TokenProvider tokenProvider,CorsFilter corsFilter, SecurityProblemSupport problemSupport) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
+        this.problemSupport = problemSupport;
     }
 
     @PostConstruct
@@ -57,11 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         } catch (Exception e) {
             throw new BeanInitializationException("Security configuration failed", e);
         }
-    }
-
-    @Bean
-    public Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint() {
-        return new Http401UnauthorizedEntryPoint();
     }
 
     @Bean
@@ -78,6 +76,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/i18n/**")
             .antMatchers("/content/**")
             .antMatchers("/swagger-ui/index.html")
+            .antMatchers("/api/register")
+            .antMatchers("/api/activate")
+            .antMatchers("/api/account/reset-password/init")
+            .antMatchers("/api/account/reset-password/finish")
             .antMatchers("/test/**")
             .antMatchers("/h2-console/**");
     }
@@ -87,7 +89,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling()
-            .authenticationEntryPoint(http401UnauthorizedEntryPoint())
+            .authenticationEntryPoint(problemSupport)
+            .accessDeniedHandler(problemSupport)
         .and()
             .csrf()
             .disable()

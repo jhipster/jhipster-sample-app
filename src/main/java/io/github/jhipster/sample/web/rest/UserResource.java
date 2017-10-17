@@ -8,6 +8,9 @@ import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.service.MailService;
 import io.github.jhipster.sample.service.UserService;
 import io.github.jhipster.sample.service.dto.UserDTO;
+import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
+import io.github.jhipster.sample.web.rest.errors.EmailAlreadyUsedException;
+import io.github.jhipster.sample.web.rest.errors.LoginAlreadyUsedException;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
@@ -85,6 +88,7 @@ public class UserResource {
      * @param managedUserVM the user to create
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
      * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping("/users")
     @Timed
@@ -93,18 +97,12 @@ public class UserResource {
         log.debug("REST request to save User : {}", managedUserVM);
 
         if (managedUserVM.getId() != null) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
-                .body(null);
+            throw new BadRequestAlertException("A new user cannot already have an ID", ENTITY_NAME, "idexists");
         // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
-                .body(null);
+            throw new LoginAlreadyUsedException();
         } else if (userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
-                .body(null);
+            throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(managedUserVM);
             mailService.sendCreationEmail(newUser);
@@ -118,9 +116,9 @@ public class UserResource {
      * PUT  /users : Updates an existing User.
      *
      * @param managedUserVM the user to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated user,
-     * or with status 400 (Bad Request) if the login or email is already in use,
-     * or with status 500 (Internal Server Error) if the user couldn't be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated user
+     * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already in use
+     * @throws LoginAlreadyUsedException 400 (Bad Request) if the login is already in use
      */
     @PutMapping("/users")
     @Timed
@@ -129,11 +127,11 @@ public class UserResource {
         log.debug("REST request to update User : {}", managedUserVM);
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use")).body(null);
+            throw new EmailAlreadyUsedException();
         }
         existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use")).body(null);
+            throw new LoginAlreadyUsedException();
         }
         Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
 

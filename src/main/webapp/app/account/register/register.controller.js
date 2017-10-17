@@ -6,9 +6,9 @@
         .controller('RegisterController', RegisterController);
 
 
-    RegisterController.$inject = ['$translate', '$timeout', 'Auth', 'LoginService'];
+    RegisterController.$inject = ['$translate', '$timeout', 'Auth', 'LoginService', 'errorConstants'];
 
-    function RegisterController ($translate, $timeout, Auth, LoginService) {
+    function RegisterController ($translate, $timeout, Auth, LoginService, errorConstants) {
         var vm = this;
 
         vm.doNotMatch = null;
@@ -35,9 +35,9 @@
                     vm.success = 'OK';
                 }).catch(function (response) {
                     vm.success = null;
-                    if (response.status === 400 && response.data === 'login already in use') {
+                    if (response.status === 400 && angular.fromJson(response.data).type === errorConstants.LOGIN_ALREADY_USED_TYPE) {
                         vm.errorUserExists = 'ERROR';
-                    } else if (response.status === 400 && response.data === 'email address already in use') {
+                    } else if (response.status === 400 && angular.fromJson(response.data).type === errorConstants.EMAIL_ALREADY_USED_TYPE) {
                         vm.errorEmailExists = 'ERROR';
                     } else {
                         vm.error = 'ERROR';

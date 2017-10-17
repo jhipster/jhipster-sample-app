@@ -7,7 +7,7 @@ describe('Controller Tests', function() {
 
     describe('RequestResetController', function() {
 
-        var $rootScope, $scope, $q; // actual implementations
+        var $rootScope, $scope, $q, errorConstants; // actual implementations
         var MockState, MockTimeout, MockAuth; // mocks
         var createController; // local utility function
 
@@ -15,6 +15,7 @@ describe('Controller Tests', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
+            errorConstants = $injector.get('errorConstants');
             MockState = jasmine.createSpy('MockState');
             MockTimeout = jasmine.createSpy('MockTimeout');
             MockAuth = jasmine.createSpyObj('MockAuth', ['resetPasswordInit']);
@@ -22,6 +23,7 @@ describe('Controller Tests', function() {
             var locals = {
                 '$rootScope': $rootScope,
                 '$scope': $scope,
+                'errorConstants': errorConstants,
                 '$state': MockState,
                 '$timeout': MockTimeout,
                 'Auth': MockAuth
@@ -75,7 +77,7 @@ describe('Controller Tests', function() {
             // given
             MockAuth.resetPasswordInit.and.returnValue($q.reject({
                 status: 400,
-                data: 'email address not registered'
+                data: '{"type": "' + errorConstants.EMAIL_NOT_FOUND_TYPE + '"}'
             }));
             createController();
             $scope.vm.resetAccount.email = 'user@domain.com';

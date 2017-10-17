@@ -40,7 +40,7 @@ public class UserDTO {
 
     private boolean activated = false;
 
-    @Size(min = 2, max = 5)
+    @Size(min = 2, max = 6)
     private String langKey;
 
     private String createdBy;

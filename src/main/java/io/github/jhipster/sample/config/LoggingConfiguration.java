@@ -25,7 +25,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class LoggingConfiguration {
+
     private static final String LOGSTASH_APPENDER_NAME = "LOGSTASH";
+
     private static final String ASYNC_LOGSTASH_APPENDER_NAME = "ASYNC_LOGSTASH";
 
     private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
@@ -36,16 +38,13 @@ public class LoggingConfiguration {
 
     private final String serverPort;
 
-    private final String version;
-
     private final JHipsterProperties jHipsterProperties;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-         JHipsterProperties jHipsterProperties, @Value("${info.project.version}") String version) {
+         JHipsterProperties jHipsterProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.jHipsterProperties = jHipsterProperties;
-        this.version = version;
         if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
             addLogstashAppender(context);
             addContextListener(context);

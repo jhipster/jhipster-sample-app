@@ -112,6 +112,16 @@ public class ExceptionTranslatorIntTest {
     }
 
     @Test
+    public void testUnauthorized() throws Exception {
+        mockMvc.perform(get("/test/unauthorized"))
+            .andExpect(status().isUnauthorized())
+            .andExpect(content().contentType(MediaTypes.PROBLEM))
+            .andExpect(jsonPath("$.message").value("error.http.401"))
+            .andExpect(jsonPath("$.path").value("/test/unauthorized"))
+            .andExpect(jsonPath("$.detail").value("test authentication failed!"));
+    }
+
+    @Test
     public void testMethodNotSupported() throws Exception {
         mockMvc.perform(post("/test/access-denied"))
             .andExpect(status().isMethodNotAllowed())

@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Label;
 
 import io.github.jhipster.sample.repository.LabelRepository;
+import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class LabelResource {
     public ResponseEntity<Label> createLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to save Label : {}", label);
         if (label.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new label cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new label cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Label result = labelRepository.save(label);
         return ResponseEntity.created(new URI("/api/labels/" + result.getId()))
