@@ -95,7 +95,14 @@ module.exports = function (config) {
         // - Opera
         // - Safari (only Mac)
         // - IE (only Windows)
-        browsers: ['ChromiumHeadless'],
+        browsers: ['ChromiumHeadlessNoSandbox'],
+
+        customLaunchers: {
+            ChromiumHeadlessNoSandbox: {
+                base: 'ChromiumHeadless',
+                    flags: ['--no-sandbox']
+            }
+        },
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

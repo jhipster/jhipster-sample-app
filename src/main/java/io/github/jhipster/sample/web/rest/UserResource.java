@@ -65,13 +65,10 @@ public class UserResource {
     private static final String ENTITY_NAME = "userManagement";
 
     private final UserRepository userRepository;
-
     private final MailService mailService;
-
     private final UserService userService;
 
-    public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService) {
+    public UserResource(UserRepository userRepository,MailService mailService,            UserService userService) {
 
         this.userRepository = userRepository;
         this.mailService = mailService;
@@ -93,7 +90,7 @@ public class UserResource {
     @PostMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
+    public ResponseEntity<User> createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
         log.debug("REST request to save User : {}", managedUserVM);
 
         if (managedUserVM.getId() != null) {
