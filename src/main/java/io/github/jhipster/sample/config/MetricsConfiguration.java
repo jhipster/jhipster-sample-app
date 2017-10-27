@@ -35,6 +35,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     private static final String PROP_METRIC_REG_JVM_ATTRIBUTE_SET = "jvm.attributes";
 
     private static final String PROP_METRIC_REG_JCACHE_STATISTICS = "jcache.statistics";
+
     private final Logger log = LoggerFactory.getLogger(MetricsConfiguration.class);
 
     private MetricRegistry metricRegistry = new MetricRegistry();
@@ -75,7 +76,6 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
         metricRegistry.register(PROP_METRIC_REG_JVM_FILES, new FileDescriptorRatioGauge());
         metricRegistry.register(PROP_METRIC_REG_JVM_BUFFERS, new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
         metricRegistry.register(PROP_METRIC_REG_JVM_ATTRIBUTE_SET, new JvmAttributeGaugeSet());
-
         metricRegistry.register(PROP_METRIC_REG_JCACHE_STATISTICS, new JCacheGaugeSet());
         if (hikariDataSource != null) {
             log.debug("Monitoring the datasource");

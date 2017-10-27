@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 4.10.1, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.10.1](http://www.jhipster.tech/documentation-archive/v4.10.1).
+This application was generated using JHipster 4.10.2, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.10.2](http://www.jhipster.tech/documentation-archive/v4.10.2).
 
 ## Development
 
@@ -97,13 +97,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.10.1 archive]: http://www.jhipster.tech/documentation-archive/v4.10.1
+[JHipster 4.10.2 archive]: http://www.jhipster.tech/documentation-archive/v4.10.2
 
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.10.1/development/
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.10.1/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.10.1/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.10.1/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.10.1/setting-up-ci/
+[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.10.2/development/
+[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.10.2/docker-compose
+[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.10.2/production/
+[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.10.2/running-tests/
+[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.10.2/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
