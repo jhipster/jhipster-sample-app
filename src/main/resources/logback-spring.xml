@@ -26,6 +26,7 @@
 
     <logger name="io.github.jhipster" level="#logback.loglevel#"/>
 
+
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
     <logger name="javax.xml.bind" level="WARN"/>

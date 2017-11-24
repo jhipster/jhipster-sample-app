@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+
 /**
  * A BankAccount.
  */
@@ -109,7 +110,7 @@ public class BankAccount implements Serializable {
         return "BankAccount{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", balance='" + getBalance() + "'" +
+            ", balance=" + getBalance() +
             "}";
     }
 }

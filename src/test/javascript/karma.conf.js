@@ -1,7 +1,5 @@
-var ChromiumRevision = require('puppeteer/package.json').puppeteer.chromium_revision;
-var Downloader = require('puppeteer/utils/ChromiumDownloader');
-var revisionInfo = Downloader.revisionInfo(Downloader.currentPlatform(), ChromiumRevision);
-process.env.CHROMIUM_BIN = revisionInfo.executablePath;
+// Karma configuration
+// http://karma-runner.github.io/0.13/config/configuration-file.html
 
 var sourcePreprocessors = ['coverage'];
 
@@ -95,14 +93,7 @@ module.exports = function (config) {
         // - Opera
         // - Safari (only Mac)
         // - IE (only Windows)
-        browsers: ['ChromiumHeadlessNoSandbox'],
-
-        customLaunchers: {
-            ChromiumHeadlessNoSandbox: {
-                base: 'ChromiumHeadless',
-                    flags: ['--no-sandbox']
-            }
-        },
+        browsers: ['PhantomJS'],
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

@@ -4,16 +4,17 @@ const HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter"
 const JasmineReporters = require('jasmine-reporters');
 
 const prefix = 'src/test/javascript/'.replace(/[^/]+/g,'..');
+const seleniumFolder = 'node_modules/webdriver-manager/selenium/';
 
 var webbrowserDriver= '';
 if (os.platform() === 'win32') {
-    webbrowserDriver = prefix + 'node_modules/webdriver-manager/selenium/chromedriver_2.33.exe';
+    webbrowserDriver = prefix + seleniumFolder + 'chromedriver_2.33.exe';
 } else {
-    webbrowserDriver = prefix + 'node_modules/webdriver-manager/selenium/chromedriver_2.33';
+    webbrowserDriver = prefix + seleniumFolder + 'chromedriver_2.33';
 }
 
 exports.config = {
-    seleniumServerJar: prefix + 'node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar',
+    seleniumServerJar: prefix + seleniumFolder + 'selenium-server-standalone-3.6.0.jar',
     chromeDriver: webbrowserDriver,
     allScriptsTimeout: 20000,
 
@@ -25,9 +26,8 @@ exports.config = {
 
     capabilities: {
         'browserName': 'chrome',
-        chromeOptions: {
-            args: ["--headless", "--disable-gpu"]
-        }
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+        'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
     },
 
     directConnect: true,

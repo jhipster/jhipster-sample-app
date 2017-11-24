@@ -11,11 +11,9 @@ import io.github.jhipster.sample.service.dto.UserDTO;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.web.rest.errors.EmailAlreadyUsedException;
 import io.github.jhipster.sample.web.rest.errors.LoginAlreadyUsedException;
-import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
 import io.github.jhipster.sample.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.ApiParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +80,7 @@ public class UserResource {
      * mail with an activation link.
      * The user needs to be activated on creation.
      *
-     * @param managedUserVM the user to create
+     * @param userDTO the user to create
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
      * @throws URISyntaxException if the Location URI syntax is incorrect
      * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
@@ -90,18 +88,18 @@ public class UserResource {
     @PostMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<User> createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
-        log.debug("REST request to save User : {}", managedUserVM);
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
+        log.debug("REST request to save User : {}", userDTO);
 
-        if (managedUserVM.getId() != null) {
+        if (userDTO.getId() != null) {
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
-        // Lowercase the user login before comparing with database
-        } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
+            // Lowercase the user login before comparing with database
+        } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
-        } else if (userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail()).isPresent()) {
+        } else if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
             throw new EmailAlreadyUsedException();
         } else {
-            User newUser = userService.createUser(managedUserVM);
+            User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
                 .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
@@ -110,9 +108,9 @@ public class UserResource {
     }
 
     /**
-     * PUT  /users : Updates an existing User.
+     * PUT /users : Updates an existing User.
      *
-     * @param managedUserVM the user to update
+     * @param userDTO the user to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated user
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already in use
      * @throws LoginAlreadyUsedException 400 (Bad Request) if the login is already in use
@@ -120,31 +118,31 @@ public class UserResource {
     @PutMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        log.debug("REST request to update User : {}", managedUserVM);
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
+        log.debug("REST request to update User : {}", userDTO);
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new EmailAlreadyUsedException();
         }
-        existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
+        existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new LoginAlreadyUsedException();
         }
-        Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
+        Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
         return ResponseUtil.wrapOrNotFound(updatedUser,
-            HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));
+            HeaderUtil.createAlert("userManagement.updated", userDTO.getLogin()));
     }
 
     /**
-     * GET  /users : get all users.
+     * GET /users : get all users.
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -161,7 +159,7 @@ public class UserResource {
     }
 
     /**
-     * GET  /users/:login : get the "login" user.
+     * GET /users/:login : get the "login" user.
      *
      * @param login the login of the user to find
      * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)

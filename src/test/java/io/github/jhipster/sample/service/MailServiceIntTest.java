@@ -59,7 +59,7 @@ public class MailServiceIntTest {
 
     @Test
     public void testSendEmail() throws Exception {
-        mailService.sendEmail("john.doe@example.com", "testSubject","testContent", false, false);
+        mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, false);
         verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
         MimeMessage message = (MimeMessage) messageCaptor.getValue();
         assertThat(message.getSubject()).isEqualTo("testSubject");
@@ -72,7 +72,7 @@ public class MailServiceIntTest {
 
     @Test
     public void testSendHtmlEmail() throws Exception {
-        mailService.sendEmail("john.doe@example.com", "testSubject","testContent", false, true);
+        mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, true);
         verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
         MimeMessage message = (MimeMessage) messageCaptor.getValue();
         assertThat(message.getSubject()).isEqualTo("testSubject");
@@ -85,11 +85,11 @@ public class MailServiceIntTest {
 
     @Test
     public void testSendMultipartEmail() throws Exception {
-        mailService.sendEmail("john.doe@example.com", "testSubject","testContent", true, false);
+        mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", true, false);
         verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
         MimeMessage message = (MimeMessage) messageCaptor.getValue();
         MimeMultipart mp = (MimeMultipart) message.getContent();
-        MimeBodyPart part = (MimeBodyPart)((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
+        MimeBodyPart part = (MimeBodyPart) ((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
         ByteArrayOutputStream aos = new ByteArrayOutputStream();
         part.writeTo(aos);
         assertThat(message.getSubject()).isEqualTo("testSubject");
@@ -102,11 +102,11 @@ public class MailServiceIntTest {
 
     @Test
     public void testSendMultipartHtmlEmail() throws Exception {
-        mailService.sendEmail("john.doe@example.com", "testSubject","testContent", true, true);
+        mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", true, true);
         verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
         MimeMessage message = (MimeMessage) messageCaptor.getValue();
         MimeMultipart mp = (MimeMultipart) message.getContent();
-        MimeBodyPart part = (MimeBodyPart)((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
+        MimeBodyPart part = (MimeBodyPart) ((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
         ByteArrayOutputStream aos = new ByteArrayOutputStream();
         part.writeTo(aos);
         assertThat(message.getSubject()).isEqualTo("testSubject");
@@ -181,7 +181,7 @@ public class MailServiceIntTest {
     @Test
     public void testSendEmailWithException() throws Exception {
         doThrow(MailSendException.class).when(javaMailSender).send(any(MimeMessage.class));
-        mailService.sendEmail("john.doe@example.com", "testSubject","testContent", false, false);
+        mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, false);
     }
 
 }

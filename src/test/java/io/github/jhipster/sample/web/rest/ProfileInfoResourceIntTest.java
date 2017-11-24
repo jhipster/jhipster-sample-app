@@ -39,7 +39,7 @@ public class ProfileInfoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        String mockProfile[] = {"test"};
+        String mockProfile[] = { "test" };
         JHipsterProperties.Ribbon ribbon = new JHipsterProperties.Ribbon();
         ribbon.setDisplayOnActiveProfiles(mockProfile);
         when(jHipsterProperties.getRibbon()).thenReturn(ribbon);

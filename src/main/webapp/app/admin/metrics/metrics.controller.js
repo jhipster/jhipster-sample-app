@@ -22,14 +22,14 @@
         $scope.$watch('vm.metrics', function (newValue) {
             vm.servicesStats = {};
             angular.forEach(newValue.timers, function (value, key) {
-                if (key.indexOf('web.rest') !== -1 || key.indexOf('service') !== -1) {
+                if (key.includes('web.rest') || key.includes('service')) {
                     vm.servicesStats[key] = value;
                 }
             });
 
             vm.cachesStats = {};
             angular.forEach(newValue.gauges, function (value, key) {
-                if (key.indexOf('jcache.statistics') !== -1) {
+                if (key.includes('jcache.statistics')) {
                     // remove gets or puts
                     var index = key.lastIndexOf('.');
                     var newKey = key.substr(0, index);
