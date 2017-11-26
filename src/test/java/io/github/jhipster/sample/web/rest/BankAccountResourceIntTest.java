@@ -214,6 +214,8 @@ public class BankAccountResourceIntTest {
 
         // Update the bankAccount
         BankAccount updatedBankAccount = bankAccountRepository.findOne(bankAccount.getId());
+        // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
+        em.detach(updatedBankAccount);
         updatedBankAccount.setName(UPDATED_NAME);
         updatedBankAccount.setBalance(UPDATED_BALANCE);
 

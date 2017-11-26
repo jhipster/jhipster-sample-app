@@ -13,8 +13,8 @@
         <maven.version>3.0.0</maven.version>
         <java.version>1.8</java.version>
         <scala.version>2.12.1</scala.version>
-        <node.version>v8.9.0</node.version>
-        <yarn.version>v1.2.1</yarn.version>
+        <node.version>v8.9.1</node.version>
+        <yarn.version>v1.3.2</yarn.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
@@ -408,8 +408,9 @@
                             <version>[${maven.version},)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-                            <message>You are running an older version of Java. JHipster requires at least JDK ${java.version}</message>
-                            <version>[${java.version}.0,)</version>
+                            <!-- Until JHipster supports JDK 9 -->
+                            <message>You are running an incompatible version of Java. JHipster requires JDK ${java.version}</message>
+                            <version>[1.8,1.9)</version>
                         </requireJavaVersion>
                     </rules>
                 </configuration>
