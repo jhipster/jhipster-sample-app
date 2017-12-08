@@ -29,13 +29,13 @@
         <profile.swagger />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>0.1.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>0.1.4</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <hibernate.version>5.2.10.Final</hibernate.version>
+        <hibernate.version>5.2.12.Final</hibernate.version>
         <!-- The javassist version should match the one managed by
         https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
         <javassist.version>3.20.0-GA</javassist.version>
@@ -44,7 +44,7 @@
         <liquibase.version>3.5.3</liquibase.version>
         <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <mapstruct.version>1.1.0.Final</mapstruct.version>
+        <mapstruct.version>1.2.0.Final</mapstruct.version>
 
         <!-- Plugin versions -->
         <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
@@ -56,7 +56,7 @@
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <dockerfile-maven-plugin.version>1.3.4</dockerfile-maven-plugin.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-        <gatling-maven-plugin.version>2.2.4</gatling-maven-plugin.version>
+        <gatling-maven-plugin.version>2.2.1</gatling-maven-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
@@ -437,16 +437,14 @@
                                     <directory>src/main/resources/</directory>
                                     <filtering>true</filtering>
                                     <includes>
-                                        <include>**/*.xml</include>
-                                        <include>**/*.yml</include>
+                                        <include>config/application.yml</include>
                                     </includes>
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources/</directory>
                                     <filtering>false</filtering>
                                     <excludes>
-                                        <exclude>**/*.xml</exclude>
-                                        <exclude>**/*.yml</exclude>
+                                        <exclude>config/application.yml</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
@@ -709,8 +707,6 @@
                 </plugins>
             </build>
             <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev${profile.no-liquibase}</spring.profiles.active>
             </properties>
@@ -826,8 +822,6 @@
                 </plugins>
             </build>
             <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
             </properties>
@@ -926,8 +920,6 @@
                 </plugins>
             </build>
             <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev,swagger</spring.profiles.active>
             </properties>

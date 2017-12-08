@@ -13,6 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+logging:
+    level:
+        ROOT: DEBUG
+        io.github.jhipster.sample: DEBUG
+        io.github.jhipster: DEBUG
+
 spring:
     profiles:
         active: dev
@@ -93,7 +99,7 @@ jhipster:
         allowed-origins: "*"
         allowed-methods: "*"
         allowed-headers: "*"
-        exposed-headers: "Authorization"
+        exposed-headers: "Authorization,Link,X-Total-Count"
         allow-credentials: true
         max-age: 1800
     security:

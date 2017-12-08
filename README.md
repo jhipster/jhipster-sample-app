@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 4.11.1, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.11.1](http://www.jhipster.tech/documentation-archive/v4.11.1).
+This application was generated using JHipster 4.12.0, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.12.0](http://www.jhipster.tech/documentation-archive/v4.12.0).
 
 ## Development
 
@@ -73,6 +73,7 @@ For more information, refer to the [Running tests page][].
 ## Using Docker to simplify development (optional)
 
 You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+
 For example, to start a mysql database in a docker container, run:
 
     docker-compose -f src/main/docker/mysql.yml up -d
@@ -97,13 +98,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.11.1 archive]: http://www.jhipster.tech/documentation-archive/v4.11.1
+[JHipster 4.12.0 archive]: http://www.jhipster.tech/documentation-archive/v4.12.0
 
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.11.1/development/
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.11.1/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.11.1/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.11.1/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.11.1/setting-up-ci/
+[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.12.0/development/
+[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.12.0/docker-compose
+[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.12.0/production/
+[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.12.0/running-tests/
+[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.12.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

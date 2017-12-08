@@ -13,6 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+logging:
+    level:
+        ROOT: INFO
+        io.github.jhipster.sample: INFO
+        io.github.jhipster: INFO
+
 spring:
     devtools:
         restart:
