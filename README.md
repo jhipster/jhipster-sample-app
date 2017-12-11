@@ -15,22 +15,74 @@ You will only need to run this command when dependencies change in [package.json
 
     yarn install
 
-We use [Gulp][] as our build system. Install the Gulp command-line tool globally with:
+We use yarn scripts and [Webpack][] as our build system.
 
-    yarn global add gulp-cli
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     ./mvnw
-    gulp
+    yarn start
 
-[Bower][] is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [bower.json](bower.json). You can also run `bower update` and `bower install` to manage dependencies.
-Add the `-h` flag on any command to see how you can use it. For example, `bower update -h`.
+[Yarn][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+specifying a newer version in [package.json](package.json). You can also run `yarn update` and `yarn install` to manage dependencies.
+Add the `help` flag on any command to see how you can use it. For example, `yarn help update`.
+
+The `yarn run` command will list all of the scripts available to run for this project.
+
+### Service workers
+
+Service workers are commented by default, to enable them please uncomment the following code.
+
+* The service worker registering script in index.html
+```
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+        .register('./sw.js')
+        .then(function() { console.log('Service Worker Registered'); });
+    }
+</script>
+
+Note: workbox creates the respective service worker and dynamically generate the `sw.js`
+
+### Managing dependencies
+
+For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
+
+    yarn add --exact leaflet
+
+To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
+
+    yarn add --dev --exact @types/leaflet
+
+Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
+Edit [src/main/webapp/app/vendor.ts](src/main/webapp/app/vendor.ts) file:
+~~~
+import 'leaflet/dist/leaflet.js';
+~~~
+
+Edit [src/main/webapp/content/css/vendor.css](src/main/webapp/content/css/vendor.css) file:
+~~~
+@import '~leaflet/dist/leaflet.css';
+~~~
+Note: there are still few other things remaining to do for Leaflet that we won't detail here.
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
+### Using angular-cli
+
+You can also use [Angular CLI][] to generate some custom client code.
+
+For example, the following command:
+
+    ng generate component my-component
+
+will generate few files:
+
+    create src/main/webapp/app/my-component/my-component.component.html
+    create src/main/webapp/app/my-component/my-component.component.ts
+    update src/main/webapp/app/app.module.ts
 
 
 ## Building for production
@@ -58,10 +110,10 @@ To launch your application's tests, run:
 
 Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
 
-    gulp test
+    yarn test
 
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
+and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`yarn run e2e`) in a second one.
 ### Other tests
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
@@ -109,8 +161,8 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
 [Yarn]: https://yarnpkg.org/
-[Bower]: http://bower.io/
-[Gulp]: http://gulpjs.com/
+[Webpack]: https://webpack.github.io/
+[Angular CLI]: https://cli.angular.io/
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html

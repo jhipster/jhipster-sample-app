@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2015",
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
+        "noImplicitAny": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "skipLibCheck": true,
+        "outDir": "target/www/app",
+        "lib": ["es2015", "dom"],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "angularCompilerOptions": {
+        "genDir": "target/aot",
+        "skipMetadataEmit" : true
+    }
+}

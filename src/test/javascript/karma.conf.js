@@ -1,107 +1,81 @@
-// Karma configuration
-// http://karma-runner.github.io/0.13/config/configuration-file.html
+const webpackConfig = require('../../../webpack/webpack.test.js');
 
-var sourcePreprocessors = ['coverage'];
+const WATCH = process.argv.includes('--watch');
 
-function isDebug() {
-    return process.argv.indexOf('--debug') >= 0;
-}
-
-if (isDebug()) {
-    // Disable JS minification if Karma is run with debug option.
-    sourcePreprocessors = [];
-}
-
-module.exports = function (config) {
+module.exports = (config) => {
     config.set({
-        // base path, that will be used to resolve files and exclude
-        basePath: 'src/test/javascript/'.replace(/[^/]+/g, '..'),
 
-        // testing framework to use (jasmine/mocha/qunit/...)
-        frameworks: ['jasmine'],
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: './',
+
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['jasmine', 'intl-shim'],
 
         // list of files / patterns to load in the browser
         files: [
-            // bower:js
-            'src/main/webapp/bower_components/jquery/dist/jquery.js',
-            'src/main/webapp/bower_components/messageformat/messageformat.js',
-            'src/main/webapp/bower_components/json3/lib/json3.js',
-            'src/main/webapp/bower_components/angular/angular.js',
-            'src/main/webapp/bower_components/angular-aria/angular-aria.js',
-            'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            'src/main/webapp/bower_components/angular-cache-buster/angular-cache-buster.js',
-            'src/main/webapp/bower_components/angular-cookies/angular-cookies.js',
-            'src/main/webapp/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
-            'src/main/webapp/bower_components/ngstorage/ngStorage.js',
-            'src/main/webapp/bower_components/angular-loading-bar/build/loading-bar.js',
-            'src/main/webapp/bower_components/angular-resource/angular-resource.js',
-            'src/main/webapp/bower_components/angular-sanitize/angular-sanitize.js',
-            'src/main/webapp/bower_components/angular-translate/angular-translate.js',
-            'src/main/webapp/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
-            'src/main/webapp/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
-            'src/main/webapp/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
-            'src/main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
-            'src/main/webapp/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js',
-            'src/main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
-            'src/main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
-            'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
-            // endbower
-            'src/main/webapp/app/app.module.js',
-            'src/main/webapp/app/app.state.js',
-            'src/main/webapp/app/app.constants.js',
-            'src/main/webapp/app/**/*.+(js|html)',
-            'src/test/javascript/spec/helpers/module.js',
-            'src/test/javascript/spec/helpers/httpBackend.js',
-            'src/test/javascript/**/!(karma.conf|protractor.conf).js'
+            'spec/entry.ts'
         ],
 
 
-        // list of files / patterns to exclude
-        exclude: ['src/test/javascript/e2e/**'],
+        // list of files to exclude
+        exclude: ['e2e/**'],
 
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            './**/*.js': sourcePreprocessors
+            'spec/entry.ts': ['webpack', 'sourcemap']
         },
 
-        reporters: ['dots', 'junit', 'coverage', 'progress'],
+        webpack: webpackConfig(WATCH),
+
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['dots', 'junit', 'progress', 'karma-remap-istanbul', 'notify'],
 
         junitReporter: {
-            outputFile: '../target/test-results/karma/TESTS-results.xml'
+            outputFile: '../../../../target/test-results/karma/TESTS-results.xml'
         },
 
-        coverageReporter: {
-            dir: 'target/test-results/coverage',
-            reporters: [
-                {type: 'lcov', subdir: 'report-lcov'}
-            ]
+        notifyReporter: {
+            reportEachFailure: true, // Default: false, will notify on every failed sepc
+            reportSuccess: true // Default: true, will notify when a suite was successful
+        },
+
+
+        remapIstanbulReporter: {
+            reports: { // eslint-disable-line
+                'lcovonly': 'target/test-results/coverage/report-lcov/lcov.info',
+                'html': 'target/test-results/coverage',
+                'text-summary': null
+            }
         },
 
         // web server port
         port: 9876,
 
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
+
         // level of logging
-        // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+        autoWatch: WATCH,
 
-        // Start these browsers, currently available:
-        // - Chrome
-        // - ChromeCanary
-        // - Firefox
-        // - Opera
-        // - Safari (only Mac)
-        // - IE (only Windows)
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['PhantomJS'],
 
-        // Continuous Integration mode
-        // if true, it capture browsers, run tests and exit
-        singleRun: false,
+        // Ensure all browsers can run tests written in .ts files
+        mime: {
+            'text/x-typescript': ['ts','tsx']
+        },
 
-        // to avoid DISCONNECTED messages when connecting to slow virtual machines
-        browserDisconnectTimeout: 10000, // default 2000
-        browserDisconnectTolerance: 1, // default 0
-        browserNoActivityTimeout: 4 * 60 * 1000 //default 10000
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: !WATCH
     });
 };

@@ -1,0 +1,66 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "jhipster-sample-application"
+    },
+    "apps": [{
+        "root": "src/main/webapp",
+        "outDir": "target/www/app",
+        "assets": [
+            "content",
+            "i18n",
+            "favicon.ico"
+        ],
+        "index": "index.html",
+        "main": "app/app.main.ts",
+        "polyfills": "app/polyfills.ts",
+        "test": "src/test/javascript/spec/entry.ts",
+        "tsconfig": "../../../tsconfig.json",
+        "prefix": "jhi",
+        "mobile": false,
+        "styles": [
+            "content/css/vendor.css",
+            "content/css/global.css"
+        ],
+        "scripts": []
+    }],
+    "e2e": {
+        "protractor": {
+            "config": "src/test/javascript/protractor.conf.js"
+        }
+    },
+    "lint": [{
+            "project": "../../../tsconfig.json"
+        },
+        {
+            "project": "../../../tsconfig-aot.json"
+        }
+    ],
+    "test": {
+        "karma": {
+            "config": "src/test/javascript/karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "prefixInterfaces": false,
+        "component" : {
+            "inlineStyle" : true,
+            "inlineTemplate": false,
+            "spec": false
+        },
+        "directive" : {
+            "spec": false
+        },
+        "guard" : {
+            "spec": false
+        },
+        "pipe" : {
+            "spec": false
+        },
+        "service" : {
+            "spec": false
+        }
+    },
+    "packageManager": "yarn"
+}

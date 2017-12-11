@@ -30,7 +30,7 @@
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "clientPackageManager": "yarn",
-    "clientFramework": "angular1",
+    "clientFramework": "angularX",
     "jwtSecretKey": "07a00779cfd8d372c73b40631b62c81503e1b18e"
   }
 }
