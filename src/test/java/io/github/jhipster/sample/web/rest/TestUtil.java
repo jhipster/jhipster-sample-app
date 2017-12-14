@@ -60,7 +60,6 @@ public class TestUtil {
         }
         return byteArray;
     }
-    
 
     /**
      * A matcher that tests that the examined string represents the same instant as the reference datetime.
@@ -134,5 +133,4 @@ public class TestUtil {
         registrar.registerFormatters(dfcs);
         return dfcs;
     }
-
 }

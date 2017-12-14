@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 4.12.0, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.12.0](http://www.jhipster.tech/documentation-archive/v4.12.0).
+This application was generated using JHipster 4.13.0, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.13.0](http://www.jhipster.tech/documentation-archive/v4.13.0).
 
 ## Development
 
@@ -35,7 +35,8 @@ The `yarn run` command will list all of the scripts available to run for this pr
 Service workers are commented by default, to enable them please uncomment the following code.
 
 * The service worker registering script in index.html
-```
+
+```html
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -43,6 +44,7 @@ Service workers are commented by default, to enable them please uncomment the fo
         .then(function() { console.log('Service Worker Registered'); });
     }
 </script>
+```
 
 Note: workbox creates the respective service worker and dynamically generate the `sw.js`
 
@@ -150,13 +152,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.12.0 archive]: http://www.jhipster.tech/documentation-archive/v4.12.0
+[JHipster 4.13.0 archive]: http://www.jhipster.tech/documentation-archive/v4.13.0
 
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.12.0/development/
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.12.0/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.12.0/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.12.0/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.12.0/setting-up-ci/
+[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.13.0/development/
+[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.13.0/docker-compose
+[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.13.0/production/
+[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.13.0/running-tests/
+[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.13.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
