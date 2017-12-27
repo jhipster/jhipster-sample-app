@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';

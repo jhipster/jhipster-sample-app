@@ -18,14 +18,16 @@ describe('BankAccount e2e test', () => {
     it('should load BankAccounts', () => {
         navBarPage.goToEntity('bank-account');
         bankAccountComponentsPage = new BankAccountComponentsPage();
-        expect(bankAccountComponentsPage.getTitle()).toMatch(/jhipsterSampleApplicationApp.bankAccount.home.title/);
+        expect(bankAccountComponentsPage.getTitle())
+            .toMatch(/jhipsterSampleApplicationApp.bankAccount.home.title/);
 
     });
 
     it('should load create BankAccount dialog', () => {
         bankAccountComponentsPage.clickOnCreateButton();
         bankAccountDialogPage = new BankAccountDialogPage();
-        expect(bankAccountDialogPage.getModalTitle()).toMatch(/jhipsterSampleApplicationApp.bankAccount.home.createOrEditLabel/);
+        expect(bankAccountDialogPage.getModalTitle())
+            .toMatch(/jhipsterSampleApplicationApp.bankAccount.home.createOrEditLabel/);
         bankAccountDialogPage.close();
     });
 

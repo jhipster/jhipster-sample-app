@@ -6,6 +6,7 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { OperationService } from '../../../../../../main/webapp/app/entities/operation/operation.service';
 import { Operation } from '../../../../../../main/webapp/app/entities/operation/operation.model';
+import { SERVER_API_URL } from '../../../../../../main/webapp/app/app.constants';
 
 describe('Service Tests', () => {
 
@@ -42,7 +43,9 @@ describe('Service Tests', () => {
                 service.find(123).subscribe(() => {});
 
                 expect(this.lastConnection).toBeDefined();
-                expect(this.lastConnection.request.url).toEqual('api/operations/' + 123);
+
+                const resourceUrl = SERVER_API_URL + 'api/operations';
+                expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return Operation', () => {
 

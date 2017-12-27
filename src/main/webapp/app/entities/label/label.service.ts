@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { Label } from './label.model';
@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class LabelService {
 
-    private resourceUrl = SERVER_API_URL + 'api/labels';
+    private resourceUrl =  SERVER_API_URL + 'api/labels';
 
     constructor(private http: Http) { }
 
