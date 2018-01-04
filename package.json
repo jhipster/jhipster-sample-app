@@ -21,7 +21,7 @@
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
-    "ng-jhipster": "0.3.5",
+    "ng-jhipster": "0.3.6",
     "ngx-cookie": "2.0.1",
     "ngx-infinite-scroll": "0.5.1",
     "ngx-webstorage": "2.0.1",
@@ -48,7 +48,7 @@
     "exports-loader": "0.6.4",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
-    "generator-jhipster": "4.13.1",
+    "generator-jhipster": "4.13.2",
     "html-loader": "0.5.0",
     "html-webpack-plugin": "2.30.1",
     "jasmine-core": "2.7.0",
@@ -78,8 +78,7 @@
     "tslint-loader": "3.5.3",
     "typescript": "2.5.3",
     "xml2js": "0.4.17",
-    "uglifyjs-webpack-plugin": "1.1.4",
-    "uglify-es": "3.2.2",
+    "uglifyjs-webpack-plugin": "1.1.5",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.9.5",
     "webpack-merge": "4.1.1",
@@ -88,9 +87,6 @@
     "web-app-manifest-loader": "0.1.1",
     "workbox-webpack-plugin": "2.1.2",
     "write-file-webpack-plugin": "4.1.0"
-  },
-  "resolutions": {
-    "uglify-es": "3.2.2"
   },
   "engines": {
     "node": ">=6.9.0"
