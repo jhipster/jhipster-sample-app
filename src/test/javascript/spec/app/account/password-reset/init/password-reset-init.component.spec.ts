@@ -81,7 +81,7 @@ describe('Component Tests', () => {
                 spyOn(service, 'save').and.returnValue(Observable.throw({
                     status: 400,
                     json() {
-                        return {type : EMAIL_NOT_FOUND_TYPE}
+                        return {type : EMAIL_NOT_FOUND_TYPE};
                     }
                 }));
                 comp.resetAccount.email = 'user@domain.com';

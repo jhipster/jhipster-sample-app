@@ -69,11 +69,11 @@ export class LabelDialogPage {
 
     setLabelInput = function(label) {
         this.labelInput.sendKeys(label);
-    }
+    };
 
     getLabelInput = function() {
         return this.labelInput.getAttribute('value');
-    }
+    };
 
     save() {
         this.saveButton.click();

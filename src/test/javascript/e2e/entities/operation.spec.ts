@@ -79,59 +79,59 @@ export class OperationDialogPage {
 
     setDateInput = function(date) {
         this.dateInput.sendKeys(date);
-    }
+    };
 
     getDateInput = function() {
         return this.dateInput.getAttribute('value');
-    }
+    };
 
     setDescriptionInput = function(description) {
         this.descriptionInput.sendKeys(description);
-    }
+    };
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
-    }
+    };
 
     setAmountInput = function(amount) {
         this.amountInput.sendKeys(amount);
-    }
+    };
 
     getAmountInput = function() {
         return this.amountInput.getAttribute('value');
-    }
+    };
 
     bankAccountSelectLastOption = function() {
         this.bankAccountSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     bankAccountSelectOption = function(option) {
         this.bankAccountSelect.sendKeys(option);
-    }
+    };
 
     getBankAccountSelect = function() {
         return this.bankAccountSelect;
-    }
+    };
 
     getBankAccountSelectedOption = function() {
         return this.bankAccountSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     labelSelectLastOption = function() {
         this.labelSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     labelSelectOption = function(option) {
         this.labelSelect.sendKeys(option);
-    }
+    };
 
     getLabelSelect = function() {
         return this.labelSelect;
-    }
+    };
 
     getLabelSelectedOption = function() {
         return this.labelSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

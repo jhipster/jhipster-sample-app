@@ -4,8 +4,8 @@ import Spy = jasmine.Spy;
 
 export class MockStateStorageService extends SpyObject {
 
-    getUrlSpy: Spy
-    storeUrlSpy: Spy
+    getUrlSpy: Spy;
+    storeUrlSpy: Spy;
 
     constructor() {
         super(StateStorageService);

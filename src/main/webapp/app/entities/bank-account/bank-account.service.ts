@@ -1,66 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { BankAccount } from './bank-account.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { createRequestOption } from '../../shared';
+
+export type EntityResponseType = HttpResponse<BankAccount>;
 
 @Injectable()
 export class BankAccountService {
 
     private resourceUrl =  SERVER_API_URL + 'api/bank-accounts';
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    create(bankAccount: BankAccount): Observable<BankAccount> {
+    create(bankAccount: BankAccount): Observable<EntityResponseType> {
         const copy = this.convert(bankAccount);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.post<BankAccount>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    update(bankAccount: BankAccount): Observable<BankAccount> {
+    update(bankAccount: BankAccount): Observable<EntityResponseType> {
         const copy = this.convert(bankAccount);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.put<BankAccount>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    find(id: number): Observable<BankAccount> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+    find(id: number): Observable<EntityResponseType> {
+        return this.http.get<BankAccount>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any): Observable<HttpResponse<BankAccount[]>> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.http.get<BankAccount[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .map((res: HttpResponse<BankAccount[]>) => this.convertArrayResponse(res));
     }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+    delete(id: number): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        const result = [];
+    private convertResponse(res: EntityResponseType): EntityResponseType {
+        const body: BankAccount = this.convertItemFromServer(res.body);
+        return res.clone({body});
+    }
+
+    private convertArrayResponse(res: HttpResponse<BankAccount[]>): HttpResponse<BankAccount[]> {
+        const jsonResponse: BankAccount[] = res.body;
+        const body: BankAccount[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            result.push(this.convertItemFromServer(jsonResponse[i]));
+            body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, result, res.status);
+        return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to BankAccount.
      */
-    private convertItemFromServer(json: any): BankAccount {
-        const entity: BankAccount = Object.assign(new BankAccount(), json);
-        return entity;
+    private convertItemFromServer(bankAccount: BankAccount): BankAccount {
+        const copy: BankAccount = Object.assign({}, bankAccount);
+        return copy;
     }
 
     /**

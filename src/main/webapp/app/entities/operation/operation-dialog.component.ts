@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +11,6 @@ import { OperationPopupService } from './operation-popup.service';
 import { OperationService } from './operation.service';
 import { BankAccount, BankAccountService } from '../bank-account';
 import { Label, LabelService } from '../label';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-operation-dialog',
@@ -39,9 +38,9 @@ export class OperationDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.bankAccountService.query()
-            .subscribe((res: ResponseWrapper) => { this.bankaccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<BankAccount[]>) => { this.bankaccounts = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.labelService.query()
-            .subscribe((res: ResponseWrapper) => { this.labels = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<Label[]>) => { this.labels = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -59,9 +58,9 @@ export class OperationDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Operation>) {
-        result.subscribe((res: Operation) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<Operation>>) {
+        result.subscribe((res: HttpResponse<Operation>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Operation) {

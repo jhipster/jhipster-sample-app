@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { Label } from './label.model';
 import { LabelService } from './label.service';
 
@@ -25,10 +26,12 @@ export class LabelPopupService {
             }
 
             if (id) {
-                this.labelService.find(id).subscribe((label) => {
-                    this.ngbModalRef = this.labelModalRef(component, label);
-                    resolve(this.ngbModalRef);
-                });
+                this.labelService.find(id)
+                    .subscribe((labelResponse: HttpResponse<Label>) => {
+                        const label: Label = labelResponse.body;
+                        this.ngbModalRef = this.labelModalRef(component, label);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

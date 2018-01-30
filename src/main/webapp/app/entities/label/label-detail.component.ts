@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -31,9 +32,10 @@ export class LabelDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.labelService.find(id).subscribe((label) => {
-            this.label = label;
-        });
+        this.labelService.find(id)
+            .subscribe((labelResponse: HttpResponse<Label>) => {
+                this.label = labelResponse.body;
+            });
     }
     previousState() {
         window.history.back();

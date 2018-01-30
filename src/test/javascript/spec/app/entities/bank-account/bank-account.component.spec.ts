@@ -1,7 +1,7 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { Headers } from '@angular/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { BankAccountComponent } from '../../../../../../main/webapp/app/entities/bank-account/bank-account.component';
@@ -36,12 +36,11 @@ describe('Component Tests', () => {
         describe('OnInit', () => {
             it('Should call load all on init', () => {
                 // GIVEN
-                const headers = new Headers();
-                headers.append('link', 'link;link');
-                spyOn(service, 'query').and.returnValue(Observable.of({
-                    json: [new BankAccount(123)],
+                const headers = new HttpHeaders().append('link', 'link;link');
+                spyOn(service, 'query').and.returnValue(Observable.of(new HttpResponse({
+                    body: [new BankAccount(123)],
                     headers
-                }));
+                })));
 
                 // WHEN
                 comp.ngOnInit();

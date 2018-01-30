@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { SERVER_API_URL } from '../../app.constants';
 import { ProfileInfo } from './profile-info.model';
@@ -10,20 +10,20 @@ export class ProfileService {
     private profileInfoUrl = SERVER_API_URL + 'api/profile-info';
     private profileInfo: Promise<ProfileInfo>;
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     getProfileInfo(): Promise<ProfileInfo> {
         if (!this.profileInfo) {
-            this.profileInfo = this.http.get(this.profileInfoUrl)
-                .map((res: Response) => {
-                    const data = res.json();
+            this.profileInfo = this.http.get<ProfileInfo>(this.profileInfoUrl, { observe: 'response' })
+                .map((res: HttpResponse<ProfileInfo>) => {
+                    const data = res.body;
                     const pi = new ProfileInfo();
                     pi.activeProfiles = data.activeProfiles;
                     pi.ribbonEnv = data.ribbonEnv;
-                    pi.inProduction = data.activeProfiles.includes('prod');
+                    pi.inProduction = data.activeProfiles.includes('prod') ;
                     pi.swaggerEnabled = data.activeProfiles.includes('swagger');
                     return pi;
-            }).toPromise();
+                }).toPromise();
         }
         return this.profileInfo;
     }

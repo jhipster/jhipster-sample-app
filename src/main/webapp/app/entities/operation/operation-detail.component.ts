@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -31,9 +32,10 @@ export class OperationDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.operationService.find(id).subscribe((operation) => {
-            this.operation = operation;
-        });
+        this.operationService.find(id)
+            .subscribe((operationResponse: HttpResponse<Operation>) => {
+                this.operation = operationResponse.body;
+            });
     }
     previousState() {
         window.history.back();

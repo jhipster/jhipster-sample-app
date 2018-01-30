@@ -11,7 +11,7 @@
         "skipLibCheck": true,
         "suppressImplicitAnyIndexErrors": true,
         "outDir": "target/www/app",
-        "lib": ["es6", "dom"],
+        "lib": ["es7", "dom"],
         "typeRoots": [
             "node_modules/@types"
         ],

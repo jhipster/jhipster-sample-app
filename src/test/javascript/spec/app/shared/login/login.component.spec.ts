@@ -59,7 +59,7 @@ describe('Component Tests', () => {
                         username: 'admin',
                         password: 'admin',
                         rememberMe: true
-                    }
+                    };
                     comp.username = 'admin';
                     comp.password = 'admin';
                     comp.rememberMe = true;
@@ -91,7 +91,7 @@ describe('Component Tests', () => {
                         username: 'admin',
                         password: 'admin',
                         rememberMe: true
-                    }
+                    };
                     comp.username = 'admin';
                     comp.password = 'admin';
                     comp.rememberMe = true;
@@ -121,13 +121,13 @@ describe('Component Tests', () => {
                 username: 'admin',
                 password: 'admin',
                 rememberMe: true
-            }
+            };
 
             const expected = {
                 username: null,
                 password: null,
                 rememberMe: true
-            }
+            };
 
             comp.credentials = credentials;
 

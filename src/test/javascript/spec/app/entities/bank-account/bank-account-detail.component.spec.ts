@@ -1,5 +1,6 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
@@ -36,7 +37,9 @@ describe('Component Tests', () => {
             it('Should call load all on init', () => {
                 // GIVEN
 
-                spyOn(service, 'find').and.returnValue(Observable.of(new BankAccount(123)));
+                spyOn(service, 'find').and.returnValue(Observable.of(new HttpResponse({
+                    body: new BankAccount(123)
+                })));
 
                 // WHEN
                 comp.ngOnInit();
