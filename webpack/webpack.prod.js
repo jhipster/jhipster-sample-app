@@ -86,7 +86,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             minimize: true,
             debug: false
         }),
-        new WorkboxPlugin({
+        new WorkboxPlugin.GenerateSW({
           clientsClaim: true,
           skipWaiting: true,
         })
