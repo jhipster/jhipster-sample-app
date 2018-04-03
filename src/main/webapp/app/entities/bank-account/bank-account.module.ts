@@ -1,51 +1,33 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { JhipsterSampleApplicationSharedModule } from '../../shared';
-import { JhipsterSampleApplicationAdminModule } from '../../admin/admin.module';
+import { JhipsterSampleApplicationSharedModule } from 'app/shared';
+import { JhipsterSampleApplicationAdminModule } from 'app/admin/admin.module';
 import {
-    BankAccountService,
-    BankAccountPopupService,
-    BankAccountComponent,
-    BankAccountDetailComponent,
-    BankAccountDialogComponent,
-    BankAccountPopupComponent,
-    BankAccountDeletePopupComponent,
-    BankAccountDeleteDialogComponent,
-    bankAccountRoute,
-    bankAccountPopupRoute,
+  BankAccountService,
+  BankAccountComponent,
+  BankAccountDetailComponent,
+  BankAccountUpdateComponent,
+  BankAccountDeletePopupComponent,
+  BankAccountDeleteDialogComponent,
+  bankAccountRoute,
+  bankAccountPopupRoute,
+  BankAccountResolve
 } from './';
 
-const ENTITY_STATES = [
-    ...bankAccountRoute,
-    ...bankAccountPopupRoute,
-];
+const ENTITY_STATES = [...bankAccountRoute, ...bankAccountPopupRoute];
 
 @NgModule({
-    imports: [
-        JhipsterSampleApplicationSharedModule,
-        JhipsterSampleApplicationAdminModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
-    declarations: [
-        BankAccountComponent,
-        BankAccountDetailComponent,
-        BankAccountDialogComponent,
-        BankAccountDeleteDialogComponent,
-        BankAccountPopupComponent,
-        BankAccountDeletePopupComponent,
-    ],
-    entryComponents: [
-        BankAccountComponent,
-        BankAccountDialogComponent,
-        BankAccountPopupComponent,
-        BankAccountDeleteDialogComponent,
-        BankAccountDeletePopupComponent,
-    ],
-    providers: [
-        BankAccountService,
-        BankAccountPopupService,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [JhipsterSampleApplicationSharedModule, JhipsterSampleApplicationAdminModule, RouterModule.forChild(ENTITY_STATES)],
+  declarations: [
+    BankAccountComponent,
+    BankAccountDetailComponent,
+    BankAccountUpdateComponent,
+    BankAccountDeleteDialogComponent,
+    BankAccountDeletePopupComponent
+  ],
+  entryComponents: [BankAccountComponent, BankAccountUpdateComponent, BankAccountDeleteDialogComponent, BankAccountDeletePopupComponent],
+  providers: [BankAccountService, BankAccountResolve],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterSampleApplicationBankAccountModule {}

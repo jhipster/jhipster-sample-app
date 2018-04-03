@@ -4,24 +4,26 @@ import { Observable } from 'rxjs';
 import Spy = jasmine.Spy;
 
 export class MockActivatedRoute extends ActivatedRoute {
-
-    constructor(parameters?: any) {
-        super();
-        this.queryParams = Observable.of(parameters);
-        this.params = Observable.of(parameters);
-        this.data = Observable.of({ ...parameters, pagingParams: {
-            page: 10,
-            ascending: false,
-            predicate: 'id'
-        }});
-    }
+  constructor(parameters?: any) {
+    super();
+    this.queryParams = Observable.of(parameters);
+    this.params = Observable.of(parameters);
+    this.data = Observable.of({
+      ...parameters,
+      pagingParams: {
+        page: 10,
+        ascending: false,
+        predicate: 'id'
+      }
+    });
+  }
 }
 
 export class MockRouter extends SpyObject {
-    navigateSpy: Spy;
+  navigateSpy: Spy;
 
-    constructor() {
-        super(Router);
-        this.navigateSpy = this.spy('navigate');
-    }
+  constructor() {
+    super(Router);
+    this.navigateSpy = this.spy('navigate');
+  }
 }

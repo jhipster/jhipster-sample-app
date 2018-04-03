@@ -1,7 +1,7 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="jhipsterSampleApplicationApp.label.home.title">Labels</span>
-        <button class="btn btn-primary float-right jh-create-entity create-label" [routerLink]="['/', { outlets: { popup: ['label-new'] } }]">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-label" [routerLink]="['/label/new']">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="jhipsterSampleApplicationApp.label.home.createLabel">
             Create new Label
@@ -9,8 +9,6 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-    </div>
     <br/>
     <div class="table-responsive" *ngIf="labels">
         <table class="table table-striped">
@@ -23,20 +21,18 @@
             </thead>
             <tbody>
             <tr *ngFor="let label of labels ;trackBy: trackId">
-                <td><a [routerLink]="['../label', label.id ]">{{label.id}}</a></td>
+                <td><a [routerLink]="['/label', label.id, 'view' ]">{{label.id}}</a></td>
                 <td>{{label.label}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../label', label.id ]"
+                                [routerLink]="['/label', label.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'label/'+ label.id + '/edit'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                                [routerLink]="['/label', label.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>

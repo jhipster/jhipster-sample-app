@@ -2,6 +2,7 @@ package io.github.jhipster.sample.config;
 
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.JHipsterProperties;
+import io.github.jhipster.config.h2.H2ConfigurationHelper;
 import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 
 import com.codahale.metrics.MetricRegistry;
@@ -11,28 +12,32 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.*;
-import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import io.undertow.UndertowOptions;
+import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
+import org.springframework.boot.web.server.*;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.http.MediaType;
-
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.*;
 import javax.servlet.*;
+
+import static java.net.URLDecoder.decode;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer {
 
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
@@ -68,15 +73,10 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
      * Customize the Servlet engine: Mime types, the document root, the cache.
      */
     @Override
-    public void customize(ConfigurableEmbeddedServletContainer container) {
-        MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
-        // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
-        mappings.add("html", MediaType.TEXT_HTML_VALUE + ";charset=utf-8");
-        // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
-        mappings.add("json", MediaType.TEXT_HTML_VALUE + ";charset=utf-8");
-        container.setMimeMappings(mappings);
+    public void customize(WebServerFactory server) {
+        setMimeMappings(server);
         // When running in an IDE or with ./mvnw spring-boot:run, set location of the static web assets.
-        setLocationForStaticAssets(container);
+        setLocationForStaticAssets(server);
 
         /*
          * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
@@ -85,20 +85,35 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
          * for more information.
          */
         if (jHipsterProperties.getHttp().getVersion().equals(JHipsterProperties.Http.Version.V_2_0) &&
-            container instanceof UndertowEmbeddedServletContainerFactory) {
+            server instanceof UndertowServletWebServerFactory) {
 
-            ((UndertowEmbeddedServletContainerFactory) container)
+            ((UndertowServletWebServerFactory) server)
                 .addBuilderCustomizers(builder ->
                     builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
         }
     }
 
-    private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
-        File root;
-        String prefixPath = resolvePathPrefix();
-        root = new File(prefixPath + "target/www/");
-        if (root.exists() && root.isDirectory()) {
-            container.setDocumentRoot(root);
+    private void setMimeMappings(WebServerFactory server) {
+        if (server instanceof ConfigurableServletWebServerFactory) {
+            MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
+            // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
+            mappings.add("html", MediaType.TEXT_HTML_VALUE + ";charset=" + StandardCharsets.UTF_8.name().toLowerCase());
+            // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
+            mappings.add("json", MediaType.TEXT_HTML_VALUE + ";charset=" + StandardCharsets.UTF_8.name().toLowerCase());
+            ConfigurableServletWebServerFactory servletWebServer = (ConfigurableServletWebServerFactory) server;
+            servletWebServer.setMimeMappings(mappings);
+        }
+    }
+
+    private void setLocationForStaticAssets(WebServerFactory server) {
+        if (server instanceof ConfigurableServletWebServerFactory) {
+            ConfigurableServletWebServerFactory servletWebServer = (ConfigurableServletWebServerFactory) server;
+            File root;
+            String prefixPath = resolvePathPrefix();
+            root = new File(prefixPath + "target/www/");
+            if (root.exists() && root.isDirectory()) {
+                servletWebServer.setDocumentRoot(root);
+            }
         }
     }
 
@@ -106,7 +121,13 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
      * Resolve path prefix to static resources.
      */
     private String resolvePathPrefix() {
-        String fullExecutablePath = this.getClass().getResource("").getPath();
+        String fullExecutablePath;
+        try {
+            fullExecutablePath = decode(this.getClass().getResource("").getPath(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            /* try without decoding if this ever happens */
+            fullExecutablePath = this.getClass().getResource("").getPath();
+        }
         String rootPath = Paths.get(".").toUri().normalize().getPath();
         String extractedPath = fullExecutablePath.replace(rootPath, "");
         int extractionEndIndex = extractedPath.indexOf("target/");
@@ -175,24 +196,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
      */
     private void initH2Console(ServletContext servletContext) {
         log.debug("Initialize H2 console");
-        try {
-            // We don't want to include H2 when we are packaging for the "prod" profile and won't
-            // actually need it, so we have to load / invoke things at runtime through reflection.
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            Class<?> servletClass = Class.forName("org.h2.server.web.WebServlet", true, loader);
-            Servlet servlet = (Servlet) servletClass.newInstance();
-
-            ServletRegistration.Dynamic h2ConsoleServlet = servletContext.addServlet("H2Console", servlet);
-            h2ConsoleServlet.addMapping("/h2-console/*");
-            h2ConsoleServlet.setInitParameter("-properties", "src/main/resources/");
-            h2ConsoleServlet.setLoadOnStartup(1);
-
-        } catch (ClassNotFoundException | LinkageError  e) {
-            throw new RuntimeException("Failed to load and initialize org.h2.server.web.WebServlet", e);
-
-        } catch (IllegalAccessException | InstantiationException e) {
-            throw new RuntimeException("Failed to instantiate org.h2.server.web.WebServlet", e);
-        }
+        H2ConfigurationHelper.initH2Console(servletContext);
     }
 
     @Autowired(required = false)

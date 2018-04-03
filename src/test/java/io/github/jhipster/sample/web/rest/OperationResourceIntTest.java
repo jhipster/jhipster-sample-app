@@ -9,9 +9,12 @@ import io.github.jhipster.sample.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,10 +28,12 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.ArrayList;
 
 import static io.github.jhipster.sample.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -52,6 +57,9 @@ public class OperationResourceIntTest {
 
     @Autowired
     private OperationRepository operationRepository;
+
+    @Mock
+    private OperationRepository operationRepositoryMock;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -189,6 +197,37 @@ public class OperationResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
     }
+    
+    public void getAllOperationsWithEagerRelationshipsIsEnabled() throws Exception {
+        OperationResource operationResource = new OperationResource(operationRepositoryMock);
+        when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restOperationMockMvc = MockMvcBuilders.standaloneSetup(operationResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restOperationMockMvc.perform(get("/api/operations?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(operationRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    public void getAllOperationsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        OperationResource operationResource = new OperationResource(operationRepositoryMock);
+            when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restOperationMockMvc = MockMvcBuilders.standaloneSetup(operationResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restOperationMockMvc.perform(get("/api/operations?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(operationRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
 
     @Test
     @Transactional
@@ -219,10 +258,11 @@ public class OperationResourceIntTest {
     public void updateOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
+
         int databaseSizeBeforeUpdate = operationRepository.findAll().size();
 
         // Update the operation
-        Operation updatedOperation = operationRepository.findOne(operation.getId());
+        Operation updatedOperation = operationRepository.findById(operation.getId()).get();
         // Disconnect from session so that the updates on updatedOperation are not directly saved in db
         em.detach(updatedOperation);
         updatedOperation.setDate(UPDATED_DATE);
@@ -266,6 +306,7 @@ public class OperationResourceIntTest {
     public void deleteOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
+
         int databaseSizeBeforeDelete = operationRepository.findAll().size();
 
         // Get the operation

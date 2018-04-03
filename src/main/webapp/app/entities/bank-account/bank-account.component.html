@@ -1,7 +1,7 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.title">Bank Accounts</span>
-        <button class="btn btn-primary float-right jh-create-entity create-bank-account" [routerLink]="['/', { outlets: { popup: ['bank-account-new'] } }]">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bank-account" [routerLink]="['/bank-account/new']">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.createLabel">
             Create new Bank Account
@@ -9,8 +9,6 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-    </div>
     <br/>
     <div class="table-responsive" *ngIf="bankAccounts">
         <table class="table table-striped">
@@ -25,7 +23,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let bankAccount of bankAccounts ;trackBy: trackId">
-                <td><a [routerLink]="['../bank-account', bankAccount.id ]">{{bankAccount.id}}</a></td>
+                <td><a [routerLink]="['/bank-account', bankAccount.id, 'view' ]">{{bankAccount.id}}</a></td>
                 <td>{{bankAccount.name}}</td>
                 <td>{{bankAccount.balance}}</td>
                 <td>
@@ -34,15 +32,13 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../bank-account', bankAccount.id ]"
+                                [routerLink]="['/bank-account', bankAccount.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccount.id + '/edit'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                                [routerLink]="['/bank-account', bankAccount.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>

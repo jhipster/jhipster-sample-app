@@ -1,6 +1,7 @@
 package io.github.jhipster.sample.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -36,10 +37,10 @@ public class BankAccount implements Serializable {
     private BigDecimal balance;
 
     @ManyToOne
+    @JsonIgnoreProperties("")
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Operation> operations = new HashSet<>();
 

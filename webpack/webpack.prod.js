@@ -45,37 +45,51 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             })
         }]
     },
+    optimization: {
+        runtimeChunk: false,
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        },
+        minimizer: [
+            new UglifyJSPlugin({
+                parallel: true,
+                uglifyOptions: {
+                    ie8: false,
+                    // sourceMap: true, // Enable source maps. Please note that this will slow down the build
+                    compress: {
+                        dead_code: true,
+                        warnings: false,
+                        properties: true,
+                        drop_debugger: true,
+                        conditionals: true,
+                        booleans: true,
+                        loops: true,
+                        unused: true,
+                        toplevel: true,
+                        if_return: true,
+                        inline: true,
+                        join_vars: true
+                    },
+                    output: {
+                        comments: false,
+                        beautify: false,
+                        indent_level: 2
+                    }
+                }
+            })
+        ]
+    },
     plugins: [
         extractCSS,
         new Visualizer({
             // Webpack statistics in target folder
             filename: '../stats.html'
-        }),
-        new UglifyJSPlugin({
-            parallel: true,
-            uglifyOptions: {
-                ie8: false,
-                // sourceMap: true, // Enable source maps. Please note that this will slow down the build
-                compress: {
-                    dead_code: true,
-                    warnings: false,
-                    properties: true,
-                    drop_debugger: true,
-                    conditionals: true,
-                    booleans: true,
-                    loops: true,
-                    unused: true,
-                    toplevel: true,
-                    if_return: true,
-                    inline: true,
-                    join_vars: true
-                },
-                output: {
-                    comments: false,
-                    beautify: false,
-                    indent_level: 2
-                }
-            }
         }),
         new AngularCompilerPlugin({
             mainPath: utils.root('src/main/webapp/app/app.main.ts'),
@@ -90,5 +104,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
           clientsClaim: true,
           skipWaiting: true,
         })
-    ]
+    ],
+    mode: 'production'
 });

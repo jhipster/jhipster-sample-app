@@ -1,64 +1,65 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { BankAccount } from './bank-account.model';
-import { BankAccountPopupService } from './bank-account-popup.service';
+import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
 
 @Component({
-    selector: 'jhi-bank-account-delete-dialog',
-    templateUrl: './bank-account-delete-dialog.component.html'
+  selector: 'jhi-bank-account-delete-dialog',
+  templateUrl: './bank-account-delete-dialog.component.html'
 })
 export class BankAccountDeleteDialogComponent {
+  bankAccount: IBankAccount;
 
-    bankAccount: BankAccount;
+  constructor(private bankAccountService: BankAccountService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
 
-    constructor(
-        private bankAccountService: BankAccountService,
-        public activeModal: NgbActiveModal,
-        private eventManager: JhiEventManager
-    ) {
-    }
+  clear() {
+    this.activeModal.dismiss('cancel');
+  }
 
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
-
-    confirmDelete(id: number) {
-        this.bankAccountService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'bankAccountListModification',
-                content: 'Deleted an bankAccount'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
+  confirmDelete(id: number) {
+    this.bankAccountService.delete(id).subscribe(response => {
+      this.eventManager.broadcast({
+        name: 'bankAccountListModification',
+        content: 'Deleted an bankAccount'
+      });
+      this.activeModal.dismiss(true);
+    });
+  }
 }
 
 @Component({
-    selector: 'jhi-bank-account-delete-popup',
-    template: ''
+  selector: 'jhi-bank-account-delete-popup',
+  template: ''
 })
 export class BankAccountDeletePopupComponent implements OnInit, OnDestroy {
+  private ngbModalRef: NgbModalRef;
 
-    routeSub: any;
+  constructor(private route: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
-    constructor(
-        private route: ActivatedRoute,
-        private bankAccountPopupService: BankAccountPopupService
-    ) {}
+  ngOnInit() {
+    this.route.data.subscribe(({ bankAccount }) => {
+      setTimeout(() => {
+        this.ngbModalRef = this.modalService.open(BankAccountDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+        this.ngbModalRef.componentInstance.bankAccount = bankAccount.body;
+        this.ngbModalRef.result.then(
+          result => {
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+            this.ngbModalRef = null;
+          },
+          reason => {
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+            this.ngbModalRef = null;
+          }
+        );
+      }, 0);
+    });
+  }
 
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            this.bankAccountPopupService
-                .open(BankAccountDeleteDialogComponent as Component, params['id']);
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
-    }
+  ngOnDestroy() {
+    this.ngbModalRef = null;
+  }
 }

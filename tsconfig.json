@@ -17,13 +17,15 @@
         ],
         "baseUrl": "./",
         "paths": {
-            "@angular/*": [
-                "../node_modules/@angular/*"
-            ]
-        }
+            "app/*": ["src/main/webapp/app/*"]
+        },
+        "importHelpers": true
     },
     "include": [
         "src/main/webapp/app",
         "src/test/javascript/"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,18 +104,16 @@ public class DomainUserDetailsServiceIntTest {
         assertThat(userDetails.getUsername()).isEqualTo(USER_TWO_LOGIN);
     }
 
-    @Test
+    @Test(expected = UsernameNotFoundException.class)
     @Transactional
-    public void assertThatUserCanBeFoundByEmailIgnoreCase() {
-        UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH));
-        assertThat(userDetails).isNotNull();
-        assertThat(userDetails.getUsername()).isEqualTo(USER_TWO_LOGIN);
+    public void assertThatUserCanNotBeFoundByEmailIgnoreCase() {
+    domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH));
     }
 
     @Test
     @Transactional
     public void assertThatEmailIsPrioritizedOverLogin() {
-        UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_ONE_EMAIL.toUpperCase(Locale.ENGLISH));
+        UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_ONE_EMAIL);
         assertThat(userDetails).isNotNull();
         assertThat(userDetails.getUsername()).isEqualTo(USER_ONE_LOGIN);
     }

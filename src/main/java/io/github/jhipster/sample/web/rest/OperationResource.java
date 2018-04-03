@@ -87,14 +87,20 @@ public class OperationResource {
      * GET  /operations : get all the operations.
      *
      * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @GetMapping("/operations")
     @Timed
-    public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable) {
+    public ResponseEntity<List<Operation>> getAllOperations(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Operations");
-        Page<Operation> page = operationRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations");
+        Page<Operation> page;
+        if (eagerload) {
+            page = operationRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = operationRepository.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/operations?eagerload=%b", eagerload));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -108,8 +114,8 @@ public class OperationResource {
     @Timed
     public ResponseEntity<Operation> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
-        Operation operation = operationRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(operation));
+        Optional<Operation> operation = operationRepository.findOneWithEagerRelationships(id);
+        return ResponseUtil.wrapOrNotFound(operation);
     }
 
     /**
@@ -122,7 +128,7 @@ public class OperationResource {
     @Timed
     public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);
-        operationRepository.delete(id);
+        operationRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

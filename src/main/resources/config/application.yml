@@ -4,8 +4,8 @@
 # This configuration will be overridden by the Spring profile you use,
 # for example application-dev.yml if you use the "dev" profile.
 #
-# More information on profiles: http://www.jhipster.tech/profiles/
-# More information on configuration properties: http://www.jhipster.tech/common-application-properties/
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -15,15 +15,23 @@
 # ===================================================================
 
 management:
-    security:
-        roles: ADMIN
-    context-path: /management
+    endpoints:
+        web:
+            base-path: /management
+            exposure:
+                include: ["configprops", "env", "health", "info", "threaddump"]
+    endpoint:
+        health:
+            show-details: when_authorized
     info:
         git:
             mode: full
     health:
         mail:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
+    metrics:
+        enabled: false # http://micrometer.io/ is disabled by default, as we use http://metrics.dropwizard.io/ instead
+
 spring:
     application:
         name: jhipsterSampleApplication
@@ -32,8 +40,6 @@ spring:
         # Otherwise, it will be filled in by maven when building the WAR file
         # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
         active: #spring.profiles.active#
-    jackson:
-        serialization.write_dates_as_timestamps: false
     jpa:
         open-in-view: false
         hibernate:
@@ -47,15 +53,13 @@ spring:
         favicon:
             enabled: false
     thymeleaf:
-        mode: XHTML
-security:
-    basic:
-        enabled: false
+        mode: HTML
 
 server:
-    session:
-        cookie:
-            http-only: true
+    servlet:
+        session:
+            cookie:
+                http-only: true
 
 info:
     project:
@@ -64,7 +68,7 @@ info:
 # ===================================================================
 # JHipster specific properties
 #
-# Full reference is available at: http://www.jhipster.tech/common-application-properties/
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 jhipster:
@@ -102,7 +106,7 @@ jhipster:
 # to have type-safe configuration, like in the JHipsterProperties above
 #
 # More documentation is available at:
-# http://www.jhipster.tech/common-application-properties/
+# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
+# application:

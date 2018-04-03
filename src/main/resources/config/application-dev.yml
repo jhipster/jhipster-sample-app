@@ -3,8 +3,8 @@
 #
 # This configuration overrides the application.yml file.
 #
-# More information on profiles: http://www.jhipster.tech/profiles/
-# More information on configuration properties: http://www.jhipster.tech/common-application-properties/
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -16,8 +16,8 @@
 logging:
     level:
         ROOT: DEBUG
-        io.github.jhipster.sample: DEBUG
         io.github.jhipster: DEBUG
+        io.github.jhipster.sample: DEBUG
 
 spring:
     profiles:
@@ -48,18 +48,17 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
+    liquibase:
+        contexts: dev
     mail:
         host: localhost
         port: 25
         username:
         password:
     messages:
-        cache-seconds: 1
+        cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
         cache: false
-
-liquibase:
-    contexts: dev
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -84,7 +83,7 @@ server:
 # ===================================================================
 # JHipster specific properties
 #
-# Full reference is available at: http://www.jhipster.tech/common-application-properties/
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 jhipster:
@@ -113,15 +112,8 @@ jhipster:
         from: jhipsterSampleApplication@localhost
         base-url: http://127.0.0.1:8080
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
-        graphite: # Use the "graphite" Maven profile to have the Graphite dependencies
-            enabled: false
-            host: localhost
-            port: 2003
-            prefix: jhipsterSampleApplication
-        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
-            enabled: false
-            endpoint: /prometheusMetrics
+        jmx:
+            enabled: true
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             report-frequency: 60 # in seconds
@@ -132,14 +124,13 @@ jhipster:
             port: 5000
             queue-size: 512
 
-
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
 # to have type-safe configuration, like in the JHipsterProperties above
 #
 # More documentation is available at:
-# http://www.jhipster.tech/common-application-properties/
+# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
+# application:

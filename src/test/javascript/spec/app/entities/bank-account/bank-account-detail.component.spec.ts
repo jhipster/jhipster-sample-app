@@ -1,54 +1,40 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs/observable/of';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
-import { BankAccountDetailComponent } from '../../../../../../main/webapp/app/entities/bank-account/bank-account-detail.component';
-import { BankAccountService } from '../../../../../../main/webapp/app/entities/bank-account/bank-account.service';
-import { BankAccount } from '../../../../../../main/webapp/app/entities/bank-account/bank-account.model';
+import { BankAccountDetailComponent } from 'app/entities/bank-account/bank-account-detail.component';
+import { BankAccount } from 'app/shared/model/bank-account.model';
 
 describe('Component Tests', () => {
+  describe('BankAccount Management Detail Component', () => {
+    let comp: BankAccountDetailComponent;
+    let fixture: ComponentFixture<BankAccountDetailComponent>;
+    const route = ({ data: of({ bankAccount: new BankAccount(123) }) } as any) as ActivatedRoute;
 
-    describe('BankAccount Management Detail Component', () => {
-        let comp: BankAccountDetailComponent;
-        let fixture: ComponentFixture<BankAccountDetailComponent>;
-        let service: BankAccountService;
-
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterSampleApplicationTestModule],
-                declarations: [BankAccountDetailComponent],
-                providers: [
-                    BankAccountService
-                ]
-            })
-            .overrideTemplate(BankAccountDetailComponent, '')
-            .compileComponents();
-        }));
-
-        beforeEach(() => {
-            fixture = TestBed.createComponent(BankAccountDetailComponent);
-            comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(BankAccountService);
-        });
-
-        describe('OnInit', () => {
-            it('Should call load all on init', () => {
-                // GIVEN
-
-                spyOn(service, 'find').and.returnValue(Observable.of(new HttpResponse({
-                    body: new BankAccount(123)
-                })));
-
-                // WHEN
-                comp.ngOnInit();
-
-                // THEN
-                expect(service.find).toHaveBeenCalledWith(123);
-                expect(comp.bankAccount).toEqual(jasmine.objectContaining({id: 123}));
-            });
-        });
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [JhipsterSampleApplicationTestModule],
+        declarations: [BankAccountDetailComponent],
+        providers: [{ provide: ActivatedRoute, useValue: route }]
+      })
+        .overrideTemplate(BankAccountDetailComponent, '')
+        .compileComponents();
+      fixture = TestBed.createComponent(BankAccountDetailComponent);
+      comp = fixture.componentInstance;
     });
 
+    describe('OnInit', () => {
+      it('Should call load all on init', () => {
+        // GIVEN
+
+        // WHEN
+        comp.ngOnInit();
+
+        // THEN
+        expect(comp.bankAccount).toEqual(jasmine.objectContaining({ id: 123 }));
+      });
+    });
+  });
 });

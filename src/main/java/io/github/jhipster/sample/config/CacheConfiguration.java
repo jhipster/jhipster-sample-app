@@ -1,13 +1,11 @@
 package io.github.jhipster.sample.config;
 
-import io.github.jhipster.config.JHipsterProperties;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.expiry.Duration;
-import org.ehcache.expiry.Expirations;
+import java.time.Duration;
+
+import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
 
-import java.util.concurrent.TimeUnit;
+import io.github.jhipster.config.JHipsterProperties;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -30,7 +28,7 @@ public class CacheConfiguration {
         jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
             CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
                 ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
-                .withExpiry(Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
+                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
                 .build());
     }
 

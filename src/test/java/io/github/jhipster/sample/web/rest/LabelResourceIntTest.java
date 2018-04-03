@@ -9,6 +9,7 @@ import io.github.jhipster.sample.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.ArrayList;
 
 import static io.github.jhipster.sample.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +45,8 @@ public class LabelResourceIntTest {
 
     @Autowired
     private LabelRepository labelRepository;
+
+
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -156,6 +160,7 @@ public class LabelResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())));
     }
+    
 
     @Test
     @Transactional
@@ -184,10 +189,11 @@ public class LabelResourceIntTest {
     public void updateLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
+
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
 
         // Update the label
-        Label updatedLabel = labelRepository.findOne(label.getId());
+        Label updatedLabel = labelRepository.findById(label.getId()).get();
         // Disconnect from session so that the updates on updatedLabel are not directly saved in db
         em.detach(updatedLabel);
         updatedLabel.setLabel(UPDATED_LABEL);
@@ -227,6 +233,7 @@ public class LabelResourceIntTest {
     public void deleteLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
+
         int databaseSizeBeforeDelete = labelRepository.findAll().size();
 
         // Get the label

@@ -10,7 +10,10 @@ module.exports = (options) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: ['node_modules'],
-        alias: rxPaths()
+        alias: {
+            app: utils.root('src/main/webapp/app/'),
+            ...rxPaths()
+        }
     },
     stats: {
         children: false
@@ -36,8 +39,10 @@ module.exports = (options) => ({
             },
             {
                 test: /manifest.webapp$/,
-                loader: 'file-loader?name=manifest.webapp!web-app-manifest-loader'
-            }
+                loader: 'file-loader?name=manifest.webapp'
+            },
+            // Ignore warnings about System.import in Angular
+            { test: /[\/\\]@angular[\/\\].+\.js$/, parser: { system: true } },
         ]
     },
     plugins: [
@@ -47,36 +52,13 @@ module.exports = (options) => ({
                 BUILD_TIMESTAMP: `'${new Date().getTime()}'`,
                 VERSION: `'${utils.parseVersion()}'`,
                 DEBUG_INFO_ENABLED: options.env === 'development',
-                // The root URL for API calls, ending with a '/' - for example: `"http://www.jhipster.tech:8081/myservice/"`.
+                // The root URL for API calls, ending with a '/' - for example: `"https://www.jhipster.tech:8081/myservice/"`.
                 // If this URL is left empty (""), then it will be relative to the current context.
                 // If you use an API server, in `prod` mode, you will need to enable CORS
                 // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
                 SERVER_API_URL: `''`
             }
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'polyfills',
-            chunks: ['polyfills']
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            chunks: ['main'],
-            minChunks: module => utils.isExternalLib(module)
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['polyfills', 'vendor'].reverse()
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['manifest'],
-            minChunks: Infinity,
-        }),
-        /**
-         * See: https://github.com/angular/angular/issues/11580
-         */
-        new webpack.ContextReplacementPlugin(
-            /(.+)?angular(\\|\/)core(.+)?/,
-            utils.root('src/main/webapp/app'), {}
-        ),
         new CopyWebpackPlugin([
             { from: './node_modules/swagger-ui/dist/css', to: 'swagger-ui/dist/css' },
             { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },

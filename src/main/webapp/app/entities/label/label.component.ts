@@ -1,57 +1,58 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Label } from './label.model';
+import { ILabel } from 'app/shared/model/label.model';
+import { Principal } from 'app/core';
 import { LabelService } from './label.service';
-import { Principal } from '../../shared';
 
 @Component({
-    selector: 'jhi-label',
-    templateUrl: './label.component.html'
+  selector: 'jhi-label',
+  templateUrl: './label.component.html'
 })
 export class LabelComponent implements OnInit, OnDestroy {
-labels: Label[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
+  labels: ILabel[];
+  currentAccount: any;
+  eventSubscriber: Subscription;
 
-    constructor(
-        private labelService: LabelService,
-        private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private principal: Principal
-    ) {
-    }
+  constructor(
+    private labelService: LabelService,
+    private jhiAlertService: JhiAlertService,
+    private eventManager: JhiEventManager,
+    private principal: Principal
+  ) {}
 
-    loadAll() {
-        this.labelService.query().subscribe(
-            (res: HttpResponse<Label[]>) => {
-                this.labels = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
-    }
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInLabels();
-    }
+  loadAll() {
+    this.labelService.query().subscribe(
+      (res: HttpResponse<ILabel[]>) => {
+        this.labels = res.body;
+      },
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
+  }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
+  ngOnInit() {
+    this.loadAll();
+    this.principal.identity().then(account => {
+      this.currentAccount = account;
+    });
+    this.registerChangeInLabels();
+  }
 
-    trackId(index: number, item: Label) {
-        return item.id;
-    }
-    registerChangeInLabels() {
-        this.eventSubscriber = this.eventManager.subscribe('labelListModification', (response) => this.loadAll());
-    }
+  ngOnDestroy() {
+    this.eventManager.destroy(this.eventSubscriber);
+  }
 
-    private onError(error) {
-        this.jhiAlertService.error(error.message, null, null);
-    }
+  trackId(index: number, item: ILabel) {
+    return item.id;
+  }
+
+  registerChangeInLabels() {
+    this.eventSubscriber = this.eventManager.subscribe('labelListModification', response => this.loadAll());
+  }
+
+  private onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
 }
