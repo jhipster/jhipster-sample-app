@@ -57,7 +57,6 @@ public class OperationResourceIntTest {
 
     @Autowired
     private OperationRepository operationRepository;
-
     @Mock
     private OperationRepository operationRepositoryMock;
 
@@ -244,7 +243,6 @@ public class OperationResourceIntTest {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingOperation() throws Exception {
@@ -294,11 +292,11 @@ public class OperationResourceIntTest {
         restOperationMockMvc.perform(put("/api/operations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Operation in the database
         List<Operation> operationList = operationRepository.findAll();
-        assertThat(operationList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

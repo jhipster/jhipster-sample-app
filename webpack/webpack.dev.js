@@ -26,7 +26,8 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                 '/auth'
             ],
             target: 'http://127.0.0.1:8080',
-            secure: false
+            secure: false,
+            headers: { host: 'localhost:9000' }
         }],
         watchOptions: {
             ignored: /node_modules/

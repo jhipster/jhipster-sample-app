@@ -11,77 +11,77 @@ import { LabelDeletePopupComponent } from './label-delete-dialog.component';
 
 @Injectable()
 export class LabelResolve implements Resolve<any> {
-  constructor(private service: LabelService) {}
+    constructor(private service: LabelService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const id = route.params['id'] ? route.params['id'] : null;
-    if (id) {
-      return this.service.find(id);
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id);
+        }
+        return new Label();
     }
-    return new Label();
-  }
 }
 
 export const labelRoute: Routes = [
-  {
-    path: 'label',
-    component: LabelComponent,
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+    {
+        path: 'label',
+        component: LabelComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'label/:id/view',
-    component: LabelDetailComponent,
-    resolve: {
-      label: LabelResolve
+    {
+        path: 'label/:id/view',
+        component: LabelDetailComponent,
+        resolve: {
+            label: LabelResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+    {
+        path: 'label/new',
+        component: LabelUpdateComponent,
+        resolve: {
+            label: LabelResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'label/new',
-    component: LabelUpdateComponent,
-    resolve: {
-      label: LabelResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'label/:id/edit',
-    component: LabelUpdateComponent,
-    resolve: {
-      label: LabelResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }
+    {
+        path: 'label/:id/edit',
+        component: LabelUpdateComponent,
+        resolve: {
+            label: LabelResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }
 ];
 
 export const labelPopupRoute: Routes = [
-  {
-    path: 'label/:id/delete',
-    component: LabelDeletePopupComponent,
-    resolve: {
-      label: LabelResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+    {
+        path: 'label/:id/delete',
+        component: LabelDeletePopupComponent,
+        resolve: {
+            label: LabelResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
 ];

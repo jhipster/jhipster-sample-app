@@ -2,7 +2,6 @@ package io.github.jhipster.sample.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Operation;
-
 import io.github.jhipster.sample.repository.OperationRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
@@ -54,7 +53,7 @@ public class OperationResource {
         log.debug("REST request to save Operation : {}", operation);
         if (operation.getId() != null) {
             throw new BadRequestAlertException("A new operation cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        }        
         Operation result = operationRepository.save(operation);
         return ResponseEntity.created(new URI("/api/operations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -75,8 +74,8 @@ public class OperationResource {
     public ResponseEntity<Operation> updateOperation(@Valid @RequestBody Operation operation) throws URISyntaxException {
         log.debug("REST request to update Operation : {}", operation);
         if (operation.getId() == null) {
-            return createOperation(operation);
-        }
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }        
         Operation result = operationRepository.save(operation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, operation.getId().toString()))

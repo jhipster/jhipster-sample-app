@@ -4,21 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 @Component({
-  selector: 'jhi-bank-account-detail',
-  templateUrl: './bank-account-detail.component.html'
+    selector: 'jhi-bank-account-detail',
+    templateUrl: './bank-account-detail.component.html'
 })
 export class BankAccountDetailComponent implements OnInit {
-  bankAccount: IBankAccount;
+    bankAccount: IBankAccount;
 
-  constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.route.data.subscribe(({ bankAccount }) => {
-      this.bankAccount = bankAccount.body ? bankAccount.body : bankAccount;
-    });
-  }
+    ngOnInit() {
+        this.route.data.subscribe(({ bankAccount }) => {
+            this.bankAccount = bankAccount.body ? bankAccount.body : bankAccount;
+        });
+    }
 
-  previousState() {
-    window.history.back();
-  }
+    previousState() {
+        window.history.back();
+    }
 }

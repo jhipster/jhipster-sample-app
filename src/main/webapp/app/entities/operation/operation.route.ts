@@ -11,77 +11,77 @@ import { OperationDeletePopupComponent } from './operation-delete-dialog.compone
 
 @Injectable()
 export class OperationResolve implements Resolve<any> {
-  constructor(private service: OperationService) {}
+    constructor(private service: OperationService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const id = route.params['id'] ? route.params['id'] : null;
-    if (id) {
-      return this.service.find(id);
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id);
+        }
+        return new Operation();
     }
-    return new Operation();
-  }
 }
 
 export const operationRoute: Routes = [
-  {
-    path: 'operation',
-    component: OperationComponent,
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+    {
+        path: 'operation',
+        component: OperationComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'operation/:id/view',
-    component: OperationDetailComponent,
-    resolve: {
-      operation: OperationResolve
+    {
+        path: 'operation/:id/view',
+        component: OperationDetailComponent,
+        resolve: {
+            operation: OperationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+    {
+        path: 'operation/new',
+        component: OperationUpdateComponent,
+        resolve: {
+            operation: OperationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'operation/new',
-    component: OperationUpdateComponent,
-    resolve: {
-      operation: OperationResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'operation/:id/edit',
-    component: OperationUpdateComponent,
-    resolve: {
-      operation: OperationResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }
+    {
+        path: 'operation/:id/edit',
+        component: OperationUpdateComponent,
+        resolve: {
+            operation: OperationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }
 ];
 
 export const operationPopupRoute: Routes = [
-  {
-    path: 'operation/:id/delete',
-    component: OperationDeletePopupComponent,
-    resolve: {
-      operation: OperationResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+    {
+        path: 'operation/:id/delete',
+        component: OperationDeletePopupComponent,
+        resolve: {
+            operation: OperationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
 ];

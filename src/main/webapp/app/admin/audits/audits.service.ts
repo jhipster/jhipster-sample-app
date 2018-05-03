@@ -8,18 +8,18 @@ import { Audit } from './audit.model';
 
 @Injectable()
 export class AuditsService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  query(req: any): Observable<HttpResponse<Audit[]>> {
-    const params: HttpParams = createRequestOption(req);
-    params.set('fromDate', req.fromDate);
-    params.set('toDate', req.toDate);
+    query(req: any): Observable<HttpResponse<Audit[]>> {
+        const params: HttpParams = createRequestOption(req);
+        params.set('fromDate', req.fromDate);
+        params.set('toDate', req.toDate);
 
-    const requestURL = SERVER_API_URL + 'management/audits';
+        const requestURL = SERVER_API_URL + 'management/audits';
 
-    return this.http.get<Audit[]>(requestURL, {
-      params,
-      observe: 'response'
-    });
-  }
+        return this.http.get<Audit[]>(requestURL, {
+            params,
+            observe: 'response'
+        });
+    }
 }

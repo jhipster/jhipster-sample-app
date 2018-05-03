@@ -10,85 +10,85 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 
 @Injectable()
 export class UserResolve implements CanActivate {
-  constructor(private principal: Principal) {}
+    constructor(private principal: Principal) {}
 
-  canActivate() {
-    return this.principal.identity().then(account => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
-  }
+    canActivate() {
+        return this.principal.identity().then(account => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
+    }
 }
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
-  constructor(private paginationUtil: JhiPaginationUtil) {}
+    constructor(private paginationUtil: JhiPaginationUtil) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
-    const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
-    return {
-      page: this.paginationUtil.parsePage(page),
-      predicate: this.paginationUtil.parsePredicate(sort),
-      ascending: this.paginationUtil.parseAscending(sort)
-    };
-  }
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        return {
+            page: this.paginationUtil.parsePage(page),
+            predicate: this.paginationUtil.parsePredicate(sort),
+            ascending: this.paginationUtil.parseAscending(sort)
+        };
+    }
 }
 
 @Injectable()
 export class UserMgmtResolve implements Resolve<any> {
-  constructor(private service: UserService) {}
+    constructor(private service: UserService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const id = route.params['login'] ? route.params['login'] : null;
-    if (id) {
-      return this.service.find(id);
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['login'] ? route.params['login'] : null;
+        if (id) {
+            return this.service.find(id);
+        }
+        return new User();
     }
-    return new User();
-  }
 }
 
 export const userMgmtRoute: Routes = [
-  {
-    path: 'user-management',
-    component: UserMgmtComponent,
-    resolve: {
-      pagingParams: UserResolvePagingParams
+    {
+        path: 'user-management',
+        component: UserMgmtComponent,
+        resolve: {
+            pagingParams: UserResolvePagingParams
+        },
+        data: {
+            pageTitle: 'userManagement.home.title'
+        }
     },
-    data: {
-      pageTitle: 'userManagement.home.title'
-    }
-  },
-  {
-    path: 'user-management/:login/view',
-    component: UserMgmtDetailComponent,
-    resolve: {
-      user: UserMgmtResolve
+    {
+        path: 'user-management/:login/view',
+        component: UserMgmtDetailComponent,
+        resolve: {
+            user: UserMgmtResolve
+        },
+        data: {
+            pageTitle: 'userManagement.home.title'
+        }
     },
-    data: {
-      pageTitle: 'userManagement.home.title'
+    {
+        path: 'user-management/new',
+        component: UserMgmtUpdateComponent,
+        resolve: {
+            user: UserMgmtResolve
+        }
+    },
+    {
+        path: 'user-management/:login/edit',
+        component: UserMgmtUpdateComponent,
+        resolve: {
+            user: UserMgmtResolve
+        }
     }
-  },
-  {
-    path: 'user-management/new',
-    component: UserMgmtUpdateComponent,
-    resolve: {
-      user: UserMgmtResolve
-    }
-  },
-  {
-    path: 'user-management/:login/edit',
-    component: UserMgmtUpdateComponent,
-    resolve: {
-      user: UserMgmtResolve
-    }
-  }
 ];
 
 export const userDialogRoute: Routes = [
-  {
-    path: 'user-management/:login/delete',
-    component: UserDeleteDialogComponent,
-    resolve: {
-      user: UserMgmtResolve
-    },
-    outlet: 'popup'
-  }
+    {
+        path: 'user-management/:login/delete',
+        component: UserDeleteDialogComponent,
+        resolve: {
+            user: UserMgmtResolve
+        },
+        outlet: 'popup'
+    }
 ];

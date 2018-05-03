@@ -8,51 +8,51 @@ import { Principal } from 'app/core';
 import { LabelService } from './label.service';
 
 @Component({
-  selector: 'jhi-label',
-  templateUrl: './label.component.html'
+    selector: 'jhi-label',
+    templateUrl: './label.component.html'
 })
 export class LabelComponent implements OnInit, OnDestroy {
-  labels: ILabel[];
-  currentAccount: any;
-  eventSubscriber: Subscription;
+    labels: ILabel[];
+    currentAccount: any;
+    eventSubscriber: Subscription;
 
-  constructor(
-    private labelService: LabelService,
-    private jhiAlertService: JhiAlertService,
-    private eventManager: JhiEventManager,
-    private principal: Principal
-  ) {}
+    constructor(
+        private labelService: LabelService,
+        private jhiAlertService: JhiAlertService,
+        private eventManager: JhiEventManager,
+        private principal: Principal
+    ) {}
 
-  loadAll() {
-    this.labelService.query().subscribe(
-      (res: HttpResponse<ILabel[]>) => {
-        this.labels = res.body;
-      },
-      (res: HttpErrorResponse) => this.onError(res.message)
-    );
-  }
+    loadAll() {
+        this.labelService.query().subscribe(
+            (res: HttpResponse<ILabel[]>) => {
+                this.labels = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
 
-  ngOnInit() {
-    this.loadAll();
-    this.principal.identity().then(account => {
-      this.currentAccount = account;
-    });
-    this.registerChangeInLabels();
-  }
+    ngOnInit() {
+        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInLabels();
+    }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
-  }
+    ngOnDestroy() {
+        this.eventManager.destroy(this.eventSubscriber);
+    }
 
-  trackId(index: number, item: ILabel) {
-    return item.id;
-  }
+    trackId(index: number, item: ILabel) {
+        return item.id;
+    }
 
-  registerChangeInLabels() {
-    this.eventSubscriber = this.eventManager.subscribe('labelListModification', response => this.loadAll());
-  }
+    registerChangeInLabels() {
+        this.eventSubscriber = this.eventManager.subscribe('labelListModification', response => this.loadAll());
+    }
 
-  private onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
 }

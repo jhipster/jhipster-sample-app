@@ -2,7 +2,6 @@ package io.github.jhipster.sample.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Label;
-
 import io.github.jhipster.sample.repository.LabelRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.web.rest.util.HeaderUtil;
@@ -49,7 +48,7 @@ public class LabelResource {
         log.debug("REST request to save Label : {}", label);
         if (label.getId() != null) {
             throw new BadRequestAlertException("A new label cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        }        
         Label result = labelRepository.save(label);
         return ResponseEntity.created(new URI("/api/labels/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -70,8 +69,8 @@ public class LabelResource {
     public ResponseEntity<Label> updateLabel(@Valid @RequestBody Label label) throws URISyntaxException {
         log.debug("REST request to update Label : {}", label);
         if (label.getId() == null) {
-            return createLabel(label);
-        }
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }        
         Label result = labelRepository.save(label);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, label.getId().toString()))

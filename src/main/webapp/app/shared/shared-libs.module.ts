@@ -7,17 +7,17 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 
 @NgModule({
-  imports: [
-    NgbModule.forRoot(),
-    NgJhipsterModule.forRoot({
-      // set below to true to make alerts look like toast
-      alertAsToast: false,
-      i18nEnabled: true,
-      defaultI18nLang: 'en'
-    }),
-    InfiniteScrollModule,
-    CookieModule.forRoot()
-  ],
-  exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule]
+    imports: [
+        NgbModule.forRoot(),
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            i18nEnabled: true,
+            defaultI18nLang: 'en'
+        }),
+        InfiniteScrollModule,
+        CookieModule.forRoot()
+    ],
+    exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule]
 })
 export class JhipsterSampleApplicationSharedLibsModule {}

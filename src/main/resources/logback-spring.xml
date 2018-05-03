@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
 
 <configuration scan="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
@@ -20,6 +21,10 @@
         <queueSize>512</queueSize>
         <appender-ref ref="FILE"/>
     </appender>
+
+    <root level="${logging.level.root}">
+        <appender-ref ref="ASYNC"/>
+    </root>
 -->
 
     <logger name="javax.activation" level="WARN"/>

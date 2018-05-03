@@ -7,13 +7,13 @@ import { UserRouteAccessService } from 'app/core';
 const ADMIN_ROUTES = [auditsRoute, configurationRoute, docsRoute, healthRoute, logsRoute, ...userMgmtRoute, metricsRoute];
 
 export const adminState: Routes = [
-  {
-    path: '',
-    data: {
-      authorities: ['ROLE_ADMIN']
+    {
+        path: '',
+        data: {
+            authorities: ['ROLE_ADMIN']
+        },
+        canActivate: [UserRouteAccessService],
+        children: ADMIN_ROUTES
     },
-    canActivate: [UserRouteAccessService],
-    children: ADMIN_ROUTES
-  },
-  ...userDialogRoute
+    ...userDialogRoute
 ];
