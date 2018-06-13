@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of, throwError } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { PasswordComponent } from 'app/account/password/password.component';
 import { PasswordService } from 'app/account/password/password.service';
-import { Principal } from 'app/core/auth/principal.service';
-import { AccountService } from 'app/core/auth/account.service';
 
 describe('Component Tests', () => {
     describe('PasswordComponent', () => {
@@ -14,17 +12,15 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<PasswordComponent>;
         let service: PasswordService;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [JhipsterSampleApplicationTestModule],
-                    declarations: [PasswordComponent],
-                    providers: [Principal, AccountService, PasswordService]
-                })
-                    .overrideTemplate(PasswordComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [JhipsterSampleApplicationTestModule],
+                declarations: [PasswordComponent],
+                providers: []
             })
-        );
+                .overrideTemplate(PasswordComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(PasswordComponent);
@@ -51,7 +47,7 @@ describe('Component Tests', () => {
                 newPassword: 'myPassword'
             };
 
-            spyOn(service, 'save').and.returnValue(Observable.of(new HttpResponse({ body: true })));
+            spyOn(service, 'save').and.returnValue(of(new HttpResponse({ body: true })));
             comp.currentPassword = passwordValues.currentPassword;
             comp.newPassword = comp.confirmPassword = passwordValues.newPassword;
 
@@ -64,7 +60,7 @@ describe('Component Tests', () => {
 
         it('should set success to OK upon success', function() {
             // GIVEN
-            spyOn(service, 'save').and.returnValue(Observable.of(new HttpResponse({ body: true })));
+            spyOn(service, 'save').and.returnValue(of(new HttpResponse({ body: true })));
             comp.newPassword = comp.confirmPassword = 'myPassword';
 
             // WHEN
@@ -78,7 +74,7 @@ describe('Component Tests', () => {
 
         it('should notify of error if change password fails', function() {
             // GIVEN
-            spyOn(service, 'save').and.returnValue(Observable.throw('ERROR'));
+            spyOn(service, 'save').and.returnValue(throwError('ERROR'));
             comp.newPassword = comp.confirmPassword = 'myPassword';
 
             // WHEN

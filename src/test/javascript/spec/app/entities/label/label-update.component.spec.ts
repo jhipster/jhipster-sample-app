@@ -1,14 +1,12 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { LabelUpdateComponent } from 'app/entities/label/label-update.component';
 import { LabelService } from 'app/entities/label/label.service';
 import { Label } from 'app/shared/model/label.model';
-
-import { OperationService } from 'app/entities/operation';
 
 describe('Component Tests', () => {
     describe('Label Management Update Component', () => {
@@ -19,8 +17,7 @@ describe('Component Tests', () => {
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [JhipsterSampleApplicationTestModule],
-                declarations: [LabelUpdateComponent],
-                providers: [OperationService, LabelService]
+                declarations: [LabelUpdateComponent]
             })
                 .overrideTemplate(LabelUpdateComponent, '')
                 .compileComponents();
@@ -36,7 +33,7 @@ describe('Component Tests', () => {
                 fakeAsync(() => {
                     // GIVEN
                     const entity = new Label(123);
-                    spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({ body: entity })));
+                    spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
                     comp.label = entity;
                     // WHEN
                     comp.save();
@@ -53,7 +50,7 @@ describe('Component Tests', () => {
                 fakeAsync(() => {
                     // GIVEN
                     const entity = new Label();
-                    spyOn(service, 'create').and.returnValue(Observable.of(new HttpResponse({ body: entity })));
+                    spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
                     comp.label = entity;
                     // WHEN
                     comp.save();

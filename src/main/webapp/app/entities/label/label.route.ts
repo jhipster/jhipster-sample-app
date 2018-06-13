@@ -1,24 +1,26 @@
 import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-
 import { UserRouteAccessService } from 'app/core';
+import { Observable } from 'rxjs';
 import { Label } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 import { LabelComponent } from './label.component';
 import { LabelDetailComponent } from './label-detail.component';
 import { LabelUpdateComponent } from './label-update.component';
 import { LabelDeletePopupComponent } from './label-delete-dialog.component';
+import { ILabel } from 'app/shared/model/label.model';
 
-@Injectable()
-export class LabelResolve implements Resolve<any> {
+@Injectable({ providedIn: 'root' })
+export class LabelResolve implements Resolve<ILabel> {
     constructor(private service: LabelService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id);
+            return this.service.find(id).map((label: HttpResponse<Label>) => label.body);
         }
-        return new Label();
+        return Observable.of(new Label());
     }
 }
 

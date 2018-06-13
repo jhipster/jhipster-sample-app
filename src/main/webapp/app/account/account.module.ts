@@ -4,11 +4,6 @@ import { RouterModule } from '@angular/router';
 import { JhipsterSampleApplicationSharedModule } from 'app/shared';
 
 import {
-    Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
     PasswordStrengthBarComponent,
     RegisterComponent,
     ActivateComponent,
@@ -30,7 +25,6 @@ import {
         PasswordResetFinishComponent,
         SettingsComponent
     ],
-    providers: [Register, ActivateService, PasswordService, PasswordResetInitService, PasswordResetFinishService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterSampleApplicationAccountModule {}

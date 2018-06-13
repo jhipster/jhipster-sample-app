@@ -1,14 +1,14 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpyObject } from './spyobject';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import Spy = jasmine.Spy;
 
 export class MockActivatedRoute extends ActivatedRoute {
     constructor(parameters?: any) {
         super();
-        this.queryParams = Observable.of(parameters);
-        this.params = Observable.of(parameters);
-        this.data = Observable.of({
+        this.queryParams = of(parameters);
+        this.params = of(parameters);
+        this.data = of({
             ...parameters,
             pagingParams: {
                 page: 10,

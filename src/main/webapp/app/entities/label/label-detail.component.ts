@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ILabel } from 'app/shared/model/label.model';
@@ -14,7 +14,7 @@ export class LabelDetailComponent implements OnInit {
 
     ngOnInit() {
         this.route.data.subscribe(({ label }) => {
-            this.label = label.body ? label.body : label;
+            this.label = label;
         });
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { IBankAccount } from 'app/shared/model/bank-account.model';
@@ -28,7 +28,7 @@ export class BankAccountUpdateComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.route.data.subscribe(({ bankAccount }) => {
-            this.bankAccount = bankAccount.body ? bankAccount.body : bankAccount;
+            this.bankAccount = bankAccount;
         });
         this.userService.query().subscribe(
             (res: HttpResponse<IUser[]>) => {

@@ -1,68 +1,68 @@
-import { element, by } from 'protractor';
+import { element, by, promise, ElementFinder } from 'protractor';
 
 export class OperationComponentsPage {
-    createButton = element(by.css('#jh-create-entity'));
+    createButton = element(by.id('jh-create-entity'));
     title = element.all(by.css('jhi-operation div h2#page-heading span')).first();
 
-    clickOnCreateButton() {
+    clickOnCreateButton(): promise.Promise<void> {
         return this.createButton.click();
     }
 
-    getTitle() {
+    getTitle(): any {
         return this.title.getAttribute('jhiTranslate');
     }
 }
 
 export class OperationUpdatePage {
-    PageTitle = element(by.css('h2#jhi-operation-heading'));
-    saveButton = element(by.css('#save-entity'));
-    cancelButton = element(by.css('#cancel-save'));
-    dateInput = element(by.css('input#field_date'));
-    descriptionInput = element(by.css('input#field_description'));
-    amountInput = element(by.css('input#field_amount'));
-    bankAccountSelect = element(by.css('select#field_bankAccount'));
-    labelSelect = element(by.css('select#field_label'));
+    pageTitle = element(by.id('jhi-operation-heading'));
+    saveButton = element(by.id('save-entity'));
+    cancelButton = element(by.id('cancel-save'));
+    dateInput = element(by.id('field_date'));
+    descriptionInput = element(by.id('field_description'));
+    amountInput = element(by.id('field_amount'));
+    bankAccountSelect = element(by.id('field_bankAccount'));
+    labelSelect = element(by.id('field_label'));
 
     getPageTitle() {
-        return this.PageTitle.getAttribute('jhiTranslate');
+        return this.pageTitle.getAttribute('jhiTranslate');
     }
 
-    setDateInput(date) {
-        this.dateInput.sendKeys(date);
+    setDateInput(date): promise.Promise<void> {
+        return this.dateInput.sendKeys(date);
     }
 
     getDateInput() {
         return this.dateInput.getAttribute('value');
     }
 
-    setDescriptionInput(description) {
-        this.descriptionInput.sendKeys(description);
+    setDescriptionInput(description): promise.Promise<void> {
+        return this.descriptionInput.sendKeys(description);
     }
 
     getDescriptionInput() {
         return this.descriptionInput.getAttribute('value');
     }
 
-    setAmountInput(amount) {
-        this.amountInput.sendKeys(amount);
+    setAmountInput(amount): promise.Promise<void> {
+        return this.amountInput.sendKeys(amount);
     }
 
     getAmountInput() {
         return this.amountInput.getAttribute('value');
     }
 
-    bankAccountSelectLastOption() {
-        this.bankAccountSelect
+    bankAccountSelectLastOption(): promise.Promise<void> {
+        return this.bankAccountSelect
             .all(by.tagName('option'))
             .last()
             .click();
     }
 
-    bankAccountSelectOption(option) {
-        this.bankAccountSelect.sendKeys(option);
+    bankAccountSelectOption(option): promise.Promise<void> {
+        return this.bankAccountSelect.sendKeys(option);
     }
 
-    getBankAccountSelect() {
+    getBankAccountSelect(): ElementFinder {
         return this.bankAccountSelect;
     }
 
@@ -70,18 +70,18 @@ export class OperationUpdatePage {
         return this.bankAccountSelect.element(by.css('option:checked')).getText();
     }
 
-    labelSelectLastOption() {
-        this.labelSelect
+    labelSelectLastOption(): promise.Promise<void> {
+        return this.labelSelect
             .all(by.tagName('option'))
             .last()
             .click();
     }
 
-    labelSelectOption(option) {
-        this.labelSelect.sendKeys(option);
+    labelSelectOption(option): promise.Promise<void> {
+        return this.labelSelect.sendKeys(option);
     }
 
-    getLabelSelect() {
+    getLabelSelect(): ElementFinder {
         return this.labelSelect;
     }
 
@@ -89,15 +89,15 @@ export class OperationUpdatePage {
         return this.labelSelect.element(by.css('option:checked')).getText();
     }
 
-    save() {
-        this.saveButton.click();
+    save(): promise.Promise<void> {
+        return this.saveButton.click();
     }
 
-    cancel() {
-        this.cancelButton.click();
+    cancel(): promise.Promise<void> {
+        return this.cancelButton.click();
     }
 
-    getSaveButton() {
+    getSaveButton(): ElementFinder {
         return this.saveButton;
     }
 }

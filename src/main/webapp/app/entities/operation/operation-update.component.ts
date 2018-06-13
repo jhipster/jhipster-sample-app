@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
@@ -37,7 +37,7 @@ export class OperationUpdateComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.route.data.subscribe(({ operation }) => {
-            this.operation = operation.body ? operation.body : operation;
+            this.operation = operation;
         });
         this.bankAccountService.query().subscribe(
             (res: HttpResponse<IBankAccount[]>) => {
@@ -108,6 +108,6 @@ export class OperationUpdateComponent implements OnInit {
 
     set operation(operation: IOperation) {
         this._operation = operation;
-        this.date = moment(operation.date).format();
+        this.date = moment(operation.date).format(DATE_TIME_FORMAT);
     }
 }

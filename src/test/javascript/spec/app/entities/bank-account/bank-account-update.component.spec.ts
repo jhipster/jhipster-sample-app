@@ -1,14 +1,12 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { BankAccountUpdateComponent } from 'app/entities/bank-account/bank-account-update.component';
 import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 import { BankAccount } from 'app/shared/model/bank-account.model';
-
-import { UserService } from 'app/core';
 
 describe('Component Tests', () => {
     describe('BankAccount Management Update Component', () => {
@@ -19,8 +17,7 @@ describe('Component Tests', () => {
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [JhipsterSampleApplicationTestModule],
-                declarations: [BankAccountUpdateComponent],
-                providers: [UserService, BankAccountService]
+                declarations: [BankAccountUpdateComponent]
             })
                 .overrideTemplate(BankAccountUpdateComponent, '')
                 .compileComponents();
@@ -36,7 +33,7 @@ describe('Component Tests', () => {
                 fakeAsync(() => {
                     // GIVEN
                     const entity = new BankAccount(123);
-                    spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({ body: entity })));
+                    spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
                     comp.bankAccount = entity;
                     // WHEN
                     comp.save();
@@ -53,7 +50,7 @@ describe('Component Tests', () => {
                 fakeAsync(() => {
                     // GIVEN
                     const entity = new BankAccount();
-                    spyOn(service, 'create').and.returnValue(Observable.of(new HttpResponse({ body: entity })));
+                    spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
                     comp.bankAccount = entity;
                     // WHEN
                     comp.save();

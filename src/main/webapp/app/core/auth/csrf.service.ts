@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CSRFService {
     constructor(private cookieService: CookieService) {}
 

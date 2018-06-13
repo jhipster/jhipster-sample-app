@@ -13,7 +13,7 @@ describe('Service Tests', () => {
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule],
-                providers: [JhiDateUtils, UserService]
+                providers: [JhiDateUtils]
             });
 
             service = TestBed.get(UserService);

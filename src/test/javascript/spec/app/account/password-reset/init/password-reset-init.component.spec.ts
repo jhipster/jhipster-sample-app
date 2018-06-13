@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { Renderer, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of, throwError } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../../test.module';
 import { PasswordResetInitComponent } from 'app/account/password-reset/init/password-reset-init.component';
@@ -17,7 +17,6 @@ describe('Component Tests', () => {
                 imports: [JhipsterSampleApplicationTestModule],
                 declarations: [PasswordResetInitComponent],
                 providers: [
-                    PasswordResetInitService,
                     {
                         provide: Renderer,
                         useValue: {
@@ -65,7 +64,7 @@ describe('Component Tests', () => {
         it(
             'notifies of success upon successful requestReset',
             inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-                spyOn(service, 'save').and.returnValue(Observable.of({}));
+                spyOn(service, 'save').and.returnValue(of({}));
                 comp.resetAccount.email = 'user@domain.com';
 
                 comp.requestReset();
@@ -81,7 +80,7 @@ describe('Component Tests', () => {
             'notifies of unknown email upon email address not registered/400',
             inject([PasswordResetInitService], (service: PasswordResetInitService) => {
                 spyOn(service, 'save').and.returnValue(
-                    Observable.throw({
+                    throwError({
                         status: 400,
                         error: { type: EMAIL_NOT_FOUND_TYPE }
                     })
@@ -101,7 +100,7 @@ describe('Component Tests', () => {
             'notifies of error upon error response',
             inject([PasswordResetInitService], (service: PasswordResetInitService) => {
                 spyOn(service, 'save').and.returnValue(
-                    Observable.throw({
+                    throwError({
                         status: 503,
                         data: 'something else'
                     })

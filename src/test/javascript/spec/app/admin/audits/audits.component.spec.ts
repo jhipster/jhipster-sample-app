@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
-import { PaginationConfig } from 'app/blocks/config/uib-pagination.config';
 import { AuditsComponent } from 'app/admin/audits/audits.component';
 import { AuditsService } from 'app/admin/audits/audits.service';
 import { Audit } from 'app/admin/audits/audit.model';
@@ -38,17 +36,15 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<AuditsComponent>;
         let service: AuditsService;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [JhipsterSampleApplicationTestModule],
-                    declarations: [AuditsComponent],
-                    providers: [AuditsService, NgbPaginationConfig, PaginationConfig]
-                })
-                    .overrideTemplate(AuditsComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [JhipsterSampleApplicationTestModule],
+                declarations: [AuditsComponent],
+                providers: [AuditsService]
             })
-        );
+                .overrideTemplate(AuditsComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(AuditsComponent);
@@ -88,7 +84,7 @@ describe('Component Tests', () => {
                 const headers = new HttpHeaders().append('link', 'link;link');
                 const audit = new Audit({ remoteAddress: '127.0.0.1', sessionId: '123' }, 'user', '20140101', 'AUTHENTICATION_SUCCESS');
                 spyOn(service, 'query').and.returnValue(
-                    Observable.of(
+                    of(
                         new HttpResponse({
                             body: [audit],
                             headers

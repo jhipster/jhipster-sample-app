@@ -1,12 +1,13 @@
 package io.github.jhipster.sample.repository;
 
 import io.github.jhipster.sample.domain.BankAccount;
-import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
- * Spring Data JPA repository for the BankAccount entity.
+ * Spring Data  repository for the BankAccount entity.
  */
 @SuppressWarnings("unused")
 @Repository

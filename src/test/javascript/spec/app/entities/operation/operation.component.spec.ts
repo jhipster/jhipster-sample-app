@@ -1,6 +1,6 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
@@ -20,7 +20,6 @@ describe('Component Tests', () => {
                 imports: [JhipsterSampleApplicationTestModule],
                 declarations: [OperationComponent],
                 providers: [
-                    OperationService,
                     {
                         provide: ActivatedRoute,
                         useValue: {
@@ -50,7 +49,7 @@ describe('Component Tests', () => {
             // GIVEN
             const headers = new HttpHeaders().append('link', 'link;link');
             spyOn(service, 'query').and.returnValue(
-                Observable.of(
+                of(
                     new HttpResponse({
                         body: [new Operation(123)],
                         headers
@@ -70,7 +69,7 @@ describe('Component Tests', () => {
             // GIVEN
             const headers = new HttpHeaders().append('link', 'link;link');
             spyOn(service, 'query').and.returnValue(
-                Observable.of(
+                of(
                     new HttpResponse({
                         body: [new Operation(123)],
                         headers
@@ -90,7 +89,7 @@ describe('Component Tests', () => {
             // GIVEN
             const headers = new HttpHeaders().append('link', 'link;link');
             spyOn(service, 'query').and.returnValue(
-                Observable.of(
+                of(
                     new HttpResponse({
                         body: [new Operation(123)],
                         headers

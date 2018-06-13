@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IOperation } from 'app/shared/model/operation.model';
@@ -14,7 +14,7 @@ export class OperationDetailComponent implements OnInit {
 
     ngOnInit() {
         this.route.data.subscribe(({ operation }) => {
-            this.operation = operation.body ? operation.body : operation;
+            this.operation = operation;
         });
     }
 

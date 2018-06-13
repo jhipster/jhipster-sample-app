@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { ILabel } from 'app/shared/model/label.model';
@@ -29,7 +29,7 @@ export class LabelUpdateComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.route.data.subscribe(({ label }) => {
-            this.label = label.body ? label.body : label;
+            this.label = label;
         });
         this.operationService.query().subscribe(
             (res: HttpResponse<IOperation[]>) => {

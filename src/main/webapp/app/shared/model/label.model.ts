@@ -1,4 +1,4 @@
-import { IOperation } from './operation.model';
+import { IOperation } from 'app/shared/model/operation.model';
 
 export interface ILabel {
     id?: number;

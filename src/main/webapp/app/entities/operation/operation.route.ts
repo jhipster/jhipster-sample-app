@@ -1,24 +1,26 @@
 import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-
 import { UserRouteAccessService } from 'app/core';
+import { Observable } from 'rxjs';
 import { Operation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 import { OperationComponent } from './operation.component';
 import { OperationDetailComponent } from './operation-detail.component';
 import { OperationUpdateComponent } from './operation-update.component';
 import { OperationDeletePopupComponent } from './operation-delete-dialog.component';
+import { IOperation } from 'app/shared/model/operation.model';
 
-@Injectable()
-export class OperationResolve implements Resolve<any> {
+@Injectable({ providedIn: 'root' })
+export class OperationResolve implements Resolve<IOperation> {
     constructor(private service: OperationService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id);
+            return this.service.find(id).map((operation: HttpResponse<Operation>) => operation.body);
         }
-        return new Operation();
+        return Observable.of(new Operation());
     }
 }
 

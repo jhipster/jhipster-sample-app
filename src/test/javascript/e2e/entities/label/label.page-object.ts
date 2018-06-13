@@ -1,45 +1,45 @@
-import { element, by } from 'protractor';
+import { element, by, promise, ElementFinder } from 'protractor';
 
 export class LabelComponentsPage {
-    createButton = element(by.css('#jh-create-entity'));
+    createButton = element(by.id('jh-create-entity'));
     title = element.all(by.css('jhi-label div h2#page-heading span')).first();
 
-    clickOnCreateButton() {
+    clickOnCreateButton(): promise.Promise<void> {
         return this.createButton.click();
     }
 
-    getTitle() {
+    getTitle(): any {
         return this.title.getAttribute('jhiTranslate');
     }
 }
 
 export class LabelUpdatePage {
-    PageTitle = element(by.css('h2#jhi-label-heading'));
-    saveButton = element(by.css('#save-entity'));
-    cancelButton = element(by.css('#cancel-save'));
-    labelInput = element(by.css('input#field_label'));
+    pageTitle = element(by.id('jhi-label-heading'));
+    saveButton = element(by.id('save-entity'));
+    cancelButton = element(by.id('cancel-save'));
+    labelInput = element(by.id('field_label'));
 
     getPageTitle() {
-        return this.PageTitle.getAttribute('jhiTranslate');
+        return this.pageTitle.getAttribute('jhiTranslate');
     }
 
-    setLabelInput(label) {
-        this.labelInput.sendKeys(label);
+    setLabelInput(label): promise.Promise<void> {
+        return this.labelInput.sendKeys(label);
     }
 
     getLabelInput() {
         return this.labelInput.getAttribute('value');
     }
 
-    save() {
-        this.saveButton.click();
+    save(): promise.Promise<void> {
+        return this.saveButton.click();
     }
 
-    cancel() {
-        this.cancelButton.click();
+    cancel(): promise.Promise<void> {
+        return this.cancelButton.click();
     }
 
-    getSaveButton() {
+    getSaveButton(): ElementFinder {
         return this.saveButton;
     }
 }
