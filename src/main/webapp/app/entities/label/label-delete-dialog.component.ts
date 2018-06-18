@@ -44,7 +44,7 @@ export class LabelDeletePopupComponent implements OnInit, OnDestroy {
         this.route.data.subscribe(({ label }) => {
             setTimeout(() => {
                 this.ngbModalRef = this.modalService.open(LabelDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
-                this.ngbModalRef.componentInstance.label = label.body;
+                this.ngbModalRef.componentInstance.label = label;
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });

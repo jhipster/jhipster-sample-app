@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core';
 import { PasswordResetFinishComponent } from './password-reset-finish.component';
 
 export const passwordResetFinishRoute: Route = {
@@ -9,6 +8,5 @@ export const passwordResetFinishRoute: Route = {
     data: {
         authorities: [],
         pageTitle: 'global.menu.account.password'
-    },
-    canActivate: [UserRouteAccessService]
+    }
 };

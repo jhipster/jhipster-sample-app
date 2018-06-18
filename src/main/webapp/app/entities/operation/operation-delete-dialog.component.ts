@@ -44,7 +44,7 @@ export class OperationDeletePopupComponent implements OnInit, OnDestroy {
         this.route.data.subscribe(({ operation }) => {
             setTimeout(() => {
                 this.ngbModalRef = this.modalService.open(OperationDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
-                this.ngbModalRef.componentInstance.operation = operation.body;
+                this.ngbModalRef.componentInstance.operation = operation;
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });

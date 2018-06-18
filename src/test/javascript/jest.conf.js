@@ -11,6 +11,10 @@ module.exports = {
     moduleNameMapper: {
         'app/(.*)': '<rootDir>/src/main/webapp/app/$1'
     },
+    reporters: [
+        'default',
+        [ 'jest-junit', { output: './target/test-results/jest/TESTS-results.xml' } ]
+    ],
     transformIgnorePatterns: ['node_modules/(?!@angular/common/locales)'],
     testMatch: ['<rootDir>/src/test/javascript/spec/**/+(*.)+(spec.ts)'],
     rootDir: '../../../'
