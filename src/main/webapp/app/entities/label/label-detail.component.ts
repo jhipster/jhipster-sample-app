@@ -10,10 +10,10 @@ import { ILabel } from 'app/shared/model/label.model';
 export class LabelDetailComponent implements OnInit {
     label: ILabel;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        this.route.data.subscribe(({ label }) => {
+        this.activatedRoute.data.subscribe(({ label }) => {
             this.label = label;
         });
     }

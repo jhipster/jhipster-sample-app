@@ -31,12 +31,12 @@ export class OperationUpdateComponent implements OnInit {
         private operationService: OperationService,
         private bankAccountService: BankAccountService,
         private labelService: LabelService,
-        private route: ActivatedRoute
+        private activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.route.data.subscribe(({ operation }) => {
+        this.activatedRoute.data.subscribe(({ operation }) => {
             this.operation = operation;
         });
         this.bankAccountService.query().subscribe(

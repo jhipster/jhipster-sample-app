@@ -10,10 +10,10 @@ import { IOperation } from 'app/shared/model/operation.model';
 export class OperationDetailComponent implements OnInit {
     operation: IOperation;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        this.route.data.subscribe(({ operation }) => {
+        this.activatedRoute.data.subscribe(({ operation }) => {
             this.operation = operation;
         });
     }

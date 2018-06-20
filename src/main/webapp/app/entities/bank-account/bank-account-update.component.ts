@@ -22,12 +22,12 @@ export class BankAccountUpdateComponent implements OnInit {
         private jhiAlertService: JhiAlertService,
         private bankAccountService: BankAccountService,
         private userService: UserService,
-        private route: ActivatedRoute
+        private activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.route.data.subscribe(({ bankAccount }) => {
+        this.activatedRoute.data.subscribe(({ bankAccount }) => {
             this.bankAccount = bankAccount;
         });
         this.userService.query().subscribe(

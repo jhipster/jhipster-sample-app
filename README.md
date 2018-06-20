@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 5.0.0-beta.3, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3](https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3).
+This application was generated using JHipster 5.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.0.0](https://www.jhipster.tech/documentation-archive/v5.0.0).
 
 ## Development
 
@@ -109,7 +109,7 @@ To launch your application's tests, run:
 
 ### Client tests
 
-Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
+Unit tests are run by [Jest][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
 
     yarn test
 
@@ -151,13 +151,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: https://www.jhipster.tech
-[JHipster 5.0.0-beta.3 archive]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3
+[JHipster 5.0.0 archive]: https://www.jhipster.tech/documentation-archive/v5.0.0
 
-[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3/development/
-[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3/docker-compose
-[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3/production/
-[Running tests page]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3/running-tests/
-[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v5.0.0-beta.3/setting-up-ci/
+[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v5.0.0/development/
+[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v5.0.0/docker-compose
+[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v5.0.0/production/
+[Running tests page]: https://www.jhipster.tech/documentation-archive/v5.0.0/running-tests/
+[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v5.0.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
@@ -165,7 +165,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [Webpack]: https://webpack.github.io/
 [Angular CLI]: https://cli.angular.io/
 [BrowserSync]: http://www.browsersync.io/
-[Karma]: http://karma-runner.github.io/
+[Jest]: https://facebook.github.io/jest/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
 [Leaflet]: http://leafletjs.com/

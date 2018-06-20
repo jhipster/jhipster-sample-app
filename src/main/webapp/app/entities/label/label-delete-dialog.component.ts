@@ -38,10 +38,10 @@ export class LabelDeleteDialogComponent {
 export class LabelDeletePopupComponent implements OnInit, OnDestroy {
     private ngbModalRef: NgbModalRef;
 
-    constructor(private route: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
     ngOnInit() {
-        this.route.data.subscribe(({ label }) => {
+        this.activatedRoute.data.subscribe(({ label }) => {
             setTimeout(() => {
                 this.ngbModalRef = this.modalService.open(LabelDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.label = label;

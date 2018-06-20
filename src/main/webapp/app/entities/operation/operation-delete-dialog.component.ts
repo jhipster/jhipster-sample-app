@@ -38,10 +38,10 @@ export class OperationDeleteDialogComponent {
 export class OperationDeletePopupComponent implements OnInit, OnDestroy {
     private ngbModalRef: NgbModalRef;
 
-    constructor(private route: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
     ngOnInit() {
-        this.route.data.subscribe(({ operation }) => {
+        this.activatedRoute.data.subscribe(({ operation }) => {
             setTimeout(() => {
                 this.ngbModalRef = this.modalService.open(OperationDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.operation = operation;

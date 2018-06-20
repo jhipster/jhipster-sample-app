@@ -23,12 +23,12 @@ export class LabelUpdateComponent implements OnInit {
         private jhiAlertService: JhiAlertService,
         private labelService: LabelService,
         private operationService: OperationService,
-        private route: ActivatedRoute
+        private activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.route.data.subscribe(({ label }) => {
+        this.activatedRoute.data.subscribe(({ label }) => {
             this.label = label;
         });
         this.operationService.query().subscribe(
