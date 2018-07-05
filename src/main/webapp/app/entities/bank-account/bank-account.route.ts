@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
 import { BankAccountComponent } from './bank-account.component';
@@ -18,9 +19,9 @@ export class BankAccountResolve implements Resolve<IBankAccount> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body);
+            return this.service.find(id).pipe(map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body));
         }
-        return Observable.of(new BankAccount());
+        return of(new BankAccount());
     }
 }
 
