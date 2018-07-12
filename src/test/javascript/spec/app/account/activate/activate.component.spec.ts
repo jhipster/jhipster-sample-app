@@ -11,20 +11,22 @@ describe('Component Tests', () => {
     describe('ActivateComponent', () => {
         let comp: ActivateComponent;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterSampleApplicationTestModule],
-                declarations: [ActivateComponent],
-                providers: [
-                    {
-                        provide: ActivatedRoute,
-                        useValue: new MockActivatedRoute({ key: 'ABC123' })
-                    }
-                ]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [JhipsterSampleApplicationTestModule],
+                    declarations: [ActivateComponent],
+                    providers: [
+                        {
+                            provide: ActivatedRoute,
+                            useValue: new MockActivatedRoute({ key: 'ABC123' })
+                        }
+                    ]
+                })
+                    .overrideTemplate(ActivateComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(ActivateComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             const fixture = TestBed.createComponent(ActivateComponent);

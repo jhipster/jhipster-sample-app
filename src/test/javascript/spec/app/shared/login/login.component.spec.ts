@@ -20,24 +20,26 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterSampleApplicationTestModule],
-                declarations: [JhiLoginModalComponent],
-                providers: [
-                    {
-                        provide: LoginService,
-                        useClass: MockLoginService
-                    },
-                    {
-                        provide: StateStorageService,
-                        useClass: MockStateStorageService
-                    }
-                ]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [JhipsterSampleApplicationTestModule],
+                    declarations: [JhiLoginModalComponent],
+                    providers: [
+                        {
+                            provide: LoginService,
+                            useClass: MockLoginService
+                        },
+                        {
+                            provide: StateStorageService,
+                            useClass: MockStateStorageService
+                        }
+                    ]
+                })
+                    .overrideTemplate(JhiLoginModalComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(JhiLoginModalComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(JhiLoginModalComponent);

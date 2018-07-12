@@ -15,14 +15,16 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterSampleApplicationTestModule],
-                declarations: [UserMgmtDeleteDialogComponent]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [JhipsterSampleApplicationTestModule],
+                    declarations: [UserMgmtDeleteDialogComponent]
+                })
+                    .overrideTemplate(UserMgmtDeleteDialogComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(UserMgmtDeleteDialogComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(UserMgmtDeleteDialogComponent);

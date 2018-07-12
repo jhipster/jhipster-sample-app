@@ -17,20 +17,22 @@ describe('Component Tests', () => {
             data: of({ user: new User(1, 'user', 'first', 'last', 'first@last.com', true, 'en', ['ROLE_USER'], 'admin', null, null, null) })
         } as any) as ActivatedRoute;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterSampleApplicationTestModule],
-                declarations: [UserMgmtUpdateComponent],
-                providers: [
-                    {
-                        provide: ActivatedRoute,
-                        useValue: route
-                    }
-                ]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [JhipsterSampleApplicationTestModule],
+                    declarations: [UserMgmtUpdateComponent],
+                    providers: [
+                        {
+                            provide: ActivatedRoute,
+                            useValue: route
+                        }
+                    ]
+                })
+                    .overrideTemplate(UserMgmtUpdateComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(UserMgmtUpdateComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(UserMgmtUpdateComponent);
