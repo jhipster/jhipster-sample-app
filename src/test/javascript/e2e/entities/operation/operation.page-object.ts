@@ -1,14 +1,14 @@
-import { element, by, promise, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class OperationComponentsPage {
     createButton = element(by.id('jh-create-entity'));
     title = element.all(by.css('jhi-operation div h2#page-heading span')).first();
 
-    clickOnCreateButton(): promise.Promise<void> {
-        return this.createButton.click();
+    async clickOnCreateButton() {
+        await this.createButton.click();
     }
 
-    getTitle(): any {
+    async getTitle() {
         return this.title.getAttribute('jhiTranslate');
     }
 }
@@ -23,78 +23,78 @@ export class OperationUpdatePage {
     bankAccountSelect = element(by.id('field_bankAccount'));
     labelSelect = element(by.id('field_label'));
 
-    getPageTitle() {
+    async getPageTitle() {
         return this.pageTitle.getAttribute('jhiTranslate');
     }
 
-    setDateInput(date): promise.Promise<void> {
-        return this.dateInput.sendKeys(date);
+    async setDateInput(date) {
+        await this.dateInput.sendKeys(date);
     }
 
-    getDateInput() {
+    async getDateInput() {
         return this.dateInput.getAttribute('value');
     }
 
-    setDescriptionInput(description): promise.Promise<void> {
-        return this.descriptionInput.sendKeys(description);
+    async setDescriptionInput(description) {
+        await this.descriptionInput.sendKeys(description);
     }
 
-    getDescriptionInput() {
+    async getDescriptionInput() {
         return this.descriptionInput.getAttribute('value');
     }
 
-    setAmountInput(amount): promise.Promise<void> {
-        return this.amountInput.sendKeys(amount);
+    async setAmountInput(amount) {
+        await this.amountInput.sendKeys(amount);
     }
 
-    getAmountInput() {
+    async getAmountInput() {
         return this.amountInput.getAttribute('value');
     }
 
-    bankAccountSelectLastOption(): promise.Promise<void> {
-        return this.bankAccountSelect
+    async bankAccountSelectLastOption() {
+        await this.bankAccountSelect
             .all(by.tagName('option'))
             .last()
             .click();
     }
 
-    bankAccountSelectOption(option): promise.Promise<void> {
-        return this.bankAccountSelect.sendKeys(option);
+    async bankAccountSelectOption(option) {
+        await this.bankAccountSelect.sendKeys(option);
     }
 
     getBankAccountSelect(): ElementFinder {
         return this.bankAccountSelect;
     }
 
-    getBankAccountSelectedOption() {
+    async getBankAccountSelectedOption() {
         return this.bankAccountSelect.element(by.css('option:checked')).getText();
     }
 
-    labelSelectLastOption(): promise.Promise<void> {
-        return this.labelSelect
+    async labelSelectLastOption() {
+        await this.labelSelect
             .all(by.tagName('option'))
             .last()
             .click();
     }
 
-    labelSelectOption(option): promise.Promise<void> {
-        return this.labelSelect.sendKeys(option);
+    async labelSelectOption(option) {
+        await this.labelSelect.sendKeys(option);
     }
 
     getLabelSelect(): ElementFinder {
         return this.labelSelect;
     }
 
-    getLabelSelectedOption() {
+    async getLabelSelectedOption() {
         return this.labelSelect.element(by.css('option:checked')).getText();
     }
 
-    save(): promise.Promise<void> {
-        return this.saveButton.click();
+    async save() {
+        await this.saveButton.click();
     }
 
-    cancel(): promise.Promise<void> {
-        return this.cancelButton.click();
+    async cancel() {
+        await this.cancelButton.click();
     }
 
     getSaveButton(): ElementFinder {

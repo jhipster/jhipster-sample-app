@@ -214,7 +214,7 @@ public class LabelResourceIntTest {
 
         // Create the Label
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restLabelMockMvc.perform(put("/api/labels")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(label)))

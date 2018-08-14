@@ -1,5 +1,6 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage, SignInPage, PasswordPage, SettingsPage } from './../page-objects/jhi-page-objects';
+import { browser, element, by, ExpectedConditions as ec } from 'protractor';
+
+import { NavBarPage, SignInPage, PasswordPage, SettingsPage } from '../page-objects/jhi-page-objects';
 
 describe('account', () => {
     let navBarPage: NavBarPage;
@@ -7,131 +8,93 @@ describe('account', () => {
     let passwordPage: PasswordPage;
     let settingsPage: SettingsPage;
 
-    beforeAll(() => {
-        browser.get('/');
-        browser.waitForAngular();
+    beforeAll(async () => {
+        await browser.get('/');
         navBarPage = new NavBarPage(true);
-        browser.waitForAngular();
     });
 
-    it('should fail to login with bad password', () => {
+    it('should fail to login with bad password', async () => {
         const expect1 = /home.title/;
-        element
-            .all(by.css('h1'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect1);
-            });
-        signInPage = navBarPage.getSignInPage();
-        signInPage.autoSignInUsing('admin', 'foo');
+        const value1 = await element(by.css('h1')).getAttribute('jhiTranslate');
+        expect(value1).toMatch(expect1);
+        signInPage = await navBarPage.getSignInPage();
+        await signInPage.autoSignInUsing('admin', 'foo');
 
         const expect2 = /login.messages.error.authentication/;
-        element
-            .all(by.css('.alert-danger'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect2);
-            });
+        const value2 = await element(by.css('.alert-danger')).getAttribute('jhiTranslate');
+        expect(value2).toMatch(expect2);
     });
 
-    it('should login successfully with admin account', () => {
-        const expect1 = /global.form.username/;
-        element
-            .all(by.css('.modal-content label'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect1);
-            });
-        signInPage.clearUserName();
-        signInPage.setUserName('admin');
-        signInPage.clearPassword();
-        signInPage.setPassword('admin');
-        signInPage.login();
+    it('should login successfully with admin account', async () => {
+        await browser.get('/');
+        signInPage = await navBarPage.getSignInPage();
 
-        browser.waitForAngular();
+        const expect1 = /global.form.username/;
+        const value1 = await element(by.className('username-label')).getAttribute('jhiTranslate');
+        expect(value1).toMatch(expect1);
+        await signInPage.autoSignInUsing('admin', 'admin');
 
         const expect2 = /home.logged.message/;
-        element
-            .all(by.css('.alert-success span'))
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect2);
-            });
+        const value2 = element(by.id('home-logged-message'));
+        await browser.wait(ec.visibilityOf(value2), 5000);
+        expect(await value2.getAttribute('jhiTranslate')).toMatch(expect2);
     });
-    it('should be able to update settings', () => {
-        settingsPage = navBarPage.getSettingsPage();
+
+    it('should be able to update settings', async () => {
+        settingsPage = await navBarPage.getSettingsPage();
 
         const expect1 = /settings.title/;
-        settingsPage.getTitle().then(value => {
-            expect(value).toMatch(expect1);
-        });
-        settingsPage.save();
+        const value1 = await settingsPage.getTitle();
+        expect(value1).toMatch(expect1);
+        await settingsPage.save();
 
         const expect2 = /settings.messages.success/;
-        element
-            .all(by.css('.alert-success'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect2);
-            });
+        const value2 = await element(by.css('.alert-success')).getAttribute('jhiTranslate');
+        expect(value2).toMatch(expect2);
     });
 
-    it('should fail to update password when using incorrect current password', () => {
-        passwordPage = navBarPage.getPasswordPage();
+    it('should fail to update password when using incorrect current password', async () => {
+        passwordPage = await navBarPage.getPasswordPage();
 
-        expect(passwordPage.getTitle()).toMatch(/password.title/);
+        expect(await passwordPage.getTitle()).toMatch(/password.title/);
 
-        passwordPage.setCurrentPassword('wrong_current_password');
-        passwordPage.setPassword('new_password');
-        passwordPage.setConfirmPassword('new_password');
-        passwordPage.save();
+        await passwordPage.setCurrentPassword('wrong_current_password');
+        await passwordPage.setPassword('new_password');
+        await passwordPage.setConfirmPassword('new_password');
+        await passwordPage.save();
 
         const expect2 = /password.messages.error/;
-        element
-            .all(by.css('.alert-danger'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect2);
-            });
-        settingsPage = navBarPage.getSettingsPage();
+        const value2 = await element(by.css('.alert-danger')).getAttribute('jhiTranslate');
+        expect(value2).toMatch(expect2);
+        settingsPage = await navBarPage.getSettingsPage();
     });
 
-    it('should be able to update password', () => {
-        passwordPage = navBarPage.getPasswordPage();
+    it('should be able to update password', async () => {
+        passwordPage = await navBarPage.getPasswordPage();
 
-        expect(passwordPage.getTitle()).toMatch(/password.title/);
+        expect(await passwordPage.getTitle()).toMatch(/password.title/);
 
-        passwordPage.setCurrentPassword('admin');
-        passwordPage.setPassword('newpassword');
-        passwordPage.setConfirmPassword('newpassword');
-        passwordPage.save();
+        await passwordPage.setCurrentPassword('admin');
+        await passwordPage.setPassword('newpassword');
+        await passwordPage.setConfirmPassword('newpassword');
+        await passwordPage.save();
 
         const expect2 = /password.messages.success/;
-        element
-            .all(by.css('.alert-success'))
-            .first()
-            .getAttribute('jhiTranslate')
-            .then(value => {
-                expect(value).toMatch(expect2);
-            });
-        navBarPage.autoSignOut();
-        navBarPage.goToSignInPage();
-        signInPage.autoSignInUsing('admin', 'newpassword');
+        const value2 = await element(by.css('.alert-success')).getAttribute('jhiTranslate');
+        expect(value2).toMatch(expect2);
+        await navBarPage.autoSignOut();
+        await navBarPage.goToSignInPage();
+        await signInPage.autoSignInUsing('admin', 'newpassword');
 
         // change back to default
-        navBarPage.goToPasswordMenu();
-        passwordPage.setCurrentPassword('newpassword');
-        passwordPage.setPassword('admin');
-        passwordPage.setConfirmPassword('admin');
-        passwordPage.save();
+        await navBarPage.goToPasswordMenu();
+        await passwordPage.setCurrentPassword('newpassword');
+        await passwordPage.setPassword('admin');
+        await passwordPage.setConfirmPassword('admin');
+        await passwordPage.save();
     });
 
-    afterAll(() => {
-        navBarPage.autoSignOut();
+    afterAll(async () => {
+        await navBarPage.autoSignOut();
     });
 });

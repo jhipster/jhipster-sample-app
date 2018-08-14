@@ -1,42 +1,44 @@
-import { browser } from 'protractor';
-import { NavBarPage } from './../../page-objects/jhi-page-objects';
+import { browser, ExpectedConditions as ec } from 'protractor';
+import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
+
 import { LabelComponentsPage, LabelUpdatePage } from './label.page-object';
 
 describe('Label e2e test', () => {
     let navBarPage: NavBarPage;
+    let signInPage: SignInPage;
     let labelUpdatePage: LabelUpdatePage;
     let labelComponentsPage: LabelComponentsPage;
 
-    beforeAll(() => {
-        browser.get('/');
-        browser.waitForAngular();
+    beforeAll(async () => {
+        await browser.get('/');
         navBarPage = new NavBarPage();
-        navBarPage.getSignInPage().autoSignInUsing('admin', 'admin');
-        browser.waitForAngular();
+        signInPage = await navBarPage.getSignInPage();
+        await signInPage.autoSignInUsing('admin', 'admin');
+        await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
     });
 
-    it('should load Labels', () => {
-        navBarPage.goToEntity('label');
+    it('should load Labels', async () => {
+        await navBarPage.goToEntity('label');
         labelComponentsPage = new LabelComponentsPage();
-        expect(labelComponentsPage.getTitle()).toMatch(/jhipsterSampleApplicationApp.label.home.title/);
+        expect(await labelComponentsPage.getTitle()).toMatch(/jhipsterSampleApplicationApp.label.home.title/);
     });
 
-    it('should load create Label page', () => {
-        labelComponentsPage.clickOnCreateButton();
+    it('should load create Label page', async () => {
+        await labelComponentsPage.clickOnCreateButton();
         labelUpdatePage = new LabelUpdatePage();
-        expect(labelUpdatePage.getPageTitle()).toMatch(/jhipsterSampleApplicationApp.label.home.createOrEditLabel/);
-        labelUpdatePage.cancel();
+        expect(await labelUpdatePage.getPageTitle()).toMatch(/jhipsterSampleApplicationApp.label.home.createOrEditLabel/);
+        await labelUpdatePage.cancel();
     });
 
-    it('should create and save Labels', () => {
-        labelComponentsPage.clickOnCreateButton();
-        labelUpdatePage.setLabelInput('label');
-        expect(labelUpdatePage.getLabelInput()).toMatch('label');
-        labelUpdatePage.save();
-        expect(labelUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+    it('should create and save Labels', async () => {
+        await labelComponentsPage.clickOnCreateButton();
+        await labelUpdatePage.setLabelInput('label');
+        expect(await labelUpdatePage.getLabelInput()).toMatch('label');
+        await labelUpdatePage.save();
+        expect(await labelUpdatePage.getSaveButton().isPresent()).toBeFalsy();
     });
 
-    afterAll(() => {
-        navBarPage.autoSignOut();
+    afterAll(async () => {
+        await navBarPage.autoSignOut();
     });
 });

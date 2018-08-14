@@ -1,48 +1,50 @@
-import { browser, protractor } from 'protractor';
-import { NavBarPage } from './../../page-objects/jhi-page-objects';
+import { browser, ExpectedConditions as ec, protractor } from 'protractor';
+import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
+
 import { OperationComponentsPage, OperationUpdatePage } from './operation.page-object';
 
 describe('Operation e2e test', () => {
     let navBarPage: NavBarPage;
+    let signInPage: SignInPage;
     let operationUpdatePage: OperationUpdatePage;
     let operationComponentsPage: OperationComponentsPage;
 
-    beforeAll(() => {
-        browser.get('/');
-        browser.waitForAngular();
+    beforeAll(async () => {
+        await browser.get('/');
         navBarPage = new NavBarPage();
-        navBarPage.getSignInPage().autoSignInUsing('admin', 'admin');
-        browser.waitForAngular();
+        signInPage = await navBarPage.getSignInPage();
+        await signInPage.autoSignInUsing('admin', 'admin');
+        await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
     });
 
-    it('should load Operations', () => {
-        navBarPage.goToEntity('operation');
+    it('should load Operations', async () => {
+        await navBarPage.goToEntity('operation');
         operationComponentsPage = new OperationComponentsPage();
-        expect(operationComponentsPage.getTitle()).toMatch(/jhipsterSampleApplicationApp.operation.home.title/);
+        expect(await operationComponentsPage.getTitle()).toMatch(/jhipsterSampleApplicationApp.operation.home.title/);
     });
 
-    it('should load create Operation page', () => {
-        operationComponentsPage.clickOnCreateButton();
+    it('should load create Operation page', async () => {
+        await operationComponentsPage.clickOnCreateButton();
         operationUpdatePage = new OperationUpdatePage();
-        expect(operationUpdatePage.getPageTitle()).toMatch(/jhipsterSampleApplicationApp.operation.home.createOrEditLabel/);
-        operationUpdatePage.cancel();
+        expect(await operationUpdatePage.getPageTitle()).toMatch(/jhipsterSampleApplicationApp.operation.home.createOrEditLabel/);
+        await operationUpdatePage.cancel();
     });
 
-    it('should create and save Operations', () => {
-        operationComponentsPage.clickOnCreateButton();
-        operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-        expect(operationUpdatePage.getDateInput()).toContain('2001-01-01T02:30');
-        operationUpdatePage.setDescriptionInput('description');
-        expect(operationUpdatePage.getDescriptionInput()).toMatch('description');
-        operationUpdatePage.setAmountInput('5');
-        expect(operationUpdatePage.getAmountInput()).toMatch('5');
-        operationUpdatePage.bankAccountSelectLastOption();
+    it('should create and save Operations', async () => {
+        await operationComponentsPage.clickOnCreateButton();
+        await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+        expect(await operationUpdatePage.getDateInput()).toContain('2001-01-01T02:30');
+        await operationUpdatePage.setDescriptionInput('description');
+        expect(await operationUpdatePage.getDescriptionInput()).toMatch('description');
+        await operationUpdatePage.setAmountInput('5');
+        expect(await operationUpdatePage.getAmountInput()).toMatch('5');
+        await operationUpdatePage.bankAccountSelectLastOption();
         // operationUpdatePage.labelSelectLastOption();
-        operationUpdatePage.save();
-        expect(operationUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+        await operationUpdatePage.save();
+        expect(await operationUpdatePage.getSaveButton().isPresent()).toBeFalsy();
     });
 
-    afterAll(() => {
-        navBarPage.autoSignOut();
+    afterAll(async () => {
+        await navBarPage.autoSignOut();
     });
 });
