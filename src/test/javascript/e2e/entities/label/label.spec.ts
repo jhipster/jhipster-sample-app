@@ -1,13 +1,14 @@
 import { browser, ExpectedConditions as ec } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-import { LabelComponentsPage, LabelUpdatePage } from './label.page-object';
+import { LabelComponentsPage, LabelDeleteDialog, LabelUpdatePage } from './label.page-object';
 
 describe('Label e2e test', () => {
     let navBarPage: NavBarPage;
     let signInPage: SignInPage;
     let labelUpdatePage: LabelUpdatePage;
     let labelComponentsPage: LabelComponentsPage;
+    let labelDeleteDialog: LabelDeleteDialog;
 
     beforeAll(async () => {
         await browser.get('/');
@@ -36,6 +37,17 @@ describe('Label e2e test', () => {
         expect(await labelUpdatePage.getLabelInput()).toMatch('label');
         await labelUpdatePage.save();
         expect(await labelUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+    });
+
+    it('should delete last Label', async () => {
+        const nbButtonsBeforeDelete = await labelComponentsPage.countDeleteButtons();
+        await labelComponentsPage.clickOnLastDeleteButton();
+
+        labelDeleteDialog = new LabelDeleteDialog();
+        expect(await labelDeleteDialog.getDialogTitle()).toMatch(/jhipsterSampleApplicationApp.label.delete.question/);
+        await labelDeleteDialog.clickOnConfirmButton();
+
+        expect(await labelComponentsPage.countDeleteButtons()).toBe(nbButtonsBeforeDelete - 1);
     });
 
     afterAll(async () => {

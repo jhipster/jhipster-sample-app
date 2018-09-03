@@ -6,13 +6,13 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <p jhiTranslate="jhipsterSampleApplicationApp.bankAccount.delete.question" translateValues="{id: '{{bankAccount.id}}'}">Are you sure you want to delete this Bank Account?</p>
+        <p id="jhi-delete-bankAccount-heading" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.delete.question" translateValues="{id: '{{bankAccount.id}}'}">Are you sure you want to delete this Bank Account?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
             <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" class="btn btn-danger">
+        <button id="jhi-confirm-delete-bankAccount" type="submit" class="btn btn-danger">
             <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
         </button>
     </div>

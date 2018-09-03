@@ -3,5 +3,5 @@ services:
     jhipstersampleapplication-sonar:
         image: sonarqube:7.1-alpine
         ports:
-            - 9000:9000
+            - 9001:9000
             - 9092:9092

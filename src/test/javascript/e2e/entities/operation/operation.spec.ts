@@ -1,13 +1,14 @@
 import { browser, ExpectedConditions as ec, protractor } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-import { OperationComponentsPage, OperationUpdatePage } from './operation.page-object';
+import { OperationComponentsPage, OperationDeleteDialog, OperationUpdatePage } from './operation.page-object';
 
 describe('Operation e2e test', () => {
     let navBarPage: NavBarPage;
     let signInPage: SignInPage;
     let operationUpdatePage: OperationUpdatePage;
     let operationComponentsPage: OperationComponentsPage;
+    let operationDeleteDialog: OperationDeleteDialog;
 
     beforeAll(async () => {
         await browser.get('/');
@@ -42,6 +43,17 @@ describe('Operation e2e test', () => {
         // operationUpdatePage.labelSelectLastOption();
         await operationUpdatePage.save();
         expect(await operationUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+    });
+
+    it('should delete last Operation', async () => {
+        const nbButtonsBeforeDelete = await operationComponentsPage.countDeleteButtons();
+        await operationComponentsPage.clickOnLastDeleteButton();
+
+        operationDeleteDialog = new OperationDeleteDialog();
+        expect(await operationDeleteDialog.getDialogTitle()).toMatch(/jhipsterSampleApplicationApp.operation.delete.question/);
+        await operationDeleteDialog.clickOnConfirmButton();
+
+        expect(await operationComponentsPage.countDeleteButtons()).toBe(nbButtonsBeforeDelete - 1);
     });
 
     afterAll(async () => {

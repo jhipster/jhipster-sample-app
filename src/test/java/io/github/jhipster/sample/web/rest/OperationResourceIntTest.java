@@ -58,6 +58,7 @@ public class OperationResourceIntTest {
 
     @Autowired
     private OperationRepository operationRepository;
+
     @Mock
     private OperationRepository operationRepositoryMock;
 
@@ -244,6 +245,7 @@ public class OperationResourceIntTest {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
     }
+
     @Test
     @Transactional
     public void getNonExistingOperation() throws Exception {
@@ -289,7 +291,7 @@ public class OperationResourceIntTest {
 
         // Create the Operation
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOperationMockMvc.perform(put("/api/operations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
