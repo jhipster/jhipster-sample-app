@@ -1,0 +1,2 @@
+/* after changing this file run 'yarn run webpack:build' */
+@import '~bootstrap/dist/css/bootstrap.min.css';

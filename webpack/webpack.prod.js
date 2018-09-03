@@ -31,11 +31,11 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     module: {
         rules: [{
             test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
-            loader: '@ngtools/webpack'
+            use: [ '@ngtools/webpack' ]
         },
         {
             test: /\.css$/,
-            use: ['to-string-loader', 'css-loader'],
+            loaders: ['to-string-loader', 'css-loader'],
             exclude: /(vendor\.css|global\.css)/
         },
         {

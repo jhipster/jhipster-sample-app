@@ -50,13 +50,13 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         rules: [{
             test: /\.ts$/,
             enforce: 'pre',
-            loader: 'tslint-loader',
+            loaders: 'tslint-loader',
             exclude: ['node_modules', new RegExp('reflect-metadata\\' + path.sep + 'Reflect\\.ts')]
         },
         {
             test: /\.ts$/,
             use: [
-                'angular2-template-loader',
+                { loader: 'angular2-template-loader' },
                 {
                     loader: 'cache-loader',
                     options: {
@@ -77,18 +77,18 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
                         happyPackMode: true
                     }
                 },
-                'angular-router-loader'
+                { loader: 'angular-router-loader' }
             ],
             exclude: ['node_modules']
         },
         {
             test: /\.css$/,
-            use: ['to-string-loader', 'css-loader'],
+            loaders: ['to-string-loader', 'css-loader'],
             exclude: /(vendor\.css|global\.css)/
         },
         {
             test: /(vendor\.css|global\.css)/,
-            use: ['style-loader', 'css-loader']
+            loaders: ['style-loader', 'css-loader']
         }]
     },
     stats: options.stats,
