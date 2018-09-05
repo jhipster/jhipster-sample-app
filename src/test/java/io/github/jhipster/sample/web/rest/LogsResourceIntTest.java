@@ -7,7 +7,6 @@ import ch.qos.logback.classic.LoggerContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -34,8 +33,6 @@ public class LogsResourceIntTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-
         LogsResource logsResource = new LogsResource();
         this.restLogsMockMvc = MockMvcBuilders
             .standaloneSetup(logsResource)
@@ -43,14 +40,14 @@ public class LogsResourceIntTest {
     }
 
     @Test
-    public void getAllLogs()throws Exception {
+    public void getAllLogs() throws Exception {
         restLogsMockMvc.perform(get("/management/logs"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
-    public void changeLogs()throws Exception {
+    public void changeLogs() throws Exception {
         LoggerVM logger = new LoggerVM();
         logger.setLevel("INFO");
         logger.setName("ROOT");
