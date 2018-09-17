@@ -36,9 +36,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     let errorHeader = null;
                     let entityKey = null;
                     arr.forEach(entry => {
-                        if (entry.endsWith('app-error')) {
+                        if (entry.toLowerCase().endsWith('app-error')) {
                             errorHeader = httpErrorResponse.headers.get(entry);
-                        } else if (entry.endsWith('app-params')) {
+                        } else if (entry.toLowerCase().endsWith('app-params')) {
                             entityKey = httpErrorResponse.headers.get(entry);
                         }
                     });

@@ -22,7 +22,10 @@ logging:
 spring:
     profiles:
         active: dev
-        include: swagger
+        include:
+            - swagger
+            # Uncomment to activate TLS for the dev profile
+            #- tls
     devtools:
         restart:
             enabled: true
@@ -63,22 +66,8 @@ spring:
     thymeleaf:
         cache: false
 
-# ===================================================================
-# To enable SSL in development, uncomment the the "server.ssl" properties below.
-#
-# JHipster has generated a self-signed certificate, which will be used to encrypt traffic.
-# As your browser will not understand this certificate, you will need to import it.
-#
-# Another (easiest) solution with Chrome is to enable the "allow-insecure-localhost" flag
-# at chrome://flags/#allow-insecure-localhost
-# ===================================================================
 server:
     port: 8080
-#    ssl:
-#        key-store: classpath:config/tls/keystore.p12
-#        key-store-password: password
-#        key-store-type: PKCS12
-#        key-alias: selfsigned
 
 # ===================================================================
 # JHipster specific properties
@@ -88,7 +77,7 @@ server:
 
 jhipster:
     http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+        version: V_1_1 # To use HTTP/2 you will need to activate TLS (see application-tls.yml)
     cache: # Cache configuration
         ehcache: # Ehcache configuration
             time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache

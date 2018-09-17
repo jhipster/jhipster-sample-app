@@ -14,10 +14,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
-* Test class for the SecurityUtils utility class.
-*
-* @see SecurityUtils
-*/
+ * Test class for the SecurityUtils utility class.
+ *
+ * @see SecurityUtils
+ */
 public class SecurityUtilsUnitTest {
 
     @Test

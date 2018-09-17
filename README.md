@@ -1,5 +1,5 @@
 # jhipsterSampleApplication
-This application was generated using JHipster 5.3.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.3.1](https://www.jhipster.tech/documentation-archive/v5.3.1).
+This application was generated using JHipster 5.3.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.3.2](https://www.jhipster.tech/documentation-archive/v5.3.2).
 
 ## Development
 
@@ -21,7 +21,7 @@ auto-refreshes when files change on your hard drive.
     ./mvnw
     npm start
 
-[Npm][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
 Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
 
@@ -165,14 +165,14 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: https://www.jhipster.tech
-[JHipster 5.3.1 archive]: https://www.jhipster.tech/documentation-archive/v5.3.1
+[JHipster 5.3.2 archive]: https://www.jhipster.tech/documentation-archive/v5.3.2
 
-[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v5.3.1/development/
-[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v5.3.1/docker-compose
-[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v5.3.1/production/
-[Running tests page]: https://www.jhipster.tech/documentation-archive/v5.3.1/running-tests/
-[Code quality page]: https://www.jhipster.tech/documentation-archive/v5.3.1/code-quality/
-[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v5.3.1/setting-up-ci/
+[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v5.3.2/development/
+[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v5.3.2/docker-compose
+[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v5.3.2/production/
+[Running tests page]: https://www.jhipster.tech/documentation-archive/v5.3.2/running-tests/
+[Code quality page]: https://www.jhipster.tech/documentation-archive/v5.3.2/code-quality/
+[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v5.3.2/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

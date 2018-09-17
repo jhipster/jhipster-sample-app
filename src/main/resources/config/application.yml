@@ -19,7 +19,7 @@ management:
         web:
             base-path: /management
             exposure:
-                include: ["configprops", "env", "health", "info", "threaddump"]
+                include: ["configprops", "env", "health", "info", "threaddump", "logfile" ]
     endpoint:
         health:
             show-details: when_authorized
@@ -98,6 +98,9 @@ jhipster:
         contact-email:
         license:
         license-url:
+
+logging:
+    file: target/jhipsterSampleApplication.log
 
 # ===================================================================
 # Application specific properties
