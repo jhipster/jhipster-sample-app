@@ -31,10 +31,8 @@ public class Label implements Serializable {
     @Column(name = "jhi_label", nullable = false)
     private String label;
 
-    @ManyToMany(mappedBy = "labels")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Operation> operations = new HashSet<>();
+    @ManyToMany(mappedBy = "labels")    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIgnore    private Set<Operation> operations = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

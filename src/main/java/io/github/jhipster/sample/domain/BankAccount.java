@@ -36,14 +36,12 @@ public class BankAccount implements Serializable {
     @Column(name = "balance", precision = 10, scale = 2, nullable = false)
     private BigDecimal balance;
 
-    @ManyToOne
-    @JsonIgnoreProperties("")
+    @ManyToOne    @JsonIgnoreProperties("")
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Operation> operations = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

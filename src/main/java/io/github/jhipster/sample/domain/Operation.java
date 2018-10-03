@@ -39,12 +39,10 @@ public class Operation implements Serializable {
     @Column(name = "amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    @ManyToOne
-    @JsonIgnoreProperties("operations")
+    @ManyToOne    @JsonIgnoreProperties("operations")
     private BankAccount bankAccount;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @ManyToMany    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "operation_label",
                joinColumns = @JoinColumn(name = "operations_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "labels_id", referencedColumnName = "id"))
