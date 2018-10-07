@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, ExpectedConditions as ec } from 'protractor';
+import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { BankAccountComponentsPage, BankAccountDeleteDialog, BankAccountUpdatePage } from './bank-account.page-object';
@@ -38,11 +38,13 @@ describe('BankAccount e2e test', () => {
         const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
 
         await bankAccountComponentsPage.clickOnCreateButton();
-        await bankAccountUpdatePage.setNameInput('name');
+        await promise.all([
+            bankAccountUpdatePage.setNameInput('name'),
+            bankAccountUpdatePage.setBalanceInput('5'),
+            bankAccountUpdatePage.userSelectLastOption()
+        ]);
         expect(await bankAccountUpdatePage.getNameInput()).to.eq('name');
-        await bankAccountUpdatePage.setBalanceInput('5');
         expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
-        await bankAccountUpdatePage.userSelectLastOption();
         await bankAccountUpdatePage.save();
         expect(await bankAccountUpdatePage.getSaveButton().isPresent()).to.be.false;
 

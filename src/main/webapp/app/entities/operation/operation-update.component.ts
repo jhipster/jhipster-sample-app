@@ -18,7 +18,7 @@ import { LabelService } from 'app/entities/label';
     templateUrl: './operation-update.component.html'
 })
 export class OperationUpdateComponent implements OnInit {
-    private _operation: IOperation;
+    operation: IOperation;
     isSaving: boolean;
 
     bankaccounts: IBankAccount[];
@@ -38,6 +38,7 @@ export class OperationUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ operation }) => {
             this.operation = operation;
+            this.date = this.operation.date != null ? this.operation.date.format(DATE_TIME_FORMAT) : null;
         });
         this.bankAccountService.query().subscribe(
             (res: HttpResponse<IBankAccount[]>) => {
@@ -59,7 +60,7 @@ export class OperationUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.operation.date = moment(this.date, DATE_TIME_FORMAT);
+        this.operation.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
         if (this.operation.id !== undefined) {
             this.subscribeToSaveResponse(this.operationService.update(this.operation));
         } else {
@@ -101,13 +102,5 @@ export class OperationUpdateComponent implements OnInit {
             }
         }
         return option;
-    }
-    get operation() {
-        return this._operation;
-    }
-
-    set operation(operation: IOperation) {
-        this._operation = operation;
-        this.date = moment(operation.date).format(DATE_TIME_FORMAT);
     }
 }

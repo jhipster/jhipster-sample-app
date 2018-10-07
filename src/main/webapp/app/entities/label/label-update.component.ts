@@ -14,7 +14,7 @@ import { OperationService } from 'app/entities/operation';
     templateUrl: './label-update.component.html'
 })
 export class LabelUpdateComponent implements OnInit {
-    private _label: ILabel;
+    label: ILabel;
     isSaving: boolean;
 
     operations: IOperation[];
@@ -82,12 +82,5 @@ export class LabelUpdateComponent implements OnInit {
             }
         }
         return option;
-    }
-    get label() {
-        return this._label;
-    }
-
-    set label(label: ILabel) {
-        this._label = label;
     }
 }

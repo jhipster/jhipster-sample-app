@@ -13,7 +13,7 @@ import { IUser, UserService } from 'app/core';
     templateUrl: './bank-account-update.component.html'
 })
 export class BankAccountUpdateComponent implements OnInit {
-    private _bankAccount: IBankAccount;
+    bankAccount: IBankAccount;
     isSaving: boolean;
 
     users: IUser[];
@@ -70,12 +70,5 @@ export class BankAccountUpdateComponent implements OnInit {
 
     trackUserById(index: number, item: IUser) {
         return item.id;
-    }
-    get bankAccount() {
-        return this._bankAccount;
-    }
-
-    set bankAccount(bankAccount: IBankAccount) {
-        this._bankAccount = bankAccount;
     }
 }

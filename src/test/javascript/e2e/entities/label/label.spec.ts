@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, ExpectedConditions as ec } from 'protractor';
+import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { LabelComponentsPage, LabelDeleteDialog, LabelUpdatePage } from './label.page-object';
@@ -38,7 +38,7 @@ describe('Label e2e test', () => {
         const nbButtonsBeforeCreate = await labelComponentsPage.countDeleteButtons();
 
         await labelComponentsPage.clickOnCreateButton();
-        await labelUpdatePage.setLabelInput('label');
+        await promise.all([labelUpdatePage.setLabelInput('label')]);
         expect(await labelUpdatePage.getLabelInput()).to.eq('label');
         await labelUpdatePage.save();
         expect(await labelUpdatePage.getSaveButton().isPresent()).to.be.false;

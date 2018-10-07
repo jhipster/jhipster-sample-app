@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, ExpectedConditions as ec, protractor } from 'protractor';
+import { browser, ExpectedConditions as ec, protractor, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { OperationComponentsPage, OperationDeleteDialog, OperationUpdatePage } from './operation.page-object';
@@ -38,14 +38,16 @@ describe('Operation e2e test', () => {
         const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
 
         await operationComponentsPage.clickOnCreateButton();
-        await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+        await promise.all([
+            operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+            operationUpdatePage.setDescriptionInput('description'),
+            operationUpdatePage.setAmountInput('5'),
+            operationUpdatePage.bankAccountSelectLastOption()
+            // operationUpdatePage.labelSelectLastOption(),
+        ]);
         expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
-        await operationUpdatePage.setDescriptionInput('description');
         expect(await operationUpdatePage.getDescriptionInput()).to.eq('description');
-        await operationUpdatePage.setAmountInput('5');
         expect(await operationUpdatePage.getAmountInput()).to.eq('5');
-        await operationUpdatePage.bankAccountSelectLastOption();
-        // operationUpdatePage.labelSelectLastOption();
         await operationUpdatePage.save();
         expect(await operationUpdatePage.getSaveButton().isPresent()).to.be.false;
 
