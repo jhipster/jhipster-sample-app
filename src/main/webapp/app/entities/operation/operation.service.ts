@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IOperation[]>;
 
 @Injectable({ providedIn: 'root' })
 export class OperationService {
-    private resourceUrl = SERVER_API_URL + 'api/operations';
+    public resourceUrl = SERVER_API_URL + 'api/operations';
 
     constructor(private http: HttpClient) {}
 

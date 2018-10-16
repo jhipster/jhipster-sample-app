@@ -11,7 +11,7 @@ type EntityArrayResponseType = HttpResponse<IBankAccount[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountService {
-    private resourceUrl = SERVER_API_URL + 'api/bank-accounts';
+    public resourceUrl = SERVER_API_URL + 'api/bank-accounts';
 
     constructor(private http: HttpClient) {}
 
