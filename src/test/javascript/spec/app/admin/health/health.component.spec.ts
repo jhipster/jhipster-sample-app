@@ -12,16 +12,14 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<JhiHealthCheckComponent>;
         let service: JhiHealthService;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [JhipsterSampleApplicationTestModule],
-                    declarations: [JhiHealthCheckComponent]
-                })
-                    .overrideTemplate(JhiHealthCheckComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [JhipsterSampleApplicationTestModule],
+                declarations: [JhiHealthCheckComponent]
             })
-        );
+                .overrideTemplate(JhiHealthCheckComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(JhiHealthCheckComponent);

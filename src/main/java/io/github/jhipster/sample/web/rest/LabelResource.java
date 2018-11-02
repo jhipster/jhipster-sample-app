@@ -29,7 +29,7 @@ public class LabelResource {
 
     private static final String ENTITY_NAME = "label";
 
-    private LabelRepository labelRepository;
+    private final LabelRepository labelRepository;
 
     public LabelResource(LabelRepository labelRepository) {
         this.labelRepository = labelRepository;

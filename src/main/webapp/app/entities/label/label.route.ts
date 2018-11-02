@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Label } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 import { LabelComponent } from './label.component';
@@ -16,10 +16,13 @@ import { ILabel } from 'app/shared/model/label.model';
 export class LabelResolve implements Resolve<ILabel> {
     constructor(private service: LabelService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Label> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((label: HttpResponse<Label>) => label.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Label>) => response.ok),
+                map((label: HttpResponse<Label>) => label.body)
+            );
         }
         return of(new Label());
     }

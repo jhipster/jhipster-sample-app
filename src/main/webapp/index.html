@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>jhipsterSampleApplication</title>
-    <meta name="description" content="">
+    <meta name="description" content="Description for jhipsterSampleApplication">
     <meta name="google" value="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
@@ -29,7 +29,7 @@
         </div>
         <div class="app-loading">
             <div id="jhipster-error" style="display:none">
-                <!-- This content is for troubleshooting purpose and will be reomved when app renders -->
+                <!-- This content is for troubleshooting purpose and will be removed when app renders -->
                 <h1>An error has occured :-(</h1>
                 <h2>Usual error causes</h2>
                 <ol>
@@ -78,7 +78,10 @@
             setTimeout(showError, 4000);
         }
         function showError() {
-            document.getElementById("jhipster-error").style.display="block";
+            var errorElm = document.getElementById("jhipster-error");
+            if (errorElm && errorElm.style) {
+                errorElm.style.display = "block";
+            }
         }
     </script>
     <!-- uncomment this for adding service worker

@@ -15,16 +15,14 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [JhipsterSampleApplicationTestModule],
-                    declarations: [UserMgmtDeleteDialogComponent]
-                })
-                    .overrideTemplate(UserMgmtDeleteDialogComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [JhipsterSampleApplicationTestModule],
+                declarations: [UserMgmtDeleteDialogComponent]
             })
-        );
+                .overrideTemplate(UserMgmtDeleteDialogComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(UserMgmtDeleteDialogComponent);
@@ -35,25 +33,22 @@ describe('Component Tests', () => {
         });
 
         describe('confirmDelete', () => {
-            it(
-                'Should call delete service on confirmDelete',
-                inject(
-                    [],
-                    fakeAsync(() => {
-                        // GIVEN
-                        spyOn(service, 'delete').and.returnValue(of({}));
+            it('Should call delete service on confirmDelete', inject(
+                [],
+                fakeAsync(() => {
+                    // GIVEN
+                    spyOn(service, 'delete').and.returnValue(of({}));
 
-                        // WHEN
-                        comp.confirmDelete('user');
-                        tick();
+                    // WHEN
+                    comp.confirmDelete('user');
+                    tick();
 
-                        // THEN
-                        expect(service.delete).toHaveBeenCalledWith('user');
-                        expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
-                        expect(mockEventManager.broadcastSpy).toHaveBeenCalled();
-                    })
-                )
-            );
+                    // THEN
+                    expect(service.delete).toHaveBeenCalledWith('user');
+                    expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
+                    expect(mockEventManager.broadcastSpy).toHaveBeenCalled();
+                })
+            ));
         });
     });
 });

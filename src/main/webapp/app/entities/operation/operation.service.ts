@@ -49,22 +49,26 @@ export class OperationService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertDateFromClient(operation: IOperation): IOperation {
+    protected convertDateFromClient(operation: IOperation): IOperation {
         const copy: IOperation = Object.assign({}, operation, {
             date: operation.date != null && operation.date.isValid() ? operation.date.toJSON() : null
         });
         return copy;
     }
 
-    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
-        res.body.date = res.body.date != null ? moment(res.body.date) : null;
+    protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        if (res.body) {
+            res.body.date = res.body.date != null ? moment(res.body.date) : null;
+        }
         return res;
     }
 
-    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-        res.body.forEach((operation: IOperation) => {
-            operation.date = operation.date != null ? moment(operation.date) : null;
-        });
+    protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        if (res.body) {
+            res.body.forEach((operation: IOperation) => {
+                operation.date = operation.date != null ? moment(operation.date) : null;
+            });
+        }
         return res;
     }
 }

@@ -42,43 +42,37 @@ describe('Component Tests', () => {
             expect(comp.resetAccount).toEqual({});
         });
 
-        it(
-            'sets focus after the view has been initialized',
-            inject([ElementRef], (elementRef: ElementRef) => {
-                const element = fixture.nativeElement;
-                const node = {
-                    focus() {}
-                };
+        it('sets focus after the view has been initialized', inject([ElementRef], (elementRef: ElementRef) => {
+            const element = fixture.nativeElement;
+            const node = {
+                focus() {}
+            };
 
-                elementRef.nativeElement = element;
-                spyOn(element, 'querySelector').and.returnValue(node);
-                spyOn(node, 'focus');
+            elementRef.nativeElement = element;
+            spyOn(element, 'querySelector').and.returnValue(node);
+            spyOn(node, 'focus');
 
-                comp.ngAfterViewInit();
+            comp.ngAfterViewInit();
 
-                expect(element.querySelector).toHaveBeenCalledWith('#email');
-                expect(node.focus).toHaveBeenCalled();
-            })
-        );
+            expect(element.querySelector).toHaveBeenCalledWith('#email');
+            expect(node.focus).toHaveBeenCalled();
+        }));
 
-        it(
-            'notifies of success upon successful requestReset',
-            inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-                spyOn(service, 'save').and.returnValue(of({}));
-                comp.resetAccount.email = 'user@domain.com';
+        it('notifies of success upon successful requestReset', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
+            spyOn(service, 'save').and.returnValue(of({}));
+            comp.resetAccount.email = 'user@domain.com';
 
-                comp.requestReset();
+            comp.requestReset();
 
-                expect(service.save).toHaveBeenCalledWith('user@domain.com');
-                expect(comp.success).toEqual('OK');
-                expect(comp.error).toBeNull();
-                expect(comp.errorEmailNotExists).toBeNull();
-            })
-        );
+            expect(service.save).toHaveBeenCalledWith('user@domain.com');
+            expect(comp.success).toEqual('OK');
+            expect(comp.error).toBeNull();
+            expect(comp.errorEmailNotExists).toBeNull();
+        }));
 
-        it(
-            'notifies of unknown email upon email address not registered/400',
-            inject([PasswordResetInitService], (service: PasswordResetInitService) => {
+        it('notifies of unknown email upon email address not registered/400', inject(
+            [PasswordResetInitService],
+            (service: PasswordResetInitService) => {
                 spyOn(service, 'save').and.returnValue(
                     throwError({
                         status: 400,
@@ -93,27 +87,24 @@ describe('Component Tests', () => {
                 expect(comp.success).toBeNull();
                 expect(comp.error).toBeNull();
                 expect(comp.errorEmailNotExists).toEqual('ERROR');
-            })
-        );
+            }
+        ));
 
-        it(
-            'notifies of error upon error response',
-            inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-                spyOn(service, 'save').and.returnValue(
-                    throwError({
-                        status: 503,
-                        data: 'something else'
-                    })
-                );
-                comp.resetAccount.email = 'user@domain.com';
+        it('notifies of error upon error response', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
+            spyOn(service, 'save').and.returnValue(
+                throwError({
+                    status: 503,
+                    data: 'something else'
+                })
+            );
+            comp.resetAccount.email = 'user@domain.com';
 
-                comp.requestReset();
+            comp.requestReset();
 
-                expect(service.save).toHaveBeenCalledWith('user@domain.com');
-                expect(comp.success).toBeNull();
-                expect(comp.errorEmailNotExists).toBeNull();
-                expect(comp.error).toEqual('ERROR');
-            })
-        );
+            expect(service.save).toHaveBeenCalledWith('user@domain.com');
+            expect(comp.success).toBeNull();
+            expect(comp.errorEmailNotExists).toBeNull();
+            expect(comp.error).toEqual('ERROR');
+        }));
     });
 });

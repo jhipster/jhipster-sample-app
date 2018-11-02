@@ -42,6 +42,8 @@ spring:
         active: #spring.profiles.active#
     jpa:
         open-in-view: false
+        properties:
+            hibernate.jdbc.time_zone: UTC
         hibernate:
             ddl-auto: none
             naming:

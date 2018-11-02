@@ -1,7 +1,6 @@
-
 {
     "jhipsterSampleApplicationApp": {
-        "bankAccount" : {
+        "bankAccount": {
             "home": {
                 "title": "Bank Accounts",
                 "createLabel": "Create a new Bank Account",
