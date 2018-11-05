@@ -199,6 +199,7 @@ public class OperationResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
     public void getAllOperationsWithEagerRelationshipsIsEnabled() throws Exception {
         OperationResource operationResource = new OperationResource(operationRepositoryMock);
         when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -215,6 +216,7 @@ public class OperationResourceIntTest {
         verify(operationRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
+    @SuppressWarnings({"unchecked"})
     public void getAllOperationsWithEagerRelationshipsIsNotEnabled() throws Exception {
         OperationResource operationResource = new OperationResource(operationRepositoryMock);
             when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
