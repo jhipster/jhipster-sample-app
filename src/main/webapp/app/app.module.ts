@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
+import { NgJhipsterModule } from 'ng-jhipster';
 
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
@@ -25,7 +26,14 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         BrowserModule,
         JhipsterSampleApplicationAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-        JhipsterSampleApplicationSharedModule,
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            alertTimeout: 5000,
+            i18nEnabled: true,
+            defaultI18nLang: 'en'
+        }),
+        JhipsterSampleApplicationSharedModule.forRoot(),
         JhipsterSampleApplicationCoreModule,
         JhipsterSampleApplicationHomeModule,
         JhipsterSampleApplicationAccountModule,

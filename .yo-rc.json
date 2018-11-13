@@ -23,7 +23,7 @@
       "en"
     ],
     "serverPort": 8080,
-    "jhipsterVersion": "5.6.1",
+    "jhipsterVersion": "5.7.0",
     "enableSocialSignIn": false,
     "useSass": false,
     "jhiPrefix": "jhi",
@@ -34,6 +34,7 @@
     "jwtSecretKey": "bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo=",
     "cacheProvider": "ehcache",
     "enableHibernateCache": true,
-    "reactive": false
+    "reactive": false,
+    "otherModules": []
   }
 }

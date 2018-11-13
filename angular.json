@@ -12,7 +12,7 @@
   },
   "defaultProject": "jhipster-sample-application",
   "cli": {
-    "packageManager": "yarn"
+    "packageManager": "npm"
   },
   "schematics": {
     "@schematics/angular:component": {

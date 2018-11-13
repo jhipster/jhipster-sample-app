@@ -32,7 +32,8 @@ spring:
         livereload:
             enabled: false # we use Webpack dev server + BrowserSync for livereload
     jackson:
-        serialization.indent_output: true
+        serialization:
+            indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
