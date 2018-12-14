@@ -11,28 +11,28 @@ type EntityArrayResponseType = HttpResponse<ILabel[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LabelService {
-    public resourceUrl = SERVER_API_URL + 'api/labels';
+  public resourceUrl = SERVER_API_URL + 'api/labels';
 
-    constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient) {}
 
-    create(label: ILabel): Observable<EntityResponseType> {
-        return this.http.post<ILabel>(this.resourceUrl, label, { observe: 'response' });
-    }
+  create(label: ILabel): Observable<EntityResponseType> {
+    return this.http.post<ILabel>(this.resourceUrl, label, { observe: 'response' });
+  }
 
-    update(label: ILabel): Observable<EntityResponseType> {
-        return this.http.put<ILabel>(this.resourceUrl, label, { observe: 'response' });
-    }
+  update(label: ILabel): Observable<EntityResponseType> {
+    return this.http.put<ILabel>(this.resourceUrl, label, { observe: 'response' });
+  }
 
-    find(id: number): Observable<EntityResponseType> {
-        return this.http.get<ILabel>(`${this.resourceUrl}/${id}`, { observe: 'response' });
-    }
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<ILabel>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    query(req?: any): Observable<EntityArrayResponseType> {
-        const options = createRequestOption(req);
-        return this.http.get<ILabel[]>(this.resourceUrl, { params: options, observe: 'response' });
-    }
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<ILabel[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
 
-    delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
-    }
+  delete(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 }

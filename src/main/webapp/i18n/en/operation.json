@@ -1,25 +1,25 @@
 {
-    "jhipsterSampleApplicationApp": {
-        "operation": {
-            "home": {
-                "title": "Operations",
-                "createLabel": "Create a new Operation",
-                "createOrEditLabel": "Create or edit a Operation"
-            },
-            "created": "A new Operation is created with identifier {{ param }}",
-            "updated": "A Operation is updated with identifier {{ param }}",
-            "deleted": "A Operation is deleted with identifier {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Operation {{ id }}?"
-            },
-            "detail": {
-                "title": "Operation"
-            },
-            "date": "Date",
-            "description": "Description",
-            "amount": "Amount",
-            "bankAccount": "Bank Account",
-            "label": "Label"
-        }
+  "jhipsterSampleApplicationApp": {
+    "operation": {
+      "home": {
+        "title": "Operations",
+        "createLabel": "Create a new Operation",
+        "createOrEditLabel": "Create or edit a Operation"
+      },
+      "created": "A new Operation is created with identifier {{ param }}",
+      "updated": "A Operation is updated with identifier {{ param }}",
+      "deleted": "A Operation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Operation {{ id }}?"
+      },
+      "detail": {
+        "title": "Operation"
+      },
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "bankAccount": "Bank Account",
+      "label": "Label"
     }
+  }
 }
