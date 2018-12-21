@@ -9,66 +9,66 @@ import { BankAccountService } from './bank-account.service';
 import { IUser, UserService } from 'app/core';
 
 @Component({
-  selector: 'jhi-bank-account-update',
-  templateUrl: './bank-account-update.component.html'
+    selector: 'jhi-bank-account-update',
+    templateUrl: './bank-account-update.component.html'
 })
 export class BankAccountUpdateComponent implements OnInit {
-  bankAccount: IBankAccount;
-  isSaving: boolean;
+    bankAccount: IBankAccount;
+    isSaving: boolean;
 
-  users: IUser[];
+    users: IUser[];
 
-  constructor(
-    protected jhiAlertService: JhiAlertService,
-    protected bankAccountService: BankAccountService,
-    protected userService: UserService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected bankAccountService: BankAccountService,
+        protected userService: UserService,
+        protected activatedRoute: ActivatedRoute
+    ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
-    this.activatedRoute.data.subscribe(({ bankAccount }) => {
-      this.bankAccount = bankAccount;
-    });
-    this.userService.query().subscribe(
-      (res: HttpResponse<IUser[]>) => {
-        this.users = res.body;
-      },
-      (res: HttpErrorResponse) => this.onError(res.message)
-    );
-  }
-
-  previousState() {
-    window.history.back();
-  }
-
-  save() {
-    this.isSaving = true;
-    if (this.bankAccount.id !== undefined) {
-      this.subscribeToSaveResponse(this.bankAccountService.update(this.bankAccount));
-    } else {
-      this.subscribeToSaveResponse(this.bankAccountService.create(this.bankAccount));
+    ngOnInit() {
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ bankAccount }) => {
+            this.bankAccount = bankAccount;
+        });
+        this.userService.query().subscribe(
+            (res: HttpResponse<IUser[]>) => {
+                this.users = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
     }
-  }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBankAccount>>) {
-    result.subscribe((res: HttpResponse<IBankAccount>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
-  }
+    previousState() {
+        window.history.back();
+    }
 
-  protected onSaveSuccess() {
-    this.isSaving = false;
-    this.previousState();
-  }
+    save() {
+        this.isSaving = true;
+        if (this.bankAccount.id !== undefined) {
+            this.subscribeToSaveResponse(this.bankAccountService.update(this.bankAccount));
+        } else {
+            this.subscribeToSaveResponse(this.bankAccountService.create(this.bankAccount));
+        }
+    }
 
-  protected onSaveError() {
-    this.isSaving = false;
-  }
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IBankAccount>>) {
+        result.subscribe((res: HttpResponse<IBankAccount>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
 
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        this.previousState();
+    }
 
-  trackUserById(index: number, item: IUser) {
-    return item.id;
-  }
+    protected onSaveError() {
+        this.isSaving = false;
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackUserById(index: number, item: IUser) {
+        return item.id;
+    }
 }

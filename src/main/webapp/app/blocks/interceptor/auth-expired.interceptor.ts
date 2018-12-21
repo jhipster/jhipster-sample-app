@@ -6,20 +6,20 @@ import { LoginService } from 'app/core/login/login.service';
 
 @Injectable()
 export class AuthExpiredInterceptor implements HttpInterceptor {
-  constructor(private loginService: LoginService) {}
+    constructor(private loginService: LoginService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
-      tap(
-        (event: HttpEvent<any>) => {},
-        (err: any) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-              this.loginService.logout();
-            }
-          }
-        }
-      )
-    );
-  }
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request).pipe(
+            tap(
+                (event: HttpEvent<any>) => {},
+                (err: any) => {
+                    if (err instanceof HttpErrorResponse) {
+                        if (err.status === 401) {
+                            this.loginService.logout();
+                        }
+                    }
+                }
+            )
+        );
+    }
 }

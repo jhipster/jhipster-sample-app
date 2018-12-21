@@ -10,124 +10,124 @@ import { OperationService } from 'app/entities/operation/operation.service';
 import { IOperation, Operation } from 'app/shared/model/operation.model';
 
 describe('Service Tests', () => {
-  describe('Operation Service', () => {
-    let injector: TestBed;
-    let service: OperationService;
-    let httpMock: HttpTestingController;
-    let elemDefault: IOperation;
-    let currentDate: moment.Moment;
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule]
-      });
-      injector = getTestBed();
-      service = injector.get(OperationService);
-      httpMock = injector.get(HttpTestingController);
-      currentDate = moment();
+    describe('Operation Service', () => {
+        let injector: TestBed;
+        let service: OperationService;
+        let httpMock: HttpTestingController;
+        let elemDefault: IOperation;
+        let currentDate: moment.Moment;
+        beforeEach(() => {
+            TestBed.configureTestingModule({
+                imports: [HttpClientTestingModule]
+            });
+            injector = getTestBed();
+            service = injector.get(OperationService);
+            httpMock = injector.get(HttpTestingController);
+            currentDate = moment();
 
-      elemDefault = new Operation(0, currentDate, 'AAAAAAA', 0);
+            elemDefault = new Operation(0, currentDate, 'AAAAAAA', 0);
+        });
+
+        describe('Service methods', async () => {
+            it('should find an element', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        date: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
+                service
+                    .find(123)
+                    .pipe(take(1))
+                    .subscribe(resp => expect(resp).toMatchObject({ body: elemDefault }));
+
+                const req = httpMock.expectOne({ method: 'GET' });
+                req.flush(JSON.stringify(returnedFromService));
+            });
+
+            it('should create a Operation', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        id: 0,
+                        date: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
+                const expected = Object.assign(
+                    {
+                        date: currentDate
+                    },
+                    returnedFromService
+                );
+                service
+                    .create(new Operation(null))
+                    .pipe(take(1))
+                    .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
+                const req = httpMock.expectOne({ method: 'POST' });
+                req.flush(JSON.stringify(returnedFromService));
+            });
+
+            it('should update a Operation', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        date: currentDate.format(DATE_TIME_FORMAT),
+                        description: 'BBBBBB',
+                        amount: 1
+                    },
+                    elemDefault
+                );
+
+                const expected = Object.assign(
+                    {
+                        date: currentDate
+                    },
+                    returnedFromService
+                );
+                service
+                    .update(expected)
+                    .pipe(take(1))
+                    .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
+                const req = httpMock.expectOne({ method: 'PUT' });
+                req.flush(JSON.stringify(returnedFromService));
+            });
+
+            it('should return a list of Operation', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        date: currentDate.format(DATE_TIME_FORMAT),
+                        description: 'BBBBBB',
+                        amount: 1
+                    },
+                    elemDefault
+                );
+                const expected = Object.assign(
+                    {
+                        date: currentDate
+                    },
+                    returnedFromService
+                );
+                service
+                    .query(expected)
+                    .pipe(
+                        take(1),
+                        map(resp => resp.body)
+                    )
+                    .subscribe(body => expect(body).toContainEqual(expected));
+                const req = httpMock.expectOne({ method: 'GET' });
+                req.flush(JSON.stringify([returnedFromService]));
+                httpMock.verify();
+            });
+
+            it('should delete a Operation', async () => {
+                const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
+
+                const req = httpMock.expectOne({ method: 'DELETE' });
+                req.flush({ status: 200 });
+            });
+        });
+
+        afterEach(() => {
+            httpMock.verify();
+        });
     });
-
-    describe('Service methods', async () => {
-      it('should find an element', async () => {
-        const returnedFromService = Object.assign(
-          {
-            date: currentDate.format(DATE_TIME_FORMAT)
-          },
-          elemDefault
-        );
-        service
-          .find(123)
-          .pipe(take(1))
-          .subscribe(resp => expect(resp).toMatchObject({ body: elemDefault }));
-
-        const req = httpMock.expectOne({ method: 'GET' });
-        req.flush(JSON.stringify(returnedFromService));
-      });
-
-      it('should create a Operation', async () => {
-        const returnedFromService = Object.assign(
-          {
-            id: 0,
-            date: currentDate.format(DATE_TIME_FORMAT)
-          },
-          elemDefault
-        );
-        const expected = Object.assign(
-          {
-            date: currentDate
-          },
-          returnedFromService
-        );
-        service
-          .create(new Operation(null))
-          .pipe(take(1))
-          .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
-        const req = httpMock.expectOne({ method: 'POST' });
-        req.flush(JSON.stringify(returnedFromService));
-      });
-
-      it('should update a Operation', async () => {
-        const returnedFromService = Object.assign(
-          {
-            date: currentDate.format(DATE_TIME_FORMAT),
-            description: 'BBBBBB',
-            amount: 1
-          },
-          elemDefault
-        );
-
-        const expected = Object.assign(
-          {
-            date: currentDate
-          },
-          returnedFromService
-        );
-        service
-          .update(expected)
-          .pipe(take(1))
-          .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
-        const req = httpMock.expectOne({ method: 'PUT' });
-        req.flush(JSON.stringify(returnedFromService));
-      });
-
-      it('should return a list of Operation', async () => {
-        const returnedFromService = Object.assign(
-          {
-            date: currentDate.format(DATE_TIME_FORMAT),
-            description: 'BBBBBB',
-            amount: 1
-          },
-          elemDefault
-        );
-        const expected = Object.assign(
-          {
-            date: currentDate
-          },
-          returnedFromService
-        );
-        service
-          .query(expected)
-          .pipe(
-            take(1),
-            map(resp => resp.body)
-          )
-          .subscribe(body => expect(body).toContainEqual(expected));
-        const req = httpMock.expectOne({ method: 'GET' });
-        req.flush(JSON.stringify([returnedFromService]));
-        httpMock.verify();
-      });
-
-      it('should delete a Operation', async () => {
-        const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
-
-        const req = httpMock.expectOne({ method: 'DELETE' });
-        req.flush({ status: 200 });
-      });
-    });
-
-    afterEach(() => {
-      httpMock.verify();
-    });
-  });
 });

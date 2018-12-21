@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 5.7.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/vundefined](https://www.jhipster.tech/documentation-archive/vundefined).
+This application was generated using JHipster 5.7.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.7.2](https://www.jhipster.tech/documentation-archive/v5.7.2).
 
 ## Development
 
@@ -32,7 +32,7 @@ The `npm run` command will list all of the scripts available to run for this pro
 
 Service workers are commented by default, to enable them please uncomment the following code.
 
-- The service worker registering script in index.html
+-   The service worker registering script in index.html
 
 ```html
 <script>
@@ -160,13 +160,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 5.7.1 archive]: https://www.jhipster.tech/documentation-archive/vundefined
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/vundefined/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/vundefined/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/vundefined/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/vundefined/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/vundefined/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/vundefined/setting-up-ci/
+[jhipster 5.7.2 archive]: https://www.jhipster.tech/documentation-archive/v5.7.2
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v5.7.2/development/
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v5.7.2/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v5.7.2/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v5.7.2/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v5.7.2/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v5.7.2/setting-up-ci/
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/

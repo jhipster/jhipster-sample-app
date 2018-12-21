@@ -3,9 +3,9 @@ import { CookieService } from 'ngx-cookie';
 
 @Injectable({ providedIn: 'root' })
 export class CSRFService {
-  constructor(private cookieService: CookieService) {}
+    constructor(private cookieService: CookieService) {}
 
-  getCSRF(name = 'XSRF-TOKEN') {
-    return this.cookieService.get(name);
-  }
+    getCSRF(name = 'XSRF-TOKEN') {
+        return this.cookieService.get(name);
+    }
 }

@@ -14,80 +14,80 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountResolve implements Resolve<IBankAccount> {
-  constructor(private service: BankAccountService) {}
+    constructor(private service: BankAccountService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<BankAccount> {
-    const id = route.params['id'] ? route.params['id'] : null;
-    if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<BankAccount>) => response.ok),
-        map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body)
-      );
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<BankAccount> {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<BankAccount>) => response.ok),
+                map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body)
+            );
+        }
+        return of(new BankAccount());
     }
-    return of(new BankAccount());
-  }
 }
 
 export const bankAccountRoute: Routes = [
-  {
-    path: 'bank-account',
-    component: BankAccountComponent,
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+    {
+        path: 'bank-account',
+        component: BankAccountComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'bank-account/:id/view',
-    component: BankAccountDetailComponent,
-    resolve: {
-      bankAccount: BankAccountResolve
+    {
+        path: 'bank-account/:id/view',
+        component: BankAccountDetailComponent,
+        resolve: {
+            bankAccount: BankAccountResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+    {
+        path: 'bank-account/new',
+        component: BankAccountUpdateComponent,
+        resolve: {
+            bankAccount: BankAccountResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'bank-account/new',
-    component: BankAccountUpdateComponent,
-    resolve: {
-      bankAccount: BankAccountResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'bank-account/:id/edit',
-    component: BankAccountUpdateComponent,
-    resolve: {
-      bankAccount: BankAccountResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }
+    {
+        path: 'bank-account/:id/edit',
+        component: BankAccountUpdateComponent,
+        resolve: {
+            bankAccount: BankAccountResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }
 ];
 
 export const bankAccountPopupRoute: Routes = [
-  {
-    path: 'bank-account/:id/delete',
-    component: BankAccountDeletePopupComponent,
-    resolve: {
-      bankAccount: BankAccountResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+    {
+        path: 'bank-account/:id/delete',
+        component: BankAccountDeletePopupComponent,
+        resolve: {
+            bankAccount: BankAccountResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
 ];

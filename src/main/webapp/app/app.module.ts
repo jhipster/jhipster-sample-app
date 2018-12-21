@@ -22,51 +22,51 @@ import * as moment from 'moment';
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    JhipsterSampleApplicationAppRoutingModule,
-    Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-    NgJhipsterModule.forRoot({
-      // set below to true to make alerts look like toast
-      alertAsToast: false,
-      alertTimeout: 5000,
-      i18nEnabled: true,
-      defaultI18nLang: 'en'
-    }),
-    JhipsterSampleApplicationSharedModule.forRoot(),
-    JhipsterSampleApplicationCoreModule,
-    JhipsterSampleApplicationHomeModule,
-    JhipsterSampleApplicationAccountModule,
-    // jhipster-needle-angular-add-module JHipster will add new module here
-    JhipsterSampleApplicationEntityModule
-  ],
-  declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthExpiredInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: NotificationInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [JhiMainComponent]
+    imports: [
+        BrowserModule,
+        JhipsterSampleApplicationAppRoutingModule,
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            alertTimeout: 5000,
+            i18nEnabled: true,
+            defaultI18nLang: 'en'
+        }),
+        JhipsterSampleApplicationSharedModule.forRoot(),
+        JhipsterSampleApplicationCoreModule,
+        JhipsterSampleApplicationHomeModule,
+        JhipsterSampleApplicationAccountModule,
+        // jhipster-needle-angular-add-module JHipster will add new module here
+        JhipsterSampleApplicationEntityModule
+    ],
+    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: NotificationInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [JhiMainComponent]
 })
 export class JhipsterSampleApplicationAppModule {
-  constructor(private dpConfig: NgbDatepickerConfig) {
-    this.dpConfig.minDate = { year: moment().year() - 100, month: 1, day: 1 };
-  }
+    constructor(private dpConfig: NgbDatepickerConfig) {
+        this.dpConfig.minDate = { year: moment().year() - 100, month: 1, day: 1 };
+    }
 }

@@ -14,93 +14,93 @@ import { ILabel } from 'app/shared/model/label.model';
 import { LabelService } from 'app/entities/label';
 
 @Component({
-  selector: 'jhi-operation-update',
-  templateUrl: './operation-update.component.html'
+    selector: 'jhi-operation-update',
+    templateUrl: './operation-update.component.html'
 })
 export class OperationUpdateComponent implements OnInit {
-  operation: IOperation;
-  isSaving: boolean;
+    operation: IOperation;
+    isSaving: boolean;
 
-  bankaccounts: IBankAccount[];
+    bankaccounts: IBankAccount[];
 
-  labels: ILabel[];
-  date: string;
+    labels: ILabel[];
+    date: string;
 
-  constructor(
-    protected jhiAlertService: JhiAlertService,
-    protected operationService: OperationService,
-    protected bankAccountService: BankAccountService,
-    protected labelService: LabelService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected operationService: OperationService,
+        protected bankAccountService: BankAccountService,
+        protected labelService: LabelService,
+        protected activatedRoute: ActivatedRoute
+    ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
-    this.activatedRoute.data.subscribe(({ operation }) => {
-      this.operation = operation;
-      this.date = this.operation.date != null ? this.operation.date.format(DATE_TIME_FORMAT) : null;
-    });
-    this.bankAccountService.query().subscribe(
-      (res: HttpResponse<IBankAccount[]>) => {
-        this.bankaccounts = res.body;
-      },
-      (res: HttpErrorResponse) => this.onError(res.message)
-    );
-    this.labelService.query().subscribe(
-      (res: HttpResponse<ILabel[]>) => {
-        this.labels = res.body;
-      },
-      (res: HttpErrorResponse) => this.onError(res.message)
-    );
-  }
-
-  previousState() {
-    window.history.back();
-  }
-
-  save() {
-    this.isSaving = true;
-    this.operation.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
-    if (this.operation.id !== undefined) {
-      this.subscribeToSaveResponse(this.operationService.update(this.operation));
-    } else {
-      this.subscribeToSaveResponse(this.operationService.create(this.operation));
+    ngOnInit() {
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ operation }) => {
+            this.operation = operation;
+            this.date = this.operation.date != null ? this.operation.date.format(DATE_TIME_FORMAT) : null;
+        });
+        this.bankAccountService.query().subscribe(
+            (res: HttpResponse<IBankAccount[]>) => {
+                this.bankaccounts = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+        this.labelService.query().subscribe(
+            (res: HttpResponse<ILabel[]>) => {
+                this.labels = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
     }
-  }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IOperation>>) {
-    result.subscribe((res: HttpResponse<IOperation>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
-  }
+    previousState() {
+        window.history.back();
+    }
 
-  protected onSaveSuccess() {
-    this.isSaving = false;
-    this.previousState();
-  }
-
-  protected onSaveError() {
-    this.isSaving = false;
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  trackBankAccountById(index: number, item: IBankAccount) {
-    return item.id;
-  }
-
-  trackLabelById(index: number, item: ILabel) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: Array<any>, option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
+    save() {
+        this.isSaving = true;
+        this.operation.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
+        if (this.operation.id !== undefined) {
+            this.subscribeToSaveResponse(this.operationService.update(this.operation));
+        } else {
+            this.subscribeToSaveResponse(this.operationService.create(this.operation));
         }
-      }
     }
-    return option;
-  }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IOperation>>) {
+        result.subscribe((res: HttpResponse<IOperation>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        this.previousState();
+    }
+
+    protected onSaveError() {
+        this.isSaving = false;
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackBankAccountById(index: number, item: IBankAccount) {
+        return item.id;
+    }
+
+    trackLabelById(index: number, item: ILabel) {
+        return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
+    }
 }

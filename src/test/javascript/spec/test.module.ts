@@ -13,60 +13,60 @@ import { MockActiveModal } from './helpers/mock-active-modal.service';
 import { MockEventManager } from './helpers/mock-event-manager.service';
 
 @NgModule({
-  providers: [
-    DatePipe,
-    JhiDataUtils,
-    JhiDateUtils,
-    JhiParseLinks,
-    {
-      provide: JhiLanguageService,
-      useClass: MockLanguageService
-    },
-    {
-      provide: JhiLanguageHelper,
-      useClass: MockLanguageHelper
-    },
-    {
-      provide: JhiEventManager,
-      useClass: MockEventManager
-    },
-    {
-      provide: NgbActiveModal,
-      useClass: MockActiveModal
-    },
-    {
-      provide: ActivatedRoute,
-      useValue: new MockActivatedRoute({ id: 123 })
-    },
-    {
-      provide: Router,
-      useClass: MockRouter
-    },
-    {
-      provide: AccountService,
-      useClass: MockAccountService
-    },
-    {
-      provide: LoginModalService,
-      useValue: null
-    },
-    {
-      provide: ElementRef,
-      useValue: null
-    },
-    {
-      provide: Renderer,
-      useValue: null
-    },
-    {
-      provide: JhiAlertService,
-      useValue: null
-    },
-    {
-      provide: NgbModal,
-      useValue: null
-    }
-  ],
-  imports: [HttpClientTestingModule]
+    providers: [
+        DatePipe,
+        JhiDataUtils,
+        JhiDateUtils,
+        JhiParseLinks,
+        {
+            provide: JhiLanguageService,
+            useClass: MockLanguageService
+        },
+        {
+            provide: JhiLanguageHelper,
+            useClass: MockLanguageHelper
+        },
+        {
+            provide: JhiEventManager,
+            useClass: MockEventManager
+        },
+        {
+            provide: NgbActiveModal,
+            useClass: MockActiveModal
+        },
+        {
+            provide: ActivatedRoute,
+            useValue: new MockActivatedRoute({ id: 123 })
+        },
+        {
+            provide: Router,
+            useClass: MockRouter
+        },
+        {
+            provide: AccountService,
+            useClass: MockAccountService
+        },
+        {
+            provide: LoginModalService,
+            useValue: null
+        },
+        {
+            provide: ElementRef,
+            useValue: null
+        },
+        {
+            provide: Renderer,
+            useValue: null
+        },
+        {
+            provide: JhiAlertService,
+            useValue: null
+        },
+        {
+            provide: NgbModal,
+            useValue: null
+        }
+    ],
+    imports: [HttpClientTestingModule]
 })
 export class JhipsterSampleApplicationTestModule {}
