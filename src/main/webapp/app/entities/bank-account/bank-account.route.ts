@@ -16,7 +16,7 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
 export class BankAccountResolve implements Resolve<IBankAccount> {
     constructor(private service: BankAccountService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<BankAccount> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBankAccount> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class BankAccountResolve implements Resolve<IBankAccount> {
 
 export const bankAccountRoute: Routes = [
     {
-        path: 'bank-account',
+        path: '',
         component: BankAccountComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const bankAccountRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'bank-account/:id/view',
+        path: ':id/view',
         component: BankAccountDetailComponent,
         resolve: {
             bankAccount: BankAccountResolve
@@ -51,7 +51,7 @@ export const bankAccountRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'bank-account/new',
+        path: 'new',
         component: BankAccountUpdateComponent,
         resolve: {
             bankAccount: BankAccountResolve
@@ -63,7 +63,7 @@ export const bankAccountRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'bank-account/:id/edit',
+        path: ':id/edit',
         component: BankAccountUpdateComponent,
         resolve: {
             bankAccount: BankAccountResolve
@@ -78,7 +78,7 @@ export const bankAccountRoute: Routes = [
 
 export const bankAccountPopupRoute: Routes = [
     {
-        path: 'bank-account/:id/delete',
+        path: ':id/delete',
         component: BankAccountDeletePopupComponent,
         resolve: {
             bankAccount: BankAccountResolve

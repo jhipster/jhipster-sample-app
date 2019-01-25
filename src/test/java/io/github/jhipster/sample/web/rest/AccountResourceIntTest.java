@@ -660,9 +660,11 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-small@example.com");
         userRepository.saveAndFlush(user);
 
+        String newPassword = RandomStringUtils.random(ManagedUserVM.PASSWORD_MIN_LENGTH - 1);
+
         restMvc.perform(post("/api/account/change-password")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new"))))
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, newPassword))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-small").orElse(null);
@@ -680,9 +682,11 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-long@example.com");
         userRepository.saveAndFlush(user);
 
+        String newPassword = RandomStringUtils.random(ManagedUserVM.PASSWORD_MAX_LENGTH + 1);
+
         restMvc.perform(post("/api/account/change-password")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, RandomStringUtils.random(101)))))
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, newPassword))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
@@ -694,12 +698,15 @@ public class AccountResourceIntTest {
     @WithMockUser("change-password-empty")
     public void testChangePasswordEmpty() throws Exception {
         User user = new User();
-        user.setPassword(RandomStringUtils.random(60));
+        String currentPassword = RandomStringUtils.random(60);
+        user.setPassword(passwordEncoder.encode(currentPassword));
         user.setLogin("change-password-empty");
         user.setEmail("change-password-empty@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").content(RandomStringUtils.random(0)))
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, ""))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-empty").orElse(null);

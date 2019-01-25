@@ -237,7 +237,7 @@ public class LabelResourceIntTest {
 
         int databaseSizeBeforeDelete = labelRepository.findAll().size();
 
-        // Get the label
+        // Delete the label
         restLabelMockMvc.perform(delete("/api/labels/{id}", label.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());

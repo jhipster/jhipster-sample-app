@@ -6,7 +6,7 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <p id="jhi-delete-label-heading" jhiTranslate="jhipsterSampleApplicationApp.label.delete.question" translateValues="{id: '{{label.id}}'}">Are you sure you want to delete this Label?</p>
+        <p id="jhi-delete-label-heading" jhiTranslate="jhipsterSampleApplicationApp.label.delete.question" [translateValues]="{id: label.id}">Are you sure you want to delete this Label?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

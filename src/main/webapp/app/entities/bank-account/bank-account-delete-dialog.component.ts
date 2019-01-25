@@ -54,11 +54,11 @@ export class BankAccountDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.bankAccount = bankAccount;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/bank-account', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/bank-account', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

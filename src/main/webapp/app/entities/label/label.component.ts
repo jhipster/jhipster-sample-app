@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { ILabel } from 'app/shared/model/label.model';
@@ -24,12 +25,18 @@ export class LabelComponent implements OnInit, OnDestroy {
     ) {}
 
     loadAll() {
-        this.labelService.query().subscribe(
-            (res: HttpResponse<ILabel[]>) => {
-                this.labels = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.labelService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<ILabel[]>) => res.ok),
+                map((res: HttpResponse<ILabel[]>) => res.body)
+            )
+            .subscribe(
+                (res: ILabel[]) => {
+                    this.labels = res;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     ngOnInit() {

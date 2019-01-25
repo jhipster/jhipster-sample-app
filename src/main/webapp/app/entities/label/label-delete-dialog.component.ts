@@ -47,11 +47,11 @@ export class LabelDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.label = label;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/label', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/label', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

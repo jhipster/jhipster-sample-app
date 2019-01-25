@@ -14,14 +14,14 @@
                                  referencedColumnNames="id"
                                  referencedTableName="bank_account"/>
 
-        <addForeignKeyConstraint baseColumnNames="operations_id"
+        <addForeignKeyConstraint baseColumnNames="operation_id"
                                  baseTableName="operation_label"
-                                 constraintName="fk_operation_label_operations_id"
+                                 constraintName="fk_operation_label_operation_id"
                                  referencedColumnNames="id"
                                  referencedTableName="operation"/>
-        <addForeignKeyConstraint baseColumnNames="labels_id"
+        <addForeignKeyConstraint baseColumnNames="label_id"
                                  baseTableName="operation_label"
-                                 constraintName="fk_operation_label_labels_id"
+                                 constraintName="fk_operation_label_label_id"
                                  referencedColumnNames="id"
                                  referencedTableName="label"/>
         

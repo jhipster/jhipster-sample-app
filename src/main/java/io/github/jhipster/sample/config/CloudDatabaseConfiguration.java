@@ -17,7 +17,7 @@ public class CloudDatabaseConfiguration extends AbstractCloudConfig {
 
     private final Logger log = LoggerFactory.getLogger(CloudDatabaseConfiguration.class);
     
-    private final String CLOUD_CONFIGURATION_HIKARI_PREFIX = "spring.datasource.hikari";
+    private static final String CLOUD_CONFIGURATION_HIKARI_PREFIX = "spring.datasource.hikari";
 
     @Bean
     @ConfigurationProperties(CLOUD_CONFIGURATION_HIKARI_PREFIX)

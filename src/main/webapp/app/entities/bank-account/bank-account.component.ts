@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IBankAccount } from 'app/shared/model/bank-account.model';
@@ -24,12 +25,18 @@ export class BankAccountComponent implements OnInit, OnDestroy {
     ) {}
 
     loadAll() {
-        this.bankAccountService.query().subscribe(
-            (res: HttpResponse<IBankAccount[]>) => {
-                this.bankAccounts = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.bankAccountService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<IBankAccount[]>) => res.ok),
+                map((res: HttpResponse<IBankAccount[]>) => res.body)
+            )
+            .subscribe(
+                (res: IBankAccount[]) => {
+                    this.bankAccounts = res;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     ngOnInit() {

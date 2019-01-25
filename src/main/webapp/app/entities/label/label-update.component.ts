@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
-
 import { ILabel } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 import { IOperation } from 'app/shared/model/operation.model';
@@ -31,12 +31,13 @@ export class LabelUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ label }) => {
             this.label = label;
         });
-        this.operationService.query().subscribe(
-            (res: HttpResponse<IOperation[]>) => {
-                this.operations = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.operationService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IOperation[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IOperation[]>) => response.body)
+            )
+            .subscribe((res: IOperation[]) => (this.operations = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {

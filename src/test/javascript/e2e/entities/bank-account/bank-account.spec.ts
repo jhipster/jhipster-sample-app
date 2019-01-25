@@ -24,6 +24,7 @@ describe('BankAccount e2e test', () => {
     it('should load BankAccounts', async () => {
         await navBarPage.goToEntity('bank-account');
         bankAccountComponentsPage = new BankAccountComponentsPage();
+        await browser.wait(ec.visibilityOf(bankAccountComponentsPage.title), 5000);
         expect(await bankAccountComponentsPage.getTitle()).to.eq('jhipsterSampleApplicationApp.bankAccount.home.title');
     });
 

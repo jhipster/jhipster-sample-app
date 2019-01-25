@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
                     <div class="d-flex">
-                        <input id="field_date" type="datetime-local" class="form-control" name="date" [(ngModel)]="date"
+                        <input id="field_date" type="datetime-local" class="form-control" name="date" [(ngModel)]="date" placeholder="YYYY-MM-DD HH:mm"
                         required/>
                     </div>
                     <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">

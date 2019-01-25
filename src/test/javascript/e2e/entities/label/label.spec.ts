@@ -24,6 +24,7 @@ describe('Label e2e test', () => {
     it('should load Labels', async () => {
         await navBarPage.goToEntity('label');
         labelComponentsPage = new LabelComponentsPage();
+        await browser.wait(ec.visibilityOf(labelComponentsPage.title), 5000);
         expect(await labelComponentsPage.getTitle()).to.eq('jhipsterSampleApplicationApp.label.home.title');
     });
 

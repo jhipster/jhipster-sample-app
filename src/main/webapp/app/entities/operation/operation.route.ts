@@ -16,7 +16,7 @@ import { IOperation } from 'app/shared/model/operation.model';
 export class OperationResolve implements Resolve<IOperation> {
     constructor(private service: OperationService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Operation> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOperation> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class OperationResolve implements Resolve<IOperation> {
 
 export const operationRoute: Routes = [
     {
-        path: 'operation',
+        path: '',
         component: OperationComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const operationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'operation/:id/view',
+        path: ':id/view',
         component: OperationDetailComponent,
         resolve: {
             operation: OperationResolve
@@ -51,7 +51,7 @@ export const operationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'operation/new',
+        path: 'new',
         component: OperationUpdateComponent,
         resolve: {
             operation: OperationResolve
@@ -63,7 +63,7 @@ export const operationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'operation/:id/edit',
+        path: ':id/edit',
         component: OperationUpdateComponent,
         resolve: {
             operation: OperationResolve
@@ -78,7 +78,7 @@ export const operationRoute: Routes = [
 
 export const operationPopupRoute: Routes = [
     {
-        path: 'operation/:id/delete',
+        path: ':id/delete',
         component: OperationDeletePopupComponent,
         resolve: {
             operation: OperationResolve

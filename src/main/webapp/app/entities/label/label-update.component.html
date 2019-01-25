@@ -19,7 +19,7 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.label?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                        [hidden]="!editForm.controls.label?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
                         This field is required to be at least 3 characters.
                         </small>
                     </div>

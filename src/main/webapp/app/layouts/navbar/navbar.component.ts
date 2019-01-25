@@ -6,7 +6,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 
 import { VERSION } from 'app/app.constants';
 import { JhiLanguageHelper, AccountService, LoginModalService, LoginService } from 'app/core';
-import { ProfileService } from '../profiles/profile.service';
+import { ProfileService } from 'app/layouts/profiles/profile.service';
 
 @Component({
     selector: 'jhi-navbar',

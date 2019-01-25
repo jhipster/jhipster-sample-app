@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
-
 import { IOperation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
@@ -40,18 +40,20 @@ export class OperationUpdateComponent implements OnInit {
             this.operation = operation;
             this.date = this.operation.date != null ? this.operation.date.format(DATE_TIME_FORMAT) : null;
         });
-        this.bankAccountService.query().subscribe(
-            (res: HttpResponse<IBankAccount[]>) => {
-                this.bankaccounts = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
-        this.labelService.query().subscribe(
-            (res: HttpResponse<ILabel[]>) => {
-                this.labels = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.bankAccountService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IBankAccount[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IBankAccount[]>) => response.body)
+            )
+            .subscribe((res: IBankAccount[]) => (this.bankaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.labelService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ILabel[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ILabel[]>) => response.body)
+            )
+            .subscribe((res: ILabel[]) => (this.labels = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {

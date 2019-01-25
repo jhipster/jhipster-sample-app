@@ -16,7 +16,7 @@ import { ILabel } from 'app/shared/model/label.model';
 export class LabelResolve implements Resolve<ILabel> {
     constructor(private service: LabelService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Label> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILabel> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class LabelResolve implements Resolve<ILabel> {
 
 export const labelRoute: Routes = [
     {
-        path: 'label',
+        path: '',
         component: LabelComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const labelRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'label/:id/view',
+        path: ':id/view',
         component: LabelDetailComponent,
         resolve: {
             label: LabelResolve
@@ -51,7 +51,7 @@ export const labelRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'label/new',
+        path: 'new',
         component: LabelUpdateComponent,
         resolve: {
             label: LabelResolve
@@ -63,7 +63,7 @@ export const labelRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'label/:id/edit',
+        path: ':id/edit',
         component: LabelUpdateComponent,
         resolve: {
             label: LabelResolve
@@ -78,7 +78,7 @@ export const labelRoute: Routes = [
 
 export const labelPopupRoute: Routes = [
     {
-        path: 'label/:id/delete',
+        path: ':id/delete',
         component: LabelDeletePopupComponent,
         resolve: {
             label: LabelResolve

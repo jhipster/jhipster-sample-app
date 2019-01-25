@@ -317,7 +317,7 @@ public class OperationResourceIntTest {
 
         int databaseSizeBeforeDelete = operationRepository.findAll().size();
 
-        // Get the operation
+        // Delete the operation
         restOperationMockMvc.perform(delete("/api/operations/{id}", operation.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());

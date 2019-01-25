@@ -4,7 +4,6 @@ import io.github.jhipster.sample.security.jwt.JWTFilter;
 import io.github.jhipster.sample.security.jwt.TokenProvider;
 import io.github.jhipster.sample.web.rest.vm.LoginVM;
 
-import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.http.HttpHeaders;
@@ -35,7 +34,6 @@ public class UserJWTController {
     }
 
     @PostMapping("/authenticate")
-    @Timed
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
 
         UsernamePasswordAuthenticationToken authenticationToken =

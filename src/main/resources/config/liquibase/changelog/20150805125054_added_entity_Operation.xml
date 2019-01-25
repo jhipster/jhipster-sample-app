@@ -7,7 +7,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-
+    
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -43,15 +43,15 @@
         <dropDefaultValue tableName="operation" columnName="jhi_date" columnDataType="datetime"/>
         
         <createTable tableName="operation_label">
-            <column name="labels_id" type="bigint">
+            <column name="label_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="operations_id" type="bigint">
+            <column name="operation_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="operations_id, labels_id" tableName="operation_label"/>
+        <addPrimaryKey columnNames="operation_id, label_id" tableName="operation_label"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

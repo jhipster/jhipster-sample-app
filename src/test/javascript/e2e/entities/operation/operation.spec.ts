@@ -24,6 +24,7 @@ describe('Operation e2e test', () => {
     it('should load Operations', async () => {
         await navBarPage.goToEntity('operation');
         operationComponentsPage = new OperationComponentsPage();
+        await browser.wait(ec.visibilityOf(operationComponentsPage.title), 5000);
         expect(await operationComponentsPage.getTitle()).to.eq('jhipsterSampleApplicationApp.operation.home.title');
     });
 

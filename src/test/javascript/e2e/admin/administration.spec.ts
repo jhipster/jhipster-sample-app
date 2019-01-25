@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, ExpectedConditions as ec } from 'protractor';
 
 import { NavBarPage, SignInPage } from '../page-objects/jhi-page-objects';
 
@@ -13,6 +13,7 @@ describe('administration', () => {
         navBarPage = new NavBarPage(true);
         signInPage = await navBarPage.getSignInPage();
         await signInPage.autoSignInUsing('admin', 'admin');
+        await browser.wait(ec.visibilityOf(navBarPage.adminMenu), 5000);
     });
 
     beforeEach(async () => {
@@ -42,6 +43,7 @@ describe('administration', () => {
 
     it('should load configuration', async () => {
         await navBarPage.clickOnAdmin('jhi-configuration');
+        await browser.sleep(500);
         const expect1 = 'configuration.title';
         const value1 = await element(by.id('configuration-page-heading')).getAttribute('jhiTranslate');
         expect(value1).to.eq(expect1);
@@ -49,6 +51,7 @@ describe('administration', () => {
 
     it('should load audits', async () => {
         await navBarPage.clickOnAdmin('audits');
+        await browser.sleep(500);
         const expect1 = 'audits.title';
         const value1 = await element(by.id('audits-page-heading')).getAttribute('jhiTranslate');
         expect(value1).to.eq(expect1);
@@ -56,6 +59,7 @@ describe('administration', () => {
 
     it('should load logs', async () => {
         await navBarPage.clickOnAdmin('logs');
+        await browser.sleep(500);
         const expect1 = 'logs.title';
         const value1 = await element(by.id('logs-page-heading')).getAttribute('jhiTranslate');
         expect(value1).to.eq(expect1);
