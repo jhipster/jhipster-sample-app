@@ -31,4 +31,12 @@ export class JhiMetricsMonitoringComponent implements OnInit {
             });
         });
     }
+
+    isObjectExisting(metrics: any, key: string) {
+        return metrics && metrics[key];
+    }
+
+    isObjectExistingAndNotEmpty(metrics: any, key: string) {
+        return this.isObjectExisting(metrics, key) && JSON.stringify(metrics[key]) !== '{}';
+    }
 }
