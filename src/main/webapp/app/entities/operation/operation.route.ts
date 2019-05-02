@@ -14,80 +14,80 @@ import { IOperation } from 'app/shared/model/operation.model';
 
 @Injectable({ providedIn: 'root' })
 export class OperationResolve implements Resolve<IOperation> {
-    constructor(private service: OperationService) {}
+  constructor(private service: OperationService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOperation> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<Operation>) => response.ok),
-                map((operation: HttpResponse<Operation>) => operation.body)
-            );
-        }
-        return of(new Operation());
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOperation> {
+    const id = route.params['id'] ? route.params['id'] : null;
+    if (id) {
+      return this.service.find(id).pipe(
+        filter((response: HttpResponse<Operation>) => response.ok),
+        map((operation: HttpResponse<Operation>) => operation.body)
+      );
     }
+    return of(new Operation());
+  }
 }
 
 export const operationRoute: Routes = [
-    {
-        path: '',
-        component: OperationComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-        },
-        canActivate: [UserRouteAccessService]
+  {
+    path: '',
+    component: OperationComponent,
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
     },
-    {
-        path: ':id/view',
-        component: OperationDetailComponent,
-        resolve: {
-            operation: OperationResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-        },
-        canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/view',
+    component: OperationDetailComponent,
+    resolve: {
+      operation: OperationResolve
     },
-    {
-        path: 'new',
-        component: OperationUpdateComponent,
-        resolve: {
-            operation: OperationResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-        },
-        canActivate: [UserRouteAccessService]
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
     },
-    {
-        path: ':id/edit',
-        component: OperationUpdateComponent,
-        resolve: {
-            operation: OperationResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'new',
+    component: OperationUpdateComponent,
+    resolve: {
+      operation: OperationResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/edit',
+    component: OperationUpdateComponent,
+    resolve: {
+      operation: OperationResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  }
 ];
 
 export const operationPopupRoute: Routes = [
-    {
-        path: ':id/delete',
-        component: OperationDeletePopupComponent,
-        resolve: {
-            operation: OperationResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
+  {
+    path: ':id/delete',
+    component: OperationDeletePopupComponent,
+    resolve: {
+      operation: OperationResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
+  }
 ];

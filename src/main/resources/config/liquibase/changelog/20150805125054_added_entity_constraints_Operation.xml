@@ -2,7 +2,7 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <!--
         Added the constraints for entity Operation.
     -->
@@ -19,6 +19,7 @@
                                  constraintName="fk_operation_label_operation_id"
                                  referencedColumnNames="id"
                                  referencedTableName="operation"/>
+
         <addForeignKeyConstraint baseColumnNames="label_id"
                                  baseTableName="operation_label"
                                  constraintName="fk_operation_label_label_id"

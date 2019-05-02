@@ -27,7 +27,6 @@ public class JacksonConfiguration {
         return new Jdk8Module();
     }
 
-
     /*
      * Support for Hibernate types in Jackson.
      */
@@ -59,5 +58,4 @@ public class JacksonConfiguration {
     ConstraintViolationProblemModule constraintViolationProblemModule() {
         return new ConstraintViolationProblemModule();
     }
-
 }

@@ -5,10 +5,11 @@ import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
 
-import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
+import org.hibernate.cache.jcache.ConfigSettings;
 import io.github.jhipster.config.JHipsterProperties;
 
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 
@@ -19,7 +20,6 @@ public class CacheConfiguration {
     private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-        BeanClassLoaderAwareJCacheRegionFactory.setBeanClassLoader(this.getClass().getClassLoader());
         JHipsterProperties.Cache.Ehcache ehcache =
             jHipsterProperties.getCache().getEhcache();
 
@@ -31,20 +31,33 @@ public class CacheConfiguration {
     }
 
     @Bean
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
+    }
+
+    @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            cm.createCache(io.github.jhipster.sample.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.User.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Authority.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.BankAccount.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.BankAccount.class.getName() + ".operations", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Label.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Label.class.getName() + ".operations", jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Operation.class.getName(), jcacheConfiguration);
-            cm.createCache(io.github.jhipster.sample.domain.Operation.class.getName() + ".labels", jcacheConfiguration);
+            createCache(cm, io.github.jhipster.sample.repository.UserRepository.USERS_BY_LOGIN_CACHE);
+            createCache(cm, io.github.jhipster.sample.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, io.github.jhipster.sample.domain.User.class.getName());
+            createCache(cm, io.github.jhipster.sample.domain.Authority.class.getName());
+            createCache(cm, io.github.jhipster.sample.domain.User.class.getName() + ".authorities");
+            createCache(cm, io.github.jhipster.sample.domain.BankAccount.class.getName());
+            createCache(cm, io.github.jhipster.sample.domain.BankAccount.class.getName() + ".operations");
+            createCache(cm, io.github.jhipster.sample.domain.Label.class.getName());
+            createCache(cm, io.github.jhipster.sample.domain.Label.class.getName() + ".operations");
+            createCache(cm, io.github.jhipster.sample.domain.Operation.class.getName());
+            createCache(cm, io.github.jhipster.sample.domain.Operation.class.getName() + ".labels");
             // jhipster-needle-ehcache-add-entry
         };
+    }
+
+    private void createCache(javax.cache.CacheManager cm, String cacheName) {
+        javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
+        if (cache != null) {
+            cm.destroyCache(cacheName);
+        }
+        cm.createCache(cacheName, jcacheConfiguration);
     }
 }

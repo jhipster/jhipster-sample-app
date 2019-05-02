@@ -20,7 +20,7 @@ class LabelGatlingTest extends Simulation {
     val baseURL = Option(System.getProperty("baseURL")) getOrElse """http://localhost:8080"""
 
     val httpConf = http
-        .baseURL(baseURL)
+        .baseUrl(baseURL)
         .inferHtmlResources()
         .acceptHeader("*/*")
         .acceptEncodingHeader("gzip, deflate")
@@ -53,8 +53,8 @@ class LabelGatlingTest extends Simulation {
         .exec(http("Authentication")
         .post("/api/authenticate")
         .headers(headers_http_authentication)
-        .body(StringBody("""{"username":"admin", "password":"admin"}""")).asJSON
-        .check(header.get("Authorization").saveAs("access_token"))).exitHereIfFailed
+        .body(StringBody("""{"username":"admin", "password":"admin"}""")).asJson
+        .check(header("Authorization").saveAs("access_token"))).exitHereIfFailed
         .pause(2)
         .exec(http("Authenticated request")
         .get("/api/account")
@@ -73,7 +73,7 @@ class LabelGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "label":"SAMPLE_TEXT"
-                }""")).asJSON
+                }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_label_url"))).exitHereIfFailed
             .pause(10)
@@ -92,6 +92,6 @@ class LabelGatlingTest extends Simulation {
     val users = scenario("Users").exec(scn)
 
     setUp(
-        users.inject(rampUsers(Integer.getInteger("users", 100)) over (Integer.getInteger("ramp", 1) minutes))
+        users.inject(rampUsers(Integer.getInteger("users", 100)) during (Integer.getInteger("ramp", 1) minutes))
     ).protocols(httpConf)
 }

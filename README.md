@@ -1,13 +1,13 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
+This application was generated using JHipster 6.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.0.0](https://www.jhipster.tech/documentation-archive/v6.0.0).
 
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1.  [Node.js][]: We use Node to run a development web server and build the project.
-    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+1. [Node.js][]: We use Node to run a development web server and build the project.
+   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
 After installing Node, you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
@@ -32,15 +32,15 @@ The `npm run` command will list all of the scripts available to run for this pro
 
 Service workers are commented by default, to enable them please uncomment the following code.
 
--   The service worker registering script in index.html
+- The service worker registering script in index.html
 
 ```html
 <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-        .register('./service-worker.js')
-        .then(function() { console.log('Service Worker Registered'); });
-    }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').then(function() {
+      console.log('Service Worker Registered');
+    });
+  }
 </script>
 ```
 
@@ -89,24 +89,32 @@ will generate few files:
 
 ## Building for production
 
-To optimize the jhipsterSampleApplication application for production, run:
+### Packaging as jar
 
-    ./mvnw -Pprod clean package
+To build the final jar and optimize the jhipsterSampleApplication application for production, run:
+
+    ./mvnw -Pprod clean verify
 
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 To ensure everything worked, run:
 
-    java -jar target/*.war
+    java -jar target/*.jar
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
 Refer to [Using JHipster in production][] for more details.
 
+### Packaging as war
+
+To package your application as a war in order to deploy it to an application server, run:
+
+    ./mvnw -Pprod,war clean verify
+
 ## Testing
 
 To launch your application's tests, run:
 
-    ./mvnw clean test
+    ./mvnw verify
 
 ### Client tests
 
@@ -124,11 +132,21 @@ Sonar is used to analyse code quality. You can start a local Sonar server (acces
 docker-compose -f src/main/docker/sonar.yml up -d
 ```
 
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
+
 Then, run a Sonar analysis:
 
 ```
-./mvnw -Pprod clean test sonar:sonar
+./mvnw -Pprod clean verify sonar:sonar
 ```
+
+If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
+
+```
+./mvnw initialize sonar:sonar
+```
+
+or
 
 For more information, refer to the [Code quality page][].
 
@@ -147,7 +165,7 @@ To stop it and remove the container, run:
 You can also fully dockerize your application and all the services that it depends on.
 To achieve this, first build a docker image of your app by running:
 
-    ./mvnw package -Pprod verify jib:dockerBuild
+    ./mvnw -Pprod verify jib:dockerBuild
 
 Then run:
 
@@ -160,13 +178,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 5.8.2 archive]: https://www.jhipster.tech/documentation-archive/v5.8.2
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v5.8.2/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v5.8.2/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v5.8.2/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v5.8.2/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v5.8.2/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v5.8.2/setting-up-ci/
+[jhipster 6.0.0 archive]: https://www.jhipster.tech/documentation-archive/v6.0.0
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.0.0/development/
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.0.0/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.0.0/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v6.0.0/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v6.0.0/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.0.0/setting-up-ci/
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/

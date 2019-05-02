@@ -13,6 +13,7 @@ const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
 
 const ENV = 'production';
+const sass = require('sass');
 
 module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // Enable source maps. Please note that this will slow down the build.
@@ -20,11 +21,11 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // devtool: 'source-map',
     entry: {
         polyfills: './src/main/webapp/app/polyfills',
-        global: './src/main/webapp/content/css/global.css',
+        global: './src/main/webapp/content/scss/global.scss',
         main: './src/main/webapp/app/app.main'
     },
     output: {
-        path: utils.root('target/www'),
+        path: utils.root('target/classes/static/'),
         filename: 'app/[name].[hash].bundle.js',
         chunkFilename: 'app/[id].[hash].chunk.js'
     },
@@ -34,6 +35,31 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             loader: '@ngtools/webpack'
         },
         {
+            test: /\.scss$/,
+            use: ['to-string-loader', 'css-loader', {
+                loader: 'sass-loader',
+                options: { implementation: sass }
+            }],
+            exclude: /(vendor\.scss|global\.scss)/
+        },
+        {
+            test: /(vendor\.scss|global\.scss)/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '../'
+                    }
+                },
+                'css-loader',
+                'postcss-loader',
+                {
+                    loader: 'sass-loader',
+                    options: { implementation: sass }
+                }
+            ]
+        },
+        {
             test: /\.css$/,
             use: ['to-string-loader', 'css-loader'],
             exclude: /(vendor\.css|global\.css)/
@@ -41,7 +67,12 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         {
             test: /(vendor\.css|global\.css)/,
             use: [
-                MiniCssExtractPlugin.loader,
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '../'
+                    }
+                },
                 'css-loader',
                 'postcss-loader'
             ]
@@ -63,7 +94,10 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                 parallel: true,
                 cache: true,
                 terserOptions: {
+                    ecma: 6,
                     ie8: false,
+                    toplevel: true,
+                    module: true,
                     // sourceMap: true, // Enable source maps. Please note that this will slow down the build
                     compress: {
                         dead_code: true,
@@ -77,12 +111,20 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                         toplevel: true,
                         if_return: true,
                         inline: true,
-                        join_vars: true
+                        join_vars: true,
+                        ecma: 6,
+                        module: true,
+                        toplevel: true
                     },
                     output: {
                         comments: false,
                         beautify: false,
-                        indent_level: 2
+                        indent_level: 2,
+                        ecma: 6
+                    },
+                    mangle: {
+                        module: true,
+                        toplevel: true
                     }
                 }
             }),
@@ -93,8 +135,8 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: '[name].[contenthash].css',
-            chunkFilename: '[id].css'
+            filename: 'content/[name].[contenthash].css',
+            chunkFilename: 'content/[id].css'
         }),
         new MomentLocalesPlugin({
             localesToKeep: [

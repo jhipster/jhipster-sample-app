@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
@@ -12,7 +12,7 @@
     <property name="autoIncrement" value="true"/>
 
     <property name="floatType" value="float4" dbms="postgresql, h2"/>
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
 
     <!--
         Added the entity Operation.
@@ -30,7 +30,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="amount" type="decimal(10,2)">
+            <column name="amount" type="decimal(21,2)">
                 <constraints nullable="false" />
             </column>
 
@@ -40,8 +40,33 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+
         <dropDefaultValue tableName="operation" columnName="jhi_date" columnDataType="datetime"/>
-        
+    </changeSet>
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20150805125054-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/data/operation.csv"
+                  separator=";"
+                  tableName="operation"
+                  context="dev">
+            <column name="id" type="numeric"/>
+            <column name="jhi_date" type="date"/>
+            <column name="description" type="string"/>
+            <column name="amount" type="numeric"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="20150805125054-1-relations" author="jhipster">
+
         <createTable tableName="operation_label">
             <column name="label_id" type="bigint">
                 <constraints nullable="false"/>

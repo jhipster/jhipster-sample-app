@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * Spring Data JPA repository for the PersistentAuditEvent entity.
+ * Spring Data JPA repository for the {@link PersistentAuditEvent} entity.
  */
 public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 

@@ -32,8 +32,8 @@ public class DatabaseConfiguration {
     /**
      * Open the TCP port for the H2 database, so it is available remotely.
      *
-     * @return the H2 database TCP server
-     * @throws SQLException if the server failed to start
+     * @return the H2 database TCP server.
+     * @throws SQLException if the server failed to start.
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
@@ -42,7 +42,7 @@ public class DatabaseConfiguration {
         log.debug("H2 database is available on port {}", port);
         return H2ConfigurationHelper.createServer(port);
     }
-	
+
     private String getValidPortForH2() {
         int port = Integer.parseInt(env.getProperty("server.port"));
         if (port < 10000) {

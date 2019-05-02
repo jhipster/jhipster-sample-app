@@ -12,10 +12,24 @@ import ch.qos.logback.classic.boolex.OnMarkerEvaluator;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggerContextListener;
 import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.filter.EvaluatorFilter;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.FilterReply;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
+import net.logstash.logback.composite.ContextJsonProvider;
+import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider;
+import net.logstash.logback.composite.loggingevent.ArgumentsJsonProvider;
+import net.logstash.logback.composite.loggingevent.LogLevelJsonProvider;
+import net.logstash.logback.composite.loggingevent.LoggerNameJsonProvider;
+import net.logstash.logback.composite.loggingevent.LoggingEventFormattedTimestampJsonProvider;
+import net.logstash.logback.composite.loggingevent.LoggingEventJsonProviders;
+import net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider;
+import net.logstash.logback.composite.loggingevent.MdcJsonProvider;
+import net.logstash.logback.composite.loggingevent.MessageJsonProvider;
+import net.logstash.logback.composite.loggingevent.StackTraceJsonProvider;
+import net.logstash.logback.composite.loggingevent.ThreadNameJsonProvider;
+import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder;
 import net.logstash.logback.encoder.LogstashEncoder;
 import net.logstash.logback.stacktrace.ShortenedThrowableConverter;
 import org.slf4j.Logger;
@@ -25,6 +39,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class LoggingConfiguration {
+
+    private static final String CONSOLE_APPENDER_NAME = "CONSOLE";
 
     private static final String LOGSTASH_APPENDER_NAME = "LOGSTASH";
 
@@ -45,51 +61,132 @@ public class LoggingConfiguration {
         this.appName = appName;
         this.serverPort = serverPort;
         this.jHipsterProperties = jHipsterProperties;
-        if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
-            addLogstashAppender(context);
+        if (this.jHipsterProperties.getLogging().isUseJsonFormat()) {
+            addJsonConsoleAppender(context);
+        }
+        if (this.jHipsterProperties.getLogging().getLogstash().isEnabled()) {
+            addLogstashTcpSocketAppender(context);
+        }
+        if (this.jHipsterProperties.getLogging().isUseJsonFormat() || this.jHipsterProperties.getLogging().getLogstash().isEnabled()) {
             addContextListener(context);
         }
-        if (jHipsterProperties.getMetrics().getLogs().isEnabled()) {
+        if (this.jHipsterProperties.getMetrics().getLogs().isEnabled()) {
             setMetricsMarkerLogbackFilter(context);
         }
     }
 
-    private void addContextListener(LoggerContext context) {
-        LogbackLoggerContextListener loggerContextListener = new LogbackLoggerContextListener();
-        loggerContextListener.setContext(context);
-        context.addListener(loggerContextListener);
+    private void addJsonConsoleAppender(LoggerContext context) {
+        log.info("Initializing Console logging");
+        
+        // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
+        ConsoleAppender<ILoggingEvent> consoleAppender = new ConsoleAppender<>();
+        consoleAppender.setContext(context);
+        consoleAppender.setEncoder(compositeJsonEncoder(context));
+        consoleAppender.setName(CONSOLE_APPENDER_NAME);
+        consoleAppender.start();
+
+        context.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME).detachAppender(CONSOLE_APPENDER_NAME);
+        context.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME).addAppender(consoleAppender);
     }
 
-    private void addLogstashAppender(LoggerContext context) {
+    private void addLogstashTcpSocketAppender(LoggerContext context) {
         log.info("Initializing Logstash logging");
 
-        LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
-        logstashAppender.setName(LOGSTASH_APPENDER_NAME);
-        logstashAppender.setContext(context);
-        String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
-
         // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
-        LogstashEncoder logstashEncoder = new LogstashEncoder();
-        // Set the Logstash appender config from JHipster properties
-        logstashAppender.addDestinations(new InetSocketAddress(jHipsterProperties.getLogging().getLogstash().getHost(), jHipsterProperties.getLogging().getLogstash().getPort()));
-
-        ShortenedThrowableConverter throwableConverter = new ShortenedThrowableConverter();
-        throwableConverter.setRootCauseFirst(true);
-        logstashEncoder.setThrowableConverter(throwableConverter);
-        logstashEncoder.setCustomFields(customFields);
-
-        logstashAppender.setEncoder(logstashEncoder);
+        LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
+        logstashAppender.addDestinations(new InetSocketAddress(this.jHipsterProperties.getLogging().getLogstash().getHost(), this.jHipsterProperties.getLogging().getLogstash().getPort()));
+        logstashAppender.setContext(context);
+        logstashAppender.setEncoder(logstashEncoder());
+        logstashAppender.setName(LOGSTASH_APPENDER_NAME);
         logstashAppender.start();
 
         // Wrap the appender in an Async appender for performance
         AsyncAppender asyncLogstashAppender = new AsyncAppender();
         asyncLogstashAppender.setContext(context);
         asyncLogstashAppender.setName(ASYNC_LOGSTASH_APPENDER_NAME);
-        asyncLogstashAppender.setQueueSize(jHipsterProperties.getLogging().getLogstash().getQueueSize());
+        asyncLogstashAppender.setQueueSize(this.jHipsterProperties.getLogging().getLogstash().getQueueSize());
         asyncLogstashAppender.addAppender(logstashAppender);
         asyncLogstashAppender.start();
 
-        context.getLogger("ROOT").addAppender(asyncLogstashAppender);
+        context.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME).addAppender(asyncLogstashAppender);
+    }
+
+    private LoggingEventCompositeJsonEncoder compositeJsonEncoder(LoggerContext context) {
+        final LoggingEventCompositeJsonEncoder compositeJsonEncoder = new LoggingEventCompositeJsonEncoder();
+        compositeJsonEncoder.setContext(context);
+        compositeJsonEncoder.setProviders(jsonProviders(context));
+        compositeJsonEncoder.start();
+        return compositeJsonEncoder;
+    }
+    
+    private LogstashEncoder logstashEncoder() {
+        final LogstashEncoder logstashEncoder = new LogstashEncoder();
+        logstashEncoder.setThrowableConverter(throwableConverter());
+        logstashEncoder.setCustomFields(customFields());
+        return logstashEncoder;
+    }
+    
+    private LoggingEventJsonProviders jsonProviders(LoggerContext context) {
+        final LoggingEventJsonProviders jsonProviders = new LoggingEventJsonProviders();
+        jsonProviders.addArguments(new ArgumentsJsonProvider());
+        jsonProviders.addContext(new ContextJsonProvider<>());
+        jsonProviders.addGlobalCustomFields(customFieldsJsonProvider());
+        jsonProviders.addLogLevel(new LogLevelJsonProvider());
+        jsonProviders.addLoggerName(loggerNameJsonProvider());
+        jsonProviders.addMdc(new MdcJsonProvider());
+        jsonProviders.addMessage(new MessageJsonProvider());
+        jsonProviders.addPattern(new LoggingEventPatternJsonProvider());
+        jsonProviders.addStackTrace(stackTraceJsonProvider());
+        jsonProviders.addThreadName(new ThreadNameJsonProvider());
+        jsonProviders.addTimestamp(timestampJsonProvider());
+        jsonProviders.setContext(context);
+        return jsonProviders;
+    }
+
+    private GlobalCustomFieldsJsonProvider<ILoggingEvent> customFieldsJsonProvider() {
+        final GlobalCustomFieldsJsonProvider<ILoggingEvent> customFieldsJsonProvider = new GlobalCustomFieldsJsonProvider<>();
+        customFieldsJsonProvider.setCustomFields(customFields());
+        return customFieldsJsonProvider;
+    }
+
+    private String customFields () {
+        StringBuilder customFields = new StringBuilder();
+        customFields.append("{");
+        customFields.append("\"app_name\":\"").append(this.appName).append("\"");
+        customFields.append(",").append("\"app_port\":\"").append(this.serverPort).append("\"");
+        customFields.append("}");
+        return customFields.toString();
+    }
+    
+    private LoggerNameJsonProvider loggerNameJsonProvider() {
+        final LoggerNameJsonProvider loggerNameJsonProvider = new LoggerNameJsonProvider();
+        loggerNameJsonProvider.setShortenedLoggerNameLength(20);
+        return loggerNameJsonProvider;
+    }
+    
+    private StackTraceJsonProvider stackTraceJsonProvider() {
+        StackTraceJsonProvider stackTraceJsonProvider = new StackTraceJsonProvider();
+        stackTraceJsonProvider.setThrowableConverter(throwableConverter());
+        return stackTraceJsonProvider;
+    }
+
+    private ShortenedThrowableConverter throwableConverter() {
+        final ShortenedThrowableConverter throwableConverter = new ShortenedThrowableConverter();
+        throwableConverter.setRootCauseFirst(true);
+        return throwableConverter;
+    }
+    
+    private LoggingEventFormattedTimestampJsonProvider timestampJsonProvider() {
+        final LoggingEventFormattedTimestampJsonProvider timestampJsonProvider = new LoggingEventFormattedTimestampJsonProvider();
+        timestampJsonProvider.setTimeZone("UTC");
+        timestampJsonProvider.setFieldName("timestamp");
+        return timestampJsonProvider;
+    }
+
+    private void addContextListener(LoggerContext context) {
+        LogbackLoggerContextListener loggerContextListener = new LogbackLoggerContextListener(this.jHipsterProperties);
+        loggerContextListener.setContext(context);
+        context.addListener(loggerContextListener);
     }
 
     // Configure a log filter to remove "metrics" logs from all appenders except the "LOGSTASH" appender
@@ -105,17 +202,18 @@ public class LoggingConfiguration {
         metricsFilter.setOnMatch(FilterReply.DENY);
         metricsFilter.start();
 
-        for (ch.qos.logback.classic.Logger logger : context.getLoggerList()) {
+        context.getLoggerList().forEach((logger) -> {
             for (Iterator<Appender<ILoggingEvent>> it = logger.iteratorForAppenders(); it.hasNext();) {
                 Appender<ILoggingEvent> appender = it.next();
-                if (!appender.getName().equals(ASYNC_LOGSTASH_APPENDER_NAME)) {
+                if (!appender.getName().equals(ASYNC_LOGSTASH_APPENDER_NAME)
+                        && !(appender.getName().equals(CONSOLE_APPENDER_NAME) && this.jHipsterProperties.getLogging().isUseJsonFormat())) {
                     log.debug("Filter metrics logs from the {} appender", appender.getName());
                     appender.setContext(context);
                     appender.addFilter(metricsFilter);
                     appender.start();
                 }
             }
-        }
+        });
     }
 
     /**
@@ -124,7 +222,12 @@ public class LoggingConfiguration {
      * This listener ensures that the programmatic configuration is also re-applied after reset.
      */
     class LogbackLoggerContextListener extends ContextAwareBase implements LoggerContextListener {
-
+        private final JHipsterProperties jHipsterProperties;
+        
+        private LogbackLoggerContextListener(JHipsterProperties jHipsterProperties) {
+            this.jHipsterProperties = jHipsterProperties;
+        }
+        
         @Override
         public boolean isResetResistant() {
             return true;
@@ -132,12 +235,22 @@ public class LoggingConfiguration {
 
         @Override
         public void onStart(LoggerContext context) {
-            addLogstashAppender(context);
+            if (this.jHipsterProperties.getLogging().isUseJsonFormat()) {
+                addJsonConsoleAppender(context);
+            }
+            if (this.jHipsterProperties.getLogging().getLogstash().isEnabled()) {
+                addLogstashTcpSocketAppender(context);
+            }
         }
 
         @Override
         public void onReset(LoggerContext context) {
-            addLogstashAppender(context);
+            if (this.jHipsterProperties.getLogging().isUseJsonFormat()) {
+                addJsonConsoleAppender(context);
+            }
+            if (this.jHipsterProperties.getLogging().getLogstash().isEnabled()) {
+                addLogstashTcpSocketAppender(context);
+            }
         }
 
         @Override

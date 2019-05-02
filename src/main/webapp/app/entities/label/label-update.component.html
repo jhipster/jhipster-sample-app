@@ -1,25 +1,25 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-label-heading" jhiTranslate="jhipsterSampleApplicationApp.label.home.createOrEditLabel">Create or edit a Label</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!label.id">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="label.id" readonly />
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.label.label" for="field_label">Label</label>
                     <input type="text" class="form-control" name="label" id="field_label"
-                        [(ngModel)]="label.label" required minlength="3"/>
-                    <div [hidden]="!(editForm.controls.label?.dirty && editForm.controls.label?.invalid)">
+                           formControlName="label"/>
+                    <div *ngIf="editForm.get('label').invalid && (editForm.get('label').dirty || editForm.get('label').touched)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.label?.errors?.required" jhiTranslate="entity.validation.required">
+                               *ngIf="editForm.get('label').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.label?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
+                               *ngIf="editForm.get('label').errors.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
                         This field is required to be at least 3 characters.
                         </small>
                     </div>
@@ -30,7 +30,7 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>
