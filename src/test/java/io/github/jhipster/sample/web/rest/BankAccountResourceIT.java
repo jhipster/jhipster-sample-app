@@ -86,6 +86,18 @@ public class BankAccountResourceIT {
         bankAccount.setBalance(DEFAULT_BALANCE);
         return bankAccount;
     }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static BankAccount createUpdatedEntity(EntityManager em) {
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setName(UPDATED_NAME);
+        bankAccount.setBalance(UPDATED_BALANCE);
+        return bankAccount;
+    }
 
     @BeforeEach
     public void initTest() {

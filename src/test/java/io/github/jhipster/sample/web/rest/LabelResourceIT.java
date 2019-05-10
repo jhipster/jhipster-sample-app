@@ -81,6 +81,17 @@ public class LabelResourceIT {
         label.setLabel(DEFAULT_LABEL);
         return label;
     }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Label createUpdatedEntity(EntityManager em) {
+        Label label = new Label();
+        label.setLabel(UPDATED_LABEL);
+        return label;
+    }
 
     @BeforeEach
     public void initTest() {

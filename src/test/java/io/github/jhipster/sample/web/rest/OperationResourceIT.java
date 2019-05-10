@@ -100,6 +100,19 @@ public class OperationResourceIT {
         operation.setAmount(DEFAULT_AMOUNT);
         return operation;
     }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Operation createUpdatedEntity(EntityManager em) {
+        Operation operation = new Operation();
+        operation.setDate(UPDATED_DATE);
+        operation.setDescription(UPDATED_DESCRIPTION);
+        operation.setAmount(UPDATED_AMOUNT);
+        return operation;
+    }
 
     @BeforeEach
     public void initTest() {
