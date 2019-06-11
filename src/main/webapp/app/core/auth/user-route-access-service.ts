@@ -36,16 +36,12 @@ export class UserRouteAccessService implements CanActivate {
         if (isDevMode()) {
           console.error('User has not any of required authorities: ', authorities);
         }
+        this.router.navigate(['accessdenied']);
         return false;
       }
 
       this.stateStorageService.storeUrl(url);
-      this.router.navigate(['accessdenied']).then(() => {
-        // only show the login dialog, if the user hasn't logged in yet
-        if (!account) {
-          this.loginModalService.open();
-        }
-      });
+      this.loginModalService.open();
       return false;
     });
   }

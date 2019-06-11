@@ -10,7 +10,10 @@
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="table-responsive" *ngIf="labels">
+    <div class="alert alert-warning" *ngIf="labels?.length === 0">
+        <span jhiTranslate="jhipsterSampleApplicationApp.label.home.notFound">No labels found</span>
+    </div>
+    <div class="table-responsive" *ngIf="labels?.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>

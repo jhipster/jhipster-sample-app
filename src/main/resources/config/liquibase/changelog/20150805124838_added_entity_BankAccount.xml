@@ -45,8 +45,7 @@
         <loadData
                   file="config/liquibase/data/bank_account.csv"
                   separator=";"
-                  tableName="bank_account"
-                  context="dev">
+                  tableName="bank_account">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="balance" type="numeric"/>

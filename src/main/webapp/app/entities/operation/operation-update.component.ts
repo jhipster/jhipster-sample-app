@@ -19,7 +19,6 @@ import { LabelService } from 'app/entities/label';
   templateUrl: './operation-update.component.html'
 })
 export class OperationUpdateComponent implements OnInit {
-  operation: IOperation;
   isSaving: boolean;
 
   bankaccounts: IBankAccount[];
@@ -48,7 +47,6 @@ export class OperationUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ operation }) => {
       this.updateForm(operation);
-      this.operation = operation;
     });
     this.bankAccountService
       .query()

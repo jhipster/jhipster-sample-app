@@ -16,7 +16,7 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="jhi_date" type="datetime">
+            <column name="date" type="datetime">
                 <constraints nullable="false" />
             </column>
 
@@ -35,7 +35,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
-        <dropDefaultValue tableName="operation" columnName="jhi_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>
     </changeSet>
 
     <!--
@@ -50,10 +50,9 @@
         <loadData
                   file="config/liquibase/data/operation.csv"
                   separator=";"
-                  tableName="operation"
-                  context="dev">
+                  tableName="operation">
             <column name="id" type="numeric"/>
-            <column name="jhi_date" type="date"/>
+            <column name="date" type="datetime"/>
             <column name="description" type="string"/>
             <column name="amount" type="numeric"/>
         </loadData>

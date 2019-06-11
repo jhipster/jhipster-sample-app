@@ -15,7 +15,6 @@ import { OperationService } from 'app/entities/operation';
   templateUrl: './label-update.component.html'
 })
 export class LabelUpdateComponent implements OnInit {
-  label: ILabel;
   isSaving: boolean;
 
   operations: IOperation[];
@@ -37,7 +36,6 @@ export class LabelUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ label }) => {
       this.updateForm(label);
-      this.label = label;
     });
     this.operationService
       .query()

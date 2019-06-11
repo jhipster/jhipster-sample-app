@@ -10,7 +10,10 @@
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="table-responsive" *ngIf="bankAccounts">
+    <div class="alert alert-warning" *ngIf="bankAccounts?.length === 0">
+        <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.notFound">No bankAccounts found</span>
+    </div>
+    <div class="table-responsive" *ngIf="bankAccounts?.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>

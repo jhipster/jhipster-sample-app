@@ -14,7 +14,6 @@ import { IUser, UserService } from 'app/core';
   templateUrl: './bank-account-update.component.html'
 })
 export class BankAccountUpdateComponent implements OnInit {
-  bankAccount: IBankAccount;
   isSaving: boolean;
 
   users: IUser[];
@@ -38,7 +37,6 @@ export class BankAccountUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ bankAccount }) => {
       this.updateForm(bankAccount);
-      this.bankAccount = bankAccount;
     });
     this.userService
       .query()

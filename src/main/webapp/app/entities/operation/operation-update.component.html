@@ -4,7 +4,7 @@
             <h2 id="jhi-operation-heading" jhiTranslate="jhipsterSampleApplicationApp.operation.home.createOrEditLabel">Create or edit a Operation</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!operation.id">
+                <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />

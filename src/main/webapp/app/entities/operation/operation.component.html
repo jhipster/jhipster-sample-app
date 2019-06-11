@@ -10,7 +10,10 @@
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="table-responsive" *ngIf="operations">
+    <div class="alert alert-warning" *ngIf="operations?.length === 0">
+        <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No operations found</span>
+    </div>
+    <div class="table-responsive" *ngIf="operations?.length > 0">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
