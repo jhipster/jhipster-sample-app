@@ -247,7 +247,7 @@ public class LabelResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Label> labelList = labelRepository.findAll();
         assertThat(labelList).hasSize(databaseSizeBeforeDelete - 1);
     }

@@ -90,6 +90,8 @@ public class OperationResource {
      * {@code GET  /operations} : get all the operations.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of operations in body.
      */

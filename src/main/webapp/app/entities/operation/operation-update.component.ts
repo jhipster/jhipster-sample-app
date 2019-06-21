@@ -90,7 +90,7 @@ export class OperationUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IOperation {
-    const entity = {
+    return {
       ...new Operation(),
       id: this.editForm.get(['id']).value,
       date: this.editForm.get(['date']).value != null ? moment(this.editForm.get(['date']).value, DATE_TIME_FORMAT) : undefined,
@@ -99,11 +99,10 @@ export class OperationUpdateComponent implements OnInit {
       bankAccount: this.editForm.get(['bankAccount']).value,
       labels: this.editForm.get(['labels']).value
     };
-    return entity;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IOperation>>) {
-    result.subscribe((res: HttpResponse<IOperation>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
 
   protected onSaveSuccess() {

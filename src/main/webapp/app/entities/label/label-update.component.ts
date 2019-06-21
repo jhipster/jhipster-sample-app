@@ -68,16 +68,15 @@ export class LabelUpdateComponent implements OnInit {
   }
 
   private createFromForm(): ILabel {
-    const entity = {
+    return {
       ...new Label(),
       id: this.editForm.get(['id']).value,
       label: this.editForm.get(['label']).value
     };
-    return entity;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ILabel>>) {
-    result.subscribe((res: HttpResponse<ILabel>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
 
   protected onSaveSuccess() {

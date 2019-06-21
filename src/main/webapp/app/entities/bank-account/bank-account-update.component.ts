@@ -71,18 +71,17 @@ export class BankAccountUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IBankAccount {
-    const entity = {
+    return {
       ...new BankAccount(),
       id: this.editForm.get(['id']).value,
       name: this.editForm.get(['name']).value,
       balance: this.editForm.get(['balance']).value,
       user: this.editForm.get(['user']).value
     };
-    return entity;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBankAccount>>) {
-    result.subscribe((res: HttpResponse<IBankAccount>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
 
   protected onSaveSuccess() {
