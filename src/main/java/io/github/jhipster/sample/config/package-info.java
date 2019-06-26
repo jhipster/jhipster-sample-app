@@ -1,4 +1,4 @@
 /**
- * Spring Framework configuration files.
- */
+* Spring Framework configuration files.
+*/
 package io.github.jhipster.sample.config;

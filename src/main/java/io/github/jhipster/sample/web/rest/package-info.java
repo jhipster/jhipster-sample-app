@@ -1,4 +1,4 @@
 /**
- * Spring MVC REST controllers.
- */
+* Spring MVC REST controllers.
+*/
 package io.github.jhipster.sample.web.rest;

@@ -1,4 +1,4 @@
 /**
- * Service layer beans.
- */
+* Service layer beans.
+*/
 package io.github.jhipster.sample.service;
