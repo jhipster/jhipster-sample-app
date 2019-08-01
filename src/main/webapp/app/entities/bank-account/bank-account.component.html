@@ -4,7 +4,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bank-account" [routerLink]="['/bank-account/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.createLabel">
-            Create new Bank Account
+            Create a new Bank Account
             </span>
         </button>
     </h2>
@@ -47,7 +47,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'bank-account', { outlets: { popup: bankAccount.id + '/delete'} }]"
+                                [routerLink]="['/bank-account', { outlets: { popup: bankAccount.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

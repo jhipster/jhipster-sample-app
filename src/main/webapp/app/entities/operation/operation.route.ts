@@ -17,7 +17,7 @@ export class OperationResolve implements Resolve<IOperation> {
   constructor(private service: OperationService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOperation> {
-    const id = route.params['id'] ? route.params['id'] : null;
+    const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
         filter((response: HttpResponse<Operation>) => response.ok),

@@ -127,7 +127,7 @@ describe('Component Tests', () => {
       const expected = {
         username: '',
         password: '',
-        rememberMe: true
+        rememberMe: false
       };
 
       // WHEN

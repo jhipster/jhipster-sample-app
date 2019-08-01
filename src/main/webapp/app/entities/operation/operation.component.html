@@ -4,7 +4,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-operation" [routerLink]="['/operation/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="jhipsterSampleApplicationApp.operation.home.createLabel">
-            Create new Operation
+            Create a new Operation
             </span>
         </button>
     </h2>
@@ -33,7 +33,7 @@
                 <td>{{operation.amount}}</td>
                 <td>
                     <div *ngIf="operation.bankAccount">
-                        <a [routerLink]="['../bank-account', operation.bankAccount?.id, 'view' ]" >{{operation.bankAccount?.name}}</a>
+                        <a [routerLink]="['/bank-account', operation.bankAccount?.id, 'view' ]" >{{operation.bankAccount?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -51,7 +51,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'operation', { outlets: { popup: operation.id + '/delete'} }]"
+                                [routerLink]="['/operation', { outlets: { popup: operation.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

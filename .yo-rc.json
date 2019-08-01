@@ -23,7 +23,7 @@
       "en"
     ],
     "serverPort": 8080,
-    "jhipsterVersion": "6.1.2",
+    "jhipsterVersion": "6.2.0",
     "enableSocialSignIn": false,
     "useSass": true,
     "jhiPrefix": "jhi",
@@ -38,6 +38,7 @@
     "otherModules": [],
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "clientTheme": "none"
+    "clientTheme": "none",
+    "blueprints": []
   }
 }

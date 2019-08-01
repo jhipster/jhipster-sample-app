@@ -17,7 +17,7 @@ export class LabelResolve implements Resolve<ILabel> {
   constructor(private service: LabelService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILabel> {
-    const id = route.params['id'] ? route.params['id'] : null;
+    const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
         filter((response: HttpResponse<Label>) => response.ok),

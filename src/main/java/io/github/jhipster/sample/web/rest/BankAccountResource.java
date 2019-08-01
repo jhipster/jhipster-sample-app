@@ -82,6 +82,7 @@ public class BankAccountResource {
     /**
      * {@code GET  /bank-accounts} : get all the bankAccounts.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
     @GetMapping("/bank-accounts")

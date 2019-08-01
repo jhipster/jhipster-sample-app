@@ -4,7 +4,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-label" [routerLink]="['/label/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="jhipsterSampleApplicationApp.label.home.createLabel">
-            Create new Label
+            Create a new Label
             </span>
         </button>
     </h2>
@@ -41,7 +41,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'label', { outlets: { popup: label.id + '/delete'} }]"
+                                [routerLink]="['/label', { outlets: { popup: label.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

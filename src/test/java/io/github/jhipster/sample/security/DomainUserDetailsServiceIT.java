@@ -102,9 +102,10 @@ public class DomainUserDetailsServiceIT {
 
     @Test
     @Transactional
-    public void assertThatUserCanNotBeFoundByEmailIgnoreCase() {
-        assertThatExceptionOfType(UsernameNotFoundException.class).isThrownBy(
-            () -> domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH)));
+    public void assertThatUserCanBeFoundByEmailIgnoreCase() {
+        UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH));
+        assertThat(userDetails).isNotNull();
+        assertThat(userDetails.getUsername()).isEqualTo(USER_TWO_LOGIN);
     }
 
     @Test

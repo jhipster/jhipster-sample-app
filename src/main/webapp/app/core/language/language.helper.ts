@@ -8,7 +8,7 @@ import { LANGUAGES } from 'app/core/language/language.constants';
 
 @Injectable({ providedIn: 'root' })
 export class JhiLanguageHelper {
-  renderer: Renderer2 = null;
+  private renderer: Renderer2 = null;
   private _language: BehaviorSubject<string>;
 
   constructor(

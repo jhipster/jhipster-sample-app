@@ -17,7 +17,7 @@ export class BankAccountResolve implements Resolve<IBankAccount> {
   constructor(private service: BankAccountService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBankAccount> {
-    const id = route.params['id'] ? route.params['id'] : null;
+    const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
         filter((response: HttpResponse<BankAccount>) => response.ok),
