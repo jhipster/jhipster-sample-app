@@ -15,7 +15,7 @@ export class JhiConfigurationService {
         const properties: any[] = [];
         const propertiesObject = this.getConfigPropertiesObjects(res.body);
         for (const key in propertiesObject) {
-          if (propertiesObject.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(propertiesObject, key)) {
             properties.push(propertiesObject[key]);
           }
         }
@@ -27,7 +27,7 @@ export class JhiConfigurationService {
     );
   }
 
-  getConfigPropertiesObjects(res: Object) {
+  getConfigPropertiesObjects(res: Record<string, any>) {
     // This code is for Spring Boot 2
     if (res['contexts'] !== undefined) {
       for (const key in res['contexts']) {
@@ -54,7 +54,7 @@ export class JhiConfigurationService {
           const detailProperties = propertyObject['properties'];
           const vals: any[] = [];
           for (const keyDetail in detailProperties) {
-            if (detailProperties.hasOwnProperty(keyDetail)) {
+            if (Object.prototype.hasOwnProperty.call(detailProperties, keyDetail)) {
               vals.push({ key: keyDetail, val: detailProperties[keyDetail]['value'] });
             }
           }

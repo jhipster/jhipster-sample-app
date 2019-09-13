@@ -68,6 +68,7 @@ describe('Component Tests', () => {
         });
         mockLoginService.setResponse({});
         mockStateStorageService.setResponse('admin/users?page=0');
+        mockRouter.url = '/admin/metrics';
 
         // WHEN/
         comp.login();
@@ -100,6 +101,7 @@ describe('Component Tests', () => {
         });
         mockLoginService.setResponse({});
         mockStateStorageService.setResponse(null);
+        mockRouter.url = '/admin/metrics';
 
         // WHEN
         comp.login();
@@ -147,7 +149,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('to state register');
-      expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/register']);
+      expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/account/register']);
     });
 
     it('should redirect user when request password', () => {
@@ -156,7 +158,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('to state requestReset');
-      expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/reset', 'request']);
+      expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/account/reset', 'request']);
     });
   });
 });

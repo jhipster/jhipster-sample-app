@@ -1,7 +1,8 @@
-/* tslint:disable no-unused-expression */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { browser, ExpectedConditions as ec, protractor, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { OperationComponentsPage, OperationDeleteDialog, OperationUpdatePage } from './operation.page-object';
 
 const expect = chai.expect;

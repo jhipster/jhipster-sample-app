@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,9 +12,9 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IOperation, Operation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
-import { BankAccountService } from 'app/entities/bank-account';
+import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 import { ILabel } from 'app/shared/model/label.model';
-import { LabelService } from 'app/entities/label';
+import { LabelService } from 'app/entities/label/label.service';
 
 @Component({
   selector: 'jhi-operation-update',
@@ -125,7 +127,7 @@ export class OperationUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: Array<any>, option: any) {
+  getSelected(selectedVals: any[], option: any) {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

@@ -2,11 +2,13 @@ import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angu
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { UserMgmtUpdateComponent } from 'app/admin/user-management/user-management-update.component';
-import { UserService, User, JhiLanguageHelper } from 'app/core';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.model';
+import { JhiLanguageHelper } from 'app/core/language/language.helper';
 
 describe('Component Tests', () => {
   describe('User Management Update Component', () => {

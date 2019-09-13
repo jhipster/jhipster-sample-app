@@ -1,4 +1,3 @@
-
 exports.config = {
     allScriptsTimeout: 20000,
 

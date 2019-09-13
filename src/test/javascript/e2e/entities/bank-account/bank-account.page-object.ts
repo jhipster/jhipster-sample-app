@@ -1,4 +1,4 @@
-import { browser, ExpectedConditions, element, by, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class BankAccountComponentsPage {
   createButton = element(by.id('jh-create-entity'));

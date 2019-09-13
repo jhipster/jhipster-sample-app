@@ -34,13 +34,7 @@ export class AccountService {
       return false;
     }
 
-    for (let i = 0; i < authorities.length; i++) {
-      if (this.userIdentity.authorities.includes(authorities[i])) {
-        return true;
-      }
-    }
-
-    return false;
+    return authorities.some((authority: string) => this.userIdentity.authorities.includes(authority));
   }
 
   hasAuthority(authority: string): Promise<boolean> {

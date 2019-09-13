@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,7 +10,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { ILabel, Label } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 import { IOperation } from 'app/shared/model/operation.model';
-import { OperationService } from 'app/entities/operation';
+import { OperationService } from 'app/entities/operation/operation.service';
 
 @Component({
   selector: 'jhi-label-update',
@@ -95,7 +97,7 @@ export class LabelUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: Array<any>, option: any) {
+  getSelected(selectedVals: any[], option: any) {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

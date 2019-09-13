@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
-import { AccountService, Account } from 'app/core';
+import { AccountService } from 'app/core/auth/account.service';
 import { SettingsComponent } from 'app/account/settings/settings.component';
 
 describe('Component Tests', () => {

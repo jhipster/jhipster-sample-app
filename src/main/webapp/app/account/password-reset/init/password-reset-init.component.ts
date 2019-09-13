@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
-import { EMAIL_NOT_FOUND_TYPE } from 'app/shared';
+import { EMAIL_NOT_FOUND_TYPE } from 'app/shared/constants/error.constants';
 import { PasswordResetInitService } from './password-reset-init.service';
 
 @Component({

@@ -63,19 +63,19 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="tachometer-alt" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="heart" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.health">Health</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="list" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
                         </a>
@@ -134,13 +134,13 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
                     <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="wrench" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.account.settings">Settings</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="account/password" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="lock" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.account.password">Password</span>
                         </a>
@@ -158,7 +158,7 @@
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="account/register" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="user-plus" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.account.register">Register</span>
                         </a>

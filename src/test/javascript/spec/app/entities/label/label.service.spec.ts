@@ -1,8 +1,5 @@
-/* tslint:disable max-line-length */
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { LabelService } from 'app/entities/label/label.service';
 import { ILabel, Label } from 'app/shared/model/label.model';
@@ -27,7 +24,7 @@ describe('Service Tests', () => {
     });
 
     describe('Service methods', () => {
-      it('should find an element', async () => {
+      it('should find an element', () => {
         const returnedFromService = Object.assign({}, elemDefault);
         service
           .find(123)
@@ -39,7 +36,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: elemDefault });
       });
 
-      it('should create a Label', async () => {
+      it('should create a Label', () => {
         const returnedFromService = Object.assign(
           {
             id: 0
@@ -56,7 +53,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: expected });
       });
 
-      it('should update a Label', async () => {
+      it('should update a Label', () => {
         const returnedFromService = Object.assign(
           {
             label: 'BBBBBB'
@@ -74,7 +71,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: expected });
       });
 
-      it('should return a list of Label', async () => {
+      it('should return a list of Label', () => {
         const returnedFromService = Object.assign(
           {
             label: 'BBBBBB'
@@ -95,8 +92,8 @@ describe('Service Tests', () => {
         expect(expectedResult).toContainEqual(expected);
       });
 
-      it('should delete a Label', async () => {
-        const rxPromise = service.delete(123).subscribe(resp => (expectedResult = resp.ok));
+      it('should delete a Label', () => {
+        service.delete(123).subscribe(resp => (expectedResult = resp.ok));
 
         const req = httpMock.expectOne({ method: 'DELETE' });
         req.flush({ status: 200 });

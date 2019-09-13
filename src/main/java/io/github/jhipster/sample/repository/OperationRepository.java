@@ -1,5 +1,4 @@
 package io.github.jhipster.sample.repository;
-
 import io.github.jhipster.sample.domain.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,14 +1,15 @@
 import { element, by, ElementFinder } from 'protractor';
 
+/* eslint @typescript-eslint/no-use-before-define: 0 */
 export class NavBarPage {
   entityMenu = element(by.id('entity-menu'));
   accountMenu = element(by.id('account-menu'));
   adminMenu: ElementFinder;
   signIn = element(by.id('login'));
-  register = element(by.css('[routerLink="register"]'));
+  register = element(by.css('[routerLink="account/register"]'));
   signOut = element(by.id('logout'));
-  passwordMenu = element(by.css('[routerLink="password"]'));
-  settingsMenu = element(by.css('[routerLink="settings"]'));
+  passwordMenu = element(by.css('[routerLink="account/password"]'));
+  settingsMenu = element(by.css('[routerLink="account/settings"]'));
 
   constructor(asAdmin?: Boolean) {
     if (asAdmin) {

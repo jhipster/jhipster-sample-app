@@ -3,7 +3,7 @@ import { Route } from '@angular/router';
 import { JhiHealthCheckComponent } from './health.component';
 
 export const healthRoute: Route = {
-  path: 'jhi-health',
+  path: 'health',
   component: JhiHealthCheckComponent,
   data: {
     pageTitle: 'health.title'

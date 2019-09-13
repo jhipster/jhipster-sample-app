@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { JhiMetricsMonitoringComponent } from 'app/admin/metrics/metrics.component';

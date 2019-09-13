@@ -79,7 +79,7 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     public ResponseEntity<Problem> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @Nonnull NativeWebRequest request) {
         BindingResult result = ex.getBindingResult();
         List<FieldErrorVM> fieldErrors = result.getFieldErrors().stream()
-            .map(f -> new FieldErrorVM(f.getObjectName(), f.getField(), f.getCode()))
+            .map(f -> new FieldErrorVM(f.getObjectName().replaceFirst("DTO$", ""), f.getField(), f.getCode()))
             .collect(Collectors.toList());
 
         Problem problem = Problem.builder()
@@ -100,7 +100,22 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
             .build();
         return create(ex, problem, request);
     }
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleEmailAreadyUsedException(io.github.jhipster.sample.service.EmailAlreadyUsedException ex, NativeWebRequest request) {
+        EmailAlreadyUsedException problem = new EmailAlreadyUsedException();
+        return create(problem, request, HeaderUtil.createFailureAlert(applicationName,  true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage()));
+    }
 
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleUsernameAreadyUsedException(io.github.jhipster.sample.service.UsernameAlreadyUsedException ex, NativeWebRequest request) {
+        LoginAlreadyUsedException problem = new LoginAlreadyUsedException();
+        return create(problem, request, HeaderUtil.createFailureAlert(applicationName,  true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleInvalidPasswordException(io.github.jhipster.sample.service.InvalidPasswordException ex, NativeWebRequest request) {
+        return create(new InvalidPasswordException(), request);
+    }
     @ExceptionHandler
     public ResponseEntity<Problem> handleBadRequestAlertException(BadRequestAlertException ex, NativeWebRequest request) {
         return create(ex, request, HeaderUtil.createFailureAlert(applicationName, true, ex.getEntityName(), ex.getErrorKey(), ex.getMessage()));

@@ -3,7 +3,11 @@ package io.github.jhipster.sample.repository;
 import io.github.jhipster.sample.domain.PersistentAuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
+
 
 import java.time.Instant;
 import java.util.List;
@@ -22,4 +26,6 @@ public interface PersistenceAuditEventRepository extends JpaRepository<Persisten
     List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfterAndAuditEventType(String principal, Instant after, String type);
 
     Page<PersistentAuditEvent> findAllByAuditEventDateBetween(Instant fromDate, Instant toDate, Pageable pageable);
+
+    List<PersistentAuditEvent> findByAuditEventDateBefore(Instant before);
 }

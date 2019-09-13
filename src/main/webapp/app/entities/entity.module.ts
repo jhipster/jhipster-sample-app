@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -21,7 +21,6 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [],
   entryComponents: [],
-  providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: []
 })
 export class JhipsterSampleApplicationEntityModule {}

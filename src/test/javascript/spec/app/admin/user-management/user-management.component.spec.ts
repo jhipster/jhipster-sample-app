@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { UserMgmtComponent } from 'app/admin/user-management/user-management.component';
-import { UserService, User } from 'app/core';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.model';
 
 describe('Component Tests', () => {
   describe('User Management Component', () => {

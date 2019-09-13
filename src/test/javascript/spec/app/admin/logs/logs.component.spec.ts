@@ -5,8 +5,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { LogsComponent } from 'app/admin/logs/logs.component';
 import { LogsService } from 'app/admin/logs/logs.service';
-import { ITEMS_PER_PAGE } from 'app/shared';
-import { Log } from 'app/admin';
+import { Log } from 'app/admin/logs/log.model';
 
 describe('Component Tests', () => {
   describe('LogsComponent', () => {

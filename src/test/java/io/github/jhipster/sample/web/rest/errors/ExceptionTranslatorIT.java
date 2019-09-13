@@ -55,7 +55,7 @@ public class ExceptionTranslatorIT {
              .andExpect(status().isBadRequest())
              .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
              .andExpect(jsonPath("$.message").value(ErrorConstants.ERR_VALIDATION))
-             .andExpect(jsonPath("$.fieldErrors.[0].objectName").value("testDTO"))
+             .andExpect(jsonPath("$.fieldErrors.[0].objectName").value("test"))
              .andExpect(jsonPath("$.fieldErrors.[0].field").value("test"))
              .andExpect(jsonPath("$.fieldErrors.[0].message").value("NotNull"));
     }
