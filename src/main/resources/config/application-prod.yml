@@ -16,8 +16,8 @@
 logging:
   level:
     ROOT: INFO
-    io.github.jhipster.sample: INFO
     io.github.jhipster: INFO
+    io.github.jhipster.sample: INFO
 
 management:
   metrics:

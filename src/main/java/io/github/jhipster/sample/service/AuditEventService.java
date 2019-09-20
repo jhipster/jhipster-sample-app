@@ -3,16 +3,14 @@ package io.github.jhipster.sample.service;
 import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.sample.config.audit.AuditEventConverter;
 import io.github.jhipster.sample.repository.PersistenceAuditEventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -54,9 +52,9 @@ public class AuditEventService {
         persistenceAuditEventRepository
             .findByAuditEventDateBefore(Instant.now().minus(jHipsterProperties.getAuditEvents().getRetentionPeriod(), ChronoUnit.DAYS))
             .forEach(auditEvent -> {
-                log.debug("Deleting audit data {}", auditEvent.toString());
+                log.debug("Deleting audit data {}", auditEvent);
                 persistenceAuditEventRepository.delete(auditEvent);
-        });
+            });
     }
 
     public Page<AuditEvent> findAll(Pageable pageable) {
@@ -70,9 +68,7 @@ public class AuditEventService {
     }
 
     public Optional<AuditEvent> find(Long id) {
-        return Optional.ofNullable(persistenceAuditEventRepository.findById(id))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+        return persistenceAuditEventRepository.findById(id)
             .map(auditEventConverter::convertToAuditEvent);
     }
 }

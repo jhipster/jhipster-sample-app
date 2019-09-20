@@ -13,6 +13,6 @@ const ENTITY_STATES = [...labelRoute, ...labelPopupRoute];
 @NgModule({
   imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
-  entryComponents: [LabelComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent]
+  entryComponents: [LabelDeleteDialogComponent]
 })
 export class JhipsterSampleApplicationLabelModule {}

@@ -19,6 +19,6 @@ const ENTITY_STATES = [...bankAccountRoute, ...bankAccountPopupRoute];
     BankAccountDeleteDialogComponent,
     BankAccountDeletePopupComponent
   ],
-  entryComponents: [BankAccountComponent, BankAccountUpdateComponent, BankAccountDeleteDialogComponent, BankAccountDeletePopupComponent]
+  entryComponents: [BankAccountDeleteDialogComponent]
 })
 export class JhipsterSampleApplicationBankAccountModule {}

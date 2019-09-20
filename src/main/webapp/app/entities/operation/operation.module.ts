@@ -19,6 +19,6 @@ const ENTITY_STATES = [...operationRoute, ...operationPopupRoute];
     OperationDeleteDialogComponent,
     OperationDeletePopupComponent
   ],
-  entryComponents: [OperationComponent, OperationUpdateComponent, OperationDeleteDialogComponent, OperationDeletePopupComponent]
+  entryComponents: [OperationDeleteDialogComponent]
 })
 export class JhipsterSampleApplicationOperationModule {}
