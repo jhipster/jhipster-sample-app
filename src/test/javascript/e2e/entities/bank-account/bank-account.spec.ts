@@ -10,8 +10,8 @@ const expect = chai.expect;
 describe('BankAccount e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let bankAccountUpdatePage: BankAccountUpdatePage;
   let bankAccountComponentsPage: BankAccountComponentsPage;
+  let bankAccountUpdatePage: BankAccountUpdatePage;
   let bankAccountDeleteDialog: BankAccountDeleteDialog;
 
   before(async () => {

@@ -10,8 +10,8 @@ const expect = chai.expect;
 describe('Operation e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let operationUpdatePage: OperationUpdatePage;
   let operationComponentsPage: OperationComponentsPage;
+  let operationUpdatePage: OperationUpdatePage;
   let operationDeleteDialog: OperationDeleteDialog;
 
   before(async () => {

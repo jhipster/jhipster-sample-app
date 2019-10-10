@@ -3,27 +3,27 @@ import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
-import { UserMgmtComponent } from 'app/admin/user-management/user-management.component';
+import { UserManagementComponent } from 'app/admin/user-management/user-management.component';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.model';
 
 describe('Component Tests', () => {
   describe('User Management Component', () => {
-    let comp: UserMgmtComponent;
-    let fixture: ComponentFixture<UserMgmtComponent>;
+    let comp: UserManagementComponent;
+    let fixture: ComponentFixture<UserManagementComponent>;
     let service: UserService;
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
-        declarations: [UserMgmtComponent]
+        declarations: [UserManagementComponent]
       })
-        .overrideTemplate(UserMgmtComponent, '')
+        .overrideTemplate(UserManagementComponent, '')
         .compileComponents();
     }));
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(UserMgmtComponent);
+      fixture = TestBed.createComponent(UserManagementComponent);
       comp = fixture.componentInstance;
       service = fixture.debugElement.injector.get(UserService);
     });

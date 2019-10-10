@@ -10,13 +10,13 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.model';
-import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
+import { UserManagementDeleteDialogComponent } from './user-management-delete-dialog.component';
 
 @Component({
   selector: 'jhi-user-mgmt',
   templateUrl: './user-management.component.html'
 })
-export class UserMgmtComponent implements OnInit, OnDestroy {
+export class UserManagementComponent implements OnInit, OnDestroy {
   currentAccount: any;
   users: User[];
   error: any;
@@ -51,7 +51,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.loadAll();
       this.registerChangeInUsers();
@@ -72,16 +72,17 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
   setActive(user, isActivated) {
     user.activated = isActivated;
 
-    this.userService.update(user).subscribe(response => {
-      if (response.status === 200) {
+    this.userService.update(user).subscribe(
+      response => {
         this.error = null;
         this.success = 'OK';
         this.loadAll();
-      } else {
+      },
+      () => {
         this.success = null;
         this.error = 'ERROR';
       }
-    });
+    );
   }
 
   loadAll() {
@@ -125,16 +126,8 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(user: User) {
-    const modalRef = this.modalService.open(UserMgmtDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    const modalRef = this.modalService.open(UserManagementDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.user = user;
-    modalRef.result.then(
-      result => {
-        // Left blank intentionally, nothing to do here
-      },
-      reason => {
-        // Left blank intentionally, nothing to do here
-      }
-    );
   }
 
   private onSuccess(data, headers) {

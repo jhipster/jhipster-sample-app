@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
-import { UserMgmtDetailComponent } from 'app/admin/user-management/user-management-detail.component';
+import { UserManagementDetailComponent } from 'app/admin/user-management/user-management-detail.component';
 import { User } from 'app/core/user/user.model';
 
 describe('Component Tests', () => {
   describe('User Management Detail Component', () => {
-    let comp: UserMgmtDetailComponent;
-    let fixture: ComponentFixture<UserMgmtDetailComponent>;
+    let comp: UserManagementDetailComponent;
+    let fixture: ComponentFixture<UserManagementDetailComponent>;
     const route = ({
       data: of({ user: new User(1, 'user', 'first', 'last', 'first@last.com', true, 'en', ['ROLE_USER'], 'admin', null, null, null) })
     } as any) as ActivatedRoute;
@@ -17,7 +17,7 @@ describe('Component Tests', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
-        declarations: [UserMgmtDetailComponent],
+        declarations: [UserManagementDetailComponent],
         providers: [
           {
             provide: ActivatedRoute,
@@ -25,12 +25,12 @@ describe('Component Tests', () => {
           }
         ]
       })
-        .overrideTemplate(UserMgmtDetailComponent, '')
+        .overrideTemplate(UserManagementDetailComponent, '')
         .compileComponents();
     }));
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(UserMgmtDetailComponent);
+      fixture = TestBed.createComponent(UserManagementDetailComponent);
       comp = fixture.componentInstance;
     });
 

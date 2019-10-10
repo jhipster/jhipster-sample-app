@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 import { JhiLanguageHelper } from 'app/core/language/language.helper';
 
 @Component({
@@ -32,12 +33,10 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe(account => {
       this.updateForm(account);
     });
-    this.languageHelper.getAll().then(languages => {
-      this.languages = languages;
-    });
+    this.languages = this.languageHelper.getAll();
   }
 
   save() {
@@ -46,7 +45,7 @@ export class SettingsComponent implements OnInit {
       () => {
         this.error = null;
         this.success = 'OK';
-        this.accountService.identity(true).then(account => {
+        this.accountService.identity(true).subscribe(account => {
           this.updateForm(account);
         });
         this.languageService.getCurrent().then(current => {
@@ -77,7 +76,7 @@ export class SettingsComponent implements OnInit {
     };
   }
 
-  updateForm(account: any): void {
+  updateForm(account: Account): void {
     this.settingsForm.patchValue({
       firstName: account.firstName,
       lastName: account.lastName,

@@ -4,6 +4,8 @@ import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
+
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
 @NgModule({
@@ -12,7 +14,11 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
       [
         {
           path: 'admin',
-          loadChildren: () => import('./admin/admin.module').then(m => m.JhipsterSampleApplicationAdminModule)
+          data: {
+            authorities: ['ROLE_ADMIN']
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule)
         },
         {
           path: 'account',

@@ -40,16 +40,16 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>3.0.5</jhipster-dependencies.version>
+        <jhipster-dependencies.version>3.0.6</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
         <!-- The spring framework version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <spring.version>5.1.9.RELEASE</spring.version>
+        <spring.version>5.1.10.RELEASE</spring.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <hibernate.version>5.3.11.Final</hibernate.version>
+        <hibernate.version>5.3.12.Final</hibernate.version>
         <!-- The javassist version should match the one managed by
         https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
         <javassist.version>3.23.2-GA</javassist.version>
@@ -61,7 +61,8 @@
         <hibernate-core.version>5.3.8.Final</hibernate-core.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
+        <archunit-junit5.version>0.11.0</archunit-junit5.version>
+        <mapstruct.version>1.3.1.Final</mapstruct.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -76,10 +77,10 @@
         <frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
         <git-commit-id-plugin.version>3.0.1</git-commit-id-plugin.version>
         <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>1.5.1</jib-maven-plugin.version>
+        <jib-maven-plugin.version>1.6.1</jib-maven-plugin.version>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
-        <sonar-maven-plugin.version>3.6.1.1688</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
         <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
         <jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
@@ -280,7 +281,7 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5-api</artifactId>
-            <version>0.11.0</version>
+            <version>${archunit-junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Adding the engine dependency to the surefire-plugin unfortunately does not work in the current version. -->
@@ -288,7 +289,7 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5-engine</artifactId>
-            <version>0.11.0</version>
+            <version>${archunit-junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -549,7 +550,7 @@
                         </to>
                         <container>
                             <entrypoint>
-                                <shell>sh</shell>
+                                <shell>bash</shell>
                                 <option>-c</option>
                                 <arg>chmod +x /entrypoint.sh &amp;&amp; sync &amp;&amp; /entrypoint.sh</arg>
                             </entrypoint>
@@ -668,8 +669,8 @@
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <message>You are running an incompatible version of Java. JHipster supports JDK 8 to 12.</message>
-                                <version>[1.8,13)</version>
+                                <message>You are running an incompatible version of Java. JHipster supports JDK 8 to 13.</message>
+                                <version>[1.8,14)</version>
                             </requireJavaVersion>
                         </rules>
                     </configuration>

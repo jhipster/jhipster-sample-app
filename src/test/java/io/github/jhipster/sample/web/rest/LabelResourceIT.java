@@ -165,7 +165,7 @@ public class LabelResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
-            .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())));
+            .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)));
     }
     
     @Test
@@ -179,7 +179,7 @@ public class LabelResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(label.getId().intValue()))
-            .andExpect(jsonPath("$.label").value(DEFAULT_LABEL.toString()));
+            .andExpect(jsonPath("$.label").value(DEFAULT_LABEL));
     }
 
     @Test

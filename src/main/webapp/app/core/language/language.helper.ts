@@ -19,8 +19,8 @@ export class JhiLanguageHelper {
     this.init();
   }
 
-  getAll(): Promise<any> {
-    return Promise.resolve(LANGUAGES);
+  getAll(): string[] {
+    return LANGUAGES;
   }
 
   /**

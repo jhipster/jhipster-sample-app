@@ -104,8 +104,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                         inline: true,
                         join_vars: true,
                         ecma: 6,
-                        module: true,
-                        toplevel: true
+                        module: true
                     },
                     output: {
                         comments: false,

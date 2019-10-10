@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
 import { SessionStorageService } from 'ngx-webstorage';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { Account } from 'app/core/user/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userIdentity: any;
+  private userIdentity: Account;
   private authenticated = false;
   private authenticationState = new Subject<any>();
+  private accountCache$: Observable<Account>;
 
   constructor(private languageService: JhiLanguageService, private sessionStorage: SessionStorageService, private http: HttpClient) {}
 
-  fetch(): Observable<HttpResponse<Account>> {
-    return this.http.get<Account>(SERVER_API_URL + 'api/account', { observe: 'response' });
+  fetch(): Observable<Account> {
+    return this.http.get<Account>(SERVER_API_URL + 'api/account');
   }
 
-  save(account: any): Observable<HttpResponse<any>> {
-    return this.http.post(SERVER_API_URL + 'api/account', account, { observe: 'response' });
+  save(account: Account): Observable<Account> {
+    return this.http.post<Account>(SERVER_API_URL + 'api/account', account);
   }
 
   authenticate(identity) {
@@ -29,67 +31,52 @@ export class AccountService {
     this.authenticationState.next(this.userIdentity);
   }
 
-  hasAnyAuthority(authorities: string[]): boolean {
+  hasAnyAuthority(authorities: string[] | string): boolean {
     if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {
       return false;
+    }
+
+    if (!Array.isArray(authorities)) {
+      authorities = [authorities];
     }
 
     return authorities.some((authority: string) => this.userIdentity.authorities.includes(authority));
   }
 
-  hasAuthority(authority: string): Promise<boolean> {
-    if (!this.authenticated) {
-      return Promise.resolve(false);
-    }
-
-    return this.identity().then(
-      id => {
-        return Promise.resolve(id.authorities && id.authorities.includes(authority));
-      },
-      () => {
-        return Promise.resolve(false);
-      }
-    );
-  }
-
-  identity(force?: boolean): Promise<Account> {
+  identity(force?: boolean): Observable<Account> {
     if (force) {
-      this.userIdentity = undefined;
+      this.accountCache$ = null;
     }
 
-    // check and see if we have retrieved the userIdentity data from the server.
-    // if we have, reuse it by immediately resolving
-    if (this.userIdentity) {
-      return Promise.resolve(this.userIdentity);
-    }
-
-    // retrieve the userIdentity data from the server, update the identity object, and then resolve.
-    return this.fetch()
-      .toPromise()
-      .then(response => {
-        const account: Account = response.body;
-        if (account) {
-          this.userIdentity = account;
-          this.authenticated = true;
-          // After retrieve the account info, the language will be changed to
-          // the user's preferred language configured in the account setting
-          if (this.userIdentity.langKey) {
-            const langKey = this.sessionStorage.retrieve('locale') || this.userIdentity.langKey;
-            this.languageService.changeLanguage(langKey);
+    if (!this.accountCache$) {
+      this.accountCache$ = this.fetch().pipe(
+        tap(
+          account => {
+            if (account) {
+              this.userIdentity = account;
+              this.authenticated = true;
+              // After retrieve the account info, the language will be changed to
+              // the user's preferred language configured in the account setting
+              if (this.userIdentity.langKey) {
+                const langKey = this.sessionStorage.retrieve('locale') || this.userIdentity.langKey;
+                this.languageService.changeLanguage(langKey);
+              }
+            } else {
+              this.userIdentity = null;
+              this.authenticated = false;
+            }
+            this.authenticationState.next(this.userIdentity);
+          },
+          () => {
+            this.userIdentity = null;
+            this.authenticated = false;
+            this.authenticationState.next(this.userIdentity);
           }
-        } else {
-          this.userIdentity = null;
-          this.authenticated = false;
-        }
-        this.authenticationState.next(this.userIdentity);
-        return this.userIdentity;
-      })
-      .catch(err => {
-        this.userIdentity = null;
-        this.authenticated = false;
-        this.authenticationState.next(this.userIdentity);
-        return null;
-      });
+        ),
+        shareReplay()
+      );
+    }
+    return this.accountCache$;
   }
 
   isAuthenticated(): boolean {

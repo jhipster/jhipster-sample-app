@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { SpyObject } from './spyobject';
 import { LoginService } from 'app/core/login/login.service';
 import Spy = jasmine.Spy;
@@ -20,7 +21,7 @@ export class MockLoginService extends SpyObject {
   }
 
   setLoginSpy(json: any) {
-    this.loginSpy = this.spy('login').andReturn(Promise.resolve(json));
+    this.loginSpy = this.spy('login').andReturn(of(json));
   }
 
   setResponse(json: any): void {

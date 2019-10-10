@@ -29,7 +29,7 @@ export class MockAccountService extends SpyObject {
   }
 
   setIdentitySpy(json: any): any {
-    this.identitySpy = this.spy('identity').andReturn(Promise.resolve(json));
+    this.identitySpy = this.spy('identity').andReturn(of(json));
   }
 
   setIdentityResponse(json: any): void {

@@ -7,7 +7,7 @@ import { User } from 'app/core/user/user.model';
   selector: 'jhi-user-mgmt-detail',
   templateUrl: './user-management-detail.component.html'
 })
-export class UserMgmtDetailComponent implements OnInit {
+export class UserManagementDetailComponent implements OnInit {
   user: User;
 
   constructor(private route: ActivatedRoute) {}

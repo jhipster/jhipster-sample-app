@@ -9,7 +9,7 @@ import { UserService } from 'app/core/user/user.service';
   selector: 'jhi-user-mgmt-delete-dialog',
   templateUrl: './user-management-delete-dialog.component.html'
 })
-export class UserMgmtDeleteDialogComponent {
+export class UserManagementDeleteDialogComponent {
   user: User;
 
   constructor(private userService: UserService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 import { PasswordService } from './password.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class PasswordComponent implements OnInit {
   doNotMatch: string;
   error: string;
   success: string;
-  account: any;
+  account$: Observable<Account>;
   passwordForm = this.fb.group({
     currentPassword: ['', [Validators.required]],
     newPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
@@ -22,9 +24,7 @@ export class PasswordComponent implements OnInit {
   constructor(private passwordService: PasswordService, private accountService: AccountService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.accountService.identity().then(account => {
-      this.account = account;
-    });
+    this.account$ = this.accountService.identity();
   }
 
   changePassword() {

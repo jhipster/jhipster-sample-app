@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { JhiLanguageHelper } from 'app/core/language/language.helper';
 import { User } from 'app/core/user/user.model';
@@ -10,7 +10,7 @@ import { UserService } from 'app/core/user/user.service';
   selector: 'jhi-user-mgmt-update',
   templateUrl: './user-management-update.component.html'
 })
-export class UserMgmtUpdateComponent implements OnInit {
+export class UserManagementUpdateComponent implements OnInit {
   user: User;
   languages: any[];
   authorities: any[];
@@ -31,7 +31,6 @@ export class UserMgmtUpdateComponent implements OnInit {
     private languageHelper: JhiLanguageHelper,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router,
     private fb: FormBuilder
   ) {}
 
@@ -45,9 +44,7 @@ export class UserMgmtUpdateComponent implements OnInit {
     this.userService.authorities().subscribe(authorities => {
       this.authorities = authorities;
     });
-    this.languageHelper.getAll().then(languages => {
-      this.languages = languages;
-    });
+    this.languages = this.languageHelper.getAll();
   }
 
   private updateForm(user: User): void {

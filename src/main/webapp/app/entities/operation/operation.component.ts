@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IOperation } from 'app/shared/model/operation.model';
 import { AccountService } from 'app/core/auth/account.service';
@@ -28,7 +28,6 @@ export class OperationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected operationService: OperationService,
-    protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService
@@ -50,10 +49,7 @@ export class OperationComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IOperation[]>) => this.paginateOperations(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IOperation[]>) => this.paginateOperations(res.body, res.headers));
   }
 
   reset() {
@@ -69,7 +65,7 @@ export class OperationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.registerChangeInOperations();
@@ -101,9 +97,5 @@ export class OperationComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.operations.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

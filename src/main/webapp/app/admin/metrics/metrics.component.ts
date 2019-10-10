@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { JhiMetricsService } from './metrics.service';
 
@@ -13,7 +12,7 @@ export class JhiMetricsMonitoringComponent implements OnInit {
   updatingMetrics = true;
   JCACHE_KEY: string;
 
-  constructor(private modalService: NgbModal, private metricsService: JhiMetricsService) {
+  constructor(private metricsService: JhiMetricsService) {
     this.JCACHE_KEY = 'jcache.statistics';
   }
 

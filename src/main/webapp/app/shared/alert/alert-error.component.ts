@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
 export class JhiAlertErrorComponent implements OnDestroy {
   alerts: any[];
   cleanHttpErrorListener: Subscription;
-  constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
+  constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager, translateService: TranslateService) {
     this.alerts = [];
 
     this.cleanHttpErrorListener = eventManager.subscribe('jhipsterSampleApplicationApp.httpError', response => {
