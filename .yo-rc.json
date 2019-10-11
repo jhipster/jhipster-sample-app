@@ -18,7 +18,7 @@
     "testFrameworks": ["gatling", "protractor"],
     "languages": ["en"],
     "serverPort": 8080,
-    "jhipsterVersion": "6.4.0",
+    "jhipsterVersion": "6.4.1",
     "enableSocialSignIn": false,
     "useSass": true,
     "jhiPrefix": "jhi",
