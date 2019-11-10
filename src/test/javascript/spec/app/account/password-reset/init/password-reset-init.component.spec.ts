@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { Renderer, ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 
@@ -17,19 +16,7 @@ describe('Component Tests', () => {
       fixture = TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
         declarations: [PasswordResetInitComponent],
-        providers: [
-          FormBuilder,
-          {
-            provide: Renderer,
-            useValue: {
-              invokeElementMethod(renderElement: any, methodName: string, args?: any[]) {}
-            }
-          },
-          {
-            provide: ElementRef,
-            useValue: new ElementRef(null)
-          }
-        ]
+        providers: [FormBuilder]
       })
         .overrideTemplate(PasswordResetInitComponent, '')
         .createComponent(PasswordResetInitComponent);
@@ -42,13 +29,12 @@ describe('Component Tests', () => {
       expect(comp.errorEmailNotExists).toBeUndefined();
     });
 
-    it('sets focus after the view has been initialized', inject([ElementRef], (elementRef: ElementRef) => {
+    it('sets focus after the view has been initialized', () => {
       const element = fixture.nativeElement;
       const node = {
         focus() {}
       };
 
-      elementRef.nativeElement = element;
       spyOn(element, 'querySelector').and.returnValue(node);
       spyOn(node, 'focus');
 
@@ -56,7 +42,7 @@ describe('Component Tests', () => {
 
       expect(element.querySelector).toHaveBeenCalledWith('#email');
       expect(node.focus).toHaveBeenCalled();
-    }));
+    });
 
     it('notifies of success upon successful requestReset', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
       spyOn(service, 'save').and.returnValue(of({}));

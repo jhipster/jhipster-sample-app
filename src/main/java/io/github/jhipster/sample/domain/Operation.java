@@ -37,7 +37,7 @@ public class Operation implements Serializable {
     @Column(name = "amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("operations")
     private BankAccount bankAccount;
 

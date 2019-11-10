@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Operation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 import { OperationComponent } from './operation.component';
@@ -16,13 +16,10 @@ import { IOperation } from 'app/shared/model/operation.model';
 export class OperationResolve implements Resolve<IOperation> {
   constructor(private service: OperationService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOperation> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IOperation> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<Operation>) => response.ok),
-        map((operation: HttpResponse<Operation>) => operation.body)
-      );
+      return this.service.find(id).pipe(map((operation: HttpResponse<Operation>) => operation.body));
     }
     return of(new Operation());
   }

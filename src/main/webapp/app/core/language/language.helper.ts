@@ -1,7 +1,7 @@
 import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { LANGUAGES } from 'app/core/language/language.constants';
 
@@ -41,7 +41,7 @@ export class JhiLanguageHelper {
   }
 
   private init() {
-    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.subscribe(() => {
       this.renderer.setAttribute(document.querySelector('html'), 'lang', this.translateService.currentLang);
       this.updateTitle();
     });

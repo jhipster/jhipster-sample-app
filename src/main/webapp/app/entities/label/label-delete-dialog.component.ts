@@ -21,7 +21,7 @@ export class LabelDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.labelService.delete(id).subscribe(response => {
+    this.labelService.delete(id).subscribe(() => {
       this.eventManager.broadcast({
         name: 'labelListModification',
         content: 'Deleted an label'
@@ -46,11 +46,11 @@ export class LabelDeletePopupComponent implements OnInit, OnDestroy {
         this.ngbModalRef = this.modalService.open(LabelDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.label = label;
         this.ngbModalRef.result.then(
-          result => {
+          () => {
             this.router.navigate(['/label', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           },
-          reason => {
+          () => {
             this.router.navigate(['/label', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           }

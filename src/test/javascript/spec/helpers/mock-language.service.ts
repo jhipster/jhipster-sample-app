@@ -13,16 +13,6 @@ export class MockLanguageService extends SpyObject {
     this.fakeResponse = 'en';
     this.getCurrentSpy = this.spy('getCurrent').andReturn(Promise.resolve(this.fakeResponse));
   }
-
-  init() {}
-
-  changeLanguage(languageKey: string) {}
-
-  setLocations(locations: string[]) {}
-
-  addLocation(location: string) {}
-
-  reload() {}
 }
 
 export class MockLanguageHelper extends SpyObject {

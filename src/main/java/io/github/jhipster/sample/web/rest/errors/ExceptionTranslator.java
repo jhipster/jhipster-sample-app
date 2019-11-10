@@ -101,13 +101,13 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
         return create(ex, problem, request);
     }
     @ExceptionHandler
-    public ResponseEntity<Problem> handleEmailAreadyUsedException(io.github.jhipster.sample.service.EmailAlreadyUsedException ex, NativeWebRequest request) {
+    public ResponseEntity<Problem> handleEmailAlreadyUsedException(io.github.jhipster.sample.service.EmailAlreadyUsedException ex, NativeWebRequest request) {
         EmailAlreadyUsedException problem = new EmailAlreadyUsedException();
         return create(problem, request, HeaderUtil.createFailureAlert(applicationName,  true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<Problem> handleUsernameAreadyUsedException(io.github.jhipster.sample.service.UsernameAlreadyUsedException ex, NativeWebRequest request) {
+    public ResponseEntity<Problem> handleUsernameAlreadyUsedException(io.github.jhipster.sample.service.UsernameAlreadyUsedException ex, NativeWebRequest request) {
         LoginAlreadyUsedException problem = new LoginAlreadyUsedException();
         return create(problem, request, HeaderUtil.createFailureAlert(applicationName,  true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage()));
     }

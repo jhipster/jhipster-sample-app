@@ -25,7 +25,7 @@ export class BankAccountDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.bankAccountService.delete(id).subscribe(response => {
+    this.bankAccountService.delete(id).subscribe(() => {
       this.eventManager.broadcast({
         name: 'bankAccountListModification',
         content: 'Deleted an bankAccount'
@@ -50,11 +50,11 @@ export class BankAccountDeletePopupComponent implements OnInit, OnDestroy {
         this.ngbModalRef = this.modalService.open(BankAccountDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.bankAccount = bankAccount;
         this.ngbModalRef.result.then(
-          result => {
+          () => {
             this.router.navigate(['/bank-account', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           },
-          reason => {
+          () => {
             this.router.navigate(['/bank-account', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           }

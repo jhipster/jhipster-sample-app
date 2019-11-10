@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { of, throwError } from 'rxjs';
-import { Renderer, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { JhipsterSampleApplicationTestModule } from '../../../../test.module';
@@ -23,16 +22,6 @@ describe('Component Tests', () => {
           {
             provide: ActivatedRoute,
             useValue: new MockActivatedRoute({ key: 'XYZPDQ' })
-          },
-          {
-            provide: Renderer,
-            useValue: {
-              invokeElementMethod(renderElement: any, methodName: string, args?: any[]) {}
-            }
-          },
-          {
-            provide: ElementRef,
-            useValue: new ElementRef(null)
           }
         ]
       })
@@ -53,13 +42,12 @@ describe('Component Tests', () => {
       expect(comp.key).toEqual('XYZPDQ');
     });
 
-    it('sets focus after the view has been initialized', inject([ElementRef], (elementRef: ElementRef) => {
+    it('sets focus after the view has been initialized', () => {
       const element = fixture.nativeElement;
       const node = {
         focus() {}
       };
 
-      elementRef.nativeElement = element;
       spyOn(element, 'querySelector').and.returnValue(node);
       spyOn(node, 'focus');
 
@@ -67,7 +55,7 @@ describe('Component Tests', () => {
 
       expect(element.querySelector).toHaveBeenCalledWith('#password');
       expect(node.focus).toHaveBeenCalled();
-    }));
+    });
 
     it('should ensure the two passwords entered match', () => {
       comp.passwordForm.patchValue({

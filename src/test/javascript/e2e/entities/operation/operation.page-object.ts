@@ -5,11 +5,11 @@ export class OperationComponentsPage {
   deleteButtons = element.all(by.css('jhi-operation div table .btn-danger'));
   title = element.all(by.css('jhi-operation div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton() {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton() {
     await this.deleteButtons.last().click();
   }
 
@@ -60,7 +60,7 @@ export class OperationUpdatePage {
     return await this.amountInput.getAttribute('value');
   }
 
-  async bankAccountSelectLastOption(timeout?: number) {
+  async bankAccountSelectLastOption() {
     await this.bankAccountSelect
       .all(by.tagName('option'))
       .last()
@@ -79,7 +79,7 @@ export class OperationUpdatePage {
     return await this.bankAccountSelect.element(by.css('option:checked')).getText();
   }
 
-  async labelSelectLastOption(timeout?: number) {
+  async labelSelectLastOption() {
     await this.labelSelect
       .all(by.tagName('option'))
       .last()
@@ -98,11 +98,11 @@ export class OperationUpdatePage {
     return await this.labelSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save() {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel() {
     await this.cancelButton.click();
   }
 
@@ -119,7 +119,7 @@ export class OperationDeleteDialog {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton() {
     await this.confirmButton.click();
   }
 }

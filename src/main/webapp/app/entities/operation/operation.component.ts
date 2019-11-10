@@ -1,12 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IOperation } from 'app/shared/model/operation.model';
-import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { OperationService } from './operation.service';
@@ -17,7 +14,6 @@ import { OperationService } from './operation.service';
 })
 export class OperationComponent implements OnInit, OnDestroy {
   operations: IOperation[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -26,12 +22,7 @@ export class OperationComponent implements OnInit, OnDestroy {
   reverse: any;
   totalItems: number;
 
-  constructor(
-    protected operationService: OperationService,
-    protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
-  ) {
+  constructor(protected operationService: OperationService, protected eventManager: JhiEventManager, protected parseLinks: JhiParseLinks) {
     this.operations = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.page = 0;
@@ -65,9 +56,6 @@ export class OperationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInOperations();
   }
 
@@ -80,7 +68,7 @@ export class OperationComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInOperations() {
-    this.eventSubscriber = this.eventManager.subscribe('operationListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('operationListModification', () => this.reset());
   }
 
   sort() {

@@ -21,7 +21,7 @@ export class OperationDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.operationService.delete(id).subscribe(response => {
+    this.operationService.delete(id).subscribe(() => {
       this.eventManager.broadcast({
         name: 'operationListModification',
         content: 'Deleted an operation'
@@ -46,11 +46,11 @@ export class OperationDeletePopupComponent implements OnInit, OnDestroy {
         this.ngbModalRef = this.modalService.open(OperationDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.operation = operation;
         this.ngbModalRef.result.then(
-          result => {
+          () => {
             this.router.navigate(['/operation', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           },
-          reason => {
+          () => {
             this.router.navigate(['/operation', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           }

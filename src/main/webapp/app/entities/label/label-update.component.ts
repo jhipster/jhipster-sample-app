@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ILabel, Label } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
@@ -41,11 +40,7 @@ export class LabelUpdateComponent implements OnInit {
     });
     this.operationService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IOperation[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IOperation[]>) => response.body)
-      )
-      .subscribe((res: IOperation[]) => (this.operations = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IOperation[]>) => (this.operations = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(label: ILabel) {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
 import { SessionStorageService } from 'ngx-webstorage';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
+import { Observable, Subject, of } from 'rxjs';
+import { shareReplay, tap, catchError } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { Account } from 'app/core/user/account.model';
@@ -44,35 +44,31 @@ export class AccountService {
   }
 
   identity(force?: boolean): Observable<Account> {
-    if (force) {
+    if (force || !this.authenticated) {
       this.accountCache$ = null;
     }
 
     if (!this.accountCache$) {
       this.accountCache$ = this.fetch().pipe(
-        tap(
-          account => {
-            if (account) {
-              this.userIdentity = account;
-              this.authenticated = true;
-              // After retrieve the account info, the language will be changed to
-              // the user's preferred language configured in the account setting
-              if (this.userIdentity.langKey) {
-                const langKey = this.sessionStorage.retrieve('locale') || this.userIdentity.langKey;
-                this.languageService.changeLanguage(langKey);
-              }
-            } else {
-              this.userIdentity = null;
-              this.authenticated = false;
+        catchError(() => {
+          return of(null);
+        }),
+        tap(account => {
+          if (account) {
+            this.userIdentity = account;
+            this.authenticated = true;
+            // After retrieve the account info, the language will be changed to
+            // the user's preferred language configured in the account setting
+            if (this.userIdentity.langKey) {
+              const langKey = this.sessionStorage.retrieve('locale') || this.userIdentity.langKey;
+              this.languageService.changeLanguage(langKey);
             }
-            this.authenticationState.next(this.userIdentity);
-          },
-          () => {
+          } else {
             this.userIdentity = null;
             this.authenticated = false;
-            this.authenticationState.next(this.userIdentity);
           }
-        ),
+          this.authenticationState.next(this.userIdentity);
+        }),
         shareReplay()
       );
     }

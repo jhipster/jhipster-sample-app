@@ -66,14 +66,14 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInUsers() {
-    this.userListSubscription = this.eventManager.subscribe('userListModification', response => this.loadAll());
+    this.userListSubscription = this.eventManager.subscribe('userListModification', () => this.loadAll());
   }
 
   setActive(user, isActivated) {
     user.activated = isActivated;
 
     this.userService.update(user).subscribe(
-      response => {
+      () => {
         this.error = null;
         this.success = 'OK';
         this.loadAll();

@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
@@ -52,18 +51,13 @@ export class OperationUpdateComponent implements OnInit {
     });
     this.bankAccountService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IBankAccount[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IBankAccount[]>) => response.body)
-      )
-      .subscribe((res: IBankAccount[]) => (this.bankaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<IBankAccount[]>) => (this.bankaccounts = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.labelService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ILabel[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ILabel[]>) => response.body)
-      )
-      .subscribe((res: ILabel[]) => (this.labels = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<ILabel[]>) => (this.labels = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(operation: IOperation) {

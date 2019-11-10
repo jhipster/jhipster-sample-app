@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { JhiResolvePagingParams } from 'ng-jhipster';
 
 import { User } from 'app/core/user/user.model';
@@ -12,7 +12,7 @@ import { UserManagementUpdateComponent } from './user-management-update.componen
 export class UserManagementResolve implements Resolve<any> {
   constructor(private service: UserService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve(route: ActivatedRouteSnapshot) {
     const id = route.params['login'] ? route.params['login'] : null;
     if (id) {
       return this.service.find(id);

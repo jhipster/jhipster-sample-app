@@ -11,5 +11,5 @@ if (module['hot']) {
 platformBrowserDynamic()
   .bootstrapModule(JhipsterSampleApplicationAppModule, { preserveWhitespaces: true })
   // eslint-disable-next-line no-console
-  .then(success => console.log('Application started'))
+  .then(() => console.log('Application started'))
   .catch(err => console.error(err));

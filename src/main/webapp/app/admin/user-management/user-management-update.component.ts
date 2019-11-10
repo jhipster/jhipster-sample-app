@@ -68,9 +68,9 @@ export class UserManagementUpdateComponent implements OnInit {
     this.isSaving = true;
     this.updateUser(this.user);
     if (this.user.id !== null) {
-      this.userService.update(this.user).subscribe(response => this.onSaveSuccess(response), () => this.onSaveError());
+      this.userService.update(this.user).subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
     } else {
-      this.userService.create(this.user).subscribe(response => this.onSaveSuccess(response), () => this.onSaveError());
+      this.userService.create(this.user).subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
     }
   }
 
@@ -84,7 +84,7 @@ export class UserManagementUpdateComponent implements OnInit {
     user.authorities = this.editForm.get(['authorities']).value;
   }
 
-  private onSaveSuccess(result) {
+  private onSaveSuccess() {
     this.isSaving = false;
     this.previousState();
   }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { BankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
 import { BankAccountComponent } from './bank-account.component';
@@ -16,13 +16,10 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
 export class BankAccountResolve implements Resolve<IBankAccount> {
   constructor(private service: BankAccountService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBankAccount> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<BankAccount>) => response.ok),
-        map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body)
-      );
+      return this.service.find(id).pipe(map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body));
     }
     return of(new BankAccount());
   }
