@@ -9,7 +9,6 @@ import { LabelService } from './label.service';
 import { LabelComponent } from './label.component';
 import { LabelDetailComponent } from './label-detail.component';
 import { LabelUpdateComponent } from './label-update.component';
-import { LabelDeletePopupComponent } from './label-delete-dialog.component';
 import { ILabel } from 'app/shared/model/label.model';
 
 @Injectable({ providedIn: 'root' })
@@ -70,21 +69,5 @@ export const labelRoute: Routes = [
       pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const labelPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: LabelDeletePopupComponent,
-    resolve: {
-      label: LabelResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

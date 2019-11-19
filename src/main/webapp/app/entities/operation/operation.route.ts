@@ -9,7 +9,6 @@ import { OperationService } from './operation.service';
 import { OperationComponent } from './operation.component';
 import { OperationDetailComponent } from './operation-detail.component';
 import { OperationUpdateComponent } from './operation-update.component';
-import { OperationDeletePopupComponent } from './operation-delete-dialog.component';
 import { IOperation } from 'app/shared/model/operation.model';
 
 @Injectable({ providedIn: 'root' })
@@ -70,21 +69,5 @@ export const operationRoute: Routes = [
       pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const operationPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: OperationDeletePopupComponent,
-    resolve: {
-      operation: OperationResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.operation.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

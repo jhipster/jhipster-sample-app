@@ -33,7 +33,7 @@ public class BankAccount implements Serializable {
     @Column(name = "balance", precision = 21, scale = 2, nullable = false)
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties("bankAccounts")
     private User user;
 

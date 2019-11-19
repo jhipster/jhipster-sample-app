@@ -5,14 +5,12 @@ import { JhipsterSampleApplicationSharedModule } from 'app/shared/shared.module'
 import { LabelComponent } from './label.component';
 import { LabelDetailComponent } from './label-detail.component';
 import { LabelUpdateComponent } from './label-update.component';
-import { LabelDeletePopupComponent, LabelDeleteDialogComponent } from './label-delete-dialog.component';
-import { labelRoute, labelPopupRoute } from './label.route';
-
-const ENTITY_STATES = [...labelRoute, ...labelPopupRoute];
+import { LabelDeleteDialogComponent } from './label-delete-dialog.component';
+import { labelRoute } from './label.route';
 
 @NgModule({
-  imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
+  imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(labelRoute)],
+  declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent],
   entryComponents: [LabelDeleteDialogComponent]
 })
 export class JhipsterSampleApplicationLabelModule {}

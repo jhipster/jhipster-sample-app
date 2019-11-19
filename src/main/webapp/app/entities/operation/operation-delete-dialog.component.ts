@@ -1,14 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
 
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { IOperation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 
 @Component({
-  selector: 'jhi-operation-delete-dialog',
   templateUrl: './operation-delete-dialog.component.html'
 })
 export class OperationDeleteDialogComponent {
@@ -28,38 +26,5 @@ export class OperationDeleteDialogComponent {
       });
       this.activeModal.dismiss(true);
     });
-  }
-}
-
-@Component({
-  selector: 'jhi-operation-delete-popup',
-  template: ''
-})
-export class OperationDeletePopupComponent implements OnInit, OnDestroy {
-  protected ngbModalRef: NgbModalRef;
-
-  constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
-
-  ngOnInit() {
-    this.activatedRoute.data.subscribe(({ operation }) => {
-      setTimeout(() => {
-        this.ngbModalRef = this.modalService.open(OperationDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
-        this.ngbModalRef.componentInstance.operation = operation;
-        this.ngbModalRef.result.then(
-          () => {
-            this.router.navigate(['/operation', { outlets: { popup: null } }]);
-            this.ngbModalRef = null;
-          },
-          () => {
-            this.router.navigate(['/operation', { outlets: { popup: null } }]);
-            this.ngbModalRef = null;
-          }
-        );
-      }, 0);
-    });
-  }
-
-  ngOnDestroy() {
-    this.ngbModalRef = null;
   }
 }

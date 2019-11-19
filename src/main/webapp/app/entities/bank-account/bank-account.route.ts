@@ -9,7 +9,6 @@ import { BankAccountService } from './bank-account.service';
 import { BankAccountComponent } from './bank-account.component';
 import { BankAccountDetailComponent } from './bank-account-detail.component';
 import { BankAccountUpdateComponent } from './bank-account-update.component';
-import { BankAccountDeletePopupComponent } from './bank-account-delete-dialog.component';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 @Injectable({ providedIn: 'root' })
@@ -70,21 +69,5 @@ export const bankAccountRoute: Routes = [
       pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const bankAccountPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: BankAccountDeletePopupComponent,
-    resolve: {
-      bankAccount: BankAccountResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];
