@@ -1,32 +1,51 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
-import { JhiLanguageHelper } from 'app/core/language/language.helper';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html'
 })
-export class JhiMainComponent implements OnInit {
-  constructor(private jhiLanguageHelper: JhiLanguageHelper, private router: Router) {}
+export class MainComponent implements OnInit {
+  constructor(
+    private accountService: AccountService,
+    private translateService: TranslateService,
+    private titleService: Title,
+    private router: Router
+  ) {}
 
-  private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-    let title: string =
-      routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'jhipsterSampleApplicationApp';
+  ngOnInit(): void {
+    // try to log in automatically
+    this.accountService.identity().subscribe();
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateTitle();
+      }
+      if (event instanceof NavigationError && event.error.status === 404) {
+        this.router.navigate(['/404']);
+      }
+    });
+
+    this.translateService.onLangChange.subscribe(() => this.updateTitle());
+  }
+
+  private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
+    let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : '';
     if (routeSnapshot.firstChild) {
       title = this.getPageTitle(routeSnapshot.firstChild) || title;
     }
     return title;
   }
 
-  ngOnInit() {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-      }
-      if (event instanceof NavigationError && event.error.status === 404) {
-        this.router.navigate(['/404']);
-      }
-    });
+  private updateTitle(): void {
+    let pageTitle = this.getPageTitle(this.router.routerState.snapshot.root);
+    if (!pageTitle) {
+      pageTitle = 'global.title';
+    }
+    this.translateService.get(pageTitle).subscribe(title => this.titleService.setTitle(title));
   }
 }

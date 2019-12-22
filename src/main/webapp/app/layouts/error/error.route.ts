@@ -17,7 +17,7 @@ export const errorRoute: Routes = [
     data: {
       authorities: [],
       pageTitle: 'error.title',
-      error403: true
+      errorMessage: 'error.http.403'
     }
   },
   {
@@ -26,7 +26,7 @@ export const errorRoute: Routes = [
     data: {
       authorities: [],
       pageTitle: 'error.title',
-      error404: true
+      errorMessage: 'error.http.404'
     }
   },
   {

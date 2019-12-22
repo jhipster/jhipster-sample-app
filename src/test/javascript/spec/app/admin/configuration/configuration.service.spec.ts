@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-
-import { JhiConfigurationService } from 'app/admin/configuration/configuration.service';
-import { SERVER_API_URL } from 'app/app.constants';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
+import { ConfigurationService, ConfigProps, Env, Bean, PropertySource } from 'app/admin/configuration/configuration.service';
+import { SERVER_API_URL } from 'app/app.constants';
 
 describe('Service Tests', () => {
   describe('Logs Service', () => {
-    let service: JhiConfigurationService;
-    let httpMock;
-    let expectedResult;
+    let service: ConfigurationService;
+    let httpMock: HttpTestingController;
+    let expectedResult: Bean[] | PropertySource[] | null;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
       });
 
-      expectedResult = {};
-      service = TestBed.get(JhiConfigurationService);
+      expectedResult = null;
+      service = TestBed.get(ConfigurationService);
       httpMock = TestBed.get(HttpTestingController);
     });
 
@@ -26,7 +26,7 @@ describe('Service Tests', () => {
 
     describe('Service methods', () => {
       it('should call correct URL', () => {
-        service.get().subscribe(() => {});
+        service.getBeans().subscribe();
 
         const req = httpMock.expectOne({ method: 'GET' });
         const resourceUrl = SERVER_API_URL + 'management/configprops';
@@ -34,42 +34,47 @@ describe('Service Tests', () => {
       });
 
       it('should get the config', () => {
-        const angularConfig = {
-          contexts: {
-            angular: {
-              beans: ['test2']
+        const bean: Bean = {
+          prefix: 'jhipster',
+          properties: {
+            clientApp: {
+              name: 'jhipsterApp'
             }
           }
         };
-        service.get().subscribe(received => {
-          expectedResult = received;
-        });
+        const configProps: ConfigProps = {
+          contexts: {
+            jhipster: {
+              beans: {
+                'io.github.jhipster.config.JHipsterProperties': bean
+              }
+            }
+          }
+        };
+        service.getBeans().subscribe(received => (expectedResult = received));
 
         const req = httpMock.expectOne({ method: 'GET' });
-        req.flush(angularConfig);
-        expect(expectedResult).toEqual(['test2']);
+        req.flush(configProps);
+        expect(expectedResult).toEqual([bean]);
       });
 
       it('should get the env', () => {
-        const propertySources = {
-          propertySources: [
-            {
-              name: 'server.ports',
-              properties: {
-                'local.server.port': {
-                  value: 8080
-                }
+        const propertySources: PropertySource[] = [
+          {
+            name: 'server.ports',
+            properties: {
+              'local.server.port': {
+                value: '8080'
               }
             }
-          ]
-        };
-        service.getEnv().subscribe(received => {
-          expectedResult = received;
-        });
+          }
+        ];
+        const env: Env = { propertySources };
+        service.getPropertySources().subscribe(received => (expectedResult = received));
 
         const req = httpMock.expectOne({ method: 'GET' });
-        req.flush(propertySources);
-        expect(expectedResult).toEqual({ 'server.ports': [{ key: 'local.server.port', val: 8080 }] });
+        req.flush(env);
+        expect(expectedResult).toEqual(propertySources);
       });
     });
   });

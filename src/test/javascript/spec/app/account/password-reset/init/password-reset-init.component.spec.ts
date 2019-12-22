@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { of, throwError } from 'rxjs';
@@ -24,23 +25,20 @@ describe('Component Tests', () => {
     });
 
     it('should define its initial state', () => {
-      expect(comp.success).toBeUndefined();
-      expect(comp.error).toBeUndefined();
-      expect(comp.errorEmailNotExists).toBeUndefined();
+      expect(comp.success).toBe(false);
+      expect(comp.error).toBe(false);
+      expect(comp.errorEmailNotExists).toBe(false);
     });
 
     it('sets focus after the view has been initialized', () => {
-      const element = fixture.nativeElement;
       const node = {
-        focus() {}
+        focus(): void {}
       };
-
-      spyOn(element, 'querySelector').and.returnValue(node);
+      comp.email = new ElementRef(node);
       spyOn(node, 'focus');
 
       comp.ngAfterViewInit();
 
-      expect(element.querySelector).toHaveBeenCalledWith('#email');
       expect(node.focus).toHaveBeenCalled();
     });
 
@@ -53,9 +51,9 @@ describe('Component Tests', () => {
       comp.requestReset();
 
       expect(service.save).toHaveBeenCalledWith('user@domain.com');
-      expect(comp.success).toEqual('OK');
-      expect(comp.error).toBeNull();
-      expect(comp.errorEmailNotExists).toBeNull();
+      expect(comp.success).toBe(true);
+      expect(comp.error).toBe(false);
+      expect(comp.errorEmailNotExists).toBe(false);
     }));
 
     it('notifies of unknown email upon email address not registered/400', inject(
@@ -73,9 +71,9 @@ describe('Component Tests', () => {
         comp.requestReset();
 
         expect(service.save).toHaveBeenCalledWith('user@domain.com');
-        expect(comp.success).toBeNull();
-        expect(comp.error).toBeNull();
-        expect(comp.errorEmailNotExists).toEqual('ERROR');
+        expect(comp.success).toBe(false);
+        expect(comp.error).toBe(false);
+        expect(comp.errorEmailNotExists).toBe(true);
       }
     ));
 
@@ -92,9 +90,9 @@ describe('Component Tests', () => {
       comp.requestReset();
 
       expect(service.save).toHaveBeenCalledWith('user@domain.com');
-      expect(comp.success).toBeNull();
-      expect(comp.errorEmailNotExists).toBeNull();
-      expect(comp.error).toEqual('ERROR');
+      expect(comp.success).toBe(false);
+      expect(comp.errorEmailNotExists).toBe(false);
+      expect(comp.error).toBe(true);
     }));
   });
 });

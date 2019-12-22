@@ -4,7 +4,7 @@
             <h2 id="jhi-label-heading" jhiTranslate="jhipsterSampleApplicationApp.label.home.createOrEditLabel">Create or edit a Label</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -13,13 +13,13 @@
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.label.label" for="field_label">Label</label>
                     <input type="text" class="form-control" name="label" id="field_label"
                            formControlName="label"/>
-                    <div *ngIf="editForm.get('label').invalid && (editForm.get('label').dirty || editForm.get('label').touched)">
+                    <div *ngIf="editForm.get('label')!.invalid && (editForm.get('label')!.dirty || editForm.get('label')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('label').errors.required" jhiTranslate="entity.validation.required">
+                               *ngIf="editForm.get('label')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('label').errors.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
+                               *ngIf="editForm.get('label')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
                         This field is required to be at least 3 characters.
                         </small>
                     </div>

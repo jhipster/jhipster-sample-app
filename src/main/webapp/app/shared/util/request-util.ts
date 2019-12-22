@@ -1,5 +1,17 @@
 import { HttpParams } from '@angular/common/http';
 
+export interface Pagination {
+  page: number;
+  size: number;
+  sort: string[];
+}
+
+export interface Search {
+  query: string;
+}
+
+export interface SearchWithPagination extends Search, Pagination {}
+
 export const createRequestOption = (req?: any): HttpParams => {
   let options: HttpParams = new HttpParams();
   if (req) {
@@ -9,7 +21,7 @@ export const createRequestOption = (req?: any): HttpParams => {
       }
     });
     if (req.sort) {
-      req.sort.forEach(val => {
+      req.sort.forEach((val: string) => {
         options = options.append('sort', val);
       });
     }

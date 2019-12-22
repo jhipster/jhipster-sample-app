@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
+import { advanceTo } from 'jest-date-mock';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { AuditsComponent } from 'app/admin/audits/audits.component';
@@ -8,11 +9,11 @@ import { AuditsService } from 'app/admin/audits/audits.service';
 import { Audit } from 'app/admin/audits/audit.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 
-function build2DigitsDatePart(datePart: number) {
+function build2DigitsDatePart(datePart: number): string {
   return `0${datePart}`.slice(-2);
 }
 
-function getDate(isToday = true) {
+function getDate(isToday = true): string {
   let date: Date = new Date();
   if (isToday) {
     // Today + 1 day - needed if the current day must be included
@@ -52,17 +53,41 @@ describe('Component Tests', () => {
       service = fixture.debugElement.injector.get(AuditsService);
     });
 
-    describe('today function ', () => {
+    describe('today function', () => {
       it('should set toDate to current date', () => {
-        comp.today();
+        comp.ngOnInit();
         expect(comp.toDate).toBe(getDate());
+      });
+
+      it('if current day is last day of month then should set toDate to first day of next month', () => {
+        advanceTo(new Date(2019, 0, 31, 0, 0, 0));
+        comp.ngOnInit();
+        expect(comp.toDate).toBe('2019-02-01');
+      });
+
+      it('if current day is not last day of month then should set toDate to next day of current month', () => {
+        advanceTo(new Date(2019, 0, 27, 0, 0, 0));
+        comp.ngOnInit();
+        expect(comp.toDate).toBe('2019-01-28');
       });
     });
 
-    describe('previousMonth function ', () => {
-      it('should set fromDate to current date', () => {
-        comp.previousMonth();
+    describe('previousMonth function', () => {
+      it('should set fromDate to previous month', () => {
+        comp.ngOnInit();
         expect(comp.fromDate).toBe(getDate(false));
+      });
+
+      it('if current month is January then should set fromDate to previous year last month', () => {
+        advanceTo(new Date(2019, 0, 20, 0, 0, 0));
+        comp.ngOnInit();
+        expect(comp.fromDate).toBe('2018-12-20');
+      });
+
+      it('if current month is not January then should set fromDate to current year previous month', () => {
+        advanceTo(new Date(2019, 1, 20, 0, 0, 0));
+        comp.ngOnInit();
+        expect(comp.fromDate).toBe('2019-01-20');
       });
     });
 
@@ -73,7 +98,7 @@ describe('Component Tests', () => {
         expect(comp.fromDate).toBe(getDate(false));
         expect(comp.itemsPerPage).toBe(ITEMS_PER_PAGE);
         expect(comp.page).toBe(10);
-        expect(comp.reverse).toBeFalsy();
+        expect(comp.ascending).toBe(false);
         expect(comp.predicate).toBe('id');
       });
     });
@@ -81,7 +106,7 @@ describe('Component Tests', () => {
     describe('OnInit', () => {
       it('Should call load all on init', () => {
         // GIVEN
-        const headers = new HttpHeaders().append('link', 'link;link');
+        const headers = new HttpHeaders().append('X-Total-Count', '1');
         const audit = new Audit({ remoteAddress: '127.0.0.1', sessionId: '123' }, 'user', '20140101', 'AUTHENTICATION_SUCCESS');
         spyOn(service, 'query').and.returnValue(
           of(
@@ -97,36 +122,102 @@ describe('Component Tests', () => {
 
         // THEN
         expect(service.query).toHaveBeenCalled();
-        expect(comp.audits[0]).toEqual(jasmine.objectContaining(audit));
+        expect(comp.audits && comp.audits[0]).toEqual(jasmine.objectContaining(audit));
+        expect(comp.totalItems).toBe(1);
       });
     });
 
     describe('Create sort object', () => {
+      beforeEach(() => {
+        comp.toDate = getDate();
+        comp.fromDate = getDate(false);
+        spyOn(service, 'query').and.returnValue(of(new HttpResponse({ body: null })));
+      });
+
       it('Should sort only by id asc', () => {
         // GIVEN
         comp.predicate = 'id';
-        comp.reverse = false;
+        comp.ascending = false;
 
         // WHEN
-        const sort = comp.sort();
+        comp.transition();
 
         // THEN
-        expect(sort.length).toEqual(1);
-        expect(sort[0]).toEqual('id,desc');
+        expect(service.query).toBeCalledWith(
+          expect.objectContaining({
+            sort: ['id,desc']
+          })
+        );
       });
 
       it('Should sort by timestamp asc then by id', () => {
         // GIVEN
         comp.predicate = 'timestamp';
-        comp.reverse = true;
+        comp.ascending = true;
 
         // WHEN
-        const sort = comp.sort();
+        comp.transition();
 
         // THEN
-        expect(sort.length).toEqual(2);
-        expect(sort[0]).toEqual('timestamp,asc');
-        expect(sort[1]).toEqual('id');
+        expect(service.query).toBeCalledWith(
+          expect.objectContaining({
+            sort: ['timestamp,asc', 'id']
+          })
+        );
+      });
+    });
+
+    describe('loadPage', () => {
+      beforeEach(() => {
+        comp.toDate = getDate();
+        comp.fromDate = getDate(false);
+        comp.previousPage = 1;
+        spyOn(comp, 'transition');
+      });
+
+      it('Should not reload page already shown', () => {
+        // WHEN
+        comp.loadPage(1);
+
+        // THEN
+        expect(comp.transition).not.toBeCalled();
+      });
+
+      it('Should load new page', () => {
+        // WHEN
+        comp.loadPage(2);
+
+        // THEN
+        expect(comp.previousPage).toBe(2);
+        expect(comp.transition).toBeCalled();
+      });
+    });
+
+    describe('transition', () => {
+      beforeEach(() => {
+        spyOn(service, 'query').and.returnValue(of(new HttpResponse({ body: null })));
+      });
+
+      it('Should not query data if fromDate and toDate are empty', () => {
+        // WHEN
+        comp.transition();
+
+        // THEN
+        expect(comp.canLoad()).toBe(false);
+        expect(service.query).not.toBeCalled();
+      });
+
+      it('Should query data if fromDate and toDate are not empty', () => {
+        // GIVEN
+        comp.toDate = getDate();
+        comp.fromDate = getDate(false);
+
+        // WHEN
+        comp.transition();
+
+        // THEN
+        expect(comp.canLoad()).toBe(true);
+        expect(service.query).toBeCalled();
       });
     });
   });

@@ -48,7 +48,7 @@ export class PasswordStrengthBarComponent {
     return force;
   }
 
-  getColor(s: number): any {
+  getColor(s: number): { idx: number; color: string } {
     let idx = 0;
     if (s <= 10) {
       idx = 0;
@@ -61,7 +61,7 @@ export class PasswordStrengthBarComponent {
     } else {
       idx = 4;
     }
-    return { idx: idx + 1, col: this.colors[idx] };
+    return { idx: idx + 1, color: this.colors[idx] };
   }
 
   @Input()
@@ -75,7 +75,7 @@ export class PasswordStrengthBarComponent {
       const lis = element.getElementsByTagName('li');
       for (let i = 0; i < lis.length; i++) {
         if (i < c.idx) {
-          this.renderer.setElementStyle(lis[i], 'backgroundColor', c.col);
+          this.renderer.setElementStyle(lis[i], 'backgroundColor', c.color);
         } else {
           this.renderer.setElementStyle(lis[i], 'backgroundColor', '#DDD');
         }

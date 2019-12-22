@@ -1,17 +1,28 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { throwError } from 'rxjs';
+import { throwError, of } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { SettingsComponent } from 'app/account/settings/settings.component';
+import { MockAccountService } from '../../../helpers/mock-account.service';
 
 describe('Component Tests', () => {
   describe('SettingsComponent', () => {
     let comp: SettingsComponent;
     let fixture: ComponentFixture<SettingsComponent>;
-    let mockAuth: any;
+    let mockAuth: MockAccountService;
+    const accountValues: Account = {
+      firstName: 'John',
+      lastName: 'Doe',
+      activated: true,
+      email: 'john.doe@mail.com',
+      langKey: 'en',
+      login: 'john',
+      authorities: [],
+      imageUrl: ''
+    };
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
@@ -26,62 +37,53 @@ describe('Component Tests', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(SettingsComponent);
       comp = fixture.componentInstance;
-      mockAuth = fixture.debugElement.injector.get(AccountService);
+      mockAuth = TestBed.get(AccountService);
+      mockAuth.setIdentityResponse(accountValues);
     });
 
     it('should send the current identity upon save', () => {
       // GIVEN
-      const accountValues: Account = {
+      mockAuth.saveSpy.and.returnValue(of({}));
+      const settingsFormValues = {
         firstName: 'John',
         lastName: 'Doe',
-
-        activated: true,
         email: 'john.doe@mail.com',
-        langKey: 'en',
-        login: 'john',
-        authorities: [],
-        imageUrl: ''
+        langKey: 'en'
       };
-      mockAuth.setIdentityResponse(accountValues);
 
       // WHEN
-      comp.updateForm(accountValues);
+      comp.ngOnInit();
       comp.save();
 
       // THEN
       expect(mockAuth.identitySpy).toHaveBeenCalled();
       expect(mockAuth.saveSpy).toHaveBeenCalledWith(accountValues);
-      expect(comp.settingsForm.value).toEqual(accountValues);
+      expect(mockAuth.authenticateSpy).toHaveBeenCalledWith(accountValues);
+      expect(comp.settingsForm.value).toEqual(settingsFormValues);
     });
 
     it('should notify of success upon successful save', () => {
       // GIVEN
-      const accountValues = {
-        firstName: 'John',
-        lastName: 'Doe'
-      };
-      comp.settingsForm.patchValue({
-        firstName: 'John',
-        lastName: 'Doe'
-      });
-      mockAuth.setIdentityResponse(accountValues);
+      mockAuth.saveSpy.and.returnValue(of({}));
+
       // WHEN
+      comp.ngOnInit();
       comp.save();
 
       // THEN
-      expect(comp.error).toBeNull();
-      expect(comp.success).toBe('OK');
+      expect(comp.success).toBe(true);
     });
 
     it('should notify of error upon failed save', () => {
       // GIVEN
       mockAuth.saveSpy.and.returnValue(throwError('ERROR'));
+
       // WHEN
+      comp.ngOnInit();
       comp.save();
 
       // THEN
-      expect(comp.error).toEqual('ERROR');
-      expect(comp.success).toBeNull();
+      expect(comp.success).toBe(false);
     });
   });
 });

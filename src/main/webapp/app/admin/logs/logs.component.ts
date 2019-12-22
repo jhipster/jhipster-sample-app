@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Log } from './log.model';
+import { Log, LoggersResponse, Logger, Level } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
@@ -8,28 +8,27 @@ import { LogsService } from './logs.service';
   templateUrl: './logs.component.html'
 })
 export class LogsComponent implements OnInit {
-  loggers: Log[];
-  filter: string;
-  orderProp: string;
-  reverse: boolean;
+  loggers?: Log[];
+  filter = '';
+  orderProp = 'name';
+  reverse = false;
 
-  constructor(private logsService: LogsService) {
-    this.filter = '';
-    this.orderProp = 'name';
-    this.reverse = false;
+  constructor(private logsService: LogsService) {}
+
+  ngOnInit(): void {
+    this.findAndExtractLoggers();
   }
 
-  ngOnInit() {
-    this.logsService.findAll().subscribe(response => this.extractLoggers(response));
+  changeLevel(name: string, level: Level): void {
+    this.logsService.changeLevel(name, level).subscribe(() => this.findAndExtractLoggers());
   }
 
-  changeLevel(name: string, level: string) {
-    this.logsService.changeLevel(name, level).subscribe(() => {
-      this.logsService.findAll().subscribe(response => this.extractLoggers(response));
-    });
-  }
-
-  private extractLoggers(response) {
-    this.loggers = Object.entries(response.body.loggers).map(e => new Log(e[0], e[1]['effectiveLevel']));
+  private findAndExtractLoggers(): void {
+    this.logsService
+      .findAll()
+      .subscribe(
+        (response: LoggersResponse) =>
+          (this.loggers = Object.entries(response.loggers).map((logger: [string, Logger]) => new Log(logger[0], logger[1].effectiveLevel)))
+      );
   }
 }

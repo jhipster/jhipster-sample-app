@@ -8,7 +8,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 export class PasswordService {
   constructor(private http: HttpClient) {}
 
-  save(newPassword: string, currentPassword: string): Observable<any> {
+  save(newPassword: string, currentPassword: string): Observable<{}> {
     return this.http.post(SERVER_API_URL + 'api/account/change-password', { currentPassword, newPassword });
   }
 }

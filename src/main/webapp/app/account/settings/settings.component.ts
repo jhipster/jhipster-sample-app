@@ -4,88 +4,56 @@ import { JhiLanguageService } from 'ng-jhipster';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
-import { JhiLanguageHelper } from 'app/core/language/language.helper';
+import { LANGUAGES } from 'app/core/language/language.constants';
 
 @Component({
   selector: 'jhi-settings',
   templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
-  error: string;
-  success: string;
-  languages: any[];
+  account!: Account;
+  success = false;
+  languages = LANGUAGES;
   settingsForm = this.fb.group({
     firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     email: [undefined, [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
-    activated: [false],
-    authorities: [[]],
-    langKey: ['en'],
-    login: [],
-    imageUrl: []
+    langKey: [undefined]
   });
 
-  constructor(
-    private accountService: AccountService,
-    private fb: FormBuilder,
-    private languageService: JhiLanguageService,
-    private languageHelper: JhiLanguageHelper
-  ) {}
+  constructor(private accountService: AccountService, private fb: FormBuilder, private languageService: JhiLanguageService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
-      this.updateForm(account);
-    });
-    this.languages = this.languageHelper.getAll();
-  }
+      if (account) {
+        this.settingsForm.patchValue({
+          firstName: account.firstName,
+          lastName: account.lastName,
+          email: account.email,
+          langKey: account.langKey
+        });
 
-  save() {
-    const settingsAccount = this.accountFromForm();
-    this.accountService.save(settingsAccount).subscribe(
-      () => {
-        this.error = null;
-        this.success = 'OK';
-        this.accountService.identity(true).subscribe(account => {
-          this.updateForm(account);
-        });
-        this.languageService.getCurrent().then(current => {
-          if (settingsAccount.langKey !== current) {
-            this.languageService.changeLanguage(settingsAccount.langKey);
-          }
-        });
-      },
-      () => {
-        this.success = null;
-        this.error = 'ERROR';
+        this.account = account;
       }
-    );
+    });
   }
 
-  private accountFromForm(): any {
-    const account = {};
-    return {
-      ...account,
-      firstName: this.settingsForm.get('firstName').value,
-      lastName: this.settingsForm.get('lastName').value,
-      email: this.settingsForm.get('email').value,
-      activated: this.settingsForm.get('activated').value,
-      authorities: this.settingsForm.get('authorities').value,
-      langKey: this.settingsForm.get('langKey').value,
-      login: this.settingsForm.get('login').value,
-      imageUrl: this.settingsForm.get('imageUrl').value
-    };
-  }
+  save(): void {
+    this.success = false;
 
-  updateForm(account: Account): void {
-    this.settingsForm.patchValue({
-      firstName: account.firstName,
-      lastName: account.lastName,
-      email: account.email,
-      activated: account.activated,
-      authorities: account.authorities,
-      langKey: account.langKey,
-      login: account.login,
-      imageUrl: account.imageUrl
+    this.account.firstName = this.settingsForm.get('firstName')!.value;
+    this.account.lastName = this.settingsForm.get('lastName')!.value;
+    this.account.email = this.settingsForm.get('email')!.value;
+    this.account.langKey = this.settingsForm.get('langKey')!.value;
+
+    this.accountService.save(this.account).subscribe(() => {
+      this.success = true;
+
+      this.accountService.authenticate(this.account);
+
+      if (this.account.langKey !== this.languageService.getCurrentLanguage()) {
+        this.languageService.changeLanguage(this.account.langKey);
+      }
     });
   }
 }

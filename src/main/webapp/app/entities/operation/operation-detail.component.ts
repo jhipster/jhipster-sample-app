@@ -8,17 +8,17 @@ import { IOperation } from 'app/shared/model/operation.model';
   templateUrl: './operation-detail.component.html'
 })
 export class OperationDetailComponent implements OnInit {
-  operation: IOperation;
+  operation: IOperation | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ operation }) => {
       this.operation = operation;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

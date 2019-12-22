@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.operations && comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
     });
 
     it('should load a page', () => {
@@ -81,7 +81,7 @@ describe('Component Tests', () => {
 
       // THEN
       expect(service.query).toHaveBeenCalled();
-      expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.operations && comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
     });
 
     it('should re-initialize the page', () => {
@@ -103,10 +103,12 @@ describe('Component Tests', () => {
       // THEN
       expect(comp.page).toEqual(0);
       expect(service.query).toHaveBeenCalledTimes(2);
-      expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+      expect(comp.operations && comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
     });
+
     it('should calculate the sort attribute for an id', () => {
       // WHEN
+      comp.ngOnInit();
       const result = comp.sort();
 
       // THEN
@@ -114,6 +116,9 @@ describe('Component Tests', () => {
     });
 
     it('should calculate the sort attribute for a non-id attribute', () => {
+      // INIT
+      comp.ngOnInit();
+
       // GIVEN
       comp.predicate = 'name';
 

@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { BankAccount } from 'app/shared/model/bank-account.model';
+import { IBankAccount, BankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
 import { BankAccountComponent } from './bank-account.component';
 import { BankAccountDetailComponent } from './bank-account-detail.component';
 import { BankAccountUpdateComponent } from './bank-account-update.component';
-import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountResolve implements Resolve<IBankAccount> {
-  constructor(private service: BankAccountService) {}
+  constructor(private service: BankAccountService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((bankAccount: HttpResponse<BankAccount>) => bankAccount.body));
+      return this.service.find(id).pipe(
+        flatMap((bankAccount: HttpResponse<BankAccount>) => {
+          if (bankAccount.body) {
+            return of(bankAccount.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new BankAccount());
   }

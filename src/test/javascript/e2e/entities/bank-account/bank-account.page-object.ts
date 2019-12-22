@@ -5,19 +5,19 @@ export class BankAccountComponentsPage {
   deleteButtons = element.all(by.css('jhi-bank-account div table .btn-danger'));
   title = element.all(by.css('jhi-bank-account div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getAttribute('jhiTranslate');
   }
 }
@@ -30,34 +30,34 @@ export class BankAccountUpdatePage {
   balanceInput = element(by.id('field_balance'));
   userSelect = element(by.id('field_user'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
   }
 
-  async setNameInput(name) {
+  async setNameInput(name: string): Promise<void> {
     await this.nameInput.sendKeys(name);
   }
 
-  async getNameInput() {
+  async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
   }
 
-  async setBalanceInput(balance) {
+  async setBalanceInput(balance: string): Promise<void> {
     await this.balanceInput.sendKeys(balance);
   }
 
-  async getBalanceInput() {
+  async getBalanceInput(): Promise<string> {
     return await this.balanceInput.getAttribute('value');
   }
 
-  async userSelectLastOption() {
+  async userSelectLastOption(): Promise<void> {
     await this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async userSelectOption(option) {
+  async userSelectOption(option: string): Promise<void> {
     await this.userSelect.sendKeys(option);
   }
 
@@ -65,15 +65,15 @@ export class BankAccountUpdatePage {
     return this.userSelect;
   }
 
-  async getUserSelectedOption() {
+  async getUserSelectedOption(): Promise<string> {
     return await this.userSelect.element(by.css('option:checked')).getText();
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -86,11 +86,11 @@ export class BankAccountDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-bankAccount-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-bankAccount'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

@@ -8,17 +8,17 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
   templateUrl: './bank-account-detail.component.html'
 })
 export class BankAccountDetailComponent implements OnInit {
-  bankAccount: IBankAccount;
+  bankAccount: IBankAccount | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ bankAccount }) => {
       this.bankAccount = bankAccount;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

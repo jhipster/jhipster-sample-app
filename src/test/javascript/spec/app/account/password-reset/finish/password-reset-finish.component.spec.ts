@@ -1,7 +1,8 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { of, throwError } from 'rxjs';
 
 import { JhipsterSampleApplicationTestModule } from '../../../../test.module';
 import { PasswordResetFinishComponent } from 'app/account/password-reset/finish/password-reset-finish.component';
@@ -36,24 +37,19 @@ describe('Component Tests', () => {
     });
 
     it('should define its initial state', () => {
-      comp.ngOnInit();
-
-      expect(comp.keyMissing).toBeFalsy();
+      expect(comp.initialized).toBe(true);
       expect(comp.key).toEqual('XYZPDQ');
     });
 
     it('sets focus after the view has been initialized', () => {
-      const element = fixture.nativeElement;
       const node = {
-        focus() {}
+        focus(): void {}
       };
-
-      spyOn(element, 'querySelector').and.returnValue(node);
+      comp.newPassword = new ElementRef(node);
       spyOn(node, 'focus');
 
       comp.ngAfterViewInit();
 
-      expect(element.querySelector).toHaveBeenCalledWith('#password');
       expect(node.focus).toHaveBeenCalled();
     });
 
@@ -65,10 +61,10 @@ describe('Component Tests', () => {
 
       comp.finishReset();
 
-      expect(comp.doNotMatch).toEqual('ERROR');
+      expect(comp.doNotMatch).toBe(true);
     });
 
-    it('should update success to OK after resetting password', inject(
+    it('should update success to true after resetting password', inject(
       [PasswordResetFinishService],
       fakeAsync((service: PasswordResetFinishService) => {
         spyOn(service, 'save').and.returnValue(of({}));
@@ -80,11 +76,8 @@ describe('Component Tests', () => {
         comp.finishReset();
         tick();
 
-        expect(service.save).toHaveBeenCalledWith({
-          key: 'XYZPDQ',
-          newPassword: 'password'
-        });
-        expect(comp.success).toEqual('OK');
+        expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
+        expect(comp.success).toBe(true);
       })
     ));
 
@@ -100,12 +93,9 @@ describe('Component Tests', () => {
         comp.finishReset();
         tick();
 
-        expect(service.save).toHaveBeenCalledWith({
-          key: 'XYZPDQ',
-          newPassword: 'password'
-        });
-        expect(comp.success).toBeNull();
-        expect(comp.error).toEqual('ERROR');
+        expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
+        expect(comp.success).toBe(false);
+        expect(comp.error).toBe(true);
       })
     ));
   });

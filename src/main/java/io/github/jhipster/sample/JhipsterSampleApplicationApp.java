@@ -1,8 +1,8 @@
 package io.github.jhipster.sample;
 
 import io.github.jhipster.sample.config.ApplicationProperties;
-import io.github.jhipster.sample.config.DefaultProfileUtil;
 
+import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.apache.commons.lang3.StringUtils;

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { BankAccountService } from './bank-account.service';
   templateUrl: './bank-account-delete-dialog.component.html'
 })
 export class BankAccountDeleteDialogComponent {
-  bankAccount: IBankAccount;
+  bankAccount?: IBankAccount;
 
   constructor(
     protected bankAccountService: BankAccountService,
@@ -18,17 +17,14 @@ export class BankAccountDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.bankAccountService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'bankAccountListModification',
-        content: 'Deleted an bankAccount'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('bankAccountListModification');
+      this.activeModal.close();
     });
   }
 }

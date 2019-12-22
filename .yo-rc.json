@@ -18,7 +18,7 @@
     "testFrameworks": ["gatling", "protractor"],
     "languages": ["en"],
     "serverPort": 8080,
-    "jhipsterVersion": "6.5.1",
+    "jhipsterVersion": "6.6.0",
     "enableSocialSignIn": false,
     "useSass": true,
     "jhiPrefix": "jhi",
@@ -35,6 +35,7 @@
     "dtoSuffix": "DTO",
     "clientTheme": "none",
     "blueprints": [],
-    "embeddableLaunchScript": false
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1577000812973
   }
 }

@@ -5,19 +5,19 @@ export class LabelComponentsPage {
   deleteButtons = element.all(by.css('jhi-label div table .btn-danger'));
   title = element.all(by.css('jhi-label div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getAttribute('jhiTranslate');
   }
 }
@@ -28,23 +28,23 @@ export class LabelUpdatePage {
   cancelButton = element(by.id('cancel-save'));
   labelInput = element(by.id('field_label'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
   }
 
-  async setLabelInput(label) {
+  async setLabelInput(label: string): Promise<void> {
     await this.labelInput.sendKeys(label);
   }
 
-  async getLabelInput() {
+  async getLabelInput(): Promise<string> {
     return await this.labelInput.getAttribute('value');
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -57,11 +57,11 @@ export class LabelDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-label-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-label'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

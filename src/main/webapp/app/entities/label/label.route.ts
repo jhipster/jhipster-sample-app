@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Label } from 'app/shared/model/label.model';
+import { ILabel, Label } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 import { LabelComponent } from './label.component';
 import { LabelDetailComponent } from './label-detail.component';
 import { LabelUpdateComponent } from './label-update.component';
-import { ILabel } from 'app/shared/model/label.model';
 
 @Injectable({ providedIn: 'root' })
 export class LabelResolve implements Resolve<ILabel> {
-  constructor(private service: LabelService) {}
+  constructor(private service: LabelService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ILabel> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ILabel> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((label: HttpResponse<Label>) => label.body));
+      return this.service.find(id).pipe(
+        flatMap((label: HttpResponse<Label>) => {
+          if (label.body) {
+            return of(label.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new Label());
   }

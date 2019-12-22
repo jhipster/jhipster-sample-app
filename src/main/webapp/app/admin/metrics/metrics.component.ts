@@ -1,41 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { flatMap } from 'rxjs/operators';
 
-import { JhiMetricsService } from './metrics.service';
+import { MetricsService, Metrics, MetricsKey, ThreadDump, Thread } from './metrics.service';
 
 @Component({
   selector: 'jhi-metrics',
-  templateUrl: './metrics.component.html'
+  templateUrl: './metrics.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JhiMetricsMonitoringComponent implements OnInit {
-  metrics: any = {};
-  threadData: any = {};
+export class MetricsComponent implements OnInit {
+  metrics?: Metrics;
+  threads?: Thread[];
   updatingMetrics = true;
-  JCACHE_KEY: string;
 
-  constructor(private metricsService: JhiMetricsService) {
-    this.JCACHE_KEY = 'jcache.statistics';
-  }
+  constructor(private metricsService: MetricsService, private changeDetector: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.refresh();
   }
 
-  refresh() {
+  refresh(): void {
     this.updatingMetrics = true;
-    this.metricsService.getMetrics().subscribe(metrics => {
-      this.metrics = metrics;
-      this.metricsService.threadDump().subscribe(data => {
-        this.threadData = data.threads;
-        this.updatingMetrics = false;
-      });
-    });
+    this.metricsService
+      .getMetrics()
+      .pipe(
+        flatMap(
+          () => this.metricsService.threadDump(),
+          (metrics: Metrics, threadDump: ThreadDump) => {
+            this.metrics = metrics;
+            this.threads = threadDump.threads;
+            this.updatingMetrics = false;
+            this.changeDetector.detectChanges();
+          }
+        )
+      )
+      .subscribe();
   }
 
-  isObjectExisting(metrics: any, key: string) {
-    return metrics && metrics[key];
+  metricsKeyExists(key: MetricsKey): boolean {
+    return this.metrics && this.metrics[key];
   }
 
-  isObjectExistingAndNotEmpty(metrics: any, key: string) {
-    return this.isObjectExisting(metrics, key) && JSON.stringify(metrics[key]) !== '{}';
+  metricsKeyExistsAndObjectNotEmpty(key: MetricsKey): boolean {
+    return this.metrics && this.metrics[key] && JSON.stringify(this.metrics[key]) !== '{}';
   }
 }
