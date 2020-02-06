@@ -50,6 +50,7 @@ describe('Component Tests', () => {
         spyOn(translateService, 'get').and.callFake((key: string) => {
           return of(key + ' translated');
         });
+        translateService.currentLang = 'en';
         spyOn(titleService, 'setTitle');
         comp.ngOnInit();
       });

@@ -43,6 +43,7 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].msg).toBe('error.server.not.reachable');
       });
+
       it('Should display an alert on status 404', () => {
         // GIVEN
         eventManager.broadcast({ name: 'jhipsterSampleApplicationApp.httpError', content: { status: 404 } });
@@ -50,6 +51,7 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].msg).toBe('error.url.not.found');
       });
+
       it('Should display an alert on generic error', () => {
         // GIVEN
         eventManager.broadcast({ name: 'jhipsterSampleApplicationApp.httpError', content: { error: { message: 'Error Message' } } });
@@ -59,6 +61,7 @@ describe('Component Tests', () => {
         expect(comp.alerts[0].msg).toBe('Error Message');
         expect(comp.alerts[1].msg).toBe('Second Error Message');
       });
+
       it('Should display an alert on status 400 for generic error', () => {
         // GIVEN
         const response = new HttpErrorResponse({
@@ -79,6 +82,7 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].msg).toBe('error.validation');
       });
+
       it('Should display an alert on status 400 for generic error without message', () => {
         // GIVEN
         const response = new HttpErrorResponse({
@@ -92,6 +96,7 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].msg).toBe('Bad Request');
       });
+
       it('Should display an alert on status 400 for invalid parameters', () => {
         // GIVEN
         const response = new HttpErrorResponse({
@@ -113,6 +118,7 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].msg).toBe('error.Size');
       });
+
       it('Should display an alert on status 400 for error headers', () => {
         // GIVEN
         const response = new HttpErrorResponse({

@@ -126,7 +126,7 @@ public class OperationResourceIT {
 
         // Create the Operation
         restOperationMockMvc.perform(post("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isCreated());
 
@@ -149,7 +149,7 @@ public class OperationResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restOperationMockMvc.perform(post("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
@@ -169,7 +169,7 @@ public class OperationResourceIT {
         // Create the Operation, which fails.
 
         restOperationMockMvc.perform(post("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
@@ -187,7 +187,7 @@ public class OperationResourceIT {
         // Create the Operation, which fails.
 
         restOperationMockMvc.perform(post("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
@@ -204,7 +204,7 @@ public class OperationResourceIT {
         // Get all the operationList
         restOperationMockMvc.perform(get("/api/operations?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(operation.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
@@ -253,7 +253,7 @@ public class OperationResourceIT {
         // Get the operation
         restOperationMockMvc.perform(get("/api/operations/{id}", operation.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(operation.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
@@ -285,7 +285,7 @@ public class OperationResourceIT {
         updatedOperation.setAmount(UPDATED_AMOUNT);
 
         restOperationMockMvc.perform(put("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(updatedOperation)))
             .andExpect(status().isOk());
 
@@ -307,7 +307,7 @@ public class OperationResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOperationMockMvc.perform(put("/api/operations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
@@ -326,7 +326,7 @@ public class OperationResourceIT {
 
         // Delete the operation
         restOperationMockMvc.perform(delete("/api/operations/{id}", operation.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

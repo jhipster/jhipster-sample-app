@@ -25,6 +25,7 @@ describe('Operation e2e test', () => {
     operationComponentsPage = new OperationComponentsPage();
     await browser.wait(ec.visibilityOf(operationComponentsPage.title), 5000);
     expect(await operationComponentsPage.getTitle()).to.eq('jhipsterSampleApplicationApp.operation.home.title');
+    await browser.wait(ec.or(ec.visibilityOf(operationComponentsPage.entities), ec.visibilityOf(operationComponentsPage.noResult)), 1000);
   });
 
   it('should load create Operation page', async () => {
@@ -38,6 +39,7 @@ describe('Operation e2e test', () => {
     const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
 
     await operationComponentsPage.clickOnCreateButton();
+
     await promise.all([
       operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       operationUpdatePage.setDescriptionInput('description'),
@@ -45,9 +47,11 @@ describe('Operation e2e test', () => {
       operationUpdatePage.bankAccountSelectLastOption()
       // operationUpdatePage.labelSelectLastOption(),
     ]);
+
     expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30', 'Expected date value to be equals to 2000-12-31');
     expect(await operationUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');
     expect(await operationUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
+
     await operationUpdatePage.save();
     expect(await operationUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

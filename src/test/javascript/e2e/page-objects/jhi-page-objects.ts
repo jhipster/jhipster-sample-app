@@ -62,6 +62,7 @@ export class NavBarPage {
     await this.clickOnSignIn();
     return new SignInPage();
   }
+
   async getPasswordPage(): Promise<PasswordPage> {
     await this.clickOnAccountMenu();
     await this.clickOnPasswordMenu();
@@ -134,6 +135,7 @@ export class SignInPage {
     await this.loginButton.click();
   }
 }
+
 export class PasswordPage {
   currentPassword = element(by.id('currentPassword'));
   password = element(by.id('newPassword'));

@@ -13,7 +13,7 @@ export class LabelDeleteDialogComponent {
 
   constructor(protected labelService: LabelService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, RendererFactory2, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -10,12 +10,17 @@ import { AccountService } from 'app/core/auth/account.service';
   templateUrl: './main.component.html'
 })
 export class MainComponent implements OnInit {
+  private renderer: Renderer2;
+
   constructor(
     private accountService: AccountService,
-    private translateService: TranslateService,
     private titleService: Title,
-    private router: Router
-  ) {}
+    private router: Router,
+    private translateService: TranslateService,
+    rootRenderer: RendererFactory2
+  ) {
+    this.renderer = rootRenderer.createRenderer(document.querySelector('html'), null);
+  }
 
   ngOnInit(): void {
     // try to log in automatically
@@ -30,7 +35,11 @@ export class MainComponent implements OnInit {
       }
     });
 
-    this.translateService.onLangChange.subscribe(() => this.updateTitle());
+    this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.updateTitle();
+
+      this.renderer.setAttribute(document.querySelector('html'), 'lang', langChangeEvent.lang);
+    });
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

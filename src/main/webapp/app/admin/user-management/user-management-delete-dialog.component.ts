@@ -14,7 +14,7 @@ export class UserManagementDeleteDialogComponent {
 
   constructor(private userService: UserService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

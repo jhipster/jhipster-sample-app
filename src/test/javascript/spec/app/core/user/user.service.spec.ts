@@ -34,6 +34,7 @@ describe('Service Tests', () => {
         const resourceUrl = SERVER_API_URL + 'api/users';
         expect(req.request.url).toEqual(`${resourceUrl}/user`);
       });
+
       it('should return User', () => {
         let expectedResult: string | undefined;
 

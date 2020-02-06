@@ -1,32 +1,35 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="operation">
-            <h2><span jhiTranslate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{operation.id}}</h2>
+            <h2><span jhiTranslate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span> {{ operation.id }}</h2>
+
             <hr>
+
             <jhi-alert-error></jhi-alert-error>
+
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
                 <dd>
-                    <span>{{operation.date}}</span>
+                    <span>{{ operation.date }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span></dt>
                 <dd>
-                    <span>{{operation.description}}</span>
+                    <span>{{ operation.description }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span></dt>
                 <dd>
-                    <span>{{operation.amount}}</span>
+                    <span>{{ operation.amount }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
                 <dd>
                     <div *ngIf="operation.bankAccount">
-                        <a [routerLink]="['/bank-account', operation.bankAccount?.id, 'view']">{{operation.bankAccount?.name}}</a>
+                        <a [routerLink]="['/bank-account', operation.bankAccount?.id, 'view']">{{ operation.bankAccount?.name }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
                 <dd>
                     <span *ngFor="let label of operation.labels; let last = last">
-                        <a [routerLink]="['/label', label?.id, 'view' ]">{{label.label}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/label', label?.id, 'view']">{{ label.label }}</a>{{ last ? '' : ', ' }}
                     </span>
                 </dd>
             </dl>
@@ -34,13 +37,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/operation', operation.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
             </button>
         </div>
     </div>

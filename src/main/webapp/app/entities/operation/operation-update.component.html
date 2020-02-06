@@ -2,13 +2,15 @@
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-operation-heading" jhiTranslate="jhipsterSampleApplicationApp.operation.home.createOrEditLabel">Create or edit a Operation</h2>
+
             <div>
                 <jhi-alert-error></jhi-alert-error>
+
                 <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
                     <div class="d-flex">
@@ -25,11 +27,13 @@
                         </small>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.description" for="field_description">Description</label>
                     <input type="text" class="form-control" name="description" id="field_description"
                            formControlName="description"/>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
                     <input type="number" class="form-control" name="amount" id="field_amount"
@@ -50,22 +54,25 @@
                     <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount">Bank Account</label>
                     <select class="form-control" id="field_bankAccount" name="bankAccount" formControlName="bankAccount">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="bankAccountOption.id === editForm.get('bankAccount')!.value?.id ? editForm.get('bankAccount')!.value : bankAccountOption" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackById">{{bankAccountOption.name}}</option>
+                        <option [ngValue]="bankAccountOption.id === editForm.get('bankAccount')!.value?.id ? editForm.get('bankAccount')!.value : bankAccountOption" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackById">{{ bankAccountOption.name }}</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label jhiTranslate="jhipsterSampleApplicationApp.operation.label" for="field_labels">Label</label>
                     <select class="form-control" id="field_labels" multiple name="labels" formControlName="labels">
-                        <option [ngValue]="getSelected(editForm.get('labels')!.value, labelOption)" *ngFor="let labelOption of labels; trackBy: trackById">{{labelOption.label}}</option>
+                        <option [ngValue]="getSelected(editForm.get('labels')!.value, labelOption)" *ngFor="let labelOption of labels; trackBy: trackById">{{ labelOption.label }}</option>
                     </select>
                 </div>
             </div>
+
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
+
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>
         </form>

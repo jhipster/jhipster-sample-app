@@ -23,9 +23,7 @@ export class BankAccountComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    this.bankAccountService.query().subscribe((res: HttpResponse<IBankAccount[]>) => {
-      this.bankAccounts = res.body ? res.body : [];
-    });
+    this.bankAccountService.query().subscribe((res: HttpResponse<IBankAccount[]>) => (this.bankAccounts = res.body || []));
   }
 
   ngOnInit(): void {

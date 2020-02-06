@@ -45,8 +45,6 @@ spring:
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    database: MYSQL
     show-sql: false
     properties:
       hibernate.id.new_generator_mappings: true

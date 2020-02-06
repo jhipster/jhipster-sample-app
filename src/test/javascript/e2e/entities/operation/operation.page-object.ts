@@ -4,6 +4,8 @@ export class OperationComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-operation div table .btn-danger'));
   title = element.all(by.css('jhi-operation div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,9 +28,11 @@ export class OperationUpdatePage {
   pageTitle = element(by.id('jhi-operation-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   dateInput = element(by.id('field_date'));
   descriptionInput = element(by.id('field_description'));
   amountInput = element(by.id('field_amount'));
+
   bankAccountSelect = element(by.id('field_bankAccount'));
   labelSelect = element(by.id('field_label'));
 

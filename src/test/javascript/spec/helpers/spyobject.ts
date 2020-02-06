@@ -10,24 +10,7 @@ export interface GuinessCompatibleSpy extends jasmine.Spy {
 }
 
 export class SpyObject {
-  static stub(object: any = null, config: any = null, overrides: any = null): any {
-    if (!(object instanceof SpyObject)) {
-      overrides = config;
-      config = object;
-      object = new SpyObject();
-    }
-
-    const m = {};
-    Object.keys(config).forEach(key => (m[key] = config[key]));
-    Object.keys(overrides).forEach(key => (m[key] = overrides[key]));
-    Object.keys(m).forEach(key => {
-      object.spy(key).andReturn(m[key]);
-    });
-    return object;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  constructor(type: any = null) {
+  constructor(type?: any) {
     if (type) {
       Object.keys(type.prototype).forEach(prop => {
         let m = null;
@@ -48,13 +31,12 @@ export class SpyObject {
 
   spy(name: string): GuinessCompatibleSpy {
     if (!this[name]) {
-      this[name] = this._createGuinnessCompatibleSpy(name);
+      this[name] = this.createGuinnessCompatibleSpy(name);
     }
     return this[name];
   }
 
-  /** @internal */
-  _createGuinnessCompatibleSpy(name: string): GuinessCompatibleSpy {
+  private createGuinnessCompatibleSpy(name: string): GuinessCompatibleSpy {
     const newSpy: GuinessCompatibleSpy = jasmine.createSpy(name) as any;
     newSpy.andCallFake = newSpy.and.callFake as any;
     newSpy.andReturn = newSpy.and.returnValue as any;

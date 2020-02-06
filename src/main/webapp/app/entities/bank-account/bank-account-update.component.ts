@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { IBankAccount, BankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
@@ -17,7 +16,6 @@ import { UserService } from 'app/core/user/user.service';
 })
 export class BankAccountUpdateComponent implements OnInit {
   isSaving = false;
-
   users: IUser[] = [];
 
   editForm = this.fb.group({
@@ -38,14 +36,7 @@ export class BankAccountUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ bankAccount }) => {
       this.updateForm(bankAccount);
 
-      this.userService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IUser[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IUser[]) => (this.users = resBody));
+      this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
   }
 

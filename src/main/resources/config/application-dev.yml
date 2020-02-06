@@ -48,7 +48,6 @@ spring:
       enabled: false
   jpa:
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-    database: H2
     show-sql: true
     properties:
       hibernate.id.new_generator_mappings: true

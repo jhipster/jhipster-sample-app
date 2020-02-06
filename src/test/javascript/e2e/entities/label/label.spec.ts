@@ -25,6 +25,7 @@ describe('Label e2e test', () => {
     labelComponentsPage = new LabelComponentsPage();
     await browser.wait(ec.visibilityOf(labelComponentsPage.title), 5000);
     expect(await labelComponentsPage.getTitle()).to.eq('jhipsterSampleApplicationApp.label.home.title');
+    await browser.wait(ec.or(ec.visibilityOf(labelComponentsPage.entities), ec.visibilityOf(labelComponentsPage.noResult)), 1000);
   });
 
   it('should load create Label page', async () => {
@@ -38,8 +39,11 @@ describe('Label e2e test', () => {
     const nbButtonsBeforeCreate = await labelComponentsPage.countDeleteButtons();
 
     await labelComponentsPage.clickOnCreateButton();
+
     await promise.all([labelUpdatePage.setLabelInput('label')]);
+
     expect(await labelUpdatePage.getLabelInput()).to.eq('label', 'Expected Label value to be equals to label');
+
     await labelUpdatePage.save();
     expect(await labelUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

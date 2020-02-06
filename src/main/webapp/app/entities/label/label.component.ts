@@ -19,9 +19,7 @@ export class LabelComponent implements OnInit, OnDestroy {
   constructor(protected labelService: LabelService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll(): void {
-    this.labelService.query().subscribe((res: HttpResponse<ILabel[]>) => {
-      this.labels = res.body ? res.body : [];
-    });
+    this.labelService.query().subscribe((res: HttpResponse<ILabel[]>) => (this.labels = res.body || []));
   }
 
   ngOnInit(): void {

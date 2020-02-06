@@ -4,6 +4,8 @@ export class BankAccountComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-bank-account div table .btn-danger'));
   title = element.all(by.css('jhi-bank-account div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,8 +28,10 @@ export class BankAccountUpdatePage {
   pageTitle = element(by.id('jhi-bank-account-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   nameInput = element(by.id('field_name'));
   balanceInput = element(by.id('field_balance'));
+
   userSelect = element(by.id('field_user'));
 
   async getPageTitle(): Promise<string> {

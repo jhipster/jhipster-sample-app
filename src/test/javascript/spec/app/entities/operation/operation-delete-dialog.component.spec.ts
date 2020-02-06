@@ -48,12 +48,13 @@ describe('Component Tests', () => {
           expect(mockEventManager.broadcastSpy).toHaveBeenCalled();
         })
       ));
+
       it('Should not call delete service on clear', () => {
         // GIVEN
         spyOn(service, 'delete');
 
         // WHEN
-        comp.clear();
+        comp.cancel();
 
         // THEN
         expect(service.delete).not.toHaveBeenCalled();

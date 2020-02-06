@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
@@ -23,9 +22,7 @@ type SelectableEntity = IBankAccount | ILabel;
 })
 export class OperationUpdateComponent implements OnInit {
   isSaving = false;
-
   bankaccounts: IBankAccount[] = [];
-
   labels: ILabel[] = [];
 
   editForm = this.fb.group({
@@ -47,32 +44,23 @@ export class OperationUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ operation }) => {
+      if (!operation.id) {
+        const today = moment().startOf('day');
+        operation.date = today;
+      }
+
       this.updateForm(operation);
 
-      this.bankAccountService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IBankAccount[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IBankAccount[]) => (this.bankaccounts = resBody));
+      this.bankAccountService.query().subscribe((res: HttpResponse<IBankAccount[]>) => (this.bankaccounts = res.body || []));
 
-      this.labelService
-        .query()
-        .pipe(
-          map((res: HttpResponse<ILabel[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: ILabel[]) => (this.labels = resBody));
+      this.labelService.query().subscribe((res: HttpResponse<ILabel[]>) => (this.labels = res.body || []));
     });
   }
 
   updateForm(operation: IOperation): void {
     this.editForm.patchValue({
       id: operation.id,
-      date: operation.date != null ? operation.date.format(DATE_TIME_FORMAT) : null,
+      date: operation.date ? operation.date.format(DATE_TIME_FORMAT) : null,
       description: operation.description,
       amount: operation.amount,
       bankAccount: operation.bankAccount,
@@ -98,7 +86,7 @@ export class OperationUpdateComponent implements OnInit {
     return {
       ...new Operation(),
       id: this.editForm.get(['id'])!.value,
-      date: this.editForm.get(['date'])!.value != null ? moment(this.editForm.get(['date'])!.value, DATE_TIME_FORMAT) : undefined,
+      date: this.editForm.get(['date'])!.value ? moment(this.editForm.get(['date'])!.value, DATE_TIME_FORMAT) : undefined,
       description: this.editForm.get(['description'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       bankAccount: this.editForm.get(['bankAccount'])!.value,

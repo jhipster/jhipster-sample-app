@@ -105,7 +105,7 @@ public class LabelResourceIT {
 
         // Create the Label
         restLabelMockMvc.perform(post("/api/labels")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(label)))
             .andExpect(status().isCreated());
 
@@ -126,7 +126,7 @@ public class LabelResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLabelMockMvc.perform(post("/api/labels")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(label)))
             .andExpect(status().isBadRequest());
 
@@ -146,7 +146,7 @@ public class LabelResourceIT {
         // Create the Label, which fails.
 
         restLabelMockMvc.perform(post("/api/labels")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(label)))
             .andExpect(status().isBadRequest());
 
@@ -163,7 +163,7 @@ public class LabelResourceIT {
         // Get all the labelList
         restLabelMockMvc.perform(get("/api/labels?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)));
     }
@@ -177,7 +177,7 @@ public class LabelResourceIT {
         // Get the label
         restLabelMockMvc.perform(get("/api/labels/{id}", label.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(label.getId().intValue()))
             .andExpect(jsonPath("$.label").value(DEFAULT_LABEL));
     }
@@ -205,7 +205,7 @@ public class LabelResourceIT {
         updatedLabel.setLabel(UPDATED_LABEL);
 
         restLabelMockMvc.perform(put("/api/labels")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(updatedLabel)))
             .andExpect(status().isOk());
 
@@ -225,7 +225,7 @@ public class LabelResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restLabelMockMvc.perform(put("/api/labels")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(label)))
             .andExpect(status().isBadRequest());
 
@@ -244,7 +244,7 @@ public class LabelResourceIT {
 
         // Delete the label
         restLabelMockMvc.perform(delete("/api/labels/{id}", label.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

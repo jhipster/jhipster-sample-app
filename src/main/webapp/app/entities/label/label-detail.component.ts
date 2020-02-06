@@ -13,9 +13,7 @@ export class LabelDetailComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ label }) => {
-      this.label = label;
-    });
+    this.activatedRoute.data.subscribe(({ label }) => (this.label = label));
   }
 
   previousState(): void {

@@ -87,12 +87,16 @@
         <loadData
                   file="config/liquibase/data/authority.csv"
                   separator=";"
-                  tableName="jhi_authority"/>
+                  tableName="jhi_authority">
+            <column name="name" type="string"/>
+        </loadData>
 
         <loadData
                   file="config/liquibase/data/user_authority.csv"
                   separator=";"
-                  tableName="jhi_user_authority"/>
+                  tableName="jhi_user_authority">
+            <column name="user_id" type="numeric"/>
+        </loadData>
         <createTable tableName="jhi_persistent_audit_event">
             <column name="event_id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
