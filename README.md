@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 6.7.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.7.0](https://www.jhipster.tech/documentation-archive/v6.7.0).
+This application was generated using JHipster 6.7.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.7.1](https://www.jhipster.tech/documentation-archive/v6.7.1).
 
 ## Development
 
@@ -178,13 +178,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 6.7.0 archive]: https://www.jhipster.tech/documentation-archive/v6.7.0
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.7.0/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.7.0/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.7.0/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v6.7.0/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v6.7.0/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.7.0/setting-up-ci/
+[jhipster 6.7.1 archive]: https://www.jhipster.tech/documentation-archive/v6.7.1
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.7.1/development/
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.7.1/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.7.1/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v6.7.1/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v6.7.1/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.7.1/setting-up-ci/
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/

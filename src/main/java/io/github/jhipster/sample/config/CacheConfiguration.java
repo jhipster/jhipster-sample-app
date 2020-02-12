@@ -54,10 +54,9 @@ public class CacheConfiguration {
 
     private void createCache(javax.cache.CacheManager cm, String cacheName) {
         javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
-        if (cache != null) {
-            cm.destroyCache(cacheName);
+        if (cache == null) {
+            cm.createCache(cacheName, jcacheConfiguration);
         }
-        cm.createCache(cacheName, jcacheConfiguration);
     }
 
 }

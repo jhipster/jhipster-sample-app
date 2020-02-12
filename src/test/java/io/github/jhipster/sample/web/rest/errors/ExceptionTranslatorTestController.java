@@ -10,41 +10,42 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
+@RequestMapping("/api/exception-translator-test")
 public class ExceptionTranslatorTestController {
 
-    @GetMapping("/test/concurrency-failure")
+    @GetMapping("/concurrency-failure")
     public void concurrencyFailure() {
         throw new ConcurrencyFailureException("test concurrency failure");
     }
 
-    @PostMapping("/test/method-argument")
+    @PostMapping("/method-argument")
     public void methodArgument(@Valid @RequestBody TestDTO testDTO) {
     }
 
-    @GetMapping("/test/missing-servlet-request-part")
+    @GetMapping("/missing-servlet-request-part")
     public void missingServletRequestPartException(@RequestPart String part) {
     }
 
-    @GetMapping("/test/missing-servlet-request-parameter")
+    @GetMapping("/missing-servlet-request-parameter")
     public void missingServletRequestParameterException(@RequestParam String param) {
     }
 
-    @GetMapping("/test/access-denied")
+    @GetMapping("/access-denied")
     public void accessdenied() {
         throw new AccessDeniedException("test access denied!");
     }
 
-    @GetMapping("/test/unauthorized")
+    @GetMapping("/unauthorized")
     public void unauthorized() {
         throw new BadCredentialsException("test authentication failed!");
     }
 
-    @GetMapping("/test/response-status")
+    @GetMapping("/response-status")
     public void exceptionWithResponseStatus() {
         throw new TestResponseStatusException();
     }
 
-    @GetMapping("/test/internal-server-error")
+    @GetMapping("/internal-server-error")
     public void internalServerError() {
         throw new RuntimeException();
     }

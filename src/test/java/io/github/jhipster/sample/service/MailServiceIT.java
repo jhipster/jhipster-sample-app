@@ -43,7 +43,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = JhipsterSampleApplicationApp.class)
 public class MailServiceIT {
 
-    private static String languages[] = {
+    private static final String[] languages = {
         "en"
         // jhipster-needle-i18n-language-constant - JHipster will add/remove languages in this array
     };
