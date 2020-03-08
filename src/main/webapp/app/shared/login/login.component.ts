@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Renderer, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -21,17 +21,11 @@ export class LoginModalComponent implements AfterViewInit {
     rememberMe: [false]
   });
 
-  constructor(
-    private loginService: LoginService,
-    private renderer: Renderer,
-    private router: Router,
-    public activeModal: NgbActiveModal,
-    private fb: FormBuilder
-  ) {}
+  constructor(private loginService: LoginService, private router: Router, public activeModal: NgbActiveModal, private fb: FormBuilder) {}
 
   ngAfterViewInit(): void {
     if (this.username) {
-      this.renderer.invokeElementMethod(this.username.nativeElement, 'focus', []);
+      this.username.nativeElement.focus();
     }
   }
 

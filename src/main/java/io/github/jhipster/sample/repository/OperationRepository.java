@@ -26,5 +26,4 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
 
     @Query("select operation from Operation operation left join fetch operation.labels where operation.id =:id")
     Optional<Operation> findOneWithEagerRelationships(@Param("id") Long id);
-
 }
