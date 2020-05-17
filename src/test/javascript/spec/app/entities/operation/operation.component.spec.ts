@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Data } from '@angular/router';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { OperationComponent } from 'app/entities/operation/operation.component';
@@ -28,13 +28,23 @@ describe('Component Tests', () => {
                     pagingParams: {
                       predicate: 'id',
                       reverse: false,
-                      page: 0
-                    }
-                  })
-              }
-            }
-          }
-        ]
+                      page: 0,
+                    },
+                  }),
+              },
+              queryParamMap: {
+                subscribe: (fn: (value: Data) => void) =>
+                  fn(
+                    convertToParamMap({
+                      page: '1',
+                      size: '1',
+                      sort: 'id,desc',
+                    })
+                  ),
+              },
+            },
+          },
+        ],
       })
         .overrideTemplate(OperationComponent, '')
         .compileComponents();
@@ -51,7 +61,7 @@ describe('Component Tests', () => {
         of(
           new HttpResponse({
             body: [new Operation(123)],
-            headers
+            headers,
           })
         )
       );
@@ -71,7 +81,7 @@ describe('Component Tests', () => {
         of(
           new HttpResponse({
             body: [new Operation(123)],
-            headers
+            headers,
           })
         )
       );
@@ -91,7 +101,7 @@ describe('Component Tests', () => {
         of(
           new HttpResponse({
             body: [new Operation(123)],
-            headers
+            headers,
           })
         )
       );

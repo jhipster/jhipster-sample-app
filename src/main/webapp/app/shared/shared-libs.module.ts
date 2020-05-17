@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    TranslateModule
-  ]
+    TranslateModule,
+  ],
 })
 export class JhipsterSampleApplicationSharedLibsModule {}

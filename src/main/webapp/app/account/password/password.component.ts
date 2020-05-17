@@ -8,7 +8,7 @@ import { PasswordService } from './password.service';
 
 @Component({
   selector: 'jhi-password',
-  templateUrl: './password.component.html'
+  templateUrl: './password.component.html',
 })
 export class PasswordComponent implements OnInit {
   doNotMatch = false;
@@ -18,7 +18,7 @@ export class PasswordComponent implements OnInit {
   passwordForm = this.fb.group({
     currentPassword: ['', [Validators.required]],
     newPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
+    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
   });
 
   constructor(private passwordService: PasswordService, private accountService: AccountService, private fb: FormBuilder) {}

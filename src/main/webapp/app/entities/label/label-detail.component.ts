@@ -5,7 +5,7 @@ import { ILabel } from 'app/shared/model/label.model';
 
 @Component({
   selector: 'jhi-label-detail',
-  templateUrl: './label-detail.component.html'
+  templateUrl: './label-detail.component.html',
 })
 export class LabelDetailComponent implements OnInit {
   label: ILabel | null = null;

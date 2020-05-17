@@ -5,5 +5,5 @@ import { NavbarComponent } from './navbar.component';
 export const navbarRoute: Route = {
   path: '',
   component: NavbarComponent,
-  outlet: 'navbar'
+  outlet: 'navbar',
 };

@@ -18,7 +18,7 @@
         <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.notFound">No bankAccounts found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="bankAccounts?.length > 0">
+    <div class="table-responsive" id="entities" *ngIf="bankAccounts && bankAccounts.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr>

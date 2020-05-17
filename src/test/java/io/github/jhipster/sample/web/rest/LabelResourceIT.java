@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link LabelResource} REST controller.
  */
 @SpringBootTest(classes = JhipsterSampleApplicationApp.class)
-
 @AutoConfigureMockMvc
 @WithMockUser
 public class LabelResourceIT {
@@ -76,7 +75,6 @@ public class LabelResourceIT {
     @Transactional
     public void createLabel() throws Exception {
         int databaseSizeBeforeCreate = labelRepository.findAll().size();
-
         // Create the Label
         restLabelMockMvc.perform(post("/api/labels")
             .contentType(MediaType.APPLICATION_JSON)
@@ -119,6 +117,7 @@ public class LabelResourceIT {
 
         // Create the Label, which fails.
 
+
         restLabelMockMvc.perform(post("/api/labels")
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(label)))
@@ -155,7 +154,6 @@ public class LabelResourceIT {
             .andExpect(jsonPath("$.id").value(label.getId().intValue()))
             .andExpect(jsonPath("$.label").value(DEFAULT_LABEL));
     }
-
     @Test
     @Transactional
     public void getNonExistingLabel() throws Exception {
@@ -194,8 +192,6 @@ public class LabelResourceIT {
     @Transactional
     public void updateNonExistingLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-
-        // Create the Label
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restLabelMockMvc.perform(put("/api/labels")

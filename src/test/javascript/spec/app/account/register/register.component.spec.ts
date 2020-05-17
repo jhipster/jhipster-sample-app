@@ -18,7 +18,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
         declarations: [RegisterComponent],
-        providers: [FormBuilder]
+        providers: [FormBuilder],
       })
         .overrideTemplate(RegisterComponent, '')
         .compileComponents();
@@ -32,7 +32,7 @@ describe('Component Tests', () => {
     it('should ensure the two passwords entered match', () => {
       comp.registerForm.patchValue({
         password: 'password',
-        confirmPassword: 'non-matching'
+        confirmPassword: 'non-matching',
       });
 
       comp.register();
@@ -46,7 +46,7 @@ describe('Component Tests', () => {
         spyOn(service, 'save').and.returnValue(of({}));
         comp.registerForm.patchValue({
           password: 'password',
-          confirmPassword: 'password'
+          confirmPassword: 'password',
         });
 
         comp.register();
@@ -56,7 +56,7 @@ describe('Component Tests', () => {
           email: '',
           password: 'password',
           login: '',
-          langKey: 'en'
+          langKey: 'en',
         });
         expect(comp.success).toBe(true);
         expect(mockTranslate.getCurrentLanguageSpy).toHaveBeenCalled();
@@ -72,12 +72,12 @@ describe('Component Tests', () => {
         spyOn(service, 'save').and.returnValue(
           throwError({
             status: 400,
-            error: { type: LOGIN_ALREADY_USED_TYPE }
+            error: { type: LOGIN_ALREADY_USED_TYPE },
           })
         );
         comp.registerForm.patchValue({
           password: 'password',
-          confirmPassword: 'password'
+          confirmPassword: 'password',
         });
 
         comp.register();
@@ -95,12 +95,12 @@ describe('Component Tests', () => {
         spyOn(service, 'save').and.returnValue(
           throwError({
             status: 400,
-            error: { type: EMAIL_ALREADY_USED_TYPE }
+            error: { type: EMAIL_ALREADY_USED_TYPE },
           })
         );
         comp.registerForm.patchValue({
           password: 'password',
-          confirmPassword: 'password'
+          confirmPassword: 'password',
         });
 
         comp.register();
@@ -117,12 +117,12 @@ describe('Component Tests', () => {
       fakeAsync((service: RegisterService) => {
         spyOn(service, 'save').and.returnValue(
           throwError({
-            status: 503
+            status: 503,
           })
         );
         comp.registerForm.patchValue({
           password: 'password',
-          confirmPassword: 'password'
+          confirmPassword: 'password',
         });
 
         comp.register();

@@ -11,6 +11,7 @@ export class MockAccountService extends SpyObject {
   authenticateSpy: Spy;
   identitySpy: Spy;
   getAuthenticationStateSpy: Spy;
+  isAuthenticated: Spy;
 
   constructor() {
     super(AccountService);
@@ -20,6 +21,7 @@ export class MockAccountService extends SpyObject {
     this.authenticateSpy = this.spy('authenticate').andReturn(this);
     this.identitySpy = this.spy('identity').andReturn(of(null));
     this.getAuthenticationStateSpy = this.spy('getAuthenticationState').andReturn(of(null));
+    this.isAuthenticated = this.spy('isAuthenticated').andReturn(true);
   }
 
   setIdentityResponse(account: Account | null): void {

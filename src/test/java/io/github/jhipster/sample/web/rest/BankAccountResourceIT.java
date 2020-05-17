@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link BankAccountResource} REST controller.
  */
 @SpringBootTest(classes = JhipsterSampleApplicationApp.class)
-
 @AutoConfigureMockMvc
 @WithMockUser
 public class BankAccountResourceIT {
@@ -82,7 +81,6 @@ public class BankAccountResourceIT {
     @Transactional
     public void createBankAccount() throws Exception {
         int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
-
         // Create the BankAccount
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(MediaType.APPLICATION_JSON)
@@ -126,6 +124,7 @@ public class BankAccountResourceIT {
 
         // Create the BankAccount, which fails.
 
+
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccount)))
@@ -143,6 +142,7 @@ public class BankAccountResourceIT {
         bankAccount.setBalance(null);
 
         // Create the BankAccount, which fails.
+
 
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(MediaType.APPLICATION_JSON)
@@ -182,7 +182,6 @@ public class BankAccountResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.intValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingBankAccount() throws Exception {
@@ -223,8 +222,6 @@ public class BankAccountResourceIT {
     @Transactional
     public void updateNonExistingBankAccount() throws Exception {
         int databaseSizeBeforeUpdate = bankAccountRepository.findAll().size();
-
-        // Create the BankAccount
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBankAccountMockMvc.perform(put("/api/bank-accounts")

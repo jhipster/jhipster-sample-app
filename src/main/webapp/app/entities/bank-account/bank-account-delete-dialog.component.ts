@@ -6,7 +6,7 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { BankAccountService } from './bank-account.service';
 
 @Component({
-  templateUrl: './bank-account-delete-dialog.component.html'
+  templateUrl: './bank-account-delete-dialog.component.html',
 })
 export class BankAccountDeleteDialogComponent {
   bankAccount?: IBankAccount;

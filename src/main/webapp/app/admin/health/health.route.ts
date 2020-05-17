@@ -6,6 +6,6 @@ export const healthRoute: Route = {
   path: '',
   component: HealthComponent,
   data: {
-    pageTitle: 'health.title'
-  }
+    pageTitle: 'health.title',
+  },
 };

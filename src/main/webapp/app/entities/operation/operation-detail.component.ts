@@ -5,7 +5,7 @@ import { IOperation } from 'app/shared/model/operation.model';
 
 @Component({
   selector: 'jhi-operation-detail',
-  templateUrl: './operation-detail.component.html'
+  templateUrl: './operation-detail.component.html',
 })
 export class OperationDetailComponent implements OnInit {
   operation: IOperation | null = null;

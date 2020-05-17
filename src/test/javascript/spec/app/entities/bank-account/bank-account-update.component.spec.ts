@@ -18,7 +18,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
         declarations: [BankAccountUpdateComponent],
-        providers: [FormBuilder]
+        providers: [FormBuilder],
       })
         .overrideTemplate(BankAccountUpdateComponent, '')
         .compileComponents();

@@ -15,7 +15,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
         declarations: [ConfigurationComponent],
-        providers: [ConfigurationService]
+        providers: [ConfigurationService],
       })
         .overrideTemplate(ConfigurationComponent, '')
         .compileComponents();
@@ -35,20 +35,20 @@ describe('Component Tests', () => {
             prefix: 'jhipster',
             properties: {
               clientApp: {
-                name: 'jhipsterApp'
-              }
-            }
-          }
+                name: 'jhipsterApp',
+              },
+            },
+          },
         ];
         const propertySources: PropertySource[] = [
           {
             name: 'server.ports',
             properties: {
               'local.server.port': {
-                value: '8080'
-              }
-            }
-          }
+                value: '8080',
+              },
+            },
+          },
         ];
         spyOn(service, 'getBeans').and.returnValue(of(beans));
         spyOn(service, 'getPropertySources').and.returnValue(of(propertySources));

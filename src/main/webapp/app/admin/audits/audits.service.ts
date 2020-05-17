@@ -22,7 +22,7 @@ export class AuditsService {
 
     return this.http.get<Audit[]>(requestURL, {
       params,
-      observe: 'response'
+      observe: 'response',
     });
   }
 }

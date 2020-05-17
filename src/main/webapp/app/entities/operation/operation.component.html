@@ -18,7 +18,7 @@
         <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No operations found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="operations?.length > 0">
+    <div class="table-responsive" id="entities" *ngIf="operations && operations.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">

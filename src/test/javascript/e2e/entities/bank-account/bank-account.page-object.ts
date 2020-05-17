@@ -55,10 +55,7 @@ export class BankAccountUpdatePage {
   }
 
   async userSelectLastOption(): Promise<void> {
-    await this.userSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.userSelect.all(by.tagName('option')).last().click();
   }
 
   async userSelectOption(option: string): Promise<void> {

@@ -41,7 +41,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
         declarations: [AuditsComponent],
-        providers: [AuditsService]
+        providers: [AuditsService],
       })
         .overrideTemplate(AuditsComponent, '')
         .compileComponents();
@@ -112,7 +112,7 @@ describe('Component Tests', () => {
           of(
             new HttpResponse({
               body: [audit],
-              headers
+              headers,
             })
           )
         );
@@ -145,7 +145,7 @@ describe('Component Tests', () => {
         // THEN
         expect(service.query).toBeCalledWith(
           expect.objectContaining({
-            sort: ['id,desc']
+            sort: ['id,desc'],
           })
         );
       });
@@ -161,7 +161,7 @@ describe('Component Tests', () => {
         // THEN
         expect(service.query).toBeCalledWith(
           expect.objectContaining({
-            sort: ['timestamp,asc', 'id']
+            sort: ['timestamp,asc', 'id'],
           })
         );
       });
@@ -173,14 +173,6 @@ describe('Component Tests', () => {
         comp.fromDate = getDate(false);
         comp.previousPage = 1;
         spyOn(comp, 'transition');
-      });
-
-      it('Should not reload page already shown', () => {
-        // WHEN
-        comp.loadPage(1);
-
-        // THEN
-        expect(comp.transition).not.toBeCalled();
       });
 
       it('Should load new page', () => {

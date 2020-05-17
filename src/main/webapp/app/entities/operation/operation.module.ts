@@ -11,6 +11,6 @@ import { operationRoute } from './operation.route';
 @NgModule({
   imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(operationRoute)],
   declarations: [OperationComponent, OperationDetailComponent, OperationUpdateComponent, OperationDeleteDialogComponent],
-  entryComponents: [OperationDeleteDialogComponent]
+  entryComponents: [OperationDeleteDialogComponent],
 })
 export class JhipsterSampleApplicationOperationModule {}

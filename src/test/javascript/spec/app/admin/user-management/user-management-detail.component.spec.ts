@@ -12,7 +12,7 @@ describe('Component Tests', () => {
     let comp: UserManagementDetailComponent;
     let fixture: ComponentFixture<UserManagementDetailComponent>;
     const route: ActivatedRoute = ({
-      data: of({ user: new User(1, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') })
+      data: of({ user: new User(1, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') }),
     } as any) as ActivatedRoute;
 
     beforeEach(async(() => {
@@ -22,9 +22,9 @@ describe('Component Tests', () => {
         providers: [
           {
             provide: ActivatedRoute,
-            useValue: route
-          }
-        ]
+            useValue: route,
+          },
+        ],
       })
         .overrideTemplate(UserManagementDetailComponent, '')
         .compileComponents();
@@ -53,7 +53,7 @@ describe('Component Tests', () => {
             activated: true,
             langKey: 'en',
             authorities: [Authority.USER],
-            createdBy: 'admin'
+            createdBy: 'admin',
           })
         );
       });

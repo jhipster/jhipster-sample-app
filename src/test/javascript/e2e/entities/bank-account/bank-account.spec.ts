@@ -46,7 +46,7 @@ describe('BankAccount e2e test', () => {
     await promise.all([
       bankAccountUpdatePage.setNameInput('name'),
       bankAccountUpdatePage.setBalanceInput('5'),
-      bankAccountUpdatePage.userSelectLastOption()
+      bankAccountUpdatePage.userSelectLastOption(),
     ]);
 
     expect(await bankAccountUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');

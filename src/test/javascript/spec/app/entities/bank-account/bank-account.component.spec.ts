@@ -16,7 +16,7 @@ describe('Component Tests', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
-        declarations: [BankAccountComponent]
+        declarations: [BankAccountComponent],
       })
         .overrideTemplate(BankAccountComponent, '')
         .compileComponents();
@@ -33,7 +33,7 @@ describe('Component Tests', () => {
         of(
           new HttpResponse({
             body: [new BankAccount(123)],
-            headers
+            headers,
           })
         )
       );

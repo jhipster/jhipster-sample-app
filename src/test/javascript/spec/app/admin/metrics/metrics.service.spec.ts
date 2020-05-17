@@ -11,7 +11,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule]
+        imports: [HttpClientTestingModule],
       });
       service = TestBed.get(MetricsService);
       httpMock = TestBed.get(HttpTestingController);
@@ -39,7 +39,7 @@ describe('Service Tests', () => {
           services: {},
           databases: {},
           garbageCollector: {},
-          processMetrics: {}
+          processMetrics: {},
         };
 
         service.getMetrics().subscribe(received => {

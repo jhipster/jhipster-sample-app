@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { Audit } from './audit.model';
@@ -9,10 +9,11 @@ import { AuditsService } from './audits.service';
 
 @Component({
   selector: 'jhi-audit',
-  templateUrl: './audits.component.html'
+  templateUrl: './audits.component.html',
 })
 export class AuditsComponent implements OnInit {
   audits?: Audit[];
+  firstCall = true;
   fromDate = '';
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -41,13 +42,37 @@ export class AuditsComponent implements OnInit {
       this.predicate = data['pagingParams'].predicate;
       this.loadData();
     });
+    this.handleBackNavigation();
   }
 
   loadPage(page: number): void {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
+    this.firstCall = false;
+    this.previousPage = page;
+    this.transition();
+  }
+
+  handleBackNavigation(): void {
+    this.activatedRoute.queryParamMap.subscribe((params: ParamMap) => {
+      if (!this.firstCall) {
+        let prevPage = params.get('page');
+        if (prevPage === null) {
+          prevPage = '1'; // because there are no params in the URL the first time /admin/audits
+        }
+        const prevSort = params.get('sort');
+        const prevSortSplit = prevSort?.split(',');
+        if (prevSortSplit) {
+          this.predicate = prevSortSplit[0];
+          this.ascending = prevSortSplit[1] === 'asc';
+        } else {
+          this.predicate = 'auditEventDate';
+          this.ascending = false;
+        }
+        if (+prevPage !== this.page) {
+          this.page = +prevPage;
+        }
+        this.loadPage(this.page);
+      }
+    });
   }
 
   canLoad(): boolean {
@@ -55,12 +80,13 @@ export class AuditsComponent implements OnInit {
   }
 
   transition(): void {
+    this.firstCall = false;
     if (this.canLoad()) {
       this.router.navigate(['/admin/audits'], {
         queryParams: {
           page: this.page,
-          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
-        }
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+        },
       });
       this.loadData();
     }
@@ -90,7 +116,7 @@ export class AuditsComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
         fromDate: this.fromDate,
-        toDate: this.toDate
+        toDate: this.toDate,
       })
       .subscribe((res: HttpResponse<Audit[]>) => this.onSuccess(res.body, res.headers));
   }

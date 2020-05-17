@@ -5,7 +5,7 @@ import { PasswordResetInitService } from './password-reset-init.service';
 
 @Component({
   selector: 'jhi-password-reset-init',
-  templateUrl: './password-reset-init.component.html'
+  templateUrl: './password-reset-init.component.html',
 })
 export class PasswordResetInitComponent implements AfterViewInit {
   @ViewChild('email', { static: false })
@@ -13,7 +13,7 @@ export class PasswordResetInitComponent implements AfterViewInit {
 
   success = false;
   resetRequestForm = this.fb.group({
-    email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]]
+    email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
   });
 
   constructor(private passwordResetInitService: PasswordResetInitService, private fb: FormBuilder) {}

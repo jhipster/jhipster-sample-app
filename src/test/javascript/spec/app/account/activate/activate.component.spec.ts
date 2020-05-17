@@ -18,9 +18,9 @@ describe('Component Tests', () => {
         providers: [
           {
             provide: ActivatedRoute,
-            useValue: new MockActivatedRoute({ key: 'ABC123' })
-          }
-        ]
+            useValue: new MockActivatedRoute({ key: 'ABC123' }),
+          },
+        ],
       })
         .overrideTemplate(ActivateComponent, '')
         .compileComponents();

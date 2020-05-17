@@ -27,6 +27,7 @@ public class ManagedUserVM extends UserDTO {
         this.password = password;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "ManagedUserVM{" + super.toString() + "} ";

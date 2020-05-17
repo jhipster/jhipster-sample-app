@@ -14,7 +14,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule]
+        imports: [HttpClientTestingModule],
       });
 
       service = TestBed.get(AuditsService);
@@ -61,7 +61,7 @@ describe('Service Tests', () => {
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush('Invalid request parameters', {
           status: 404,
-          statusText: 'Bad Request'
+          statusText: 'Bad Request',
         });
         expect(expectedResult).toEqual(404);
       });

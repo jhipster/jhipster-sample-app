@@ -22,7 +22,7 @@ function accountWithAuthorities(authorities: string[]): Account {
     langKey: '',
     lastName: '',
     login: '',
-    imageUrl: ''
+    imageUrl: '',
   };
 }
 
@@ -40,17 +40,17 @@ describe('Service Tests', () => {
           JhiDateUtils,
           {
             provide: JhiLanguageService,
-            useClass: MockLanguageService
+            useClass: MockLanguageService,
           },
           {
             provide: StateStorageService,
-            useClass: MockStateStorageService
+            useClass: MockStateStorageService,
           },
           {
             provide: Router,
-            useClass: MockRouter
-          }
-        ]
+            useClass: MockRouter,
+          },
+        ],
       });
 
       service = TestBed.get(AccountService);

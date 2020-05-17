@@ -5,7 +5,7 @@ import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 @Component({
   selector: 'jhi-bank-account-detail',
-  templateUrl: './bank-account-detail.component.html'
+  templateUrl: './bank-account-detail.component.html',
 })
 export class BankAccountDetailComponent implements OnInit {
   bankAccount: IBankAccount | null = null;

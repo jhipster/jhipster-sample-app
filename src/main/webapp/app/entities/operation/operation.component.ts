@@ -12,7 +12,7 @@ import { OperationDeleteDialogComponent } from './operation-delete-dialog.compon
 
 @Component({
   selector: 'jhi-operation',
-  templateUrl: './operation.component.html'
+  templateUrl: './operation.component.html',
 })
 export class OperationComponent implements OnInit, OnDestroy {
   operations: IOperation[];
@@ -33,7 +33,7 @@ export class OperationComponent implements OnInit, OnDestroy {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.page = 0;
     this.links = {
-      last: 0
+      last: 0,
     };
     this.predicate = 'id';
     this.ascending = true;
@@ -44,7 +44,7 @@ export class OperationComponent implements OnInit, OnDestroy {
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sort()
+        sort: this.sort(),
       })
       .subscribe((res: HttpResponse<IOperation[]>) => this.paginateOperations(res.body, res.headers));
   }

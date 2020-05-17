@@ -50,7 +50,7 @@ export class OperationService {
 
   protected convertDateFromClient(operation: IOperation): IOperation {
     const copy: IOperation = Object.assign({}, operation, {
-      date: operation.date && operation.date.isValid() ? operation.date.toJSON() : undefined
+      date: operation.date && operation.date.isValid() ? operation.date.toJSON() : undefined,
     });
     return copy;
   }

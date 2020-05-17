@@ -7,6 +7,8 @@ const expect = chai.expect;
 describe('account', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
+  const username = process.env.E2E_USERNAME || 'admin';
+  const password = process.env.E2E_PASSWORD || 'admin';
   let passwordPage: PasswordPage;
   let settingsPage: SettingsPage;
 
@@ -20,7 +22,7 @@ describe('account', () => {
     const value1 = await element(by.css('h1')).getAttribute('jhiTranslate');
     expect(value1).to.eq(expect1);
     signInPage = await navBarPage.getSignInPage();
-    await signInPage.autoSignInUsing('admin', 'foo');
+    await signInPage.autoSignInUsing(username, 'foo');
 
     const expect2 = 'login.messages.error.authentication';
     const value2 = await element(by.css('.alert-danger')).getAttribute('jhiTranslate');
@@ -34,7 +36,7 @@ describe('account', () => {
     const expect1 = 'global.form.username.label';
     const value1 = await element(by.className('username-label')).getAttribute('jhiTranslate');
     expect(value1).to.eq(expect1);
-    await signInPage.autoSignInUsing('admin', 'admin');
+    await signInPage.autoSignInUsing(username, password);
 
     const expect2 = 'home.logged.message';
     await browser.wait(ec.visibilityOf(element(by.id('home-logged-message'))));
@@ -78,7 +80,7 @@ describe('account', () => {
 
     expect(await passwordPage.getTitle()).to.eq('password.title');
 
-    await passwordPage.setCurrentPassword('admin');
+    await passwordPage.setCurrentPassword(password);
     await passwordPage.setPassword('newpassword');
     await passwordPage.setConfirmPassword('newpassword');
     await passwordPage.save();
@@ -89,13 +91,13 @@ describe('account', () => {
     expect(alertValue).to.eq(successMsg);
     await navBarPage.autoSignOut();
     await navBarPage.goToSignInPage();
-    await signInPage.autoSignInUsing('admin', 'newpassword');
+    await signInPage.autoSignInUsing(username, 'newpassword');
 
     // change back to default
     await navBarPage.goToPasswordMenu();
     await passwordPage.setCurrentPassword('newpassword');
-    await passwordPage.setPassword('admin');
-    await passwordPage.setConfirmPassword('admin');
+    await passwordPage.setPassword(password);
+    await passwordPage.setConfirmPassword(password);
     await passwordPage.save();
 
     // wait for success message

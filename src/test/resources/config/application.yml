@@ -14,6 +14,9 @@
 # ===================================================================
 
 spring:
+  profiles:
+  # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
+  #active: testcontainers
   application:
     name: jhipsterSampleApplication
   datasource:
@@ -84,7 +87,7 @@ jhipster:
     name: 'jhipsterSampleApplicationApp'
   logging:
     # To test json console appender
-    use-json-format: true # By default, logs are in Json format
+    use-json-format: false
     logstash:
       enabled: false
       host: localhost

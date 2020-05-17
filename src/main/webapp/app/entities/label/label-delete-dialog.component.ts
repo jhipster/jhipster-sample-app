@@ -6,7 +6,7 @@ import { ILabel } from 'app/shared/model/label.model';
 import { LabelService } from './label.service';
 
 @Component({
-  templateUrl: './label-delete-dialog.component.html'
+  templateUrl: './label-delete-dialog.component.html',
 })
 export class LabelDeleteDialogComponent {
   label?: ILabel;

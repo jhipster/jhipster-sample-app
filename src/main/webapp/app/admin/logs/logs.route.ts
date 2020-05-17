@@ -6,6 +6,6 @@ export const logsRoute: Route = {
   path: '',
   component: LogsComponent,
   data: {
-    pageTitle: 'logs.title'
-  }
+    pageTitle: 'logs.title',
+  },
 };

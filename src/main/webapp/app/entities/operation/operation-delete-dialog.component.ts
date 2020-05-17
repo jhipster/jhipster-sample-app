@@ -6,7 +6,7 @@ import { IOperation } from 'app/shared/model/operation.model';
 import { OperationService } from './operation.service';
 
 @Component({
-  templateUrl: './operation-delete-dialog.component.html'
+  templateUrl: './operation-delete-dialog.component.html',
 })
 export class OperationDeleteDialogComponent {
   operation?: IOperation;

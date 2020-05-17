@@ -27,31 +27,31 @@ export const userManagementRoute: Routes = [
     path: '',
     component: UserManagementComponent,
     resolve: {
-      pagingParams: JhiResolvePagingParams
+      pagingParams: JhiResolvePagingParams,
     },
     data: {
-      defaultSort: 'id,asc'
-    }
+      defaultSort: 'id,asc',
+    },
   },
   {
     path: ':login/view',
     component: UserManagementDetailComponent,
     resolve: {
-      user: UserManagementResolve
-    }
+      user: UserManagementResolve,
+    },
   },
   {
     path: 'new',
     component: UserManagementUpdateComponent,
     resolve: {
-      user: UserManagementResolve
-    }
+      user: UserManagementResolve,
+    },
   },
   {
     path: ':login/edit',
     component: UserManagementUpdateComponent,
     resolve: {
-      user: UserManagementResolve
-    }
-  }
+      user: UserManagementResolve,
+    },
+  },
 ];

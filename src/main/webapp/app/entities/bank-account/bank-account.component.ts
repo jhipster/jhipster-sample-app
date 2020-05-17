@@ -10,7 +10,7 @@ import { BankAccountDeleteDialogComponent } from './bank-account-delete-dialog.c
 
 @Component({
   selector: 'jhi-bank-account',
-  templateUrl: './bank-account.component.html'
+  templateUrl: './bank-account.component.html',
 })
 export class BankAccountComponent implements OnInit, OnDestroy {
   bankAccounts?: IBankAccount[];

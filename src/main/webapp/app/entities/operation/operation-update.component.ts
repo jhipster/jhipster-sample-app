@@ -18,7 +18,7 @@ type SelectableEntity = IBankAccount | ILabel;
 
 @Component({
   selector: 'jhi-operation-update',
-  templateUrl: './operation-update.component.html'
+  templateUrl: './operation-update.component.html',
 })
 export class OperationUpdateComponent implements OnInit {
   isSaving = false;
@@ -31,7 +31,7 @@ export class OperationUpdateComponent implements OnInit {
     description: [],
     amount: [null, [Validators.required]],
     bankAccount: [],
-    labels: []
+    labels: [],
   });
 
   constructor(
@@ -64,7 +64,7 @@ export class OperationUpdateComponent implements OnInit {
       description: operation.description,
       amount: operation.amount,
       bankAccount: operation.bankAccount,
-      labels: operation.labels
+      labels: operation.labels,
     });
   }
 
@@ -90,7 +90,7 @@ export class OperationUpdateComponent implements OnInit {
       description: this.editForm.get(['description'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       bankAccount: this.editForm.get(['bankAccount'])!.value,
-      labels: this.editForm.get(['labels'])!.value
+      labels: this.editForm.get(['labels'])!.value,
     };
   }
 

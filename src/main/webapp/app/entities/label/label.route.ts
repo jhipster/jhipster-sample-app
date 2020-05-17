@@ -40,44 +40,44 @@ export const labelRoute: Routes = [
     component: LabelComponent,
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.label.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: LabelDetailComponent,
     resolve: {
-      label: LabelResolve
+      label: LabelResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.label.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: LabelUpdateComponent,
     resolve: {
-      label: LabelResolve
+      label: LabelResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.label.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: LabelUpdateComponent,
     resolve: {
-      label: LabelResolve
+      label: LabelResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.label.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.label.home.title',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

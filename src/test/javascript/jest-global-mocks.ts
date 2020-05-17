@@ -1,3 +1,3 @@
 Object.defineProperty(window, 'getComputedStyle', {
-  value: () => ['-webkit-appearance']
+  value: () => ['-webkit-appearance'],
 });

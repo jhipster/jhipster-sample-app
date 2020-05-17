@@ -40,44 +40,44 @@ export const bankAccountRoute: Routes = [
     component: BankAccountComponent,
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: BankAccountDetailComponent,
     resolve: {
-      bankAccount: BankAccountResolve
+      bankAccount: BankAccountResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: BankAccountUpdateComponent,
     resolve: {
-      bankAccount: BankAccountResolve
+      bankAccount: BankAccountResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: BankAccountUpdateComponent,
     resolve: {
-      bankAccount: BankAccountResolve
+      bankAccount: BankAccountResolve,
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title'
+      pageTitle: 'jhipsterSampleApplicationApp.bankAccount.home.title',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

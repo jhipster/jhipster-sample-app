@@ -65,10 +65,7 @@ export class OperationUpdatePage {
   }
 
   async bankAccountSelectLastOption(): Promise<void> {
-    await this.bankAccountSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.bankAccountSelect.all(by.tagName('option')).last().click();
   }
 
   async bankAccountSelectOption(option: string): Promise<void> {
@@ -84,10 +81,7 @@ export class OperationUpdatePage {
   }
 
   async labelSelectLastOption(): Promise<void> {
-    await this.labelSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.labelSelect.all(by.tagName('option')).last().click();
   }
 
   async labelSelectOption(option: string): Promise<void> {

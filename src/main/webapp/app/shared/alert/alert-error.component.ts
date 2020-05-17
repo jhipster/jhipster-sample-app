@@ -8,15 +8,13 @@ import { AlertError } from './alert-error.model';
 
 @Component({
   selector: 'jhi-alert-error',
-  template: `
-    <div class="alerts" role="alert">
-      <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">
-        <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
-          <pre [innerHTML]="alert.msg"></pre>
-        </ngb-alert>
-      </div>
+  template: ` <div class="alerts" role="alert">
+    <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">
+      <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="close(alert)">
+        <pre [innerHTML]="alert.msg"></pre>
+      </ngb-alert>
     </div>
-  `
+  </div>`,
 })
 export class AlertErrorComponent implements OnDestroy {
   alerts: JhiAlert[] = [];
@@ -113,9 +111,14 @@ export class AlertErrorComponent implements OnDestroy {
       params: data,
       timeout: 5000,
       toast: this.alertService.isToast(),
-      scoped: true
+      scoped: true,
     };
 
     this.alerts.push(this.alertService.addAlert(newAlert, this.alerts));
+  }
+
+  close(alert: JhiAlert): void {
+    // NOSONAR can be removed after https://github.com/SonarSource/SonarJS/issues/1930 is resolved
+    alert.close?.(this.alerts); // NOSONAR
   }
 }

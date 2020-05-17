@@ -11,6 +11,6 @@ import { bankAccountRoute } from './bank-account.route';
 @NgModule({
   imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(bankAccountRoute)],
   declarations: [BankAccountComponent, BankAccountDetailComponent, BankAccountUpdateComponent, BankAccountDeleteDialogComponent],
-  entryComponents: [BankAccountDeleteDialogComponent]
+  entryComponents: [BankAccountDeleteDialogComponent],
 })
 export class JhipsterSampleApplicationBankAccountModule {}

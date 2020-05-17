@@ -2,19 +2,17 @@ import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'jhi-password-strength-bar',
-  template: `
-    <div id="strength">
-      <small jhiTranslate="global.messages.validate.newpassword.strength">Password strength:</small>
-      <ul id="strengthBar">
-        <li class="point"></li>
-        <li class="point"></li>
-        <li class="point"></li>
-        <li class="point"></li>
-        <li class="point"></li>
-      </ul>
-    </div>
-  `,
-  styleUrls: ['password-strength-bar.scss']
+  template: ` <div id="strength">
+    <small jhiTranslate="global.messages.validate.newpassword.strength">Password strength:</small>
+    <ul id="strengthBar">
+      <li class="point"></li>
+      <li class="point"></li>
+      <li class="point"></li>
+      <li class="point"></li>
+      <li class="point"></li>
+    </ul>
+  </div>`,
+  styleUrls: ['password-strength-bar.scss'],
 })
 export class PasswordStrengthBarComponent {
   colors = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];

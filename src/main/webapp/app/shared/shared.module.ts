@@ -16,7 +16,7 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
     AlertComponent,
     AlertErrorComponent,
     LoginModalComponent,
-    HasAnyAuthorityDirective
-  ]
+    HasAnyAuthorityDirective,
+  ],
 })
 export class JhipsterSampleApplicationSharedModule {}

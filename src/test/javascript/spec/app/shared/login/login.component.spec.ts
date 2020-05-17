@@ -26,9 +26,9 @@ describe('Component Tests', () => {
           FormBuilder,
           {
             provide: LoginService,
-            useClass: MockLoginService
-          }
-        ]
+            useClass: MockLoginService,
+          },
+        ],
       })
         .overrideTemplate(LoginModalComponent, '')
         .compileComponents();
@@ -49,13 +49,13 @@ describe('Component Tests', () => {
         const credentials = {
           username: 'admin',
           password: 'admin',
-          rememberMe: true
+          rememberMe: true,
         };
 
         comp.loginForm.patchValue({
           username: 'admin',
           password: 'admin',
-          rememberMe: true
+          rememberMe: true,
         });
         mockLoginService.setResponse({});
         mockRouter.url = '/admin/metrics';
@@ -75,13 +75,13 @@ describe('Component Tests', () => {
       // GIVEN
       comp.loginForm.patchValue({
         username: 'admin',
-        password: 'admin'
+        password: 'admin',
       });
 
       const expected = {
         username: '',
         password: '',
-        rememberMe: false
+        rememberMe: false,
       };
 
       // WHEN

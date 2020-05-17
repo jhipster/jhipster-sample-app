@@ -14,8 +14,8 @@ export class MockActivatedRoute extends ActivatedRoute {
       pagingParams: {
         page: 10,
         ascending: false,
-        predicate: 'id'
-      }
+        predicate: 'id',
+      },
     });
   }
 }

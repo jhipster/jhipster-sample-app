@@ -16,7 +16,7 @@ describe('Component Tests', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [JhipsterSampleApplicationTestModule],
-        declarations: [UserManagementComponent]
+        declarations: [UserManagementComponent],
       })
         .overrideTemplate(UserManagementComponent, '')
         .compileComponents();
@@ -38,7 +38,7 @@ describe('Component Tests', () => {
             of(
               new HttpResponse({
                 body: [new User(123)],
-                headers
+                headers,
               })
             )
           );
@@ -65,7 +65,7 @@ describe('Component Tests', () => {
             of(
               new HttpResponse({
                 body: [user],
-                headers
+                headers,
               })
             )
           );

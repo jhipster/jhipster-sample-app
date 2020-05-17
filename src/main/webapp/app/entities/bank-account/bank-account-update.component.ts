@@ -12,7 +12,7 @@ import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-bank-account-update',
-  templateUrl: './bank-account-update.component.html'
+  templateUrl: './bank-account-update.component.html',
 })
 export class BankAccountUpdateComponent implements OnInit {
   isSaving = false;
@@ -22,7 +22,7 @@ export class BankAccountUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     balance: [null, [Validators.required]],
-    user: []
+    user: [],
   });
 
   constructor(
@@ -45,7 +45,7 @@ export class BankAccountUpdateComponent implements OnInit {
       id: bankAccount.id,
       name: bankAccount.name,
       balance: bankAccount.balance,
-      user: bankAccount.user
+      user: bankAccount.user,
     });
   }
 
@@ -69,7 +69,7 @@ export class BankAccountUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       balance: this.editForm.get(['balance'])!.value,
-      user: this.editForm.get(['user'])!.value
+      user: this.editForm.get(['user'])!.value,
     };
   }
 

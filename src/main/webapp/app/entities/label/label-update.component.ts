@@ -10,14 +10,14 @@ import { LabelService } from './label.service';
 
 @Component({
   selector: 'jhi-label-update',
-  templateUrl: './label-update.component.html'
+  templateUrl: './label-update.component.html',
 })
 export class LabelUpdateComponent implements OnInit {
   isSaving = false;
 
   editForm = this.fb.group({
     id: [],
-    label: [null, [Validators.required, Validators.minLength(3)]]
+    label: [null, [Validators.required, Validators.minLength(3)]],
   });
 
   constructor(protected labelService: LabelService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -31,7 +31,7 @@ export class LabelUpdateComponent implements OnInit {
   updateForm(label: ILabel): void {
     this.editForm.patchValue({
       id: label.id,
-      label: label.label
+      label: label.label,
     });
   }
 
@@ -53,7 +53,7 @@ export class LabelUpdateComponent implements OnInit {
     return {
       ...new Label(),
       id: this.editForm.get(['id'])!.value,
-      label: this.editForm.get(['label'])!.value
+      label: this.editForm.get(['label'])!.value,
     };
   }
 

@@ -6,6 +6,6 @@ export const docsRoute: Route = {
   path: '',
   component: DocsComponent,
   data: {
-    pageTitle: 'global.menu.admin.apidocs'
-  }
+    pageTitle: 'global.menu.admin.apidocs',
+  },
 };

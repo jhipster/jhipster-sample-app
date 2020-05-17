@@ -2,7 +2,7 @@ import { Directive, OnInit, ElementRef, Renderer2, Input } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Directive({
-  selector: '[jhiActiveMenu]'
+  selector: '[jhiActiveMenu]',
 })
 export class ActiveMenuDirective implements OnInit {
   @Input() jhiActiveMenu?: string;

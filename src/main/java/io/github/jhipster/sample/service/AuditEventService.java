@@ -57,16 +57,19 @@ public class AuditEventService {
             });
     }
 
+    @Transactional(readOnly = true)
     public Page<AuditEvent> findAll(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable)
             .map(auditEventConverter::convertToAuditEvent);
     }
 
+    @Transactional(readOnly = true)
     public Page<AuditEvent> findByDates(Instant fromDate, Instant toDate, Pageable pageable) {
         return persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate, pageable)
             .map(auditEventConverter::convertToAuditEvent);
     }
 
+    @Transactional(readOnly = true)
     public Optional<AuditEvent> find(Long id) {
         return persistenceAuditEventRepository.findById(id)
             .map(auditEventConverter::convertToAuditEvent);

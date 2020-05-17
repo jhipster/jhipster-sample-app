@@ -4,7 +4,7 @@ import { ConfigurationService, Bean, PropertySource } from './configuration.serv
 
 @Component({
   selector: 'jhi-configuration',
-  templateUrl: './configuration.component.html'
+  templateUrl: './configuration.component.html',
 })
 export class ConfigurationComponent implements OnInit {
   allBeans!: Bean[];
