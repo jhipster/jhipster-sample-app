@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, convertToParamMap, Data } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { JhipsterSampleApplicationTestModule } from '../../../test.module';
 import { OperationComponent } from 'app/entities/operation/operation.component';
@@ -22,26 +22,16 @@ describe('Component Tests', () => {
           {
             provide: ActivatedRoute,
             useValue: {
-              data: {
-                subscribe: (fn: (value: Data) => void) =>
-                  fn({
-                    pagingParams: {
-                      predicate: 'id',
-                      reverse: false,
-                      page: 0,
-                    },
-                  }),
-              },
-              queryParamMap: {
-                subscribe: (fn: (value: Data) => void) =>
-                  fn(
-                    convertToParamMap({
-                      page: '1',
-                      size: '1',
-                      sort: 'id,desc',
-                    })
-                  ),
-              },
+              data: of({
+                defaultSort: 'id,asc',
+              }),
+              queryParamMap: of(
+                convertToParamMap({
+                  page: '1',
+                  size: '1',
+                  sort: 'id,desc',
+                })
+              ),
             },
           },
         ],

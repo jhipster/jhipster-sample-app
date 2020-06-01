@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { JhiResolvePagingParams } from 'ng-jhipster';
 
 import { User, IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
@@ -26,9 +25,6 @@ export const userManagementRoute: Routes = [
   {
     path: '',
     component: UserManagementComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
     data: {
       defaultSort: 'id,asc',
     },
