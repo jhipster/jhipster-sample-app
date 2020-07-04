@@ -62,7 +62,7 @@
     "eslint-loader": "4.0.2",
     "file-loader": "6.0.0",
     "friendly-errors-webpack-plugin": "1.7.0",
-    "generator-jhipster": "6.10.0",
+    "generator-jhipster": "6.10.1",
     "html-loader": "1.1.0",
     "html-webpack-plugin": "4.3.0",
     "husky": "4.2.5",
