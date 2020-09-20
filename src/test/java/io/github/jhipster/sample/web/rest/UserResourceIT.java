@@ -250,6 +250,18 @@ public class UserResourceIT {
 
     @Test
     @Transactional
+    void getAllUsersSortedByParameters() throws Exception {
+        // Initialize the database
+        userRepository.saveAndFlush(user);
+
+            restUserMockMvc.perform(get("/api/users?sort=resetKey,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+            restUserMockMvc.perform(get("/api/users?sort=password,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+            restUserMockMvc.perform(get("/api/users?sort=resetKey,id,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+            restUserMockMvc.perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
     public void getUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
