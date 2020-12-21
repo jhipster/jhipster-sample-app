@@ -1,16 +1,14 @@
 package io.github.jhipster.sample.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A BankAccount.
@@ -35,11 +33,11 @@ public class BankAccount implements Serializable {
     private BigDecimal balance;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "bankAccounts", allowSetters = true)
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "bankAccount", "labels" }, allowSetters = true)
     private Set<Operation> operations = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -51,8 +49,18 @@ public class BankAccount implements Serializable {
         this.id = id;
     }
 
+    public BankAccount id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    public BankAccount name(String name) {
+        this.name = name;
+        return this;
     }
 
     public void setName(String name) {
@@ -60,7 +68,12 @@ public class BankAccount implements Serializable {
     }
 
     public BigDecimal getBalance() {
-        return balance;
+        return this.balance;
+    }
+
+    public BankAccount balance(BigDecimal balance) {
+        this.balance = balance;
+        return this;
     }
 
     public void setBalance(BigDecimal balance) {
@@ -68,7 +81,12 @@ public class BankAccount implements Serializable {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
+    }
+
+    public BankAccount user(User user) {
+        this.setUser(user);
+        return this;
     }
 
     public void setUser(User user) {
@@ -76,12 +94,36 @@ public class BankAccount implements Serializable {
     }
 
     public Set<Operation> getOperations() {
-        return operations;
+        return this.operations;
+    }
+
+    public BankAccount operations(Set<Operation> operations) {
+        this.setOperations(operations);
+        return this;
+    }
+
+    public BankAccount addOperation(Operation operation) {
+        this.operations.add(operation);
+        operation.setBankAccount(this);
+        return this;
+    }
+
+    public BankAccount removeOperation(Operation operation) {
+        this.operations.remove(operation);
+        operation.setBankAccount(null);
+        return this;
     }
 
     public void setOperations(Set<Operation> operations) {
+        if (this.operations != null) {
+            this.operations.forEach(i -> i.setBankAccount(null));
+        }
+        if (operations != null) {
+            operations.forEach(i -> i.setBankAccount(this));
+        }
         this.operations = operations;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -97,7 +139,8 @@ public class BankAccount implements Serializable {
 
     @Override
     public int hashCode() {
-        return 31;
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
     // prettier-ignore

@@ -7,7 +7,6 @@ export const errorRoute: Routes = [
     path: 'error',
     component: ErrorComponent,
     data: {
-      authorities: [],
       pageTitle: 'error.title',
     },
   },
@@ -15,7 +14,6 @@ export const errorRoute: Routes = [
     path: 'accessdenied',
     component: ErrorComponent,
     data: {
-      authorities: [],
       pageTitle: 'error.title',
       errorMessage: 'error.http.403',
     },
@@ -24,7 +22,6 @@ export const errorRoute: Routes = [
     path: '404',
     component: ErrorComponent,
     data: {
-      authorities: [],
       pageTitle: 'error.title',
       errorMessage: 'error.http.404',
     },

@@ -3,21 +3,20 @@ package io.github.jhipster.sample.web.rest;
 import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.repository.LabelRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link io.github.jhipster.sample.domain.Label}.
@@ -54,7 +53,8 @@ public class LabelResource {
             throw new BadRequestAlertException("A new label cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Label result = labelRepository.save(label);
-        return ResponseEntity.created(new URI("/api/labels/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/labels/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -75,9 +75,46 @@ public class LabelResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Label result = labelRepository.save(label);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, label.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PATCH  /labels} : Updates given fields of an existing label.
+     *
+     * @param label the label to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated label,
+     * or with status {@code 400 (Bad Request)} if the label is not valid,
+     * or with status {@code 404 (Not Found)} if the label is not found,
+     * or with status {@code 500 (Internal Server Error)} if the label couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/labels", consumes = "application/merge-patch+json")
+    public ResponseEntity<Label> partialUpdateLabel(@NotNull @RequestBody Label label) throws URISyntaxException {
+        log.debug("REST request to update Label partially : {}", label);
+        if (label.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        Optional<Label> result = labelRepository
+            .findById(label.getId())
+            .map(
+                existingLabel -> {
+                    if (label.getLabel() != null) {
+                        existingLabel.setLabel(label.getLabel());
+                    }
+
+                    return existingLabel;
+                }
+            )
+            .map(labelRepository::save);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, label.getId().toString())
+        );
     }
 
     /**
@@ -114,6 +151,9 @@ public class LabelResource {
     public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);
         labelRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

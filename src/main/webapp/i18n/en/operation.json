@@ -3,6 +3,7 @@
     "operation": {
       "home": {
         "title": "Operations",
+        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Operation",
         "createOrEditLabel": "Create or edit a Operation",
         "notFound": "No Operations found"
@@ -16,6 +17,7 @@
       "detail": {
         "title": "Operation"
       },
+      "id": "ID",
       "date": "Date",
       "description": "Description",
       "amount": "Amount",

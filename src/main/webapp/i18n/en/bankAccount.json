@@ -3,6 +3,7 @@
     "bankAccount": {
       "home": {
         "title": "Bank Accounts",
+        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Bank Account",
         "createOrEditLabel": "Create or edit a Bank Account",
         "notFound": "No Bank Accounts found"
@@ -16,6 +17,7 @@
       "detail": {
         "title": "Bank Account"
       },
+      "id": "ID",
       "name": "Name",
       "balance": "Balance",
       "user": "User",

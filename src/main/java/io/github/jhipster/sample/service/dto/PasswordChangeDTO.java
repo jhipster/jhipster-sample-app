@@ -4,6 +4,7 @@ package io.github.jhipster.sample.service.dto;
  * A DTO representing a password change required data - current and new password.
  */
 public class PasswordChangeDTO {
+
     private String currentPassword;
     private String newPassword;
 
@@ -17,7 +18,6 @@ public class PasswordChangeDTO {
     }
 
     public String getCurrentPassword() {
-
         return currentPassword;
     }
 

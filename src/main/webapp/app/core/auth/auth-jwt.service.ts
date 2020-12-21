@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { Login } from 'app/core/login/login.model';
+import { Login } from 'app/login/login.model';
 
 type JwtToken = {
   id_token: string;
@@ -16,7 +16,9 @@ export class AuthServerProvider {
   constructor(private http: HttpClient, private $localStorage: LocalStorageService, private $sessionStorage: SessionStorageService) {}
 
   getToken(): string {
-    return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken') || '';
+    const tokenInLocalStorage: string | null = this.$localStorage.retrieve('authenticationToken');
+    const tokenInSessionStorage: string | null = this.$sessionStorage.retrieve('authenticationToken');
+    return tokenInLocalStorage ?? tokenInSessionStorage ?? '';
   }
 
   login(credentials: Login): Observable<void> {
@@ -37,8 +39,10 @@ export class AuthServerProvider {
     const jwt = response.id_token;
     if (rememberMe) {
       this.$localStorage.store('authenticationToken', jwt);
+      this.$sessionStorage.clear('authenticationToken');
     } else {
       this.$sessionStorage.store('authenticationToken', jwt);
+      this.$localStorage.clear('authenticationToken');
     }
   }
 }

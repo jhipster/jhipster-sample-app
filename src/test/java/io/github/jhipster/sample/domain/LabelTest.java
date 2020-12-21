@@ -1,13 +1,14 @@
 package io.github.jhipster.sample.domain;
 
-import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import io.github.jhipster.sample.web.rest.TestUtil;
 
-public class LabelTest {
+import io.github.jhipster.sample.web.rest.TestUtil;
+import org.junit.jupiter.api.Test;
+
+class LabelTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Label.class);
         Label label1 = new Label();
         label1.setId(1L);

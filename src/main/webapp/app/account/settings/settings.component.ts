@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { JhiLanguageService } from 'ng-jhipster';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
-import { LANGUAGES } from 'app/core/language/language.constants';
+import { LANGUAGES } from 'app/config/language.constants';
 
 @Component({
   selector: 'jhi-settings',
@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit {
     langKey: [undefined],
   });
 
-  constructor(private accountService: AccountService, private fb: FormBuilder, private languageService: JhiLanguageService) {}
+  constructor(private accountService: AccountService, private fb: FormBuilder, private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -51,8 +51,8 @@ export class SettingsComponent implements OnInit {
 
       this.accountService.authenticate(this.account);
 
-      if (this.account.langKey !== this.languageService.getCurrentLanguage()) {
-        this.languageService.changeLanguage(this.account.langKey);
+      if (this.account.langKey !== this.translateService.currentLang) {
+        this.translateService.use(this.account.langKey);
       }
     });
   }

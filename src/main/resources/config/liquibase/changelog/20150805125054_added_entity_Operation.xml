@@ -3,20 +3,18 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-
-        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity Operation.
     -->
     <changeSet id="20150805125054-1" author="jhipster">
         <createTable tableName="operation">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="date" type="datetime">
+            <column name="date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
             <column name="description" type="varchar(255)">
@@ -30,12 +28,12 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="operation" columnName="date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="operation" columnName="date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <changeSet id="20150805125054-1-relations" author="jhipster">
 
-        <createTable tableName="operation_label">
+        <createTable tableName="rel_operation__label">
             <column name="label_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -44,9 +42,9 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="operation_id, label_id" tableName="operation_label"/>
-        
+        <addPrimaryKey columnNames="operation_id, label_id" tableName="rel_operation__label"/>
     </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--
@@ -63,11 +61,10 @@
                   separator=";"
                   tableName="operation">
             <column name="id" type="numeric"/>
-            <column name="date" type="datetime"/>
+            <column name="date" type="${datetimeType}"/>
             <column name="description" type="string"/>
             <column name="amount" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
-
 </databaseChangeLog>

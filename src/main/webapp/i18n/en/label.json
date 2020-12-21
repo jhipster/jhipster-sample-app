@@ -3,6 +3,7 @@
     "label": {
       "home": {
         "title": "Labels",
+        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Label",
         "createOrEditLabel": "Create or edit a Label",
         "notFound": "No Labels found"
@@ -16,6 +17,7 @@
       "detail": {
         "title": "Label"
       },
+      "id": "ID",
       "label": "Label",
       "operation": "Operation"
     }

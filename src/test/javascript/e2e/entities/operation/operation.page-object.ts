@@ -29,6 +29,7 @@ export class OperationUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
+  idInput = element(by.id('field_id'));
   dateInput = element(by.id('field_date'));
   descriptionInput = element(by.id('field_description'));
   amountInput = element(by.id('field_amount'));
@@ -38,6 +39,14 @@ export class OperationUpdatePage {
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
+  }
+
+  async setIdInput(id: string): Promise<void> {
+    await this.idInput.sendKeys(id);
+  }
+
+  async getIdInput(): Promise<string> {
+    return await this.idInput.getAttribute('value');
   }
 
   async setDateInput(date: string): Promise<void> {

@@ -1,13 +1,14 @@
 package io.github.jhipster.sample.domain;
 
-import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import io.github.jhipster.sample.web.rest.TestUtil;
 
-public class OperationTest {
+import io.github.jhipster.sample.web.rest.TestUtil;
+import org.junit.jupiter.api.Test;
+
+class OperationTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Operation.class);
         Operation operation1 = new Operation();
         operation1.setId(1L);

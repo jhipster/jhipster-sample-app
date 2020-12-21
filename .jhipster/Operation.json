@@ -20,7 +20,7 @@
     {
       "fieldId": 1,
       "fieldName": "date",
-      "fieldType": "DateTime",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
     {
@@ -37,5 +37,6 @@
   ],
   "changelogDate": "20150805125054",
   "dto": "no",
-  "pagination": "infinite-scroll"
+  "pagination": "infinite-scroll",
+  "name": "Operation"
 }

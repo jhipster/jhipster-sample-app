@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared/shared.module';
-import { OperationComponent } from './operation.component';
-import { OperationDetailComponent } from './operation-detail.component';
-import { OperationUpdateComponent } from './operation-update.component';
-import { OperationDeleteDialogComponent } from './operation-delete-dialog.component';
-import { operationRoute } from './operation.route';
+import { SharedModule } from 'app/shared/shared.module';
+import { OperationComponent } from './list/operation.component';
+import { OperationDetailComponent } from './detail/operation-detail.component';
+import { OperationUpdateComponent } from './update/operation-update.component';
+import { OperationDeleteDialogComponent } from './delete/operation-delete-dialog.component';
+import { OperationRoutingModule } from './route/operation-routing.module';
 
 @NgModule({
-  imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(operationRoute)],
+  imports: [SharedModule, OperationRoutingModule],
   declarations: [OperationComponent, OperationDetailComponent, OperationUpdateComponent, OperationDeleteDialogComponent],
   entryComponents: [OperationDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationOperationModule {}
+export class OperationModule {}
