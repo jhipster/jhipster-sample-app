@@ -140,6 +140,25 @@ describe('Component Tests', () => {
         expect(comp.alerts.length).toBe(1);
         expect(comp.alerts[0].translationKey).toBe('Error Message');
       });
+
+      it('Should display an alert on status 500 with detail', () => {
+        // GIVEN
+        const response = new HttpErrorResponse({
+          url: 'http://localhost:8080/api/foos',
+          headers: new HttpHeaders(),
+          status: 500,
+          statusText: 'Internal server error',
+          error: {
+            status: 500,
+            message: 'error.http.500',
+            detail: 'Detailed error message',
+          },
+        });
+        eventManager.broadcast({ name: 'jhipsterSampleApplicationApp.httpError', content: response });
+        // THEN
+        expect(comp.alerts.length).toBe(1);
+        expect(comp.alerts[0].translationKey).toBe('error.http.500');
+      });
     });
   });
 });

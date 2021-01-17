@@ -41,7 +41,7 @@ export class OperationUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ operation }) => {
-      if (operation.id == null) {
+      if (operation.id === undefined) {
         const today = dayjs().startOf('day');
         operation.date = today;
       }

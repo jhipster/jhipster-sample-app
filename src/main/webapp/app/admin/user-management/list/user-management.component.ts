@@ -6,9 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/user/account.model';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.model';
+import { Account } from 'app/core/auth/account.model';
+import { UserManagementService } from '../service/user-management.service';
+import { User } from '../user-management.model';
 import { UserManagementDeleteDialogComponent } from '../delete/user-management-delete-dialog.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserManagementComponent implements OnInit {
   ascending!: boolean;
 
   constructor(
-    private userService: UserService,
+    private userService: UserManagementService,
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -60,7 +60,7 @@ export class UserManagementComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
     this.userService
-      .queryAsAdmin({
+      .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort(),

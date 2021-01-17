@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { Authority } from 'app/config/authority.constants';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.model';
+import { UserManagementService } from '../service/user-management.service';
+import { User } from '../user-management.model';
 
 import { UserManagementUpdateComponent } from './user-management-update.component';
 
@@ -15,7 +15,7 @@ describe('Component Tests', () => {
   describe('User Management Update Component', () => {
     let comp: UserManagementUpdateComponent;
     let fixture: ComponentFixture<UserManagementUpdateComponent>;
-    let service: UserService;
+    let service: UserManagementService;
 
     beforeEach(
       waitForAsync(() => {
@@ -40,7 +40,7 @@ describe('Component Tests', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(UserManagementUpdateComponent);
       comp = fixture.componentInstance;
-      service = TestBed.inject(UserService);
+      service = TestBed.inject(UserManagementService);
     });
 
     describe('OnInit', () => {

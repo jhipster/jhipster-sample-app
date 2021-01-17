@@ -5,19 +5,19 @@ import { ILabel } from 'app/entities/label/label.model';
 export interface IOperation {
   id?: number;
   date?: dayjs.Dayjs;
-  description?: string;
+  description?: string | null;
   amount?: number;
-  bankAccount?: IBankAccount;
-  labels?: ILabel[];
+  bankAccount?: IBankAccount | null;
+  labels?: ILabel[] | null;
 }
 
 export class Operation implements IOperation {
   constructor(
     public id?: number,
     public date?: dayjs.Dayjs,
-    public description?: string,
+    public description?: string | null,
     public amount?: number,
-    public bankAccount?: IBankAccount,
-    public labels?: ILabel[]
+    public bankAccount?: IBankAccount | null,
+    public labels?: ILabel[] | null
   ) {}
 }

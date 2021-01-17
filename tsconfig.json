@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -10,7 +10,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "outDir": "target/classes/static/app",
-    "lib": ["es7", "dom"],
+    "lib": ["es2018", "dom"],
     "baseUrl": "./",
     "paths": {
       "app/*": ["src/main/webapp/app/*"]
@@ -25,6 +25,5 @@
     "strictTemplates": true,
     "strictInputAccessModifiers": true,
     "preserveWhitespaces": true
-  },
-  "exclude": ["src/test/javascript/cypress"]
+  }
 }

@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 
 import { IBankAccount, BankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
-import { IUser } from 'app/core/user/user.model';
-import { UserService } from 'app/core/user/user.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-bank-account-update',
@@ -89,6 +89,6 @@ export class BankAccountUpdateComponent implements OnInit {
   }
 
   trackUserById(index: number, item: IUser): number {
-    return item.id!;
+    return item.id;
   }
 }

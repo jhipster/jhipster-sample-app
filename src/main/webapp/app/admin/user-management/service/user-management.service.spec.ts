@@ -3,13 +3,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { Authority } from 'app/config/authority.constants';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.model';
+import { User } from '../user-management.model';
 import { SERVER_API_URL } from 'app/app.constants';
+
+import { UserManagementService } from './user-management.service';
 
 describe('Service Tests', () => {
   describe('User Service', () => {
-    let service: UserService;
+    let service: UserManagementService;
     let httpMock: HttpTestingController;
 
     beforeEach(() => {
@@ -17,7 +18,7 @@ describe('Service Tests', () => {
         imports: [HttpClientTestingModule],
       });
 
-      service = TestBed.inject(UserService);
+      service = TestBed.inject(UserManagementService);
       httpMock = TestBed.inject(HttpTestingController);
     });
 

@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import { BankAccountService } from '../service/bank-account.service';
 import { BankAccount } from '../bank-account.model';
-import { User } from 'app/core/user/user.model';
+import { User } from 'app/entities/user/user.model';
 
 import { BankAccountUpdateComponent } from './bank-account-update.component';
 
@@ -66,7 +66,7 @@ describe('Component Tests', () => {
     describe('Tracking relationships identifiers', () => {
       describe('trackUserById', () => {
         it('Should return tracked User primary key', () => {
-          const entity = new User(123);
+          const entity = new User(123, 'user');
           const trackResult = comp.trackUserById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });

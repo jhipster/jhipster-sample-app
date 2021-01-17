@@ -11,12 +11,14 @@ describe('Operation e2e test', () => {
   let operationComponentsPage: OperationComponentsPage;
   let operationUpdatePage: OperationUpdatePage;
   let operationDeleteDialog: OperationDeleteDialog;
+  const username = process.env.E2E_USERNAME ?? 'admin';
+  const password = process.env.E2E_PASSWORD ?? 'admin';
 
   before(async () => {
     await browser.get('/');
     navBarPage = new NavBarPage();
     signInPage = await navBarPage.getSignInPage();
-    await signInPage.autoSignInUsing('admin', 'admin');
+    await signInPage.autoSignInUsing(username, password);
     await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
   });
 
@@ -65,6 +67,7 @@ describe('Operation e2e test', () => {
     operationDeleteDialog = new OperationDeleteDialog();
     expect(await operationDeleteDialog.getDialogTitle()).to.eq('jhipsterSampleApplicationApp.operation.delete.question');
     await operationDeleteDialog.clickOnConfirmButton();
+    await browser.wait(ec.visibilityOf(operationComponentsPage.title), 5000);
 
     expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeDelete - 1);
   });

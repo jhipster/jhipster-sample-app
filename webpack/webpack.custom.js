@@ -20,12 +20,11 @@ module.exports = (config, options) => {
       }),
       new FriendlyErrorsWebpackPlugin(),
       new WebpackNotifierPlugin({
-        title: 'JHipster',
+        title: 'Jhipster Sample Application',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       }),
       new BrowserSyncPlugin(
         {
-          https: false,
           host: 'localhost',
           port: 9000,
           https: tls,

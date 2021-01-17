@@ -8,7 +8,7 @@ import { shareReplay, tap, catchError } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { SERVER_API_URL } from 'app/app.constants';
-import { Account } from 'app/core/user/account.model';
+import { Account } from 'app/core/auth/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -76,7 +76,7 @@ export class AccountService {
   }
 
   getImageUrl(): string {
-    return this.userIdentity ? this.userIdentity.imageUrl : '';
+    return this.userIdentity?.imageUrl ?? '';
   }
 
   private fetch(): Observable<Account> {

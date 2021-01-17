@@ -1,8 +1,8 @@
 export interface IUser {
   id?: number;
   login?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | null;
+  lastName?: string | null;
   email?: string;
   activated?: boolean;
   langKey?: string;
@@ -11,15 +11,14 @@ export interface IUser {
   createdDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
-  password?: string;
 }
 
 export class User implements IUser {
   constructor(
     public id?: number,
     public login?: string,
-    public firstName?: string,
-    public lastName?: string,
+    public firstName?: string | null,
+    public lastName?: string | null,
     public email?: string,
     public activated?: boolean,
     public langKey?: string,
@@ -27,16 +26,6 @@ export class User implements IUser {
     public createdBy?: string,
     public createdDate?: Date,
     public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
-    public password?: string
+    public lastModifiedDate?: Date
   ) {}
-}
-
-export interface IPublicUser {
-  id?: number;
-  name?: string;
-}
-
-export class PublicUser implements IPublicUser {
-  constructor(public id?: number, public login?: string) {}
 }
