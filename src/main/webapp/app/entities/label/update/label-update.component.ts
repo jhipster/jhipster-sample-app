@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { ILabel, Label } from '../label.model';
 import { LabelService } from '../service/label.service';
@@ -19,18 +20,11 @@ export class LabelUpdateComponent implements OnInit {
     label: [null, [Validators.required, Validators.minLength(3)]],
   });
 
-  constructor(protected labelService: LabelService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(protected labelService: LabelService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ label }) => {
       this.updateForm(label);
-    });
-  }
-
-  updateForm(label: ILabel): void {
-    this.editForm.patchValue({
-      id: label.id,
-      label: label.label,
     });
   }
 
@@ -48,27 +42,37 @@ export class LabelUpdateComponent implements OnInit {
     }
   }
 
-  private createFromForm(): ILabel {
-    return {
-      ...new Label(),
-      id: this.editForm.get(['id'])!.value,
-      label: this.editForm.get(['label'])!.value,
-    };
-  }
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ILabel>>): void {
-    result.subscribe(
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
       () => this.onSaveError()
     );
   }
 
   protected onSaveSuccess(): void {
-    this.isSaving = false;
     this.previousState();
   }
 
   protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize(): void {
     this.isSaving = false;
+  }
+
+  protected updateForm(label: ILabel): void {
+    this.editForm.patchValue({
+      id: label.id,
+      label: label.label,
+    });
+  }
+
+  protected createFromForm(): ILabel {
+    return {
+      ...new Label(),
+      id: this.editForm.get(['id'])!.value,
+      label: this.editForm.get(['label'])!.value,
+    };
   }
 }

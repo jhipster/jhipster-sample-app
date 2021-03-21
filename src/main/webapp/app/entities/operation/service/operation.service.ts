@@ -4,18 +4,19 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
-import { SERVER_API_URL } from 'app/app.constants';
+import { isPresent } from 'app/core/util/operators';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IOperation } from '../operation.model';
+import { IOperation, getOperationIdentifier } from '../operation.model';
 
-type EntityResponseType = HttpResponse<IOperation>;
-type EntityArrayResponseType = HttpResponse<IOperation[]>;
+export type EntityResponseType = HttpResponse<IOperation>;
+export type EntityArrayResponseType = HttpResponse<IOperation[]>;
 
 @Injectable({ providedIn: 'root' })
 export class OperationService {
-  public resourceUrl = SERVER_API_URL + 'api/operations';
+  public resourceUrl = this.applicationConfigService.getEndpointFor('api/operations');
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   create(operation: IOperation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(operation);
@@ -27,7 +28,14 @@ export class OperationService {
   update(operation: IOperation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(operation);
     return this.http
-      .put<IOperation>(this.resourceUrl, copy, { observe: 'response' })
+      .put<IOperation>(`${this.resourceUrl}/${getOperationIdentifier(operation) as number}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  partialUpdate(operation: IOperation): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(operation);
+    return this.http
+      .patch<IOperation>(`${this.resourceUrl}/${getOperationIdentifier(operation) as number}`, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
@@ -48,11 +56,30 @@ export class OperationService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  addOperationToCollectionIfMissing(
+    operationCollection: IOperation[],
+    ...operationsToCheck: (IOperation | null | undefined)[]
+  ): IOperation[] {
+    const operations: IOperation[] = operationsToCheck.filter(isPresent);
+    if (operations.length > 0) {
+      const operationCollectionIdentifiers = operationCollection.map(operationItem => getOperationIdentifier(operationItem)!);
+      const operationsToAdd = operations.filter(operationItem => {
+        const operationIdentifier = getOperationIdentifier(operationItem);
+        if (operationIdentifier == null || operationCollectionIdentifiers.includes(operationIdentifier)) {
+          return false;
+        }
+        operationCollectionIdentifiers.push(operationIdentifier);
+        return true;
+      });
+      return [...operationsToAdd, ...operationCollection];
+    }
+    return operationCollection;
+  }
+
   protected convertDateFromClient(operation: IOperation): IOperation {
-    const copy: IOperation = Object.assign({}, operation, {
+    return Object.assign({}, operation, {
       date: operation.date?.isValid() ? operation.date.toJSON() : undefined,
     });
-    return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {

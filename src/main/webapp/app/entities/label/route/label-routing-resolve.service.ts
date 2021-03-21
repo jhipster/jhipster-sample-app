@@ -9,7 +9,7 @@ import { LabelService } from '../service/label.service';
 
 @Injectable({ providedIn: 'root' })
 export class LabelRoutingResolveService implements Resolve<ILabel> {
-  constructor(private service: LabelService, private router: Router) {}
+  constructor(protected service: LabelService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ILabel> | Observable<never> {
     const id = route.params['id'];

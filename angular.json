@@ -24,6 +24,7 @@
               "src/main/webapp/content",
               "src/main/webapp/favicon.ico",
               "src/main/webapp/manifest.webapp",
+              "src/main/webapp/robots.txt",
               {
                 "glob": "*.{js,css,html,png}",
                 "input": "./node_modules/swagger-ui-dist",

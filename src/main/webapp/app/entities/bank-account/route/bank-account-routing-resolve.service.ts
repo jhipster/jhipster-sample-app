@@ -9,7 +9,7 @@ import { BankAccountService } from '../service/bank-account.service';
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountRoutingResolveService implements Resolve<IBankAccount> {
-  constructor(private service: BankAccountService, private router: Router) {}
+  constructor(protected service: BankAccountService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount> | Observable<never> {
     const id = route.params['id'];

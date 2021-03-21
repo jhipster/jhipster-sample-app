@@ -17,7 +17,7 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.id = user.getId();
-        // Customize it here if you need firstName/lastName/etc
+        // Customize it here if you need, or not, firstName/lastName/etc
         this.login = user.getLogin();
     }
 

@@ -4,7 +4,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
 import { OperationService } from '../service/operation.service';
-import { Operation } from '../operation.model';
 
 import { OperationComponent } from './operation.component';
 
@@ -25,20 +24,19 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(OperationComponent);
       comp = fixture.componentInstance;
       service = TestBed.inject(OperationService);
-    });
 
-    it('Should call load all on init', () => {
-      // GIVEN
       const headers = new HttpHeaders().append('link', 'link;link');
       spyOn(service, 'query').and.returnValue(
         of(
           new HttpResponse({
-            body: [new Operation(123)],
+            body: [{ id: 123 }],
             headers,
           })
         )
       );
+    });
 
+    it('Should call load all on init', () => {
       // WHEN
       comp.ngOnInit();
 
@@ -48,17 +46,6 @@ describe('Component Tests', () => {
     });
 
     it('should load a page', () => {
-      // GIVEN
-      const headers = new HttpHeaders().append('link', 'link;link');
-      spyOn(service, 'query').and.returnValue(
-        of(
-          new HttpResponse({
-            body: [new Operation(123)],
-            headers,
-          })
-        )
-      );
-
       // WHEN
       comp.loadPage(1);
 
@@ -67,35 +54,12 @@ describe('Component Tests', () => {
       expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
     });
 
-    it('should re-initialize the page', () => {
-      // GIVEN
-      const headers = new HttpHeaders().append('link', 'link;link');
-      spyOn(service, 'query').and.returnValue(
-        of(
-          new HttpResponse({
-            body: [new Operation(123)],
-            headers,
-          })
-        )
-      );
-
-      // WHEN
-      comp.loadPage(1);
-      comp.reset();
-
-      // THEN
-      expect(comp.page).toEqual(0);
-      expect(service.query).toHaveBeenCalledTimes(2);
-      expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
-    });
-
     it('should calculate the sort attribute for an id', () => {
       // WHEN
       comp.ngOnInit();
-      const result = comp.sort();
 
       // THEN
-      expect(result).toEqual(['id,asc']);
+      expect(service.query).toHaveBeenCalledWith(expect.objectContaining({ sort: ['id,asc'] }));
     });
 
     it('should calculate the sort attribute for a non-id attribute', () => {
@@ -106,10 +70,21 @@ describe('Component Tests', () => {
       comp.predicate = 'name';
 
       // WHEN
-      const result = comp.sort();
+      comp.loadPage(1);
 
       // THEN
-      expect(result).toEqual(['name,asc', 'id']);
+      expect(service.query).toHaveBeenLastCalledWith(expect.objectContaining({ sort: ['name,asc', 'id'] }));
+    });
+
+    it('should re-initialize the page', () => {
+      // WHEN
+      comp.loadPage(1);
+      comp.reset();
+
+      // THEN
+      expect(comp.page).toEqual(0);
+      expect(service.query).toHaveBeenCalledTimes(2);
+      expect(comp.operations[0]).toEqual(jasmine.objectContaining({ id: 123 }));
     });
   });
 });

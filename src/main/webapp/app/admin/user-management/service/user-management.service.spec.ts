@@ -4,7 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { Authority } from 'app/config/authority.constants';
 import { User } from '../user-management.model';
-import { SERVER_API_URL } from 'app/app.constants';
 
 import { UserManagementService } from './user-management.service';
 
@@ -27,14 +26,6 @@ describe('Service Tests', () => {
     });
 
     describe('Service methods', () => {
-      it('should call correct URL', () => {
-        service.find('user').subscribe();
-
-        const req = httpMock.expectOne({ method: 'GET' });
-        const resourceUrl = SERVER_API_URL + 'api/admin/users';
-        expect(req.request.url).toEqual(`${resourceUrl}/user`);
-      });
-
       it('should return User', () => {
         let expectedResult: string | undefined;
 

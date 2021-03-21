@@ -21,12 +21,6 @@ logging:
     io.github.jhipster.sample: DEBUG
 
 spring:
-  profiles:
-    active: dev
-    include:
-      - api-docs
-      # Uncomment to activate TLS for the dev profile
-      #- tls
   devtools:
     restart:
       enabled: true
@@ -76,12 +70,13 @@ jhipster:
     ehcache: # Ehcache configuration
       time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
       max-entries: 100 # Number of objects in each cache entry
-  # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+  # CORS is only enabled by default with the "dev" profile
   cors:
-    allowed-origins: '*'
+    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+    allowed-origins: 'http://localhost:8100'
     allowed-methods: '*'
     allowed-headers: '*'
-    exposed-headers: 'Authorization,Link,X-Total-Count'
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
     allow-credentials: true
     max-age: 1800
   security:

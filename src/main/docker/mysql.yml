@@ -2,11 +2,10 @@
 version: '3.8'
 services:
   jhipstersampleapplication-mysql:
-    image: mysql:8.0.22
+    image: mysql:8.0.23
     # volumes:
-    #     - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/
+    #   - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/
     environment:
-      - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=jhipstersampleapplication
     # If you want to expose these ports outside your dev PC,

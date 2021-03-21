@@ -1,15 +1,17 @@
 jest.mock('@angular/router');
 
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { BankAccountService } from '../service/bank-account.service';
-import { BankAccount } from '../bank-account.model';
-import { User } from 'app/entities/user/user.model';
+import { IBankAccount, BankAccount } from '../bank-account.model';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { BankAccountUpdateComponent } from './bank-account-update.component';
 
@@ -17,7 +19,9 @@ describe('Component Tests', () => {
   describe('BankAccount Management Update Component', () => {
     let comp: BankAccountUpdateComponent;
     let fixture: ComponentFixture<BankAccountUpdateComponent>;
-    let service: BankAccountService;
+    let activatedRoute: ActivatedRoute;
+    let bankAccountService: BankAccountService;
+    let userService: UserService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -29,44 +33,114 @@ describe('Component Tests', () => {
         .compileComponents();
 
       fixture = TestBed.createComponent(BankAccountUpdateComponent);
+      activatedRoute = TestBed.inject(ActivatedRoute);
+      bankAccountService = TestBed.inject(BankAccountService);
+      userService = TestBed.inject(UserService);
+
       comp = fixture.componentInstance;
-      service = TestBed.inject(BankAccountService);
+    });
+
+    describe('ngOnInit', () => {
+      it('Should call User query and add missing value', () => {
+        const bankAccount: IBankAccount = { id: 456 };
+        const user: IUser = { id: 47917 };
+        bankAccount.user = user;
+
+        const userCollection: IUser[] = [{ id: 17676 }];
+        spyOn(userService, 'query').and.returnValue(of(new HttpResponse({ body: userCollection })));
+        const additionalUsers = [user];
+        const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+        spyOn(userService, 'addUserToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ bankAccount });
+        comp.ngOnInit();
+
+        expect(userService.query).toHaveBeenCalled();
+        expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+        expect(comp.usersSharedCollection).toEqual(expectedCollection);
+      });
+
+      it('Should update editForm', () => {
+        const bankAccount: IBankAccount = { id: 456 };
+        const user: IUser = { id: 4944 };
+        bankAccount.user = user;
+
+        activatedRoute.data = of({ bankAccount });
+        comp.ngOnInit();
+
+        expect(comp.editForm.value).toEqual(expect.objectContaining(bankAccount));
+        expect(comp.usersSharedCollection).toContain(user);
+      });
     });
 
     describe('save', () => {
-      it('Should call update service on save for existing entity', fakeAsync(() => {
+      it('Should call update service on save for existing entity', () => {
         // GIVEN
-        const entity = new BankAccount(123);
-        spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
-        comp.updateForm(entity);
+        const saveSubject = new Subject();
+        const bankAccount = { id: 123 };
+        spyOn(bankAccountService, 'update').and.returnValue(saveSubject);
+        spyOn(comp, 'previousState');
+        activatedRoute.data = of({ bankAccount });
+        comp.ngOnInit();
+
         // WHEN
         comp.save();
-        tick(); // simulate async
+        expect(comp.isSaving).toEqual(true);
+        saveSubject.next(new HttpResponse({ body: bankAccount }));
+        saveSubject.complete();
 
         // THEN
-        expect(service.update).toHaveBeenCalledWith(entity);
+        expect(comp.previousState).toHaveBeenCalled();
+        expect(bankAccountService.update).toHaveBeenCalledWith(bankAccount);
         expect(comp.isSaving).toEqual(false);
-      }));
+      });
 
-      it('Should call create service on save for new entity', fakeAsync(() => {
+      it('Should call create service on save for new entity', () => {
         // GIVEN
-        const entity = new BankAccount();
-        spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
-        comp.updateForm(entity);
+        const saveSubject = new Subject();
+        const bankAccount = new BankAccount();
+        spyOn(bankAccountService, 'create').and.returnValue(saveSubject);
+        spyOn(comp, 'previousState');
+        activatedRoute.data = of({ bankAccount });
+        comp.ngOnInit();
+
         // WHEN
         comp.save();
-        tick(); // simulate async
+        expect(comp.isSaving).toEqual(true);
+        saveSubject.next(new HttpResponse({ body: bankAccount }));
+        saveSubject.complete();
 
         // THEN
-        expect(service.create).toHaveBeenCalledWith(entity);
+        expect(bankAccountService.create).toHaveBeenCalledWith(bankAccount);
         expect(comp.isSaving).toEqual(false);
-      }));
+        expect(comp.previousState).toHaveBeenCalled();
+      });
+
+      it('Should set isSaving to false on error', () => {
+        // GIVEN
+        const saveSubject = new Subject();
+        const bankAccount = { id: 123 };
+        spyOn(bankAccountService, 'update').and.returnValue(saveSubject);
+        spyOn(comp, 'previousState');
+        activatedRoute.data = of({ bankAccount });
+        comp.ngOnInit();
+
+        // WHEN
+        comp.save();
+        expect(comp.isSaving).toEqual(true);
+        saveSubject.error('This is an error!');
+
+        // THEN
+        expect(bankAccountService.update).toHaveBeenCalledWith(bankAccount);
+        expect(comp.isSaving).toEqual(false);
+        expect(comp.previousState).not.toHaveBeenCalled();
+      });
     });
 
     describe('Tracking relationships identifiers', () => {
       describe('trackUserById', () => {
         it('Should return tracked User primary key', () => {
-          const entity = new User(123, 'user');
+          const entity = { id: 123 };
           const trackResult = comp.trackUserById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });

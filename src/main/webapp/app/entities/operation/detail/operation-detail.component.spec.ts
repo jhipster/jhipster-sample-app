@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { Operation } from '../operation.model';
-
 import { OperationDetailComponent } from './operation-detail.component';
 
 describe('Component Tests', () => {
@@ -17,7 +15,7 @@ describe('Component Tests', () => {
         providers: [
           {
             provide: ActivatedRoute,
-            useValue: { data: of({ operation: new Operation(123) }) },
+            useValue: { data: of({ operation: { id: 123 } }) },
           },
         ],
       })

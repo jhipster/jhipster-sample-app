@@ -32,9 +32,9 @@ describe('Service Tests', () => {
     });
 
     describe('resolve', () => {
-      it('should return existing ILabel for existing id', () => {
+      it('should return ILabel returned by find', () => {
         // GIVEN
-        service.find = jest.fn(id => of(new HttpResponse({ body: new Label(id) })));
+        service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
         mockActivatedRouteSnapshot.params = { id: 123 };
 
         // WHEN
@@ -44,7 +44,7 @@ describe('Service Tests', () => {
 
         // THEN
         expect(service.find).toBeCalledWith(123);
-        expect(resultLabel).toEqual(new Label(123));
+        expect(resultLabel).toEqual({ id: 123 });
       });
 
       it('should return new ILabel if id is not provided', () => {

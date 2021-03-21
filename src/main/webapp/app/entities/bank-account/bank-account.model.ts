@@ -18,3 +18,7 @@ export class BankAccount implements IBankAccount {
     public operations?: IOperation[] | null
   ) {}
 }
+
+export function getBankAccountIdentifier(bankAccount: IBankAccount): number | undefined {
+  return bankAccount.id;
+}

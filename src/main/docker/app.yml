@@ -7,7 +7,6 @@ services:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-
       - SPRING_DATASOURCE_URL=jdbc:mysql://jhipstersampleapplication-mysql:3306/jhipstersampleapplication?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - SPRING_LIQUIBASE_URL=jdbc:mysql://jhipstersampleapplication-mysql:3306/jhipstersampleapplication?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
@@ -16,9 +15,9 @@ services:
     ports:
       - 127.0.0.1:8080:8080
   jhipstersampleapplication-mysql:
-    image: mysql:8.0.22
+    image: mysql:8.0.23
     # volumes:
-    #     - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/
+    #   - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

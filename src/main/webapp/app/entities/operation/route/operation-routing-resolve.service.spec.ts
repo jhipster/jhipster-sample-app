@@ -32,9 +32,9 @@ describe('Service Tests', () => {
     });
 
     describe('resolve', () => {
-      it('should return existing IOperation for existing id', () => {
+      it('should return IOperation returned by find', () => {
         // GIVEN
-        service.find = jest.fn(id => of(new HttpResponse({ body: new Operation(id) })));
+        service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
         mockActivatedRouteSnapshot.params = { id: 123 };
 
         // WHEN
@@ -44,7 +44,7 @@ describe('Service Tests', () => {
 
         // THEN
         expect(service.find).toBeCalledWith(123);
-        expect(resultOperation).toEqual(new Operation(123));
+        expect(resultOperation).toEqual({ id: 123 });
       });
 
       it('should return new IOperation if id is not provided', () => {

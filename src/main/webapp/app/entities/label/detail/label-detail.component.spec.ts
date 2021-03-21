@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { Label } from '../label.model';
-
 import { LabelDetailComponent } from './label-detail.component';
 
 describe('Component Tests', () => {
@@ -17,7 +15,7 @@ describe('Component Tests', () => {
         providers: [
           {
             provide: ActivatedRoute,
-            useValue: { data: of({ label: new Label(123) }) },
+            useValue: { data: of({ label: { id: 123 } }) },
           },
         ],
       })

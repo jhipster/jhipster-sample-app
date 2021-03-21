@@ -25,6 +25,8 @@ management:
     health:
       show-details: when_authorized
       roles: 'ROLE_ADMIN'
+      probes:
+        enabled: true
     jhimetrics:
       enabled: true
   info:
@@ -36,8 +38,6 @@ management:
         include: livenessState
       readiness:
         include: readinessState,datasource
-    probes:
-      enabled: true
     mail:
       enabled: false # When using the MailService, configure an SMTP server and set this to true
   metrics:
@@ -73,6 +73,12 @@ spring:
     # Otherwise, it will be filled in by maven when building the JAR file
     # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
     active: #spring.profiles.active#
+    group:
+      dev:
+        - dev
+        - api-docs
+        # Uncomment to activate TLS for the dev profile
+        #- tls
   jmx:
     enabled: false
   data:
@@ -145,13 +151,14 @@ jhipster:
   #   allowed-origins: "*"
   #   allowed-methods: "*"
   #   allowed-headers: "*"
-  #   exposed-headers: "Authorization,Link,X-Total-Count"
+  #   exposed-headers: "Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params"
   #   allow-credentials: true
   #   max-age: 1800
   mail:
     from: jhipsterSampleApplication@localhost
   api-docs:
-    default-include-pattern: /api/.*
+    default-include-pattern: ${server.servlet.context-path:}/api/.*
+    management-include-pattern: ${server.servlet.context-path:}/management/.*
     title: jhipsterSampleApplication API
     description: jhipsterSampleApplication API documentation
     version: 0.0.1

@@ -21,3 +21,7 @@ export class Operation implements IOperation {
     public labels?: ILabel[] | null
   ) {}
 }
+
+export function getOperationIdentifier(operation: IOperation): number | undefined {
+  return operation.id;
+}

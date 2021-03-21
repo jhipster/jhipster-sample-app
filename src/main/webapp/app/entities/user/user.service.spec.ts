@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { SERVER_API_URL } from 'app/app.constants';
 import { User, IUser } from './user.model';
 
 import { UserService } from './user.service';
@@ -11,12 +10,13 @@ describe('Service Tests', () => {
   describe('User Service', () => {
     let service: UserService;
     let httpMock: HttpTestingController;
+    let expectedResult: IUser | IUser[] | boolean | number | null;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
       });
-
+      expectedResult = null;
       service = TestBed.inject(UserService);
       httpMock = TestBed.inject(HttpTestingController);
     });
@@ -26,17 +26,7 @@ describe('Service Tests', () => {
     });
 
     describe('Service methods', () => {
-      it('should call correct URL', () => {
-        service.query().subscribe();
-
-        const req = httpMock.expectOne({ method: 'GET' });
-        const resourceUrl = SERVER_API_URL + 'api/users';
-        expect(req.request.url).toEqual(`${resourceUrl}`);
-      });
-
       it('should return Users', () => {
-        let expectedResult: IUser[] | null | undefined;
-
         service.query().subscribe(received => {
           expectedResult = received.body;
         });
@@ -47,8 +37,6 @@ describe('Service Tests', () => {
       });
 
       it('should propagate not found response', () => {
-        let expectedResult = 0;
-
         service.query().subscribe({
           error: (error: HttpErrorResponse) => (expectedResult = error.status),
         });
@@ -59,6 +47,58 @@ describe('Service Tests', () => {
           statusText: 'Inernal Server Error',
         });
         expect(expectedResult).toEqual(500);
+      });
+
+      describe('addUserToCollectionIfMissing', () => {
+        it('should add a User to an empty array', () => {
+          const user: IUser = { id: 123 };
+          expectedResult = service.addUserToCollectionIfMissing([], user);
+          expect(expectedResult).toHaveLength(1);
+          expect(expectedResult).toContain(user);
+        });
+
+        it('should not add a User to an array that contains it', () => {
+          const user: IUser = { id: 123 };
+          const userCollection: IUser[] = [
+            {
+              ...user,
+            },
+            { id: 456 },
+          ];
+          expectedResult = service.addUserToCollectionIfMissing(userCollection, user);
+          expect(expectedResult).toHaveLength(2);
+        });
+
+        it("should add a User to an array that doesn't contain it", () => {
+          const user: IUser = { id: 123 };
+          const userCollection: IUser[] = [{ id: 456 }];
+          expectedResult = service.addUserToCollectionIfMissing(userCollection, user);
+          expect(expectedResult).toHaveLength(2);
+          expect(expectedResult).toContain(user);
+        });
+
+        it('should add only unique User to an array', () => {
+          const userArray: IUser[] = [{ id: 123 }, { id: 456 }, { id: 9431 }];
+          const userCollection: IUser[] = [{ id: 456 }];
+          expectedResult = service.addUserToCollectionIfMissing(userCollection, ...userArray);
+          expect(expectedResult).toHaveLength(3);
+        });
+
+        it('should accept varargs', () => {
+          const user: IUser = { id: 123 };
+          const user2: IUser = { id: 456 };
+          expectedResult = service.addUserToCollectionIfMissing([], user, user2);
+          expect(expectedResult).toHaveLength(2);
+          expect(expectedResult).toContain(user);
+          expect(expectedResult).toContain(user2);
+        });
+
+        it('should accept null and undefined values', () => {
+          const user: IUser = { id: 123 };
+          expectedResult = service.addUserToCollectionIfMissing([], null, user, undefined);
+          expect(expectedResult).toHaveLength(1);
+          expect(expectedResult).toContain(user);
+        });
       });
     });
   });

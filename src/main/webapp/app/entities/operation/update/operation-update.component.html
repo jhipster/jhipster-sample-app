@@ -81,7 +81,7 @@
               [ngValue]="
                 bankAccountOption.id === editForm.get('bankAccount')!.value?.id ? editForm.get('bankAccount')!.value : bankAccountOption
               "
-              *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById"
+              *ngFor="let bankAccountOption of bankAccountsSharedCollection; trackBy: trackBankAccountById"
             >
               {{ bankAccountOption.name }}
             </option>
@@ -93,7 +93,7 @@
           <select class="form-control" id="field_labels" data-cy="label" multiple name="labels" formControlName="labels">
             <option
               [ngValue]="getSelectedLabel(labelOption, editForm.get('labels')!.value)"
-              *ngFor="let labelOption of labels; trackBy: trackLabelById"
+              *ngFor="let labelOption of labelsSharedCollection; trackBy: trackLabelById"
             >
               {{ labelOption.label }}
             </option>

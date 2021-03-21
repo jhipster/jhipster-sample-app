@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
-  version: string;
+  version = '';
 
   constructor(
     private loginService: LoginService,
@@ -29,7 +29,9 @@ export class NavbarComponent implements OnInit {
     private profileService: ProfileService,
     private router: Router
   ) {
-    this.version = VERSION ? (VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION) : '';
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION;
+    }
   }
 
   ngOnInit(): void {

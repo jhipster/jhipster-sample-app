@@ -15,6 +15,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +49,12 @@ class OperationResourceIT {
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
+
+    private static final String ENTITY_API_URL = "/api/operations";
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private OperationRepository operationRepository;
@@ -95,7 +103,7 @@ class OperationResourceIT {
         int databaseSizeBeforeCreate = operationRepository.findAll().size();
         // Create the Operation
         restOperationMockMvc
-            .perform(post("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isCreated());
 
         // Validate the Operation in the database
@@ -117,7 +125,7 @@ class OperationResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restOperationMockMvc
-            .perform(post("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
         // Validate the Operation in the database
@@ -135,7 +143,7 @@ class OperationResourceIT {
         // Create the Operation, which fails.
 
         restOperationMockMvc
-            .perform(post("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
         List<Operation> operationList = operationRepository.findAll();
@@ -152,7 +160,7 @@ class OperationResourceIT {
         // Create the Operation, which fails.
 
         restOperationMockMvc
-            .perform(post("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
             .andExpect(status().isBadRequest());
 
         List<Operation> operationList = operationRepository.findAll();
@@ -167,7 +175,7 @@ class OperationResourceIT {
 
         // Get all the operationList
         restOperationMockMvc
-            .perform(get("/api/operations?sort=id,desc"))
+            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(operation.getId().intValue())))
@@ -180,7 +188,7 @@ class OperationResourceIT {
     void getAllOperationsWithEagerRelationshipsIsEnabled() throws Exception {
         when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
-        restOperationMockMvc.perform(get("/api/operations?eagerload=true")).andExpect(status().isOk());
+        restOperationMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
         verify(operationRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
@@ -189,7 +197,7 @@ class OperationResourceIT {
     void getAllOperationsWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
-        restOperationMockMvc.perform(get("/api/operations?eagerload=true")).andExpect(status().isOk());
+        restOperationMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
         verify(operationRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
@@ -202,7 +210,7 @@ class OperationResourceIT {
 
         // Get the operation
         restOperationMockMvc
-            .perform(get("/api/operations/{id}", operation.getId()))
+            .perform(get(ENTITY_API_URL_ID, operation.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(operation.getId().intValue()))
@@ -215,12 +223,12 @@ class OperationResourceIT {
     @Transactional
     void getNonExistingOperation() throws Exception {
         // Get the operation
-        restOperationMockMvc.perform(get("/api/operations/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+        restOperationMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    void updateOperation() throws Exception {
+    void putNewOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
 
@@ -234,7 +242,9 @@ class OperationResourceIT {
 
         restOperationMockMvc
             .perform(
-                put("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(updatedOperation))
+                put(ENTITY_API_URL_ID, updatedOperation.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedOperation))
             )
             .andExpect(status().isOk());
 
@@ -249,13 +259,54 @@ class OperationResourceIT {
 
     @Test
     @Transactional
-    void updateNonExistingOperation() throws Exception {
+    void putNonExistingOperation() throws Exception {
         int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOperationMockMvc
-            .perform(put("/api/operations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .perform(
+                put(ENTITY_API_URL_ID, operation.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(operation))
+            )
             .andExpect(status().isBadRequest());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithIdMismatchOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restOperationMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(operation))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithMissingIdPathParamOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restOperationMockMvc
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operation)))
+            .andExpect(status().isMethodNotAllowed());
 
         // Validate the Operation in the database
         List<Operation> operationList = operationRepository.findAll();
@@ -278,7 +329,7 @@ class OperationResourceIT {
 
         restOperationMockMvc
             .perform(
-                patch("/api/operations")
+                patch(ENTITY_API_URL_ID, partialUpdatedOperation.getId())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedOperation))
             )
@@ -309,7 +360,7 @@ class OperationResourceIT {
 
         restOperationMockMvc
             .perform(
-                patch("/api/operations")
+                patch(ENTITY_API_URL_ID, partialUpdatedOperation.getId())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedOperation))
             )
@@ -326,17 +377,60 @@ class OperationResourceIT {
 
     @Test
     @Transactional
-    void partialUpdateOperationShouldThrown() throws Exception {
-        // Update the operation without id should throw
-        Operation partialUpdatedOperation = new Operation();
+    void patchNonExistingOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
 
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOperationMockMvc
             .perform(
-                patch("/api/operations")
+                patch(ENTITY_API_URL_ID, operation.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedOperation))
+                    .content(TestUtil.convertObjectToJsonBytes(operation))
             )
             .andExpect(status().isBadRequest());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void patchWithIdMismatchOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restOperationMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(operation))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void patchWithMissingIdPathParamOperation() throws Exception {
+        int databaseSizeBeforeUpdate = operationRepository.findAll().size();
+        operation.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restOperationMockMvc
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(operation))
+            )
+            .andExpect(status().isMethodNotAllowed());
+
+        // Validate the Operation in the database
+        List<Operation> operationList = operationRepository.findAll();
+        assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -349,7 +443,7 @@ class OperationResourceIT {
 
         // Delete the operation
         restOperationMockMvc
-            .perform(delete("/api/operations/{id}", operation.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, operation.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

@@ -6,6 +6,7 @@ import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -60,20 +61,32 @@ public class BankAccountResource {
     }
 
     /**
-     * {@code PUT  /bank-accounts} : Updates an existing bankAccount.
+     * {@code PUT  /bank-accounts/:id} : Updates an existing bankAccount.
      *
+     * @param id the id of the bankAccount to save.
      * @param bankAccount the bankAccount to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated bankAccount,
      * or with status {@code 400 (Bad Request)} if the bankAccount is not valid,
      * or with status {@code 500 (Internal Server Error)} if the bankAccount couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/bank-accounts")
-    public ResponseEntity<BankAccount> updateBankAccount(@Valid @RequestBody BankAccount bankAccount) throws URISyntaxException {
-        log.debug("REST request to update BankAccount : {}", bankAccount);
+    @PutMapping("/bank-accounts/{id}")
+    public ResponseEntity<BankAccount> updateBankAccount(
+        @PathVariable(value = "id", required = false) final Long id,
+        @Valid @RequestBody BankAccount bankAccount
+    ) throws URISyntaxException {
+        log.debug("REST request to update BankAccount : {}, {}", id, bankAccount);
         if (bankAccount.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (!Objects.equals(id, bankAccount.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!bankAccountRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
         BankAccount result = bankAccountRepository.save(bankAccount);
         return ResponseEntity
             .ok()
@@ -82,8 +95,9 @@ public class BankAccountResource {
     }
 
     /**
-     * {@code PATCH  /bank-accounts} : Updates given fields of an existing bankAccount.
+     * {@code PATCH  /bank-accounts/:id} : Partial updates given fields of an existing bankAccount, field will ignore if it is null
      *
+     * @param id the id of the bankAccount to save.
      * @param bankAccount the bankAccount to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated bankAccount,
      * or with status {@code 400 (Bad Request)} if the bankAccount is not valid,
@@ -91,11 +105,21 @@ public class BankAccountResource {
      * or with status {@code 500 (Internal Server Error)} if the bankAccount couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/bank-accounts", consumes = "application/merge-patch+json")
-    public ResponseEntity<BankAccount> partialUpdateBankAccount(@NotNull @RequestBody BankAccount bankAccount) throws URISyntaxException {
-        log.debug("REST request to update BankAccount partially : {}", bankAccount);
+    @PatchMapping(value = "/bank-accounts/{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<BankAccount> partialUpdateBankAccount(
+        @PathVariable(value = "id", required = false) final Long id,
+        @NotNull @RequestBody BankAccount bankAccount
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update BankAccount partially : {}, {}", id, bankAccount);
         if (bankAccount.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, bankAccount.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!bankAccountRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<BankAccount> result = bankAccountRepository
@@ -105,7 +129,6 @@ public class BankAccountResource {
                     if (bankAccount.getName() != null) {
                         existingBankAccount.setName(bankAccount.getName());
                     }
-
                     if (bankAccount.getBalance() != null) {
                         existingBankAccount.setBalance(bankAccount.getBalance());
                     }

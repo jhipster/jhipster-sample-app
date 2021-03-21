@@ -9,3 +9,7 @@ export interface ILabel {
 export class Label implements ILabel {
   constructor(public id?: number, public label?: string, public operations?: IOperation[] | null) {}
 }
+
+export function getLabelIdentifier(label: ILabel): number | undefined {
+  return label.id;
+}

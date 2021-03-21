@@ -38,7 +38,7 @@
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
           <span>
             <fa-icon icon="th-list"></fa-icon>
-            <span jhiTranslate="global.menu.entities.main"> Entities </span>
+            <span jhiTranslate="global.menu.entities.main">Entities</span>
           </span>
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -170,7 +170,7 @@
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
           <span *ngIf="!getImageUrl()">
             <fa-icon icon="user"></fa-icon>
-            <span jhiTranslate="global.menu.account.main"> Account </span>
+            <span jhiTranslate="global.menu.account.main">Account</span>
           </span>
           <span *ngIf="getImageUrl()">
             <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />

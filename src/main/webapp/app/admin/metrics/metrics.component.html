@@ -10,19 +10,18 @@
   <h3 jhiTranslate="metrics.jvm.title">JVM Metrics</h3>
 
   <div class="row" *ngIf="metrics && !updatingMetrics">
-    <jhi-jvm-memory class="col-md-4" [updating]="updatingMetrics" [jvmMemoryMetrics]="metrics.jvm"> </jhi-jvm-memory>
+    <jhi-jvm-memory class="col-md-4" [updating]="updatingMetrics" [jvmMemoryMetrics]="metrics.jvm"></jhi-jvm-memory>
 
-    <jhi-jvm-threads class="col-md-4" [threads]="threads"> </jhi-jvm-threads>
+    <jhi-jvm-threads class="col-md-4" [threads]="threads"></jhi-jvm-threads>
 
-    <jhi-metrics-system class="col-md-4" [updating]="updatingMetrics" [systemMetrics]="metrics.processMetrics"> </jhi-metrics-system>
+    <jhi-metrics-system class="col-md-4" [updating]="updatingMetrics" [systemMetrics]="metrics.processMetrics"></jhi-metrics-system>
   </div>
 
   <jhi-metrics-garbagecollector
     *ngIf="metrics && metricsKeyExists('garbageCollector')"
     [updating]="updatingMetrics"
     [garbageCollectorMetrics]="metrics.garbageCollector"
-  >
-  </jhi-metrics-garbagecollector>
+  ></jhi-metrics-garbagecollector>
 
   <div class="well well-lg" *ngIf="updatingMetrics" jhiTranslate="metrics.updating">Updating...</div>
 
@@ -30,23 +29,23 @@
     *ngIf="metrics && metricsKeyExists('http.server.requests')"
     [updating]="updatingMetrics"
     [requestMetrics]="metrics['http.server.requests']"
-  >
-  </jhi-metrics-request>
+  ></jhi-metrics-request>
 
   <jhi-metrics-endpoints-requests
     *ngIf="metrics && metricsKeyExists('services')"
     [updating]="updatingMetrics"
     [endpointsRequestsMetrics]="metrics.services"
-  >
-  </jhi-metrics-endpoints-requests>
+  ></jhi-metrics-endpoints-requests>
 
-  <jhi-metrics-cache *ngIf="metrics && metricsKeyExists('cache')" [updating]="updatingMetrics" [cacheMetrics]="metrics.cache">
-  </jhi-metrics-cache>
+  <jhi-metrics-cache
+    *ngIf="metrics && metricsKeyExists('cache')"
+    [updating]="updatingMetrics"
+    [cacheMetrics]="metrics.cache"
+  ></jhi-metrics-cache>
 
   <jhi-metrics-datasource
     *ngIf="metrics && metricsKeyExistsAndObjectNotEmpty('databases')"
     [updating]="updatingMetrics"
     [datasourceMetrics]="metrics.databases"
-  >
-  </jhi-metrics-datasource>
+  ></jhi-metrics-datasource>
 </div>
