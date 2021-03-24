@@ -9,7 +9,7 @@
     "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Memory",
-    "prodDatabaseType": "mysql",
+    "prodDatabaseType": "postgresql",
     "useCompass": false,
     "buildTool": "maven",
     "searchEngine": false,
