@@ -11,7 +11,7 @@
     -->
     <changeSet id="20150805125054-1" author="jhipster">
         <createTable tableName="operation">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="date" type="${datetimeType}">
