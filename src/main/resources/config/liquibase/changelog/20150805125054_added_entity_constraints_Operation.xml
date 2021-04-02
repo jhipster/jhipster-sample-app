@@ -7,7 +7,7 @@
         Added the constraints for entity Operation.
     -->
     <changeSet id="20150805125054-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="bank_account_id"
                                  baseTableName="operation"
                                  constraintName="fk_operation__bank_account_id"
@@ -25,6 +25,5 @@
                                  constraintName="fk_rel_operation__label__label_id"
                                  referencedColumnNames="id"
                                  referencedTableName="label"/>
-        
     </changeSet>
 </databaseChangeLog>

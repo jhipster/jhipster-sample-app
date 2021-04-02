@@ -46,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call BankAccount query and add missing value', () => {
         const operation: IOperation = { id: 456 };
-        const bankAccount: IBankAccount = { id: 58260 };
+        const bankAccount: IBankAccount = { id: 47917 };
         operation.bankAccount = bankAccount;
 
-        const bankAccountCollection: IBankAccount[] = [{ id: 61653 }];
+        const bankAccountCollection: IBankAccount[] = [{ id: 17676 }];
         spyOn(bankAccountService, 'query').and.returnValue(of(new HttpResponse({ body: bankAccountCollection })));
         const additionalBankAccounts = [bankAccount];
         const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
@@ -68,10 +68,10 @@ describe('Component Tests', () => {
 
       it('Should call Label query and add missing value', () => {
         const operation: IOperation = { id: 456 };
-        const labels: ILabel[] = [{ id: 17897 }];
+        const labels: ILabel[] = [{ id: 11432 }];
         operation.labels = labels;
 
-        const labelCollection: ILabel[] = [{ id: 55065 }];
+        const labelCollection: ILabel[] = [{ id: 82948 }];
         spyOn(labelService, 'query').and.returnValue(of(new HttpResponse({ body: labelCollection })));
         const additionalLabels = [...labels];
         const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
@@ -87,9 +87,9 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const operation: IOperation = { id: 456 };
-        const bankAccount: IBankAccount = { id: 97552 };
+        const bankAccount: IBankAccount = { id: 4944 };
         operation.bankAccount = bankAccount;
-        const labels: ILabel = { id: 5814 };
+        const labels: ILabel = { id: 62317 };
         operation.labels = [labels];
 
         activatedRoute.data = of({ operation });

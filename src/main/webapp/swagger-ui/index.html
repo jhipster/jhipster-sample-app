@@ -58,8 +58,9 @@
             presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
             plugins: [SwaggerUIBundle.plugins.DownloadUrl, AlwaysEnableTryItOutPlugin],
             requestInterceptor: function (req) {
-              var authToken = localStorage.getItem('jhi-authenticationtoken') || sessionStorage.getItem('jhi-authenticationToken');
+              var authToken = localStorage.getItem('jhi-authenticationToken') || sessionStorage.getItem('jhi-authenticationToken');
               if (authToken) {
+                authToken = JSON.parse(authToken);
                 req.headers['Authorization'] = 'Bearer ' + authToken;
               }
               // Remove the sample Swagger UI request body if present

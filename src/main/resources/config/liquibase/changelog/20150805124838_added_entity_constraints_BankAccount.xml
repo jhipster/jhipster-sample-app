@@ -7,12 +7,11 @@
         Added the constraints for entity BankAccount.
     -->
     <changeSet id="20150805124838-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="bank_account"
                                  constraintName="fk_bank_account__user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
-
     </changeSet>
 </databaseChangeLog>

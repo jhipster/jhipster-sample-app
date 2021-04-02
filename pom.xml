@@ -26,11 +26,10 @@
         <maven.version>3.3.9</maven.version>
         <java.version>11</java.version>
         <node.version>v14.16.0</node.version>
-        <npm.version>7.6.3</npm.version>
+        <npm.version>7.8.0</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -44,7 +43,7 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.0.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.0.1</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version>2.4.4</spring-boot.version>
@@ -56,8 +55,8 @@
         <javassist.version>3.27.0-GA</javassist.version>
         <!-- The liquibase version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <liquibase.version>4.3.1</liquibase.version>
-        <liquibase-hibernate5.version>4.3.1</liquibase-hibernate5.version>
+        <liquibase.version>4.3.2</liquibase.version>
+        <liquibase-hibernate5.version>4.3.2</liquibase-hibernate5.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <archunit-junit5.version>0.17.0</archunit-junit5.version>
@@ -74,10 +73,10 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
         <maven-checkstyle.version>3.1.2</maven-checkstyle.version>
-        <checkstyle.version>8.40</checkstyle.version>
+        <checkstyle.version>8.41.1</checkstyle.version>
         <spring-nohttp-checkstyle.version>0.0.5.RELEASE</spring-nohttp-checkstyle.version>
-        <frontend-maven-plugin.version>1.11.2</frontend-maven-plugin.version>
-        <git-commit-id-plugin.version>4.0.3</git-commit-id-plugin.version>
+        <frontend-maven-plugin.version>1.11.3</frontend-maven-plugin.version>
+        <git-commit-id-plugin.version>4.0.4</git-commit-id-plugin.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <jib-maven-plugin.version>2.8.0</jib-maven-plugin.version>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
