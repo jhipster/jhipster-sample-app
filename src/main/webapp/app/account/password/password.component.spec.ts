@@ -56,7 +56,7 @@ describe('Component Tests', () => {
         newPassword: 'myPassword',
       };
 
-      spyOn(service, 'save').and.returnValue(of(new HttpResponse({ body: true })));
+      jest.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
 
       comp.passwordForm.patchValue({
         currentPassword: passwordValues.currentPassword,
@@ -73,7 +73,7 @@ describe('Component Tests', () => {
 
     it('should set success to true upon success', () => {
       // GIVEN
-      spyOn(service, 'save').and.returnValue(of(new HttpResponse({ body: true })));
+      jest.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
       comp.passwordForm.patchValue({
         newPassword: 'myPassword',
         confirmPassword: 'myPassword',
@@ -90,7 +90,7 @@ describe('Component Tests', () => {
 
     it('should notify of error if change password fails', () => {
       // GIVEN
-      spyOn(service, 'save').and.returnValue(throwError('ERROR'));
+      jest.spyOn(service, 'save').mockReturnValue(throwError('ERROR'));
       comp.passwordForm.patchValue({
         newPassword: 'myPassword',
         confirmPassword: 'myPassword',

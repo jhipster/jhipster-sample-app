@@ -10,7 +10,7 @@ import { LabelService } from '../service/label.service';
 export class LabelDeleteDialogComponent {
   label?: ILabel;
 
-  constructor(protected labelService: LabelService, public activeModal: NgbActiveModal) {}
+  constructor(protected labelService: LabelService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

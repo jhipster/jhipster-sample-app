@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { BankAccountComponent } from './list/bank-account.component';
 import { BankAccountDetailComponent } from './detail/bank-account-detail.component';

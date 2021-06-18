@@ -71,8 +71,7 @@ class OperationGatlingTest extends Simulation {
             .post("/api/operations")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "id":null
-                , "date":"2020-01-01T00:00:00.000Z"
+                "date":"2020-01-01T00:00:00.000Z"
                 , "description":"SAMPLE_TEXT"
                 , "amount":"0"
                 }""")).asJson

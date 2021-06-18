@@ -1,6 +1,7 @@
 jest.mock('@ng-bootstrap/ng-bootstrap');
 
 import { ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +36,7 @@ describe('Component Tests', () => {
         [],
         fakeAsync(() => {
           // GIVEN
-          spyOn(service, 'delete').and.returnValue(of({}));
+          jest.spyOn(service, 'delete').mockReturnValue(of(new HttpResponse({})));
 
           // WHEN
           comp.confirmDelete(123);
@@ -49,7 +50,7 @@ describe('Component Tests', () => {
 
       it('Should not call delete service on clear', () => {
         // GIVEN
-        spyOn(service, 'delete');
+        jest.spyOn(service, 'delete');
 
         // WHEN
         comp.cancel();

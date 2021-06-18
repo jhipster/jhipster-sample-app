@@ -4,11 +4,11 @@
   </div>
 
   <div class="col-md-9">
-    <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
+    <h1 class="display-4"><span jhiTranslate="home.title">Welcome, Java Hipster!</span> (Jhipster Sample Application)</h1>
 
     <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
-    <div [ngSwitch]="isAuthenticated()">
+    <div [ngSwitch]="account !== null">
       <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
           >You are logged in as user "{{ account.login }}".</span
@@ -40,7 +40,7 @@
       </li>
       <li>
         <a
-          href="http://stackoverflow.com/tags/jhipster/info"
+          href="https://stackoverflow.com/tags/jhipster/info"
           target="_blank"
           rel="noopener noreferrer"
           jhiTranslate="home.link.stackoverflow"

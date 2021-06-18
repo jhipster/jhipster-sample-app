@@ -9,7 +9,7 @@ import { IUser } from '../user-management.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
+  private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
 
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 

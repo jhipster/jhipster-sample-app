@@ -44,8 +44,6 @@ describe('Label e2e test', () => {
 
     await promise.all([labelUpdatePage.setLabelInput('label')]);
 
-    expect(await labelUpdatePage.getLabelInput()).to.eq('label', 'Expected Label value to be equals to label');
-
     await labelUpdatePage.save();
     expect(await labelUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

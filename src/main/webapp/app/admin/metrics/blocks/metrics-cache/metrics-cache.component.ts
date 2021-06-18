@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { CacheMetrics } from 'app/admin/metrics/metrics.model';
+import { filterNaN } from 'app/core/util/operators';
 
 @Component({
   selector: 'jhi-metrics-cache',
@@ -18,7 +19,5 @@ export class MetricsCacheComponent {
    */
   @Input() updating?: boolean;
 
-  filterNaN(input: number): number {
-    return isNaN(input) ? 0 : input;
-  }
+  filterNaN = (input: number): number => filterNaN(input);
 }

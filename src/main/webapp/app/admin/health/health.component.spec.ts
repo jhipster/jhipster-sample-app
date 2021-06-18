@@ -43,7 +43,7 @@ describe('Component Tests', () => {
       it('should call refresh on init', () => {
         // GIVEN
         const health: Health = { status: 'UP', components: { mail: { status: 'UP', details: { mailDetail: 'mail' } } } };
-        spyOn(service, 'checkHealth').and.returnValue(of(health));
+        jest.spyOn(service, 'checkHealth').mockReturnValue(of(health));
 
         // WHEN
         comp.ngOnInit();
@@ -56,7 +56,7 @@ describe('Component Tests', () => {
       it('should handle a 503 on refreshing health data', () => {
         // GIVEN
         const health: Health = { status: 'DOWN', components: { mail: { status: 'DOWN' } } };
-        spyOn(service, 'checkHealth').and.returnValue(throwError(new HttpErrorResponse({ status: 503, error: health })));
+        jest.spyOn(service, 'checkHealth').mockReturnValue(throwError(new HttpErrorResponse({ status: 503, error: health })));
 
         // WHEN
         comp.refresh();

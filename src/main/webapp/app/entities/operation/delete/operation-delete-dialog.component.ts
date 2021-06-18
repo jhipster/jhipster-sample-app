@@ -10,7 +10,7 @@ import { OperationService } from '../service/operation.service';
 export class OperationDeleteDialogComponent {
   operation?: IOperation;
 
-  constructor(protected operationService: OperationService, public activeModal: NgbActiveModal) {}
+  constructor(protected operationService: OperationService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
 import { FormGroup } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
 
 export type FileLoadErrorType = 'not.image' | 'could.not.extract';
 

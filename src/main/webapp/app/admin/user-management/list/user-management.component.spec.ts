@@ -56,7 +56,7 @@ describe('Component Tests', () => {
         fakeAsync(() => {
           // GIVEN
           const headers = new HttpHeaders().append('link', 'link;link');
-          spyOn(service, 'query').and.returnValue(
+          jest.spyOn(service, 'query').mockReturnValue(
             of(
               new HttpResponse({
                 body: [new User(123)],
@@ -71,7 +71,7 @@ describe('Component Tests', () => {
 
           // THEN
           expect(service.query).toHaveBeenCalled();
-          expect(comp.users?.[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+          expect(comp.users?.[0]).toEqual(expect.objectContaining({ id: 123 }));
         })
       ));
     });
@@ -83,7 +83,7 @@ describe('Component Tests', () => {
           // GIVEN
           const headers = new HttpHeaders().append('link', 'link;link');
           const user = new User(123);
-          spyOn(service, 'query').and.returnValue(
+          jest.spyOn(service, 'query').mockReturnValue(
             of(
               new HttpResponse({
                 body: [user],
@@ -91,7 +91,7 @@ describe('Component Tests', () => {
               })
             )
           );
-          spyOn(service, 'update').and.returnValue(of(new HttpResponse({ status: 200 })));
+          jest.spyOn(service, 'update').mockReturnValue(of(user));
 
           // WHEN
           comp.setActive(user, true);
@@ -100,7 +100,7 @@ describe('Component Tests', () => {
           // THEN
           expect(service.update).toHaveBeenCalledWith({ ...user, activated: true });
           expect(service.query).toHaveBeenCalled();
-          expect(comp.users?.[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+          expect(comp.users?.[0]).toEqual(expect.objectContaining({ id: 123 }));
         })
       ));
     });

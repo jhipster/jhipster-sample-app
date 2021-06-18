@@ -287,7 +287,7 @@ class BankAccountResourceIT {
         BankAccount partialUpdatedBankAccount = new BankAccount();
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
-        partialUpdatedBankAccount.balance(UPDATED_BALANCE);
+        partialUpdatedBankAccount.name(UPDATED_NAME).balance(UPDATED_BALANCE);
 
         restBankAccountMockMvc
             .perform(
@@ -301,7 +301,7 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
-        assertThat(testBankAccount.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testBankAccount.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testBankAccount.getBalance()).isEqualByComparingTo(UPDATED_BALANCE);
     }
 

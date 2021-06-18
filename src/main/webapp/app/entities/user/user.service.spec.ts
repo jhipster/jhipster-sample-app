@@ -99,6 +99,12 @@ describe('Service Tests', () => {
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(user);
         });
+
+        it('should return initial array if no users is added', () => {
+          const userCollection: IUser[] = [{ id: 456 }];
+          expectedResult = service.addUserToCollectionIfMissing(userCollection, null, undefined);
+          expect(expectedResult).toEqual(userCollection);
+        });
       });
     });
   });

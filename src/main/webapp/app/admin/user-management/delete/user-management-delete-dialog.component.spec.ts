@@ -40,7 +40,7 @@ describe('Component Tests', () => {
         [],
         fakeAsync(() => {
           // GIVEN
-          spyOn(service, 'delete').and.returnValue(of({}));
+          jest.spyOn(service, 'delete').mockReturnValue(of({}));
 
           // WHEN
           comp.confirmDelete('user');

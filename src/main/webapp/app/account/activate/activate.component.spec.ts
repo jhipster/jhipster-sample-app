@@ -35,7 +35,7 @@ describe('Component Tests', () => {
     it('calls activate.get with the key from params', inject(
       [ActivateService],
       fakeAsync((service: ActivateService) => {
-        spyOn(service, 'get').and.returnValue(of());
+        jest.spyOn(service, 'get').mockReturnValue(of());
 
         comp.ngOnInit();
         tick();
@@ -47,7 +47,7 @@ describe('Component Tests', () => {
     it('should set set success to true upon successful activation', inject(
       [ActivateService],
       fakeAsync((service: ActivateService) => {
-        spyOn(service, 'get').and.returnValue(of({}));
+        jest.spyOn(service, 'get').mockReturnValue(of({}));
 
         comp.ngOnInit();
         tick();
@@ -60,7 +60,7 @@ describe('Component Tests', () => {
     it('should set set error to true upon activation failure', inject(
       [ActivateService],
       fakeAsync((service: ActivateService) => {
-        spyOn(service, 'get').and.returnValue(throwError('ERROR'));
+        jest.spyOn(service, 'get').mockReturnValue(throwError('ERROR'));
 
         comp.ngOnInit();
         tick();

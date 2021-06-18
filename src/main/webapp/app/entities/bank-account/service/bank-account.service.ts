@@ -12,9 +12,9 @@ export type EntityArrayResponseType = HttpResponse<IBankAccount[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(bankAccount: IBankAccount): Observable<EntityResponseType> {
     return this.http.post<IBankAccount>(this.resourceUrl, bankAccount, { observe: 'response' });

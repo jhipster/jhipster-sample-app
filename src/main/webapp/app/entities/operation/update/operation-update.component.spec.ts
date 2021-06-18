@@ -46,14 +46,14 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call BankAccount query and add missing value', () => {
         const operation: IOperation = { id: 456 };
-        const bankAccount: IBankAccount = { id: 47917 };
+        const bankAccount: IBankAccount = { id: 65249 };
         operation.bankAccount = bankAccount;
 
-        const bankAccountCollection: IBankAccount[] = [{ id: 17676 }];
-        spyOn(bankAccountService, 'query').and.returnValue(of(new HttpResponse({ body: bankAccountCollection })));
+        const bankAccountCollection: IBankAccount[] = [{ id: 39284 }];
+        jest.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
         const additionalBankAccounts = [bankAccount];
         const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
-        spyOn(bankAccountService, 'addBankAccountToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(bankAccountService, 'addBankAccountToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ operation });
         comp.ngOnInit();
@@ -68,14 +68,14 @@ describe('Component Tests', () => {
 
       it('Should call Label query and add missing value', () => {
         const operation: IOperation = { id: 456 };
-        const labels: ILabel[] = [{ id: 11432 }];
+        const labels: ILabel[] = [{ id: 647 }];
         operation.labels = labels;
 
-        const labelCollection: ILabel[] = [{ id: 82948 }];
-        spyOn(labelService, 'query').and.returnValue(of(new HttpResponse({ body: labelCollection })));
+        const labelCollection: ILabel[] = [{ id: 16623 }];
+        jest.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
         const additionalLabels = [...labels];
         const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
-        spyOn(labelService, 'addLabelToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(labelService, 'addLabelToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ operation });
         comp.ngOnInit();
@@ -87,9 +87,9 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const operation: IOperation = { id: 456 };
-        const bankAccount: IBankAccount = { id: 4944 };
+        const bankAccount: IBankAccount = { id: 53557 };
         operation.bankAccount = bankAccount;
-        const labels: ILabel = { id: 62317 };
+        const labels: ILabel = { id: 2284 };
         operation.labels = [labels];
 
         activatedRoute.data = of({ operation });
@@ -104,10 +104,10 @@ describe('Component Tests', () => {
     describe('save', () => {
       it('Should call update service on save for existing entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<Operation>>();
         const operation = { id: 123 };
-        spyOn(operationService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ operation });
         comp.ngOnInit();
 
@@ -125,10 +125,10 @@ describe('Component Tests', () => {
 
       it('Should call create service on save for new entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<Operation>>();
         const operation = new Operation();
-        spyOn(operationService, 'create').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(operationService, 'create').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ operation });
         comp.ngOnInit();
 
@@ -146,10 +146,10 @@ describe('Component Tests', () => {
 
       it('Should set isSaving to false on error', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<Operation>>();
         const operation = { id: 123 };
-        spyOn(operationService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ operation });
         comp.ngOnInit();
 

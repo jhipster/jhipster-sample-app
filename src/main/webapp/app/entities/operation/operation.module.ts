@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { OperationComponent } from './list/operation.component';
 import { OperationDetailComponent } from './detail/operation-detail.component';

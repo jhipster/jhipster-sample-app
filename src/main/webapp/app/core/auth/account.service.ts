@@ -18,7 +18,7 @@ export class AccountService {
 
   constructor(
     private translateService: TranslateService,
-    private sessionStorage: SessionStorageService,
+    private sessionStorageService: SessionStorageService,
     private http: HttpClient,
     private stateStorageService: StateStorageService,
     private router: Router,
@@ -53,9 +53,9 @@ export class AccountService {
 
           // After retrieve the account info, the language will be changed to
           // the user's preferred language configured in the account setting
-          if (account?.langKey) {
-            const langKey = this.sessionStorage.retrieve('locale') ?? account.langKey;
-            this.translateService.use(langKey);
+          // unless user have choosed other language in the current session
+          if (!this.sessionStorageService.retrieve('locale') && account) {
+            this.translateService.use(account.langKey);
           }
 
           if (account) {
@@ -74,10 +74,6 @@ export class AccountService {
 
   getAuthenticationState(): Observable<Account | null> {
     return this.authenticationState.asObservable();
-  }
-
-  getImageUrl(): string {
-    return this.userIdentity?.imageUrl ?? '';
   }
 
   private fetch(): Observable<Account> {

@@ -19,7 +19,7 @@ describe('account', () => {
 
   it('should fail to login with bad password', async () => {
     const expect1 = 'home.title';
-    const value1 = await element(by.css('h1')).getAttribute('jhiTranslate');
+    const value1 = await element(by.css('h1 > span')).getAttribute('jhiTranslate');
     expect(value1).to.eq(expect1);
     signInPage = await navBarPage.getSignInPage();
     await signInPage.autoSignInUsing(username, 'foo');

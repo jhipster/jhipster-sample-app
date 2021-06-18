@@ -73,7 +73,12 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Label', () => {
-        const patchObject = Object.assign({}, new Label());
+        const patchObject = Object.assign(
+          {
+            label: 'BBBBBB',
+          },
+          new Label()
+        );
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -142,7 +147,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Label to an array', () => {
-          const labelArray: ILabel[] = [{ id: 123 }, { id: 456 }, { id: 66477 }];
+          const labelArray: ILabel[] = [{ id: 123 }, { id: 456 }, { id: 78362 }];
           const labelCollection: ILabel[] = [{ id: 123 }];
           expectedResult = service.addLabelToCollectionIfMissing(labelCollection, ...labelArray);
           expect(expectedResult).toHaveLength(3);
@@ -162,6 +167,12 @@ describe('Service Tests', () => {
           expectedResult = service.addLabelToCollectionIfMissing([], null, label, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(label);
+        });
+
+        it('should return initial array if no Label is added', () => {
+          const labelCollection: ILabel[] = [{ id: 123 }];
+          expectedResult = service.addLabelToCollectionIfMissing(labelCollection, undefined, null);
+          expect(expectedResult).toEqual(labelCollection);
         });
       });
     });

@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { NgxWebstorageModule } from 'ngx-webstorage';
+import { NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';
 
 import { Account } from 'app/core/auth/account.model';
 import { Authority } from 'app/config/authority.constants';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 import { AccountService } from './account.service';
 
@@ -30,9 +31,12 @@ function accountWithAuthorities(authorities: string[]): Account {
 describe('Service Tests', () => {
   describe('Account Service', () => {
     let service: AccountService;
+    let applicationConfigService: ApplicationConfigService;
     let httpMock: HttpTestingController;
     let mockStorageService: StateStorageService;
     let mockRouter: Router;
+    let mockTranslateService: TranslateService;
+    let sessionStorageService: SessionStorageService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -41,13 +45,31 @@ describe('Service Tests', () => {
       });
 
       service = TestBed.inject(AccountService);
+      applicationConfigService = TestBed.inject(ApplicationConfigService);
       httpMock = TestBed.inject(HttpTestingController);
       mockStorageService = TestBed.inject(StateStorageService);
       mockRouter = TestBed.inject(Router);
+      mockTranslateService = TestBed.inject(TranslateService);
+      sessionStorageService = TestBed.inject(SessionStorageService);
     });
 
     afterEach(() => {
       httpMock.verify();
+    });
+
+    describe('save', () => {
+      it('should call account saving endpoint with correct values', () => {
+        // GIVEN
+        const account = accountWithAuthorities([]);
+
+        // WHEN
+        service.save(account).subscribe();
+        const testRequest = httpMock.expectOne({ method: 'POST', url: applicationConfigService.getEndpointFor('api/account') });
+        testRequest.flush({});
+
+        // THEN
+        expect(testRequest.request.body).toEqual(account);
+      });
     });
 
     describe('authenticate', () => {
@@ -98,6 +120,32 @@ describe('Service Tests', () => {
 
         // Then there is a new request
         httpMock.expectOne({ method: 'GET' });
+      });
+
+      describe('should change the language on authentication if necessary', () => {
+        it('should change language if user has not changed language manually', () => {
+          // GIVEN
+          sessionStorageService.retrieve = jest.fn(key => (key === 'locale' ? undefined : 'otherSessionStorageValue'));
+
+          // WHEN
+          service.identity().subscribe();
+          httpMock.expectOne({ method: 'GET' }).flush({ ...accountWithAuthorities([]), langKey: 'accountLang' });
+
+          // THEN
+          expect(mockTranslateService.use).toHaveBeenCalledWith('accountLang');
+        });
+
+        it('should not change language if user has changed language manually', () => {
+          // GIVEN
+          sessionStorageService.retrieve = jest.fn(key => (key === 'locale' ? 'sessionLang' : undefined));
+
+          // WHEN
+          service.identity().subscribe();
+          httpMock.expectOne({ method: 'GET' }).flush({ ...accountWithAuthorities([]), langKey: 'accountLang' });
+
+          // THEN
+          expect(mockTranslateService.use).not.toHaveBeenCalled();
+        });
       });
 
       describe('navigateToStoredUrl', () => {

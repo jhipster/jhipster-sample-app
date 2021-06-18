@@ -97,13 +97,7 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Operation', () => {
-        const patchObject = Object.assign(
-          {
-            description: 'BBBBBB',
-            amount: 1,
-          },
-          new Operation()
-        );
+        const patchObject = Object.assign({}, new Operation());
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -184,7 +178,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Operation to an array', () => {
-          const operationArray: IOperation[] = [{ id: 123 }, { id: 456 }, { id: 46509 }];
+          const operationArray: IOperation[] = [{ id: 123 }, { id: 456 }, { id: 3939 }];
           const operationCollection: IOperation[] = [{ id: 123 }];
           expectedResult = service.addOperationToCollectionIfMissing(operationCollection, ...operationArray);
           expect(expectedResult).toHaveLength(3);
@@ -204,6 +198,12 @@ describe('Service Tests', () => {
           expectedResult = service.addOperationToCollectionIfMissing([], null, operation, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(operation);
+        });
+
+        it('should return initial array if no Operation is added', () => {
+          const operationCollection: IOperation[] = [{ id: 123 }];
+          expectedResult = service.addOperationToCollectionIfMissing(operationCollection, undefined, null);
+          expect(expectedResult).toEqual(operationCollection);
         });
       });
     });

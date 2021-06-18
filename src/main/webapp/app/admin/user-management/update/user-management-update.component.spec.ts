@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync, inject, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
@@ -48,7 +47,7 @@ describe('Component Tests', () => {
         [],
         fakeAsync(() => {
           // GIVEN
-          spyOn(service, 'authorities').and.returnValue(of(['USER']));
+          jest.spyOn(service, 'authorities').mockReturnValue(of(['USER']));
 
           // WHEN
           comp.ngOnInit();
@@ -66,13 +65,7 @@ describe('Component Tests', () => {
         fakeAsync(() => {
           // GIVEN
           const entity = new User(123);
-          spyOn(service, 'update').and.returnValue(
-            of(
-              new HttpResponse({
-                body: entity,
-              })
-            )
-          );
+          jest.spyOn(service, 'update').mockReturnValue(of(entity));
           comp.user = entity;
           comp.editForm.patchValue({ id: entity.id });
           // WHEN
@@ -90,7 +83,7 @@ describe('Component Tests', () => {
         fakeAsync(() => {
           // GIVEN
           const entity = new User();
-          spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
+          jest.spyOn(service, 'create').mockReturnValue(of(entity));
           comp.user = entity;
           // WHEN
           comp.save();

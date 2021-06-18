@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { LogsComponent } from './logs.component';
 import { LogsService } from './logs.service';
-import { Log } from './log.model';
+import { Log, LoggersResponse } from './log.model';
 
 describe('Component Tests', () => {
   describe('LogsComponent', () => {
@@ -40,14 +40,14 @@ describe('Component Tests', () => {
       it('Should call load all on init', () => {
         // GIVEN
         const log = new Log('main', 'WARN');
-        spyOn(service, 'findAll').and.returnValue(
+        jest.spyOn(service, 'findAll').mockReturnValue(
           of({
             loggers: {
               main: {
                 effectiveLevel: 'WARN',
               },
             },
-          })
+          } as unknown as LoggersResponse)
         );
 
         // WHEN
@@ -55,7 +55,7 @@ describe('Component Tests', () => {
 
         // THEN
         expect(service.findAll).toHaveBeenCalled();
-        expect(comp.loggers?.[0]).toEqual(jasmine.objectContaining(log));
+        expect(comp.loggers?.[0]).toEqual(expect.objectContaining(log));
       });
     });
 
@@ -63,15 +63,15 @@ describe('Component Tests', () => {
       it('should change log level correctly', () => {
         // GIVEN
         const log = new Log('main', 'ERROR');
-        spyOn(service, 'changeLevel').and.returnValue(of({}));
-        spyOn(service, 'findAll').and.returnValue(
+        jest.spyOn(service, 'changeLevel').mockReturnValue(of({}));
+        jest.spyOn(service, 'findAll').mockReturnValue(
           of({
             loggers: {
               main: {
                 effectiveLevel: 'ERROR',
               },
             },
-          })
+          } as unknown as LoggersResponse)
         );
 
         // WHEN
@@ -80,7 +80,7 @@ describe('Component Tests', () => {
         // THEN
         expect(service.changeLevel).toHaveBeenCalled();
         expect(service.findAll).toHaveBeenCalled();
-        expect(comp.loggers?.[0]).toEqual(jasmine.objectContaining(log));
+        expect(comp.loggers?.[0]).toEqual(expect.objectContaining(log));
       });
     });
   });

@@ -35,7 +35,7 @@ describe('Component Tests', () => {
     });
 
     it('notifies of success upon successful requestReset', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-      spyOn(service, 'save').and.returnValue(of({}));
+      jest.spyOn(service, 'save').mockReturnValue(of({}));
       comp.resetRequestForm.patchValue({
         email: 'user@domain.com',
       });
@@ -47,7 +47,7 @@ describe('Component Tests', () => {
     }));
 
     it('no notification of success upon error response', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-      spyOn(service, 'save').and.returnValue(
+      jest.spyOn(service, 'save').mockReturnValue(
         throwError({
           status: 503,
           data: 'something else',

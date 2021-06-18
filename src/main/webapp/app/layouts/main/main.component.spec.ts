@@ -1,7 +1,7 @@
 jest.mock('app/core/auth/account.service');
 
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { Router, RouterEvent, NavigationEnd, NavigationStart } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subject, of } from 'rxjs';
 import { TranslateModule, TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -58,13 +58,14 @@ describe('Component Tests', () => {
       const parentRoutePageTitle = 'parentTitle';
       const childRoutePageTitle = 'childTitle';
       const navigationEnd = new NavigationEnd(1, '', '');
+      const navigationStart = new NavigationStart(1, '');
       const langChangeEvent: LangChangeEvent = { lang: 'en', translations: null };
 
       beforeEach(() => {
         routerState.snapshot.root = { data: {} };
-        spyOn(translateService, 'get').and.callFake((key: string) => of(key + ' translated'));
+        jest.spyOn(translateService, 'get').mockImplementation((key: string | string[]) => of(`${key as string} translated`));
         translateService.currentLang = 'en';
-        spyOn(titleService, 'setTitle');
+        jest.spyOn(titleService, 'setTitle');
         comp.ngOnInit();
       });
 
@@ -117,6 +118,16 @@ describe('Component Tests', () => {
         });
       });
 
+      describe('navigation start', () => {
+        it('should not set page title on navigation start', () => {
+          // WHEN
+          routerEventsSubject.next(navigationStart);
+
+          // THEN
+          expect(titleService.setTitle).not.toHaveBeenCalled();
+        });
+      });
+
       describe('language change', () => {
         it('should set page title to default title if pageTitle is missing on routes', () => {
           // WHEN
@@ -164,6 +175,25 @@ describe('Component Tests', () => {
           expect(translateService.get).toHaveBeenCalledWith(parentRoutePageTitle);
           expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle + ' translated');
         });
+      });
+    });
+
+    describe('page language attribute', () => {
+      it('should change page language attribute on language change', () => {
+        // GIVEN
+        comp.ngOnInit();
+
+        // WHEN
+        translateService.onLangChange.emit({ lang: 'lang1', translations: null });
+
+        // THEN
+        expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang1');
+
+        // WHEN
+        translateService.onLangChange.emit({ lang: 'lang2', translations: null });
+
+        // THEN
+        expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang2');
       });
     });
   });
