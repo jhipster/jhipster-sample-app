@@ -1,0 +1,41 @@
+name: Application CI
+on: [push, pull_request]
+jobs:
+    pipeline:
+        name: jhipsterSampleApplication pipeline
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.pull_request.title, '[skip ci]') && !contains(github.event.pull_request.title, '[ci skip]')"
+        timeout-minutes: 40
+        env:
+            NODE_VERSION: 14.17.1
+            SPRING_OUTPUT_ANSI_ENABLED: DETECT
+            SPRING_JPA_SHOW_SQL: false
+            JHI_DISABLE_WEBPACK_LOGS: true
+            NG_CLI_ANALYTICS: false
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 14.17.1
+            - uses: actions/setup-java@v2
+              with:
+                  distribution: 'adopt'
+                  java-version: '11.x'
+            - name: Install node.js packages
+              run: npm install
+            - name: Run backend test
+              run: |
+                  chmod +x mvnw
+                  npm run ci:backend:test
+            - name: Run frontend test
+              run: npm run ci:frontend:test
+            - name: Package application
+              run: npm run java:jar:prod
+            - name: 'E2E: Package'
+              run: npm run ci:e2e:package
+            - name: 'E2E: Prepare'
+              run: npm run ci:e2e:prepare
+            - name: 'E2E: Run'
+              run: npm run ci:e2e:run
+            - name: 'E2E: Teardown'
+              run: npm run ci:e2e:teardown
