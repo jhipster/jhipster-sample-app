@@ -8,7 +8,7 @@
 
   <table class="table table-sm table-striped table-bordered" aria-describedby="logs-page-heading">
     <thead>
-      <tr jhiSort [(predicate)]="orderProp" [(ascending)]="ascending" [callback]="filterAndSort.bind(this)">
+      <tr jhiSort [(predicate)]="orderProp" [(ascending)]="ascending" (sortChange)="filterAndSort()">
         <th jhiSortBy="name" scope="col"><span jhiTranslate="logs.table.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
         <th jhiSortBy="level" scope="col"><span jhiTranslate="logs.table.level">Level</span> <fa-icon icon="sort"></fa-icon></th>
       </tr>

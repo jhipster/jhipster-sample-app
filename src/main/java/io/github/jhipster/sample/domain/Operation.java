@@ -24,6 +24,7 @@ public class Operation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -42,27 +43,28 @@ public class Operation implements Serializable {
     private BankAccount bankAccount;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(
         name = "rel_operation__label",
         joinColumns = @JoinColumn(name = "operation_id"),
         inverseJoinColumns = @JoinColumn(name = "label_id")
     )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "operations" }, allowSetters = true)
     private Set<Label> labels = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public Operation id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Operation id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public Instant getDate() {
@@ -70,7 +72,7 @@ public class Operation implements Serializable {
     }
 
     public Operation date(Instant date) {
-        this.date = date;
+        this.setDate(date);
         return this;
     }
 
@@ -83,7 +85,7 @@ public class Operation implements Serializable {
     }
 
     public Operation description(String description) {
-        this.description = description;
+        this.setDescription(description);
         return this;
     }
 
@@ -96,7 +98,7 @@ public class Operation implements Serializable {
     }
 
     public Operation amount(BigDecimal amount) {
-        this.amount = amount;
+        this.setAmount(amount);
         return this;
     }
 
@@ -108,17 +110,21 @@ public class Operation implements Serializable {
         return this.bankAccount;
     }
 
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
     public Operation bankAccount(BankAccount bankAccount) {
         this.setBankAccount(bankAccount);
         return this;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
     public Set<Label> getLabels() {
         return this.labels;
+    }
+
+    public void setLabels(Set<Label> labels) {
+        this.labels = labels;
     }
 
     public Operation labels(Set<Label> labels) {
@@ -136,10 +142,6 @@ public class Operation implements Serializable {
         this.labels.remove(label);
         label.getOperations().remove(this);
         return this;
-    }
-
-    public void setLabels(Set<Label> labels) {
-        this.labels = labels;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

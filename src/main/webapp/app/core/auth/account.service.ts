@@ -14,7 +14,7 @@ import { Account } from 'app/core/auth/account.model';
 export class AccountService {
   private userIdentity: Account | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
-  private accountCache$?: Observable<Account | null>;
+  private accountCache$?: Observable<Account> | null;
 
   constructor(
     private translateService: TranslateService,
@@ -32,6 +32,9 @@ export class AccountService {
   authenticate(identity: Account | null): void {
     this.userIdentity = identity;
     this.authenticationState.next(this.userIdentity);
+    if (!identity) {
+      this.accountCache$ = null;
+    }
   }
 
   hasAnyAuthority(authorities: string[] | string): boolean {
@@ -45,27 +48,24 @@ export class AccountService {
   }
 
   identity(force?: boolean): Observable<Account | null> {
-    if (!this.accountCache$ || force || !this.isAuthenticated()) {
+    if (!this.accountCache$ || force) {
       this.accountCache$ = this.fetch().pipe(
-        catchError(() => of(null)),
-        tap((account: Account | null) => {
+        tap((account: Account) => {
           this.authenticate(account);
 
           // After retrieve the account info, the language will be changed to
           // the user's preferred language configured in the account setting
           // unless user have choosed other language in the current session
-          if (!this.sessionStorageService.retrieve('locale') && account) {
+          if (!this.sessionStorageService.retrieve('locale')) {
             this.translateService.use(account.langKey);
           }
 
-          if (account) {
-            this.navigateToStoredUrl();
-          }
+          this.navigateToStoredUrl();
         }),
         shareReplay()
       );
     }
-    return this.accountCache$;
+    return this.accountCache$.pipe(catchError(() => of(null)));
   }
 
   isAuthenticated(): boolean {

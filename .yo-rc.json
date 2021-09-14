@@ -18,7 +18,7 @@
     "testFrameworks": ["gatling", "protractor"],
     "languages": ["en"],
     "serverPort": 8080,
-    "jhipsterVersion": "7.1.0",
+    "jhipsterVersion": "7.2.0",
     "enableSocialSignIn": false,
     "useSass": true,
     "jhiPrefix": "jhi",
@@ -47,6 +47,7 @@
     "pages": [],
     "nativeLanguage": "en",
     "entities": ["BankAccount", "Label", "Operation"],
-    "devServerPort": 4200
+    "devServerPort": 4200,
+    "enableGradleEnterprise": false
   }
 }

@@ -79,7 +79,7 @@ export class UserManagementComponent implements OnInit {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
-        sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
+        sort: `${this.predicate},${this.ascending ? ASC : DESC}`,
       },
     });
   }
@@ -87,7 +87,7 @@ export class UserManagementComponent implements OnInit {
   private handleNavigation(): void {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
       const page = params.get('page');
-      this.page = page !== null ? +page : 1;
+      this.page = +(page ?? 1);
       const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
       this.predicate = sort[0];
       this.ascending = sort[1] === ASC;
@@ -96,7 +96,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   private sort(): string[] {
-    const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
+    const result = [`${this.predicate},${this.ascending ? ASC : DESC}`];
     if (this.predicate !== 'id') {
       result.push('id');
     }

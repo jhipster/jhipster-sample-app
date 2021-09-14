@@ -25,8 +25,8 @@
         <!-- Build properties -->
         <maven.version>3.3.9</maven.version>
         <java.version>11</java.version>
-        <node.version>v14.17.1</node.version>
-        <npm.version>7.18.1</npm.version>
+        <node.version>v14.17.6</node.version>
+        <npm.version>7.23.0</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -43,10 +43,10 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.1.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.2.0</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>2.4.7</spring-boot.version>
+        <spring-boot.version>2.5.4</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <hibernate.version>5.4.32.Final</hibernate.version>
@@ -55,33 +55,36 @@
         <javassist.version>3.27.0-GA</javassist.version>
         <!-- The liquibase version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <liquibase.version>4.3.5</liquibase.version>
-        <liquibase-hibernate5.version>4.3.5</liquibase-hibernate5.version>
+        <liquibase.version>4.4.3</liquibase.version>
+        <liquibase-hibernate5.version>4.4.3</liquibase-hibernate5.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
-        <archunit-junit5.version>0.19.0</archunit-junit5.version>
+        <archunit-junit5.version>0.21.0</archunit-junit5.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
         <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
         <maven-idea-plugin.version>2.2.1</maven-idea-plugin.version>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-        <checkstyle.version>8.43</checkstyle.version>
-        <nohttp-checkstyle.version>0.0.8</nohttp-checkstyle.version>
+        <checkstyle.version>9.0</checkstyle.version>
+        <nohttp-checkstyle.version>0.0.9</nohttp-checkstyle.version>
         <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
-        <checksum-maven-plugin.version>1.10</checksum-maven-plugin.version>
+        <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-        <git-commit-id-plugin.version>4.0.5</git-commit-id-plugin.version>
+        <git-commit-id-plugin.version>5.0.0</git-commit-id-plugin.version>
+        <modernizer-maven-plugin.version>2.3.0</modernizer-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>3.1.1</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+        <jib-maven-plugin.image>eclipse-temurin:11-jre-focal</jib-maven-plugin.image>
+        <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
@@ -376,6 +379,10 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.gaul</groupId>
+                <artifactId>modernizer-maven-plugin</artifactId>
+            </plugin>
             <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
         <pluginManagement>
@@ -506,8 +513,8 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
                     <version>${git-commit-id-plugin.version}</version>
                     <executions>
                         <execution>
@@ -525,6 +532,23 @@
                             <includeOnlyProperty>^git.commit.id.describe$</includeOnlyProperty>
                             <includeOnlyProperty>^git.branch$</includeOnlyProperty>
                         </includeOnlyProperties>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.gaul</groupId>
+                    <artifactId>modernizer-maven-plugin</artifactId>
+                    <version>${modernizer-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>modernizer</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>modernizer</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                      <javaVersion>${java.version}</javaVersion>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -568,7 +592,13 @@
                     <version>${jib-maven-plugin.version}</version>
                     <configuration>
                         <from>
-                            <image>adoptopenjdk:11-jre-hotspot</image>
+                            <image>${jib-maven-plugin.image}</image>
+                            <platforms>
+                                <platform>
+                                    <architecture>${jib-maven-plugin.architecture}</architecture>
+                                    <os>linux</os>
+                                </platform>
+                            </platforms>
                         </from>
                         <to>
                             <image>jhipstersampleapplication:latest</image>
@@ -855,10 +885,21 @@
                         <version>${checksum-maven-plugin.version}</version>
                         <executions>
                             <execution>
+                                <id>create-pre-compiled-webapp-checksum</id>
                                 <goals>
                                     <goal>files</goal>
                                 </goals>
                                 <phase>generate-resources</phase>
+                            </execution>
+                            <execution>
+                                <id>create-compiled-webapp-checksum</id>
+                                <goals>
+                                    <goal>files</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <csvSummaryFile>checksums.csv.old</csvSummaryFile>
+                                </configuration>
                             </execution>
                         </executions>
                         <configuration>
@@ -867,8 +908,12 @@
                                     <directory>${project.basedir}</directory>
                                     <includes>
                                         <include>src/main/webapp/**/*.*</include>
+                                        <include>target/classes/static/**/*.*</include>
+                                        <include>package-lock.json</include>
                                         <include>package.json</include>
                                         <include>webpack/*.*</include>
+                                        <include>tsconfig.json</include>
+                                        <include>tsconfig.app.json</include>
                                     </includes>
                                     <excludes>
                                         <exclude>**/app/**/service-worker.js</exclude>
@@ -906,7 +951,6 @@
                                                 <filesmatch file1="${project.build.directory}/checksums.csv" file2="${project.build.directory}/checksums.csv.old" />
                                             </and>
                                         </condition>
-                                        <copy file="${project.build.directory}/checksums.csv" tofile="${project.build.directory}/checksums.csv.old"/>
                                     </target>
                                     <exportAntProperties>true</exportAntProperties>
                                 </configuration>
@@ -1060,8 +1104,8 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
+                        <groupId>io.github.git-commit-id</groupId>
+                        <artifactId>git-commit-id-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="00000000000000" author="jhipster">
@@ -78,28 +78,28 @@
         <addNotNullConstraint   columnName="password_hash"
                                 columnDataType="varchar(60)"
                                 tableName="jhi_user"/>
-            
         <loadData
                   file="config/liquibase/data/user.csv"
                   separator=";"
-                  tableName="jhi_user">
+                  tableName="jhi_user"
+                  usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="activated" type="boolean"/>
             <column name="created_date" type="timestamp"/>
         </loadData>
-           
         <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="${datetimeType}"/>
         <loadData
                   file="config/liquibase/data/authority.csv"
                   separator=";"
-                  tableName="jhi_authority">
+                  tableName="jhi_authority"
+                  usePreparedStatements="true">
             <column name="name" type="string"/>
         </loadData>
-
         <loadData
                   file="config/liquibase/data/user_authority.csv"
                   separator=";"
-                  tableName="jhi_user_authority">
+                  tableName="jhi_user_authority"
+                  usePreparedStatements="true">
             <column name="user_id" type="numeric"/>
         </loadData>
     </changeSet>

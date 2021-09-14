@@ -111,7 +111,7 @@ public class OperationResource {
      * or with status {@code 500 (Internal Server Error)} if the operation couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/operations/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/operations/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Operation> partialUpdateOperation(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Operation operation
@@ -130,21 +130,19 @@ public class OperationResource {
 
         Optional<Operation> result = operationRepository
             .findById(operation.getId())
-            .map(
-                existingOperation -> {
-                    if (operation.getDate() != null) {
-                        existingOperation.setDate(operation.getDate());
-                    }
-                    if (operation.getDescription() != null) {
-                        existingOperation.setDescription(operation.getDescription());
-                    }
-                    if (operation.getAmount() != null) {
-                        existingOperation.setAmount(operation.getAmount());
-                    }
-
-                    return existingOperation;
+            .map(existingOperation -> {
+                if (operation.getDate() != null) {
+                    existingOperation.setDate(operation.getDate());
                 }
-            )
+                if (operation.getDescription() != null) {
+                    existingOperation.setDescription(operation.getDescription());
+                }
+                if (operation.getAmount() != null) {
+                    existingOperation.setAmount(operation.getAmount());
+                }
+
+                return existingOperation;
+            })
             .map(operationRepository::save);
 
         return ResponseUtil.wrapOrNotFound(

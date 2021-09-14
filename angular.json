@@ -85,7 +85,6 @@
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "jhipster-sample-application:build:development",
-            "proxyConfig": "./webpack/proxy.conf.js",
             "port": 4200
           },
           "configurations": {

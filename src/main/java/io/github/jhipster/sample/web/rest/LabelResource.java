@@ -103,7 +103,7 @@ public class LabelResource {
      * or with status {@code 500 (Internal Server Error)} if the label couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/labels/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/labels/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Label> partialUpdateLabel(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Label label
@@ -122,15 +122,13 @@ public class LabelResource {
 
         Optional<Label> result = labelRepository
             .findById(label.getId())
-            .map(
-                existingLabel -> {
-                    if (label.getLabel() != null) {
-                        existingLabel.setLabel(label.getLabel());
-                    }
-
-                    return existingLabel;
+            .map(existingLabel -> {
+                if (label.getLabel() != null) {
+                    existingLabel.setLabel(label.getLabel());
                 }
-            )
+
+                return existingLabel;
+            })
             .map(labelRepository::save);
 
         return ResponseUtil.wrapOrNotFound(
