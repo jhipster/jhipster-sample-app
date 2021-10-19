@@ -27,7 +27,7 @@
         <maven.version>3.3.9</maven.version>
         <java.version>11</java.version>
         <node.version>v14.17.6</node.version>
-        <npm.version>7.24.2</npm.version>
+        <npm.version>8.1.0</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -44,7 +44,7 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.3.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.3.1</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version>2.5.5</spring-boot.version>
@@ -724,8 +724,8 @@
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <message>You are running an incompatible version of Java. JHipster supports JDK 8 to 17.</message>
-                                <version>[1.8,18)</version>
+                                <message>You are running an incompatible version of Java. JHipster supports JDK 11 to 17.</message>
+                                <version>[11,12),[12,13),[13,14),[14,15),[15,16),[16,17),[17,18)</version>
                             </requireJavaVersion>
                         </rules>
                     </configuration>
