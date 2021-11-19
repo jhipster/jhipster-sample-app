@@ -2,11 +2,13 @@ package io.github.jhipster.sample.security.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.github.jhipster.sample.management.SecurityMetersService;
 import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
@@ -31,7 +33,10 @@ class TokenProviderTest {
         JHipsterProperties jHipsterProperties = new JHipsterProperties();
         String base64Secret = "fd54a45s65fds737b9aafcb3412e07ed99b267f33413274720ddbb7f6c5e64e9f14075f2d7ed041592f0b7657baf8";
         jHipsterProperties.getSecurity().getAuthentication().getJwt().setBase64Secret(base64Secret);
-        tokenProvider = new TokenProvider(jHipsterProperties);
+
+        SecurityMetersService securityMetersService = new SecurityMetersService(new SimpleMeterRegistry());
+
+        tokenProvider = new TokenProvider(jHipsterProperties, securityMetersService);
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Secret));
 
         ReflectionTestUtils.setField(tokenProvider, "key", key);
@@ -89,7 +94,9 @@ class TokenProviderTest {
         JHipsterProperties jHipsterProperties = new JHipsterProperties();
         jHipsterProperties.getSecurity().getAuthentication().getJwt().setSecret(secret);
 
-        TokenProvider tokenProvider = new TokenProvider(jHipsterProperties);
+        SecurityMetersService securityMetersService = new SecurityMetersService(new SimpleMeterRegistry());
+
+        TokenProvider tokenProvider = new TokenProvider(jHipsterProperties, securityMetersService);
 
         Key key = (Key) ReflectionTestUtils.getField(tokenProvider, "key");
         assertThat(key).isNotNull().isEqualTo(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)));
@@ -101,7 +108,9 @@ class TokenProviderTest {
         JHipsterProperties jHipsterProperties = new JHipsterProperties();
         jHipsterProperties.getSecurity().getAuthentication().getJwt().setBase64Secret(base64Secret);
 
-        TokenProvider tokenProvider = new TokenProvider(jHipsterProperties);
+        SecurityMetersService securityMetersService = new SecurityMetersService(new SimpleMeterRegistry());
+
+        TokenProvider tokenProvider = new TokenProvider(jHipsterProperties, securityMetersService);
 
         Key key = (Key) ReflectionTestUtils.getField(tokenProvider, "key");
         assertThat(key).isNotNull().isEqualTo(Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Secret)));
