@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IBankAccount } from 'app/entities/bank-account/bank-account.model';
 import { ILabel } from 'app/entities/label/label.model';
 

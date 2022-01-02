@@ -1,10 +1,8 @@
-jest.mock('@ngx-translate/core');
-
 import { ComponentFixture, TestBed, waitForAsync, inject, tick, fakeAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { of, throwError } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 
@@ -18,9 +16,9 @@ describe('RegisterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule],
         declarations: [RegisterComponent],
-        providers: [FormBuilder, TranslateService],
+        providers: [FormBuilder],
       })
         .overrideTemplate(RegisterComponent, '')
         .compileComponents();
@@ -45,9 +43,9 @@ describe('RegisterComponent', () => {
 
   it('should update success to true after creating an account', inject(
     [RegisterService, TranslateService],
-    fakeAsync((service: RegisterService, mockLanguageService: TranslateService) => {
+    fakeAsync((service: RegisterService, mockTranslateService: TranslateService) => {
       jest.spyOn(service, 'save').mockReturnValue(of({}));
-      mockLanguageService.currentLang = 'en';
+      mockTranslateService.currentLang = 'en';
       comp.registerForm.patchValue({
         password: 'password',
         confirmPassword: 'password',

@@ -19,15 +19,15 @@ export class LabelComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.labelService.query().subscribe(
-      (res: HttpResponse<ILabel[]>) => {
+    this.labelService.query().subscribe({
+      next: (res: HttpResponse<ILabel[]>) => {
         this.isLoading = false;
         this.labels = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

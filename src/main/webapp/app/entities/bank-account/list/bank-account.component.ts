@@ -19,15 +19,15 @@ export class BankAccountComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.bankAccountService.query().subscribe(
-      (res: HttpResponse<IBankAccount[]>) => {
+    this.bankAccountService.query().subscribe({
+      next: (res: HttpResponse<IBankAccount[]>) => {
         this.isLoading = false;
         this.bankAccounts = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

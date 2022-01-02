@@ -108,6 +108,11 @@
   },
   "defaultProject": "jhipster-sample-application",
   "cli": {
+    "cache": {
+      "enabled": true,
+      "path": "./target/",
+      "environment": "all"
+    },
     "packageManager": "npm"
   }
 }

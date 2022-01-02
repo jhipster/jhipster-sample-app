@@ -1,11 +1,10 @@
-jest.mock('@ngx-translate/core');
 jest.mock('app/core/auth/account.service');
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { throwError, of } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -30,9 +29,9 @@ describe('SettingsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule],
         declarations: [SettingsComponent],
-        providers: [FormBuilder, TranslateService, AccountService],
+        providers: [FormBuilder, AccountService],
       })
         .overrideTemplate(SettingsComponent, '')
         .compileComponents();

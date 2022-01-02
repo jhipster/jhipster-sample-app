@@ -65,13 +65,13 @@ export class UserManagementComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<User[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<User[]>) => {
           this.isLoading = false;
           this.onSuccess(res.body, res.headers);
         },
-        () => (this.isLoading = false)
-      );
+        error: () => (this.isLoading = false),
+      });
   }
 
   transition(): void {

@@ -55,10 +55,9 @@ export class RegisterComponent implements AfterViewInit {
     } else {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
-      this.registerService.save({ login, email, password, langKey: this.translateService.currentLang }).subscribe(
-        () => (this.success = true),
-        response => this.processError(response)
-      );
+      this.registerService
+        .save({ login, email, password, langKey: this.translateService.currentLang })
+        .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
     }
   }
 

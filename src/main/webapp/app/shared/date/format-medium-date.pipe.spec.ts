@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { FormatMediumDatePipe } from './format-medium-date.pipe';
 
