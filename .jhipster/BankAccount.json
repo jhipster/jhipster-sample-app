@@ -1,20 +1,6 @@
 {
-  "relationships": [
-    {
-      "relationshipId": 1,
-      "relationshipName": "user",
-      "otherEntityName": "user",
-      "relationshipType": "many-to-one",
-      "otherEntityField": "login"
-    },
-    {
-      "relationshipId": 2,
-      "relationshipName": "operation",
-      "otherEntityName": "operation",
-      "relationshipType": "one-to-many",
-      "otherEntityRelationshipName": "bankAccount"
-    }
-  ],
+  "changelogDate": "20150805124838",
+  "dto": "no",
   "fields": [
     {
       "fieldId": 1,
@@ -29,8 +15,22 @@
       "fieldValidateRules": ["required"]
     }
   ],
-  "changelogDate": "20150805124838",
-  "dto": "no",
+  "name": "BankAccount",
   "pagination": "no",
-  "name": "BankAccount"
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipId": 1,
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "operation",
+      "otherEntityRelationshipName": "bankAccount",
+      "relationshipId": 2,
+      "relationshipName": "operation",
+      "relationshipType": "one-to-many"
+    }
+  ]
 }

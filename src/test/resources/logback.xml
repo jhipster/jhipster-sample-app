@@ -8,6 +8,10 @@
 
     <logger name="tech.jhipster" level="WARN"/>
 
+    <!-- https://www.testcontainers.org/supported_docker_environment/logging_config/ -->
+    <logger name="org.testcontainers" level="INFO"/>
+    <logger name="com.github.dockerjava" level="WARN"/>
+
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
     <logger name="javax.xml.bind" level="WARN"/>
@@ -16,8 +20,6 @@
     <logger name="com.ryantenney" level="WARN"/>
     <logger name="com.sun" level="WARN"/>
     <logger name="com.zaxxer" level="WARN"/>
-    <logger name="com.github.dockerjava" level="WARN"/>
-    <logger name="org.testcontainers" level="WARN"/>
     <logger name="io.undertow" level="WARN"/>
     <logger name="io.undertow.websockets.jsr" level="ERROR"/>
     <logger name="org.ehcache" level="WARN"/>

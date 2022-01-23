@@ -1,21 +1,6 @@
 {
-  "relationships": [
-    {
-      "relationshipId": 1,
-      "relationshipName": "bankAccount",
-      "otherEntityName": "bankAccount",
-      "relationshipType": "many-to-one",
-      "otherEntityField": "name"
-    },
-    {
-      "relationshipId": 2,
-      "relationshipName": "label",
-      "otherEntityName": "label",
-      "relationshipType": "many-to-many",
-      "otherEntityField": "label",
-      "ownerSide": true
-    }
-  ],
+  "changelogDate": "20150805125054",
+  "dto": "no",
   "fields": [
     {
       "fieldId": 1,
@@ -35,8 +20,23 @@
       "fieldValidateRules": ["required"]
     }
   ],
-  "changelogDate": "20150805125054",
-  "dto": "no",
+  "name": "Operation",
   "pagination": "infinite-scroll",
-  "name": "Operation"
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "bankAccount",
+      "relationshipId": 1,
+      "relationshipName": "bankAccount",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "label",
+      "otherEntityName": "label",
+      "ownerSide": true,
+      "relationshipId": 2,
+      "relationshipName": "label",
+      "relationshipType": "many-to-many"
+    }
+  ]
 }

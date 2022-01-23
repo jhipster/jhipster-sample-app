@@ -27,7 +27,7 @@
         <maven.version>3.3.9</maven.version>
         <java.version>11</java.version>
         <node.version>v16.13.1</node.version>
-        <npm.version>8.3.0</npm.version>
+        <npm.version>8.3.2</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -44,16 +44,13 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.5.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.6.0</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>2.5.8</spring-boot.version>
+        <spring-boot.version>2.6.3</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <hibernate.version>5.4.33</hibernate.version>
-        <!-- The javassist version should match the one managed by
-        https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
-        <javassist.version>3.27.0-GA</javassist.version>
+        <hibernate.version>5.6.4.Final</hibernate.version>
         <!-- The liquibase version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <liquibase.version>4.6.1</liquibase.version>
@@ -64,8 +61,8 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-        <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-site-plugin.version>3.10.0</maven-site-plugin.version>
+        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
         <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
         <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
@@ -75,15 +72,15 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-        <checkstyle.version>9.2</checkstyle.version>
+        <checkstyle.version>9.2.1</checkstyle.version>
         <nohttp-checkstyle.version>0.0.10</nohttp-checkstyle.version>
-        <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
+        <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
         <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
         <git-commit-id-plugin.version>5.0.0</git-commit-id-plugin.version>
         <modernizer-maven-plugin.version>2.3.0</modernizer-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.2.0</jib-maven-plugin.version>
         <jib-maven-plugin.image>eclipse-temurin:11-jre-focal</jib-maven-plugin.image>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
@@ -137,6 +134,10 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-webmvc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -277,11 +278,6 @@
             <scope>runtime</scope>
         </dependency>
         <!-- Spring Cloud -->
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-data</artifactId>
-        </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
@@ -1005,11 +1001,6 @@
                                     <groupId>javax.validation</groupId>
                                     <artifactId>validation-api</artifactId>
                                     <version>${validation-api.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>org.javassist</groupId>
-                                    <artifactId>javassist</artifactId>
-                                    <version>${javassist.version}</version>
                                 </dependency>
                             </dependencies>
                         </plugin>

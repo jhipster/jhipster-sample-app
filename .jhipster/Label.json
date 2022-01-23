@@ -1,14 +1,6 @@
 {
-  "relationships": [
-    {
-      "relationshipId": 1,
-      "relationshipName": "operation",
-      "otherEntityName": "operation",
-      "relationshipType": "many-to-many",
-      "ownerSide": false,
-      "otherEntityRelationshipName": "label"
-    }
-  ],
+  "changelogDate": "20150805124936",
+  "dto": "no",
   "fields": [
     {
       "fieldId": 1,
@@ -18,8 +10,16 @@
       "fieldValidateRulesMinlength": "3"
     }
   ],
-  "changelogDate": "20150805124936",
-  "dto": "no",
+  "name": "Label",
   "pagination": "no",
-  "name": "Label"
+  "relationships": [
+    {
+      "otherEntityName": "operation",
+      "otherEntityRelationshipName": "label",
+      "ownerSide": false,
+      "relationshipId": 1,
+      "relationshipName": "operation",
+      "relationshipType": "many-to-many"
+    }
+  ]
 }
