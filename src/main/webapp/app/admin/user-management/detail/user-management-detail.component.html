@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="user">
       <h2>
@@ -10,8 +10,8 @@
         <dt><span jhiTranslate="userManagement.login">Login</span></dt>
         <dd>
           <span>{{ user.login }}</span>
-          <span *ngIf="user.activated" class="badge badge-success" jhiTranslate="userManagement.activated">Activated</span>
-          <span *ngIf="!user.activated" class="badge badge-danger" jhiTranslate="userManagement.deactivated">Deactivated</span>
+          <span *ngIf="user.activated" class="badge bg-success" jhiTranslate="userManagement.activated">Activated</span>
+          <span *ngIf="!user.activated" class="badge bg-danger" jhiTranslate="userManagement.deactivated">Deactivated</span>
         </dd>
 
         <dt><span jhiTranslate="userManagement.firstName">First Name</span></dt>
@@ -42,7 +42,7 @@
         <dd>
           <ul class="list-unstyled">
             <li *ngFor="let authority of user.authorities">
-              <span class="badge badge-info">{{ authority }}</span>
+              <span class="badge bg-info">{{ authority }}</span>
             </li>
           </ul>
         </dd>

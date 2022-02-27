@@ -1,5 +1,5 @@
 <div>
-  <div class="row justify-content-center">
+  <div class="d-flex justify-content-center">
     <div class="col-md-8">
       <h1 jhiTranslate="register.title" data-cy="registerTitle">Registration</h1>
 
@@ -25,11 +25,11 @@
     </div>
   </div>
 
-  <div class="row justify-content-center">
+  <div class="d-flex justify-content-center">
     <div class="col-md-8">
       <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
-        <div class="form-group">
-          <label class="form-control-label" for="login" jhiTranslate="global.form.username.label">Username</label>
+        <div class="mb-3">
+          <label class="form-label" for="login" jhiTranslate="global.form.username.label">Username</label>
           <input
             type="text"
             class="form-control"
@@ -76,8 +76,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="email" jhiTranslate="global.form.email.label">Email</label>
+        <div class="mb-3">
+          <label class="form-label" for="email" jhiTranslate="global.form.email.label">Email</label>
           <input
             type="email"
             class="form-control"
@@ -123,8 +123,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="password" jhiTranslate="global.form.newpassword.label">New password</label>
+        <div class="mb-3">
+          <label class="form-label" for="password" jhiTranslate="global.form.newpassword.label">New password</label>
           <input
             type="password"
             class="form-control"
@@ -166,10 +166,8 @@
           <jhi-password-strength-bar [passwordToCheck]="registerForm.get('password')!.value"></jhi-password-strength-bar>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="confirmPassword" jhiTranslate="global.form.confirmpassword.label"
-            >New password confirmation</label
-          >
+        <div class="mb-3">
+          <label class="form-label" for="confirmPassword" jhiTranslate="global.form.confirmpassword.label">New password confirmation</label>
           <input
             type="password"
             class="form-control"

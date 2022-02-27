@@ -3,7 +3,7 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.title">Operations</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="reset()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.refreshListLabel">Refresh List</span>
       </button>
@@ -61,7 +61,7 @@
               <a [routerLink]="['/bank-account', operation.bankAccount?.id, 'view']">{{ operation.bankAccount?.name }}</a>
             </div>
           </td>
-          <td class="text-right">
+          <td class="text-end">
             <div class="btn-group">
               <button
                 type="submit"

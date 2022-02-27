@@ -1,5 +1,5 @@
 <div>
-  <div class="row justify-content-center">
+  <div class="d-flex justify-content-center">
     <div class="col-md-8">
       <h2 jhiTranslate="settings.title" [translateValues]="{ username: account.login }" *ngIf="account">
         User settings for [<strong>{{ account.login }}</strong
@@ -13,8 +13,8 @@
       <jhi-alert-error></jhi-alert-error>
 
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
-        <div class="form-group">
-          <label class="form-control-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
+        <div class="mb-3">
+          <label class="form-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
           <input
             type="text"
             class="form-control"
@@ -56,8 +56,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="lastName" jhiTranslate="settings.form.lastname">Last Name</label>
+        <div class="mb-3">
+          <label class="form-label" for="lastName" jhiTranslate="settings.form.lastname">Last Name</label>
           <input
             type="text"
             class="form-control"
@@ -97,8 +97,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="email" jhiTranslate="global.form.email.label">Email</label>
+        <div class="mb-3">
+          <label class="form-label" for="email" jhiTranslate="global.form.email.label">Email</label>
           <input
             type="email"
             class="form-control"
@@ -144,7 +144,7 @@
           </div>
         </div>
 
-        <div class="form-group" *ngIf="languages && languages.length > 0">
+        <div class="mb-3" *ngIf="languages && languages.length > 0">
           <label for="langKey" jhiTranslate="settings.form.language">Language</label>
           <select class="form-control" id="langKey" name="langKey" formControlName="langKey" data-cy="langKey">
             <option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</option>

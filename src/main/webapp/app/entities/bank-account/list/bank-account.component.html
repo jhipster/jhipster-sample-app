@@ -3,7 +3,7 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.title">Bank Accounts</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.refreshListLabel">Refresh List</span>
       </button>
@@ -49,7 +49,7 @@
           <td>
             {{ bankAccount.user?.login }}
           </td>
-          <td class="text-right">
+          <td class="text-end">
             <div class="btn-group">
               <button
                 type="submit"

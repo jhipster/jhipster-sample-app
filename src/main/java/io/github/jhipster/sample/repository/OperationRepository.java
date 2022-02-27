@@ -13,16 +13,28 @@ import org.springframework.stereotype.Repository;
  * Spring Data SQL repository for the Operation entity.
  */
 @Repository
-public interface OperationRepository extends JpaRepository<Operation, Long> {
+public interface OperationRepository extends OperationRepositoryWithBagRelationships, JpaRepository<Operation, Long> {
+    default Optional<Operation> findOneWithEagerRelationships(Long id) {
+        return this.fetchBagRelationships(this.findOneWithToOneRelationships(id));
+    }
+
+    default List<Operation> findAllWithEagerRelationships() {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships());
+    }
+
+    default Page<Operation> findAllWithEagerRelationships(Pageable pageable) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
+    }
+
     @Query(
-        value = "select distinct operation from Operation operation left join fetch operation.labels",
+        value = "select distinct operation from Operation operation left join fetch operation.bankAccount",
         countQuery = "select count(distinct operation) from Operation operation"
     )
-    Page<Operation> findAllWithEagerRelationships(Pageable pageable);
+    Page<Operation> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct operation from Operation operation left join fetch operation.labels")
-    List<Operation> findAllWithEagerRelationships();
+    @Query("select distinct operation from Operation operation left join fetch operation.bankAccount")
+    List<Operation> findAllWithToOneRelationships();
 
-    @Query("select operation from Operation operation left join fetch operation.labels where operation.id =:id")
-    Optional<Operation> findOneWithEagerRelationships(@Param("id") Long id);
+    @Query("select operation from Operation operation left join fetch operation.bankAccount where operation.id =:id")
+    Optional<Operation> findOneWithToOneRelationships(@Param("id") Long id);
 }

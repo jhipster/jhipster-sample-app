@@ -3,7 +3,7 @@
     {{ 'health.indicator.' + health.key | translate }}
   </h4>
 
-  <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="dismiss()">
+  <button aria-label="Close" data-dismiss="modal" class="btn-close" type="button" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -16,14 +16,14 @@
       <table class="table table-striped" aria-describedby="showHealthLabel">
         <thead>
           <tr>
-            <th scope="col" class="text-left" jhiTranslate="health.details.name">Name</th>
-            <th scope="col" class="text-left" jhiTranslate="health.details.value">Value</th>
+            <th scope="col" class="text-start" jhiTranslate="health.details.name">Name</th>
+            <th scope="col" class="text-start" jhiTranslate="health.details.value">Value</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let healthDetail of health.value.details! | keyvalue">
-            <td class="text-left">{{ healthDetail.key }}</td>
-            <td class="text-left">{{ readableValue(healthDetail.value) }}</td>
+            <td class="text-start">{{ healthDetail.key }}</td>
+            <td class="text-start">{{ readableValue(healthDetail.value) }}</td>
           </tr>
         </tbody>
       </table>
@@ -32,5 +32,5 @@
 </div>
 
 <div class="modal-footer">
-  <button data-dismiss="modal" class="btn btn-secondary float-left" type="button" (click)="dismiss()">Done</button>
+  <button data-dismiss="modal" class="btn btn-secondary float-start" type="button" (click)="dismiss()">Done</button>
 </div>

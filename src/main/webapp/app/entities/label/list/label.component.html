@@ -3,7 +3,7 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.label.home.title">Labels</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="jhipsterSampleApplicationApp.label.home.refreshListLabel">Refresh List</span>
       </button>
@@ -43,7 +43,7 @@
             <a [routerLink]="['/label', label.id, 'view']">{{ label.id }}</a>
           </td>
           <td>{{ label.label }}</td>
-          <td class="text-right">
+          <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/label', label.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>

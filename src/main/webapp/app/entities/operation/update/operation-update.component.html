@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
@@ -12,13 +12,13 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
           <div class="d-flex">
             <input
               id="field_date"
@@ -44,8 +44,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.description" for="field_description"
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.description" for="field_description"
             >Description</label
           >
           <input
@@ -58,8 +58,8 @@
           />
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
           <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -71,8 +71,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount"
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount"
             >Bank Account</label
           >
           <select class="form-control" id="field_bankAccount" data-cy="bankAccount" name="bankAccount" formControlName="bankAccount">
@@ -88,7 +88,7 @@
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label jhiTranslate="jhipsterSampleApplicationApp.operation.label" for="field_labels">Label</label>
           <select class="form-control" id="field_labels" data-cy="label" multiple name="labels" formControlName="labels">
             <option

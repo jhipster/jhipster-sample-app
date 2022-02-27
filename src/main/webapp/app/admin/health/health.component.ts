@@ -21,9 +21,9 @@ export class HealthComponent implements OnInit {
 
   getBadgeClass(statusState: HealthStatus): string {
     if (statusState === 'UP') {
-      return 'badge-success';
+      return 'bg-success';
     }
-    return 'badge-danger';
+    return 'bg-danger';
   }
 
   refresh(): void {
