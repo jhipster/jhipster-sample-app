@@ -20,26 +20,24 @@ describe('LoginComponent', () => {
   let mockAccountService: AccountService;
   let mockLoginService: LoginService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule.withRoutes([])],
-        declarations: [LoginComponent],
-        providers: [
-          FormBuilder,
-          AccountService,
-          {
-            provide: LoginService,
-            useValue: {
-              login: jest.fn(() => of({})),
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
+      declarations: [LoginComponent],
+      providers: [
+        FormBuilder,
+        AccountService,
+        {
+          provide: LoginService,
+          useValue: {
+            login: jest.fn(() => of({})),
           },
-        ],
-      })
-        .overrideTemplate(LoginComponent, '')
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideTemplate(LoginComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

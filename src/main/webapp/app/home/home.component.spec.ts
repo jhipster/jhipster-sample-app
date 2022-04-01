@@ -26,17 +26,15 @@ describe('Home Component', () => {
     imageUrl: null,
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule.withRoutes([])],
-        declarations: [HomeComponent],
-        providers: [AccountService],
-      })
-        .overrideTemplate(HomeComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
+      declarations: [HomeComponent],
+      providers: [AccountService],
     })
-  );
+      .overrideTemplate(HomeComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);

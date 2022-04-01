@@ -15,25 +15,23 @@ describe('User Management Update Component', () => {
   let fixture: ComponentFixture<UserManagementUpdateComponent>;
   let service: UserManagementService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [UserManagementUpdateComponent],
-        providers: [
-          FormBuilder,
-          {
-            provide: ActivatedRoute,
-            useValue: {
-              data: of({ user: new User(123, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') }),
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [UserManagementUpdateComponent],
+      providers: [
+        FormBuilder,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            data: of({ user: new User(123, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') }),
           },
-        ],
-      })
-        .overrideTemplate(UserManagementUpdateComponent, '')
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideTemplate(UserManagementUpdateComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserManagementUpdateComponent);

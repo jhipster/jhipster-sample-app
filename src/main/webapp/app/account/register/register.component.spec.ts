@@ -13,17 +13,15 @@ describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
   let comp: RegisterComponent;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-        declarations: [RegisterComponent],
-        providers: [FormBuilder],
-      })
-        .overrideTemplate(RegisterComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      declarations: [RegisterComponent],
+      providers: [FormBuilder],
     })
-  );
+      .overrideTemplate(RegisterComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);

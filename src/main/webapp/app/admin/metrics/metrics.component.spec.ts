@@ -11,16 +11,14 @@ describe('MetricsComponent', () => {
   let fixture: ComponentFixture<MetricsComponent>;
   let service: MetricsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [MetricsComponent],
-      })
-        .overrideTemplate(MetricsComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [MetricsComponent],
     })
-  );
+      .overrideTemplate(MetricsComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetricsComponent);

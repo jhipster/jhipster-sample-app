@@ -31,17 +31,15 @@ describe('Navbar Component', () => {
     imageUrl: '',
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgxWebstorageModule.forRoot()],
-        declarations: [NavbarComponent],
-        providers: [LoginService],
-      })
-        .overrideTemplate(NavbarComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgxWebstorageModule.forRoot()],
+      declarations: [NavbarComponent],
+      providers: [LoginService],
     })
-  );
+      .overrideTemplate(NavbarComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);

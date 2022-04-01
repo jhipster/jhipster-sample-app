@@ -1,11 +1,12 @@
 package io.github.jhipster.sample.repository;
 
 import io.github.jhipster.sample.domain.Operation;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.annotations.QueryHints;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -14,7 +15,7 @@ import org.springframework.data.domain.PageImpl;
  */
 public class OperationRepositoryWithBagRelationshipsImpl implements OperationRepositoryWithBagRelationships {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -29,7 +30,7 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
 
     @Override
     public List<Operation> fetchBagRelationships(List<Operation> operations) {
-        return Optional.of(operations).map(this::fetchLabels).get();
+        return Optional.of(operations).map(this::fetchLabels).orElse(Collections.emptyList());
     }
 
     Operation fetchLabels(Operation result) {

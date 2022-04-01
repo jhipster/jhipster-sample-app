@@ -33,15 +33,7 @@
               "src/main/webapp/content",
               "src/main/webapp/favicon.ico",
               "src/main/webapp/manifest.webapp",
-              "src/main/webapp/robots.txt",
-              {
-                "glob": "*.{js,css,html,png}",
-                "input": "./node_modules/swagger-ui-dist",
-                "output": "swagger-ui",
-                "ignore": ["**/index.html"]
-              },
-              { "glob": "axios.min.js", "input": "./node_modules/axios/dist", "output": "swagger-ui" },
-              { "glob": "**/*", "input": "src/main/webapp/swagger-ui/", "output": "swagger-ui" }
+              "src/main/webapp/robots.txt"
             ],
             "styles": ["src/main/webapp/content/scss/vendor.scss", "src/main/webapp/content/scss/global.scss"],
             "scripts": []

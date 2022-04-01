@@ -85,6 +85,18 @@ module.exports = async (config, options, targetOptions) => {
   }
 
   const patterns = [
+    {
+      // https://github.com/swagger-api/swagger-ui/blob/v4.6.1/swagger-ui-dist-package/README.md
+      context: require('swagger-ui-dist').getAbsoluteFSPath(),
+      from: '*.{js,css,html,png}',
+      to: 'swagger-ui/',
+      globOptions: { ignore: ['**/index.html'] },
+    },
+    {
+      from: require.resolve('axios/dist/axios.min.js'),
+      to: 'swagger-ui/',
+    },
+    { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui/' },
     // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
   ];
 

@@ -69,11 +69,11 @@ export class OperationUpdateComponent implements OnInit {
     }
   }
 
-  trackBankAccountById(index: number, item: IBankAccount): number {
+  trackBankAccountById(_index: number, item: IBankAccount): number {
     return item.id!;
   }
 
-  trackLabelById(index: number, item: ILabel): number {
+  trackLabelById(_index: number, item: ILabel): number {
     return item.id!;
   }
 

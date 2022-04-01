@@ -29,17 +29,15 @@ describe('User Management Component', () => {
     })
   );
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-        declarations: [UserManagementComponent],
-        providers: [{ provide: ActivatedRoute, useValue: { data, queryParamMap } }, AccountService],
-      })
-        .overrideTemplate(UserManagementComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      declarations: [UserManagementComponent],
+      providers: [{ provide: ActivatedRoute, useValue: { data, queryParamMap } }, AccountService],
     })
-  );
+      .overrideTemplate(UserManagementComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserManagementComponent);

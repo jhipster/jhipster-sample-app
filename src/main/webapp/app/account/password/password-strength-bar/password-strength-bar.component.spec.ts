@@ -6,15 +6,13 @@ describe('PasswordStrengthBarComponent', () => {
   let comp: PasswordStrengthBarComponent;
   let fixture: ComponentFixture<PasswordStrengthBarComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [PasswordStrengthBarComponent],
-      })
-        .overrideTemplate(PasswordStrengthBarComponent, '')
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [PasswordStrengthBarComponent],
     })
-  );
+      .overrideTemplate(PasswordStrengthBarComponent, '')
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordStrengthBarComponent);

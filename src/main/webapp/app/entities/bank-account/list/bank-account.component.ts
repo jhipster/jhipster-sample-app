@@ -34,7 +34,7 @@ export class BankAccountComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IBankAccount): number {
+  trackId(_index: number, item: IBankAccount): number {
     return item.id!;
   }
 

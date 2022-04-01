@@ -22,14 +22,12 @@ describe('HasAnyAuthorityDirective tests', () => {
   let mockAccountService: AccountService;
   const authenticationState = new Subject<Account | null>();
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [HasAnyAuthorityDirective, TestHasAnyAuthorityDirectiveComponent],
-        providers: [AccountService],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [HasAnyAuthorityDirective, TestHasAnyAuthorityDirectiveComponent],
+      providers: [AccountService],
+    });
+  }));
 
   beforeEach(() => {
     mockAccountService = TestBed.inject(AccountService);

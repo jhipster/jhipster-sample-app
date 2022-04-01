@@ -9,14 +9,12 @@ describe('ItemCountComponent test', () => {
   let comp: ItemCountComponent;
   let fixture: ComponentFixture<ItemCountComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [ItemCountComponent, TranslateDirective],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [ItemCountComponent, TranslateDirective],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemCountComponent);

@@ -24,10 +24,10 @@
 
     <properties>
         <!-- Build properties -->
-        <maven.version>3.3.9</maven.version>
+        <maven.version>3.8.4</maven.version>
         <java.version>11</java.version>
         <node.version>v16.14.0</node.version>
-        <npm.version>8.4.1</npm.version>
+        <npm.version>8.6.0</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -35,7 +35,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <start-class>io.github.jhipster.sample.JhipsterSampleApplicationApp</start-class>
-        <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
+        <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx512m</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
         <!-- These remain empty unless the corresponding profile is active -->
@@ -45,13 +45,13 @@
         <profile.e2e />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.7.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.8.0</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>2.6.3</spring-boot.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <hibernate.version>5.6.4.Final</hibernate.version>
+        <hibernate.version>5.6.7.Final</hibernate.version>
         <!-- The liquibase version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <liquibase.version>4.6.1</liquibase.version>
@@ -63,7 +63,7 @@
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
-        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
         <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
@@ -74,19 +74,19 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-        <checkstyle.version>9.3</checkstyle.version>
+        <checkstyle.version>10.1</checkstyle.version>
         <nohttp-checkstyle.version>0.0.10</nohttp-checkstyle.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
         <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
         <git-commit-id-plugin.version>5.0.0</git-commit-id-plugin.version>
-        <modernizer-maven-plugin.version>2.3.0</modernizer-maven-plugin.version>
+        <modernizer-maven-plugin.version>2.4.0</modernizer-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>3.2.0</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
         <jib-maven-plugin.image>eclipse-temurin:11-jre-focal</jib-maven-plugin.image>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-        <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
+        <properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <!-- jhipster-needle-maven-property -->
     </properties>
@@ -668,8 +668,8 @@
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <message>You are running an incompatible version of Java. JHipster supports JDK 11 to 17.</message>
-                                <version>[11,12),[12,13),[13,14),[14,15),[15,16),[16,17),[17,18)</version>
+                                <message>You are running an incompatible version of Java. JHipster supports JDK 11 to 18.</message>
+                                <version>[11,12),[12,13),[13,14),[14,15),[15,16),[16,17),[17,18),[18,19)</version>
                             </requireJavaVersion>
                         </rules>
                     </configuration>

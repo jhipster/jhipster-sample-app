@@ -68,7 +68,7 @@ export class OperationComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IOperation): number {
+  trackId(_index: number, item: IOperation): number {
     return item.id!;
   }
 

@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 7.7.0, you can find documentation and help at [https://www.jhipster.tech](https://www.jhipster.tech).
+This application was generated using JHipster 7.8.0, you can find documentation and help at [https://www.jhipster.tech](https://www.jhipster.tech).
 
 ## Project Structure
 
@@ -235,7 +235,7 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 7.7.0 archive]: https://www.jhipster.tech
+[jhipster 7.8.0 archive]: https://www.jhipster.tech
 [using jhipster in development]: https://www.jhipster.tech/development/
 [using docker and docker-compose]: https://www.jhipster.tech/docker-compose
 [using jhipster in production]: https://www.jhipster.tech/production/
