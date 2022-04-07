@@ -24,7 +24,7 @@
 
     <properties>
         <!-- Build properties -->
-        <maven.version>3.8.4</maven.version>
+        <maven.version>3.8.5</maven.version>
         <java.version>11</java.version>
         <node.version>v16.14.0</node.version>
         <npm.version>8.6.0</npm.version>
@@ -45,7 +45,7 @@
         <profile.e2e />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.8.0</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.8.1</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version>2.6.6</spring-boot.version>
