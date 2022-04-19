@@ -44,7 +44,7 @@
     "skipFakeData": false,
     "skipServer": false,
     "skipUserManagement": false,
-    "testFrameworks": ["gatling", "protractor"],
+    "testFrameworks": ["gatling", "cypress"],
     "useCompass": false,
     "useSass": true,
     "websocket": false,
