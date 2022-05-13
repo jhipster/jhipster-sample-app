@@ -18,7 +18,7 @@
 
   // Set *default* container specific settings.json values on container create.
   "settings": {
-    "java.home": "/docker-java-home"
+    "java.jdt.ls.java.home": "/docker-java-home"
   },
 
   // Add the IDs of extensions you want installed when the container is created.
@@ -44,5 +44,10 @@
   "features": {
     "docker-in-docker": "latest",
     "docker-from-docker": "latest"
-  }
+  },
+  "hostRequirements": {
+    "cpus": 8,
+    "memory": "8gb",
+    "storage": "32gb" 
+ }
 }
