@@ -11,11 +11,18 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: process.env.JHI_E2E_HEADLESS
-        ? ['--headless', '--disable-gpu', '--window-size=800,600']
-        : ['--disable-gpu', '--window-size=800,600'],
+      args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--window-size=800,600'],
     },
   },
+
+  // capabilities: {
+  //   browserName: 'chrome',
+  //   chromeOptions: {
+  //     args: process.env.JHI_E2E_HEADLESS
+  //       ? ['--headless',  '--disable-gpu', '--window-size=800,600']
+  //       : ['--disable-gpu', '--window-size=800,600'],
+  //   },
+  // },
 
   directConnect: true,
 
