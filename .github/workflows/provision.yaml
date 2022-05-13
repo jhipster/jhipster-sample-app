@@ -1,0 +1,97 @@
+name: Create a GitHub Repo, populate code, create secrets, docs & wiki, & ci-cq-cd (test for quality and check standards)
+
+# This will run when kicked off manually or by trigger
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'preprod'
+      snyk_token:
+        description: 'A Snyk Token'
+        required: true
+        default: ''
+      sonar_token:
+        description: 'A Sonar Token'
+        required: true
+        default: ''
+      teams_webhook:
+        description: 'Teams Webhook'
+        required: false
+        default: ''
+      slack_webhook:
+        description: 'Slack Webhook'
+        required: false
+        default: ''
+
+jobs:
+  provision-github-env:
+    name: Provision this Github Environment
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    # TODO Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+
+    steps:
+    # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+      
+    - uses: ./.github/workflows/composites/github-env
+      with:
+          ENVIRONMENT:  ${{ github.event.inputs.environment }}
+          SNYK_TOKEN: ${{ github.event.inputs.snyk_token }}
+
+  chat-ops:
+    name: Notify
+    needs: [provision-github-env]
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
+    # TODO Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+
+    steps:
+    # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+
+    # Send a chat ops notification depending on teams or slack
+    - uses: ./.github/workflows/chatops/teams
+      with:
+          MESSAGE: 'Environment: ${{  github.event.inputs.environment }} deployment completed for commit: ${{ github.sha }}'
+          TEAMS_WEBHOOK: ${{ github.event.inputs.teams_webhook }}
+
+    # Send a chat ops notification depending on slack
+    - uses: ./.github/workflows/chatops/slack
+      with:
+          SLACK_USERNAME: ${{ github.event.inputs.user_name }}
+          SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
+          SLACK_CHANNEL: general
+          SLACK_COLOR: 'good' # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/HomeAidePi-Alpha/GithubEnvironments-Actions/blob/main/docs/bear-cavalry.png?size=48
+          SLACK_MESSAGE: ':rocket: Environment: ${{  github.event.inputs.environment }} deployment completed for commit: ${{ github.sha }}'
+          SLACK_TITLE: 'CI/CQ/CD Completed' 
+          
+  # TODO Perform quality checks & standards here

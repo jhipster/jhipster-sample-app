@@ -1,0 +1,69 @@
+name: Create Github environment and secrets
+
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  SNYK_TOKEN:
+    description: 'Snyk Token'
+    required: true
+  # SONAR_ORG:
+  #   description: 'Sonar Org'
+  #   required: true
+  # SONAR_TOKEN:
+  #   description: 'Sonar Token'
+  #   required: true
+  # SONAR_URL:
+  #   description: 'Sonar Url'
+  #   required: true
+  # CYPRESS_PROJECT_ID:
+  #   description: 'Cypress Project Id'
+  #   required: true
+  # CYPRESS_RECORD_KEY:
+  #   description: 'Cypress Record Key'
+  #   required: true
+  # DOCKER_USERNAME:
+  #   description: 'Docker Username'
+  #   required: true
+  # DOCKER_PASSWORD:
+  #   description: 'Docker Password'
+  #   required: false
+
+runs:
+    # composite type is key to chaining workflow modules accessed in repo or externally packaged or shared in an organization in github
+    using: "composite"
+    steps:
+    # Checkout the repo
+    - uses: actions/checkout@v3
+      
+    # Here we will create environment using gh cli 
+    - name: Create an environment 
+      id: create
+      shell: bash
+      # We place the GITHUB_TOKEN in a temp file so its not handled long then deleted
+      run: |
+        echo "${{ secrets.GITHUB_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        rm .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ github.repository }}/environments/${{ inputs.ENVIRONMENT }}
+    
+    # Sleep for magic seconds to give the former process time to complete (may be legacy if they queue durably)
+    - name: Sleep for 10 seconds
+      id: sleep
+      shell: bash
+      run: |
+        sleep 10s
+
+    # Here we will push secrets using gh cli 
+    # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
+    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
+    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds with the secrets as only The Cloud Provider and Github will exchange credentials along up-stream (back) channels.
+    - name: Create secrets
+      id: secrets
+      shell: bash
+      # We place the GITHUB_TOKEN in a temp file so its not handled long then deleted
+      run: |
+        echo "${{ secrets.GITHUB_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        rm .githubtoken
+        gh secret set ENVIRONMENT --body "${{  inputs.ENVIRONMENT }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ github.repository }}
