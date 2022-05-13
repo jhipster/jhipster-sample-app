@@ -1,5 +1,5 @@
 name: Application CI - Test
-on: [push, pull_request]
+on: [pull_request]
 jobs:
     pipeline:
         name: jhipsterSampleApplication pipeline
