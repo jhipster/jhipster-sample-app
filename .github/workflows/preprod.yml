@@ -1,7 +1,8 @@
 name: Application CI - PreProd
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    branches: 
+      - main
 jobs:
   pipeline:
     name: jhipsterSampleApplication pipeline
@@ -80,7 +81,6 @@ jobs:
       #     AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
       #     BUILD_PACKAGE_PATH:  ${{ env.BUILD_PACKAGE_PATH }}
       #     BUILD_PACKAGE_NAME:  ${{ env.BUILD_PACKAGE_NAME }}
-
       - name: Build and publish docker image
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
         run: |
