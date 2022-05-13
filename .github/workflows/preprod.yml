@@ -1,5 +1,7 @@
 name: Application CI - PreProd
-on: [merge]
+on:
+  push:
+    branches: [ main ]
 jobs:
   pipeline:
     name: jhipsterSampleApplication pipeline
