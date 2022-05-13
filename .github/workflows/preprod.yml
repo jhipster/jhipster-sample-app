@@ -1,5 +1,5 @@
 name: Application CI - PreProd
-on: [push, pull_request]
+on: [merge]
 jobs:
   pipeline:
     name: jhipsterSampleApplication pipeline
