@@ -46,8 +46,8 @@
     "docker-from-docker": "latest"
   },
   "hostRequirements": {
-    "cpus": 8,
+    "cpus": 4,
     "memory": "8gb",
-    "storage": "32gb" 
+    "storage": "16gb" 
  }
 }
