@@ -6,11 +6,15 @@ import { LabelComponent } from '../list/label.component';
 import { LabelDetailComponent } from '../detail/label-detail.component';
 import { LabelUpdateComponent } from '../update/label-update.component';
 import { LabelRoutingResolveService } from './label-routing-resolve.service';
+import { ASC } from 'app/config/navigation.constants';
 
 const labelRoute: Routes = [
   {
     path: '',
     component: LabelComponent,
+    data: {
+      defaultSort: 'id,' + ASC,
+    },
     canActivate: [UserRouteAccessService],
   },
   {

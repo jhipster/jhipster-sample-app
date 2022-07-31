@@ -71,7 +71,7 @@
               *ngIf="registerForm.get('login')?.errors?.pattern"
               jhiTranslate="register.messages.validate.login.pattern"
             >
-              Your username can only contain letters and digits.
+              Your username is invalid.
             </small>
           </div>
         </div>
@@ -118,7 +118,7 @@
               *ngIf="registerForm.get('email')?.errors?.maxlength"
               jhiTranslate="global.messages.validate.email.maxlength"
             >
-              Your email cannot be longer than 100 characters.
+              Your email cannot be longer than 50 characters.
             </small>
           </div>
         </div>

@@ -9,6 +9,5 @@ import { OperationRoutingModule } from './route/operation-routing.module';
 @NgModule({
   imports: [SharedModule, OperationRoutingModule],
   declarations: [OperationComponent, OperationDetailComponent, OperationUpdateComponent, OperationDeleteDialogComponent],
-  entryComponents: [OperationDeleteDialogComponent],
 })
 export class OperationModule {}

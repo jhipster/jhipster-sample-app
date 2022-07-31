@@ -9,6 +9,5 @@ import { LabelRoutingModule } from './route/label-routing.module';
 @NgModule({
   imports: [SharedModule, LabelRoutingModule],
   declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent],
-  entryComponents: [LabelDeleteDialogComponent],
 })
 export class LabelModule {}

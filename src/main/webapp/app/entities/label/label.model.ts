@@ -1,15 +1,9 @@
 import { IOperation } from 'app/entities/operation/operation.model';
 
 export interface ILabel {
-  id?: number;
-  label?: string;
-  operations?: IOperation[] | null;
+  id: number;
+  label?: string | null;
+  operations?: Pick<IOperation, 'id'>[] | null;
 }
 
-export class Label implements ILabel {
-  constructor(public id?: number, public label?: string, public operations?: IOperation[] | null) {}
-}
-
-export function getLabelIdentifier(label: ILabel): number | undefined {
-  return label.id;
-}
+export type NewLabel = Omit<ILabel, 'id'> & { id: null };

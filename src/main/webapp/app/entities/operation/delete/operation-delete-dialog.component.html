@@ -7,13 +7,12 @@
 
   <div class="modal-body">
     <jhi-alert-error></jhi-alert-error>
-
     <p
       id="jhi-delete-operation-heading"
       jhiTranslate="jhipsterSampleApplicationApp.operation.delete.question"
       [translateValues]="{ id: operation.id }"
     >
-      Are you sure you want to delete this Operation?
+      Are you sure you want to delete Operation {{ operation.id }}?
     </p>
   </div>
 

@@ -4,18 +4,18 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { ILabel, Label } from '../label.model';
+import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
 @Injectable({ providedIn: 'root' })
-export class LabelRoutingResolveService implements Resolve<ILabel> {
+export class LabelRoutingResolveService implements Resolve<ILabel | null> {
   constructor(protected service: LabelService, protected router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ILabel> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ILabel | null | never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((label: HttpResponse<Label>) => {
+        mergeMap((label: HttpResponse<ILabel>) => {
           if (label.body) {
             return of(label.body);
           } else {
@@ -25,6 +25,6 @@ export class LabelRoutingResolveService implements Resolve<ILabel> {
         })
       );
     }
-    return of(new Label());
+    return of(null);
   }
 }

@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data SQL repository for the BankAccount entity.
+ * Spring Data JPA repository for the BankAccount entity.
  */
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {

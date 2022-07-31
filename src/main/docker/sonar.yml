@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   jhipstersampleapplication-sonar:
-    image: sonarqube:9.3.0-community
+    image: sonarqube:9.5.0-community
     # Authentication is turned off for out of the box experience while trying out SonarQube
     # For real use cases delete sonar.forceAuthentication variable or set sonar.forceAuthentication=true
     environment:

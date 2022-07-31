@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } fro
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { IBankAccount, BankAccount } from '../bank-account.model';
+import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
 import { BankAccountRoutingResolveService } from './bank-account-routing-resolve.service';
@@ -15,7 +15,7 @@ describe('BankAccount routing resolve service', () => {
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
   let routingResolveService: BankAccountRoutingResolveService;
   let service: BankAccountService;
-  let resultBankAccount: IBankAccount | undefined;
+  let resultBankAccount: IBankAccount | null | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +55,7 @@ describe('BankAccount routing resolve service', () => {
       expect(resultBankAccount).toEqual({ id: 123 });
     });
 
-    it('should return new IBankAccount if id is not provided', () => {
+    it('should return null if id is not provided', () => {
       // GIVEN
       service.find = jest.fn();
       mockActivatedRouteSnapshot.params = {};
@@ -67,12 +67,12 @@ describe('BankAccount routing resolve service', () => {
 
       // THEN
       expect(service.find).not.toBeCalled();
-      expect(resultBankAccount).toEqual(new BankAccount());
+      expect(resultBankAccount).toEqual(null);
     });
 
     it('should route to 404 page if data not found in server', () => {
       // GIVEN
-      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse({ body: null as unknown as BankAccount })));
+      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<IBankAccount>({ body: null })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN

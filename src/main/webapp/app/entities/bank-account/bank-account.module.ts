@@ -9,6 +9,5 @@ import { BankAccountRoutingModule } from './route/bank-account-routing.module';
 @NgModule({
   imports: [SharedModule, BankAccountRoutingModule],
   declarations: [BankAccountComponent, BankAccountDetailComponent, BankAccountUpdateComponent, BankAccountDeleteDialogComponent],
-  entryComponents: [BankAccountDeleteDialogComponent],
 })
 export class BankAccountModule {}

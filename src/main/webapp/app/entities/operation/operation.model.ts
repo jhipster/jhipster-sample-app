@@ -3,25 +3,12 @@ import { IBankAccount } from 'app/entities/bank-account/bank-account.model';
 import { ILabel } from 'app/entities/label/label.model';
 
 export interface IOperation {
-  id?: number;
-  date?: dayjs.Dayjs;
+  id: number;
+  date?: dayjs.Dayjs | null;
   description?: string | null;
-  amount?: number;
-  bankAccount?: IBankAccount | null;
-  labels?: ILabel[] | null;
+  amount?: number | null;
+  bankAccount?: Pick<IBankAccount, 'id' | 'name'> | null;
+  labels?: Pick<ILabel, 'id' | 'label'>[] | null;
 }
 
-export class Operation implements IOperation {
-  constructor(
-    public id?: number,
-    public date?: dayjs.Dayjs,
-    public description?: string | null,
-    public amount?: number,
-    public bankAccount?: IBankAccount | null,
-    public labels?: ILabel[] | null
-  ) {}
-}
-
-export function getOperationIdentifier(operation: IOperation): number | undefined {
-  return operation.id;
-}
+export type NewOperation = Omit<IOperation, 'id'> & { id: null };

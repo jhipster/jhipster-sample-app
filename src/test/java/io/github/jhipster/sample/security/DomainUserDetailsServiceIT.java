@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +34,14 @@ class DomainUserDetailsServiceIT {
     private UserRepository userRepository;
 
     @Autowired
+    @Qualifier("userDetailsService")
     private UserDetailsService domainUserDetailsService;
 
     @BeforeEach
     public void init() {
         User userOne = new User();
         userOne.setLogin(USER_ONE_LOGIN);
-        userOne.setPassword(RandomStringUtils.random(60));
+        userOne.setPassword(RandomStringUtils.randomAlphanumeric(60));
         userOne.setActivated(true);
         userOne.setEmail(USER_ONE_EMAIL);
         userOne.setFirstName("userOne");
@@ -49,7 +51,7 @@ class DomainUserDetailsServiceIT {
 
         User userTwo = new User();
         userTwo.setLogin(USER_TWO_LOGIN);
-        userTwo.setPassword(RandomStringUtils.random(60));
+        userTwo.setPassword(RandomStringUtils.randomAlphanumeric(60));
         userTwo.setActivated(true);
         userTwo.setEmail(USER_TWO_EMAIL);
         userTwo.setFirstName("userTwo");
@@ -59,7 +61,7 @@ class DomainUserDetailsServiceIT {
 
         User userThree = new User();
         userThree.setLogin(USER_THREE_LOGIN);
-        userThree.setPassword(RandomStringUtils.random(60));
+        userThree.setPassword(RandomStringUtils.randomAlphanumeric(60));
         userThree.setActivated(false);
         userThree.setEmail(USER_THREE_EMAIL);
         userThree.setFirstName("userThree");

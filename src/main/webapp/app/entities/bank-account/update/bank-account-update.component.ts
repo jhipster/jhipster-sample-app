@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { IBankAccount, BankAccount } from '../bank-account.model';
+import { BankAccountFormService, BankAccountFormGroup } from './bank-account-form.service';
+import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
@@ -16,26 +16,27 @@ import { UserService } from 'app/entities/user/user.service';
 })
 export class BankAccountUpdateComponent implements OnInit {
   isSaving = false;
+  bankAccount: IBankAccount | null = null;
 
   usersSharedCollection: IUser[] = [];
 
-  editForm = this.fb.group({
-    id: [],
-    name: [null, [Validators.required]],
-    balance: [null, [Validators.required]],
-    user: [],
-  });
+  editForm: BankAccountFormGroup = this.bankAccountFormService.createBankAccountFormGroup();
 
   constructor(
     protected bankAccountService: BankAccountService,
+    protected bankAccountFormService: BankAccountFormService,
     protected userService: UserService,
-    protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ bankAccount }) => {
-      this.updateForm(bankAccount);
+      this.bankAccount = bankAccount;
+      if (bankAccount) {
+        this.updateForm(bankAccount);
+      }
 
       this.loadRelationshipsOptions();
     });
@@ -47,16 +48,12 @@ export class BankAccountUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const bankAccount = this.createFromForm();
-    if (bankAccount.id !== undefined) {
+    const bankAccount = this.bankAccountFormService.getBankAccount(this.editForm);
+    if (bankAccount.id !== null) {
       this.subscribeToSaveResponse(this.bankAccountService.update(bankAccount));
     } else {
       this.subscribeToSaveResponse(this.bankAccountService.create(bankAccount));
     }
-  }
-
-  trackUserById(_index: number, item: IUser): number {
-    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBankAccount>>): void {
@@ -79,31 +76,17 @@ export class BankAccountUpdateComponent implements OnInit {
   }
 
   protected updateForm(bankAccount: IBankAccount): void {
-    this.editForm.patchValue({
-      id: bankAccount.id,
-      name: bankAccount.name,
-      balance: bankAccount.balance,
-      user: bankAccount.user,
-    });
+    this.bankAccount = bankAccount;
+    this.bankAccountFormService.resetForm(this.editForm, bankAccount);
 
-    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(this.usersSharedCollection, bankAccount.user);
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, bankAccount.user);
   }
 
   protected loadRelationshipsOptions(): void {
     this.userService
       .query()
       .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
-      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, this.editForm.get('user')!.value)))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.bankAccount?.user)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
-  }
-
-  protected createFromForm(): IBankAccount {
-    return {
-      ...new BankAccount(),
-      id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      balance: this.editForm.get(['balance'])!.value,
-      user: this.editForm.get(['user'])!.value,
-    };
   }
 }

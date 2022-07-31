@@ -17,7 +17,7 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.app.json", "./src/test/javascript/cypress/tsconfig.json", "./tsconfig.spec.json"]
   },
   "rules": {
     "@angular-eslint/component-selector": [

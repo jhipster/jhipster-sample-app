@@ -3,9 +3,9 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.title">Operations</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="reset()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.refreshListLabel">Refresh List</span>
+        <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.refreshListLabel">Refresh list</span>
       </button>
 
       <button
@@ -25,13 +25,13 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="operations?.length === 0">
-    <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No operations found</span>
+    <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No Operations found</span>
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="operations && operations.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="date">
             <span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span> <fa-icon icon="sort"></fa-icon>
@@ -58,7 +58,7 @@
           <td>{{ operation.amount }}</td>
           <td>
             <div *ngIf="operation.bankAccount">
-              <a [routerLink]="['/bank-account', operation.bankAccount?.id, 'view']">{{ operation.bankAccount?.name }}</a>
+              <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount?.name }}</a>
             </div>
           </td>
           <td class="text-end">

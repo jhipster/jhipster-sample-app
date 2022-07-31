@@ -6,8 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
+import { OperationFormService } from './operation-form.service';
 import { OperationService } from '../service/operation.service';
-import { IOperation, Operation } from '../operation.model';
+import { IOperation } from '../operation.model';
 import { IBankAccount } from 'app/entities/bank-account/bank-account.model';
 import { BankAccountService } from 'app/entities/bank-account/service/bank-account.service';
 import { ILabel } from 'app/entities/label/label.model';
@@ -19,6 +20,7 @@ describe('Operation Management Update Component', () => {
   let comp: OperationUpdateComponent;
   let fixture: ComponentFixture<OperationUpdateComponent>;
   let activatedRoute: ActivatedRoute;
+  let operationFormService: OperationFormService;
   let operationService: OperationService;
   let bankAccountService: BankAccountService;
   let labelService: LabelService;
@@ -42,6 +44,7 @@ describe('Operation Management Update Component', () => {
 
     fixture = TestBed.createComponent(OperationUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
+    operationFormService = TestBed.inject(OperationFormService);
     operationService = TestBed.inject(OperationService);
     bankAccountService = TestBed.inject(BankAccountService);
     labelService = TestBed.inject(LabelService);
@@ -65,7 +68,10 @@ describe('Operation Management Update Component', () => {
       comp.ngOnInit();
 
       expect(bankAccountService.query).toHaveBeenCalled();
-      expect(bankAccountService.addBankAccountToCollectionIfMissing).toHaveBeenCalledWith(bankAccountCollection, ...additionalBankAccounts);
+      expect(bankAccountService.addBankAccountToCollectionIfMissing).toHaveBeenCalledWith(
+        bankAccountCollection,
+        ...additionalBankAccounts.map(expect.objectContaining)
+      );
       expect(comp.bankAccountsSharedCollection).toEqual(expectedCollection);
     });
 
@@ -84,7 +90,10 @@ describe('Operation Management Update Component', () => {
       comp.ngOnInit();
 
       expect(labelService.query).toHaveBeenCalled();
-      expect(labelService.addLabelToCollectionIfMissing).toHaveBeenCalledWith(labelCollection, ...additionalLabels);
+      expect(labelService.addLabelToCollectionIfMissing).toHaveBeenCalledWith(
+        labelCollection,
+        ...additionalLabels.map(expect.objectContaining)
+      );
       expect(comp.labelsSharedCollection).toEqual(expectedCollection);
     });
 
@@ -92,23 +101,24 @@ describe('Operation Management Update Component', () => {
       const operation: IOperation = { id: 456 };
       const bankAccount: IBankAccount = { id: 53557 };
       operation.bankAccount = bankAccount;
-      const labels: ILabel = { id: 2284 };
-      operation.labels = [labels];
+      const label: ILabel = { id: 2284 };
+      operation.labels = [label];
 
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
 
-      expect(comp.editForm.value).toEqual(expect.objectContaining(operation));
       expect(comp.bankAccountsSharedCollection).toContain(bankAccount);
-      expect(comp.labelsSharedCollection).toContain(labels);
+      expect(comp.labelsSharedCollection).toContain(label);
+      expect(comp.operation).toEqual(operation);
     });
   });
 
   describe('save', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<Operation>>();
+      const saveSubject = new Subject<HttpResponse<IOperation>>();
       const operation = { id: 123 };
+      jest.spyOn(operationFormService, 'getOperation').mockReturnValue(operation);
       jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ operation });
@@ -121,18 +131,20 @@ describe('Operation Management Update Component', () => {
       saveSubject.complete();
 
       // THEN
+      expect(operationFormService.getOperation).toHaveBeenCalled();
       expect(comp.previousState).toHaveBeenCalled();
-      expect(operationService.update).toHaveBeenCalledWith(operation);
+      expect(operationService.update).toHaveBeenCalledWith(expect.objectContaining(operation));
       expect(comp.isSaving).toEqual(false);
     });
 
     it('Should call create service on save for new entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<Operation>>();
-      const operation = new Operation();
+      const saveSubject = new Subject<HttpResponse<IOperation>>();
+      const operation = { id: 123 };
+      jest.spyOn(operationFormService, 'getOperation').mockReturnValue({ id: null });
       jest.spyOn(operationService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
-      activatedRoute.data = of({ operation });
+      activatedRoute.data = of({ operation: null });
       comp.ngOnInit();
 
       // WHEN
@@ -142,14 +154,15 @@ describe('Operation Management Update Component', () => {
       saveSubject.complete();
 
       // THEN
-      expect(operationService.create).toHaveBeenCalledWith(operation);
+      expect(operationFormService.getOperation).toHaveBeenCalled();
+      expect(operationService.create).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).toHaveBeenCalled();
     });
 
     it('Should set isSaving to false on error', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<Operation>>();
+      const saveSubject = new Subject<HttpResponse<IOperation>>();
       const operation = { id: 123 };
       jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -162,54 +175,30 @@ describe('Operation Management Update Component', () => {
       saveSubject.error('This is an error!');
 
       // THEN
-      expect(operationService.update).toHaveBeenCalledWith(operation);
+      expect(operationService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
     });
   });
 
-  describe('Tracking relationships identifiers', () => {
-    describe('trackBankAccountById', () => {
-      it('Should return tracked BankAccount primary key', () => {
+  describe('Compare relationships', () => {
+    describe('compareBankAccount', () => {
+      it('Should forward to bankAccountService', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackBankAccountById(0, entity);
-        expect(trackResult).toEqual(entity.id);
+        const entity2 = { id: 456 };
+        jest.spyOn(bankAccountService, 'compareBankAccount');
+        comp.compareBankAccount(entity, entity2);
+        expect(bankAccountService.compareBankAccount).toHaveBeenCalledWith(entity, entity2);
       });
     });
 
-    describe('trackLabelById', () => {
-      it('Should return tracked Label primary key', () => {
+    describe('compareLabel', () => {
+      it('Should forward to labelService', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackLabelById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-  });
-
-  describe('Getting selected relationships', () => {
-    describe('getSelectedLabel', () => {
-      it('Should return option if no Label is selected', () => {
-        const option = { id: 123 };
-        const result = comp.getSelectedLabel(option);
-        expect(result === option).toEqual(true);
-      });
-
-      it('Should return selected Label for according option', () => {
-        const option = { id: 123 };
-        const selected = { id: 123 };
-        const selected2 = { id: 456 };
-        const result = comp.getSelectedLabel(option, [selected2, selected]);
-        expect(result === selected).toEqual(true);
-        expect(result === selected2).toEqual(false);
-        expect(result === option).toEqual(false);
-      });
-
-      it('Should return option if this Label is not selected', () => {
-        const option = { id: 123 };
-        const selected = { id: 456 };
-        const result = comp.getSelectedLabel(option, [selected]);
-        expect(result === option).toEqual(true);
-        expect(result === selected).toEqual(false);
+        const entity2 = { id: 456 };
+        jest.spyOn(labelService, 'compareLabel');
+        comp.compareLabel(entity, entity2);
+        expect(labelService.compareLabel).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

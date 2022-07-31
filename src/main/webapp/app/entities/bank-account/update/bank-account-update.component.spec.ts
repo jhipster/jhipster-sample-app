@@ -6,8 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
+import { BankAccountFormService } from './bank-account-form.service';
 import { BankAccountService } from '../service/bank-account.service';
-import { IBankAccount, BankAccount } from '../bank-account.model';
+import { IBankAccount } from '../bank-account.model';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
@@ -18,6 +19,7 @@ describe('BankAccount Management Update Component', () => {
   let comp: BankAccountUpdateComponent;
   let fixture: ComponentFixture<BankAccountUpdateComponent>;
   let activatedRoute: ActivatedRoute;
+  let bankAccountFormService: BankAccountFormService;
   let bankAccountService: BankAccountService;
   let userService: UserService;
 
@@ -40,6 +42,7 @@ describe('BankAccount Management Update Component', () => {
 
     fixture = TestBed.createComponent(BankAccountUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
+    bankAccountFormService = TestBed.inject(BankAccountFormService);
     bankAccountService = TestBed.inject(BankAccountService);
     userService = TestBed.inject(UserService);
 
@@ -62,7 +65,10 @@ describe('BankAccount Management Update Component', () => {
       comp.ngOnInit();
 
       expect(userService.query).toHaveBeenCalled();
-      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
@@ -74,16 +80,17 @@ describe('BankAccount Management Update Component', () => {
       activatedRoute.data = of({ bankAccount });
       comp.ngOnInit();
 
-      expect(comp.editForm.value).toEqual(expect.objectContaining(bankAccount));
       expect(comp.usersSharedCollection).toContain(user);
+      expect(comp.bankAccount).toEqual(bankAccount);
     });
   });
 
   describe('save', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<BankAccount>>();
+      const saveSubject = new Subject<HttpResponse<IBankAccount>>();
       const bankAccount = { id: 123 };
+      jest.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue(bankAccount);
       jest.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ bankAccount });
@@ -96,18 +103,20 @@ describe('BankAccount Management Update Component', () => {
       saveSubject.complete();
 
       // THEN
+      expect(bankAccountFormService.getBankAccount).toHaveBeenCalled();
       expect(comp.previousState).toHaveBeenCalled();
-      expect(bankAccountService.update).toHaveBeenCalledWith(bankAccount);
+      expect(bankAccountService.update).toHaveBeenCalledWith(expect.objectContaining(bankAccount));
       expect(comp.isSaving).toEqual(false);
     });
 
     it('Should call create service on save for new entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<BankAccount>>();
-      const bankAccount = new BankAccount();
+      const saveSubject = new Subject<HttpResponse<IBankAccount>>();
+      const bankAccount = { id: 123 };
+      jest.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue({ id: null });
       jest.spyOn(bankAccountService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
-      activatedRoute.data = of({ bankAccount });
+      activatedRoute.data = of({ bankAccount: null });
       comp.ngOnInit();
 
       // WHEN
@@ -117,14 +126,15 @@ describe('BankAccount Management Update Component', () => {
       saveSubject.complete();
 
       // THEN
-      expect(bankAccountService.create).toHaveBeenCalledWith(bankAccount);
+      expect(bankAccountFormService.getBankAccount).toHaveBeenCalled();
+      expect(bankAccountService.create).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).toHaveBeenCalled();
     });
 
     it('Should set isSaving to false on error', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<BankAccount>>();
+      const saveSubject = new Subject<HttpResponse<IBankAccount>>();
       const bankAccount = { id: 123 };
       jest.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -137,18 +147,20 @@ describe('BankAccount Management Update Component', () => {
       saveSubject.error('This is an error!');
 
       // THEN
-      expect(bankAccountService.update).toHaveBeenCalledWith(bankAccount);
+      expect(bankAccountService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
     });
   });
 
-  describe('Tracking relationships identifiers', () => {
-    describe('trackUserById', () => {
-      it('Should return tracked User primary key', () => {
+  describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUserById(0, entity);
-        expect(trackResult).toEqual(entity.id);
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

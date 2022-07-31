@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { ILabel, Label } from '../label.model';
+import { LabelFormService, LabelFormGroup } from './label-form.service';
+import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
 @Component({
@@ -14,17 +14,22 @@ import { LabelService } from '../service/label.service';
 })
 export class LabelUpdateComponent implements OnInit {
   isSaving = false;
+  label: ILabel | null = null;
 
-  editForm = this.fb.group({
-    id: [],
-    label: [null, [Validators.required, Validators.minLength(3)]],
-  });
+  editForm: LabelFormGroup = this.labelFormService.createLabelFormGroup();
 
-  constructor(protected labelService: LabelService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected labelService: LabelService,
+    protected labelFormService: LabelFormService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ label }) => {
-      this.updateForm(label);
+      this.label = label;
+      if (label) {
+        this.updateForm(label);
+      }
     });
   }
 
@@ -34,8 +39,8 @@ export class LabelUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const label = this.createFromForm();
-    if (label.id !== undefined) {
+    const label = this.labelFormService.getLabel(this.editForm);
+    if (label.id !== null) {
       this.subscribeToSaveResponse(this.labelService.update(label));
     } else {
       this.subscribeToSaveResponse(this.labelService.create(label));
@@ -62,17 +67,7 @@ export class LabelUpdateComponent implements OnInit {
   }
 
   protected updateForm(label: ILabel): void {
-    this.editForm.patchValue({
-      id: label.id,
-      label: label.label,
-    });
-  }
-
-  protected createFromForm(): ILabel {
-    return {
-      ...new Label(),
-      id: this.editForm.get(['id'])!.value,
-      label: this.editForm.get(['label'])!.value,
-    };
+    this.label = label;
+    this.labelFormService.resetForm(this.editForm, label);
   }
 }

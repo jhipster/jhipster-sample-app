@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { BankAccountService } from '../service/bank-account.service';
@@ -14,8 +16,26 @@ describe('BankAccount Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [RouterTestingModule.withRoutes([{ path: 'bank-account', component: BankAccountComponent }]), HttpClientTestingModule],
       declarations: [BankAccountComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            data: of({
+              defaultSort: 'id,asc',
+            }),
+            queryParamMap: of(
+              jest.requireActual('@angular/router').convertToParamMap({
+                page: '1',
+                size: '1',
+                sort: 'id,desc',
+              })
+            ),
+            snapshot: { queryParams: {} },
+          },
+        },
+      ],
     })
       .overrideTemplate(BankAccountComponent, '')
       .compileComponents();
@@ -42,5 +62,15 @@ describe('BankAccount Management Component', () => {
     // THEN
     expect(service.query).toHaveBeenCalled();
     expect(comp.bankAccounts?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+  });
+
+  describe('trackId', () => {
+    it('Should forward to bankAccountService', () => {
+      const entity = { id: 123 };
+      jest.spyOn(service, 'getBankAccountIdentifier');
+      const id = comp.trackId(0, entity);
+      expect(service.getBankAccountIdentifier).toHaveBeenCalledWith(entity);
+      expect(id).toBe(entity.id);
+    });
   });
 });

@@ -12,7 +12,7 @@
   <span>{{ (threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll | number: '1.0-0' }}%</span>
 </ngb-progressbar>
 
-<span><span jhiTranslate="metrics.jvm.threads.timedwaiting">Timed Waiting</span> ({{ threadStats.threadDumpTimedWaiting }})</span>
+<span><span jhiTranslate="metrics.jvm.threads.timedwaiting">Timed waiting</span> ({{ threadStats.threadDumpTimedWaiting }})</span>
 
 <ngb-progressbar
   [value]="threadStats.threadDumpTimedWaiting"

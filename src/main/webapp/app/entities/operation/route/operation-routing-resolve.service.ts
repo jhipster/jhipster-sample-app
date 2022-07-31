@@ -4,18 +4,18 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { IOperation, Operation } from '../operation.model';
+import { IOperation } from '../operation.model';
 import { OperationService } from '../service/operation.service';
 
 @Injectable({ providedIn: 'root' })
-export class OperationRoutingResolveService implements Resolve<IOperation> {
+export class OperationRoutingResolveService implements Resolve<IOperation | null> {
   constructor(protected service: OperationService, protected router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IOperation> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IOperation | null | never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((operation: HttpResponse<Operation>) => {
+        mergeMap((operation: HttpResponse<IOperation>) => {
           if (operation.body) {
             return of(operation.body);
           } else {
@@ -25,6 +25,6 @@ export class OperationRoutingResolveService implements Resolve<IOperation> {
         })
       );
     }
-    return of(new Operation());
+    return of(null);
   }
 }

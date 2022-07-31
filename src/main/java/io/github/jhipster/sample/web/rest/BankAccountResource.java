@@ -151,7 +151,11 @@ public class BankAccountResource {
     @GetMapping("/bank-accounts")
     public List<BankAccount> getAllBankAccounts(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all BankAccounts");
-        return bankAccountRepository.findAllWithEagerRelationships();
+        if (eagerload) {
+            return bankAccountRepository.findAllWithEagerRelationships();
+        } else {
+            return bankAccountRepository.findAll();
+        }
     }
 
     /**

@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } fro
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { ILabel, Label } from '../label.model';
+import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
 import { LabelRoutingResolveService } from './label-routing-resolve.service';
@@ -15,7 +15,7 @@ describe('Label routing resolve service', () => {
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
   let routingResolveService: LabelRoutingResolveService;
   let service: LabelService;
-  let resultLabel: ILabel | undefined;
+  let resultLabel: ILabel | null | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +55,7 @@ describe('Label routing resolve service', () => {
       expect(resultLabel).toEqual({ id: 123 });
     });
 
-    it('should return new ILabel if id is not provided', () => {
+    it('should return null if id is not provided', () => {
       // GIVEN
       service.find = jest.fn();
       mockActivatedRouteSnapshot.params = {};
@@ -67,12 +67,12 @@ describe('Label routing resolve service', () => {
 
       // THEN
       expect(service.find).not.toBeCalled();
-      expect(resultLabel).toEqual(new Label());
+      expect(resultLabel).toEqual(null);
     });
 
     it('should route to 404 page if data not found in server', () => {
       // GIVEN
-      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse({ body: null as unknown as Label })));
+      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<ILabel>({ body: null })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN

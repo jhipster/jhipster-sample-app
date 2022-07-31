@@ -39,8 +39,8 @@
       &nbsp;{{ thread.threadName }} (ID {{ thread.threadId }})
 
       <a (click)="thread.showThreadDump = !thread.showThreadDump" href="javascript:void(0);">
-        <span [hidden]="thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.show">Show StackTrace</span>
-        <span [hidden]="!thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.hide">Hide StackTrace</span>
+        <span [hidden]="thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.show">Show Stacktrace</span>
+        <span [hidden]="!thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.hide">Hide Stacktrace</span>
       </a>
     </h6>
 
@@ -68,7 +68,7 @@
           <th scope="col" jhiTranslate="metrics.jvm.threads.dump.blockedcount">Blocked Count</th>
           <th scope="col" jhiTranslate="metrics.jvm.threads.dump.waitedtime">Waited Time</th>
           <th scope="col" jhiTranslate="metrics.jvm.threads.dump.waitedcount">Waited Count</th>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.lockname">Lock Name</th>
+          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.lockname">Lock name</th>
         </tr>
       </thead>
       <tbody>

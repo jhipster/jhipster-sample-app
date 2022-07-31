@@ -1,39 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { LANGUAGES } from 'app/config/language.constants';
 
+const initialAccount: Account = {} as Account;
+
 @Component({
   selector: 'jhi-settings',
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit {
-  account!: Account;
   success = false;
   languages = LANGUAGES;
-  settingsForm = this.fb.group({
-    firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    email: [undefined, [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
-    langKey: [undefined],
+
+  settingsForm = new FormGroup({
+    firstName: new FormControl(initialAccount.firstName, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
+    }),
+    lastName: new FormControl(initialAccount.lastName, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
+    }),
+    email: new FormControl(initialAccount.email, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
+    }),
+    langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
+
+    activated: new FormControl(initialAccount.activated, { nonNullable: true }),
+    authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
+    imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
+    login: new FormControl(initialAccount.login, { nonNullable: true }),
   });
 
-  constructor(private accountService: AccountService, private fb: FormBuilder, private translateService: TranslateService) {}
+  constructor(private accountService: AccountService, private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
-        this.settingsForm.patchValue({
-          firstName: account.firstName,
-          lastName: account.lastName,
-          email: account.email,
-          langKey: account.langKey,
-        });
-
-        this.account = account;
+        this.settingsForm.patchValue(account);
       }
     });
   }
@@ -41,18 +50,14 @@ export class SettingsComponent implements OnInit {
   save(): void {
     this.success = false;
 
-    this.account.firstName = this.settingsForm.get('firstName')!.value;
-    this.account.lastName = this.settingsForm.get('lastName')!.value;
-    this.account.email = this.settingsForm.get('email')!.value;
-    this.account.langKey = this.settingsForm.get('langKey')!.value;
-
-    this.accountService.save(this.account).subscribe(() => {
+    const account = this.settingsForm.getRawValue();
+    this.accountService.save(account).subscribe(() => {
       this.success = true;
 
-      this.accountService.authenticate(this.account);
+      this.accountService.authenticate(account);
 
-      if (this.account.langKey !== this.translateService.currentLang) {
-        this.translateService.use(this.account.langKey);
+      if (account.langKey !== this.translateService.currentLang) {
+        this.translateService.use(account.langKey);
       }
     });
   }

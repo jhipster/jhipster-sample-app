@@ -1,18 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-import { IOperation, Operation } from '../operation.model';
+import { IOperation } from '../operation.model';
+import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../operation.test-samples';
 
-import { OperationService } from './operation.service';
+import { OperationService, RestOperation } from './operation.service';
+
+const requireRestSample: RestOperation = {
+  ...sampleWithRequiredData,
+  date: sampleWithRequiredData.date?.toJSON(),
+};
 
 describe('Operation Service', () => {
   let service: OperationService;
   let httpMock: HttpTestingController;
-  let elemDefault: IOperation;
   let expectedResult: IOperation | IOperation[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,49 +23,27 @@ describe('Operation Service', () => {
     expectedResult = null;
     service = TestBed.inject(OperationService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
-
-    elemDefault = {
-      id: 0,
-      date: currentDate,
-      description: 'AAAAAAA',
-      amount: 0,
-    };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          date: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = { ...requireRestSample };
+      const expected = { ...sampleWithRequiredData };
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush(returnedFromService);
-      expect(expectedResult).toMatchObject(elemDefault);
+      expect(expectedResult).toMatchObject(expected);
     });
 
     it('should create a Operation', () => {
-      const returnedFromService = Object.assign(
-        {
-          id: 0,
-          date: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const operation = { ...sampleWithNewData };
+      const returnedFromService = { ...requireRestSample };
+      const expected = { ...sampleWithRequiredData };
 
-      const expected = Object.assign(
-        {
-          date: currentDate,
-        },
-        returnedFromService
-      );
-
-      service.create(new Operation()).subscribe(resp => (expectedResult = resp.body));
+      service.create(operation).subscribe(resp => (expectedResult = resp.body));
 
       const req = httpMock.expectOne({ method: 'POST' });
       req.flush(returnedFromService);
@@ -71,24 +51,11 @@ describe('Operation Service', () => {
     });
 
     it('should update a Operation', () => {
-      const returnedFromService = Object.assign(
-        {
-          id: 1,
-          date: currentDate.format(DATE_TIME_FORMAT),
-          description: 'BBBBBB',
-          amount: 1,
-        },
-        elemDefault
-      );
+      const operation = { ...sampleWithRequiredData };
+      const returnedFromService = { ...requireRestSample };
+      const expected = { ...sampleWithRequiredData };
 
-      const expected = Object.assign(
-        {
-          date: currentDate,
-        },
-        returnedFromService
-      );
-
-      service.update(expected).subscribe(resp => (expectedResult = resp.body));
+      service.update(operation).subscribe(resp => (expectedResult = resp.body));
 
       const req = httpMock.expectOne({ method: 'PUT' });
       req.flush(returnedFromService);
@@ -96,16 +63,9 @@ describe('Operation Service', () => {
     });
 
     it('should partial update a Operation', () => {
-      const patchObject = Object.assign({}, new Operation());
-
-      const returnedFromService = Object.assign(patchObject, elemDefault);
-
-      const expected = Object.assign(
-        {
-          date: currentDate,
-        },
-        returnedFromService
-      );
+      const patchObject = { ...sampleWithPartialData };
+      const returnedFromService = { ...requireRestSample };
+      const expected = { ...sampleWithRequiredData };
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -115,29 +75,16 @@ describe('Operation Service', () => {
     });
 
     it('should return a list of Operation', () => {
-      const returnedFromService = Object.assign(
-        {
-          id: 1,
-          date: currentDate.format(DATE_TIME_FORMAT),
-          description: 'BBBBBB',
-          amount: 1,
-        },
-        elemDefault
-      );
+      const returnedFromService = { ...requireRestSample };
 
-      const expected = Object.assign(
-        {
-          date: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = { ...sampleWithRequiredData };
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush([returnedFromService]);
       httpMock.verify();
-      expect(expectedResult).toContainEqual(expected);
+      expect(expectedResult).toMatchObject([expected]);
     });
 
     it('should delete a Operation', () => {
@@ -150,42 +97,42 @@ describe('Operation Service', () => {
 
     describe('addOperationToCollectionIfMissing', () => {
       it('should add a Operation to an empty array', () => {
-        const operation: IOperation = { id: 123 };
+        const operation: IOperation = sampleWithRequiredData;
         expectedResult = service.addOperationToCollectionIfMissing([], operation);
         expect(expectedResult).toHaveLength(1);
         expect(expectedResult).toContain(operation);
       });
 
       it('should not add a Operation to an array that contains it', () => {
-        const operation: IOperation = { id: 123 };
+        const operation: IOperation = sampleWithRequiredData;
         const operationCollection: IOperation[] = [
           {
             ...operation,
           },
-          { id: 456 },
+          sampleWithPartialData,
         ];
         expectedResult = service.addOperationToCollectionIfMissing(operationCollection, operation);
         expect(expectedResult).toHaveLength(2);
       });
 
       it("should add a Operation to an array that doesn't contain it", () => {
-        const operation: IOperation = { id: 123 };
-        const operationCollection: IOperation[] = [{ id: 456 }];
+        const operation: IOperation = sampleWithRequiredData;
+        const operationCollection: IOperation[] = [sampleWithPartialData];
         expectedResult = service.addOperationToCollectionIfMissing(operationCollection, operation);
         expect(expectedResult).toHaveLength(2);
         expect(expectedResult).toContain(operation);
       });
 
       it('should add only unique Operation to an array', () => {
-        const operationArray: IOperation[] = [{ id: 123 }, { id: 456 }, { id: 3939 }];
-        const operationCollection: IOperation[] = [{ id: 123 }];
+        const operationArray: IOperation[] = [sampleWithRequiredData, sampleWithPartialData, sampleWithFullData];
+        const operationCollection: IOperation[] = [sampleWithRequiredData];
         expectedResult = service.addOperationToCollectionIfMissing(operationCollection, ...operationArray);
         expect(expectedResult).toHaveLength(3);
       });
 
       it('should accept varargs', () => {
-        const operation: IOperation = { id: 123 };
-        const operation2: IOperation = { id: 456 };
+        const operation: IOperation = sampleWithRequiredData;
+        const operation2: IOperation = sampleWithPartialData;
         expectedResult = service.addOperationToCollectionIfMissing([], operation, operation2);
         expect(expectedResult).toHaveLength(2);
         expect(expectedResult).toContain(operation);
@@ -193,16 +140,60 @@ describe('Operation Service', () => {
       });
 
       it('should accept null and undefined values', () => {
-        const operation: IOperation = { id: 123 };
+        const operation: IOperation = sampleWithRequiredData;
         expectedResult = service.addOperationToCollectionIfMissing([], null, operation, undefined);
         expect(expectedResult).toHaveLength(1);
         expect(expectedResult).toContain(operation);
       });
 
       it('should return initial array if no Operation is added', () => {
-        const operationCollection: IOperation[] = [{ id: 123 }];
+        const operationCollection: IOperation[] = [sampleWithRequiredData];
         expectedResult = service.addOperationToCollectionIfMissing(operationCollection, undefined, null);
         expect(expectedResult).toEqual(operationCollection);
+      });
+    });
+
+    describe('compareOperation', () => {
+      it('Should return true if both entities are null', () => {
+        const entity1 = null;
+        const entity2 = null;
+
+        const compareResult = service.compareOperation(entity1, entity2);
+
+        expect(compareResult).toEqual(true);
+      });
+
+      it('Should return false if one entity is null', () => {
+        const entity1 = { id: 123 };
+        const entity2 = null;
+
+        const compareResult1 = service.compareOperation(entity1, entity2);
+        const compareResult2 = service.compareOperation(entity2, entity1);
+
+        expect(compareResult1).toEqual(false);
+        expect(compareResult2).toEqual(false);
+      });
+
+      it('Should return false if primaryKey differs', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 456 };
+
+        const compareResult1 = service.compareOperation(entity1, entity2);
+        const compareResult2 = service.compareOperation(entity2, entity1);
+
+        expect(compareResult1).toEqual(false);
+        expect(compareResult2).toEqual(false);
+      });
+
+      it('Should return false if primaryKey matches', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 123 };
+
+        const compareResult1 = service.compareOperation(entity1, entity2);
+        const compareResult2 = service.compareOperation(entity2, entity1);
+
+        expect(compareResult1).toEqual(true);
+        expect(compareResult2).toEqual(true);
       });
     });
   });

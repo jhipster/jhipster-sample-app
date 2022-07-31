@@ -4,18 +4,18 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { IBankAccount, BankAccount } from '../bank-account.model';
+import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
 @Injectable({ providedIn: 'root' })
-export class BankAccountRoutingResolveService implements Resolve<IBankAccount> {
+export class BankAccountRoutingResolveService implements Resolve<IBankAccount | null> {
   constructor(protected service: BankAccountService, protected router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IBankAccount | null | never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((bankAccount: HttpResponse<BankAccount>) => {
+        mergeMap((bankAccount: HttpResponse<IBankAccount>) => {
           if (bankAccount.body) {
             return of(bankAccount.body);
           } else {
@@ -25,6 +25,6 @@ export class BankAccountRoutingResolveService implements Resolve<IBankAccount> {
         })
       );
     }
-    return of(new BankAccount());
+    return of(null);
   }
 }

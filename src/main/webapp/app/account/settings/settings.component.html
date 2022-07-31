@@ -1,8 +1,8 @@
 <div>
   <div class="d-flex justify-content-center">
     <div class="col-md-8">
-      <h2 jhiTranslate="settings.title" [translateValues]="{ username: account.login }" *ngIf="account">
-        User settings for [<strong>{{ account.login }}</strong
+      <h2 jhiTranslate="settings.title" [translateValues]="{ username: settingsForm.value.login }" *ngIf="settingsForm.value.login">
+        User settings for [<strong>{{ settingsForm.value.login }}</strong
         >]
       </h2>
 
@@ -12,7 +12,7 @@
 
       <jhi-alert-error></jhi-alert-error>
 
-      <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
+      <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.value.login" novalidate>
         <div class="mb-3">
           <label class="form-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
           <input
@@ -43,7 +43,7 @@
               *ngIf="settingsForm.get('firstName')?.errors?.minlength"
               jhiTranslate="settings.messages.validate.firstname.minlength"
             >
-              Your first name is required to be at least 1 character.
+              Your first name is required to be at least 1 character
             </small>
 
             <small
@@ -51,7 +51,7 @@
               *ngIf="settingsForm.get('firstName')?.errors?.maxlength"
               jhiTranslate="settings.messages.validate.firstname.maxlength"
             >
-              Your first name cannot be longer than 50 characters.
+              Your first name cannot be longer than 50 characters
             </small>
           </div>
         </div>
@@ -84,7 +84,7 @@
               *ngIf="settingsForm.get('lastName')?.errors?.minlength"
               jhiTranslate="settings.messages.validate.lastname.minlength"
             >
-              Your last name is required to be at least 1 character.
+              Your last name is required to be at least 1 character
             </small>
 
             <small
@@ -92,7 +92,7 @@
               *ngIf="settingsForm.get('lastName')?.errors?.maxlength"
               jhiTranslate="settings.messages.validate.lastname.maxlength"
             >
-              Your last name cannot be longer than 50 characters.
+              Your last name cannot be longer than 50 characters
             </small>
           </div>
         </div>
@@ -139,7 +139,7 @@
               *ngIf="settingsForm.get('email')?.errors?.maxlength"
               jhiTranslate="global.messages.validate.email.maxlength"
             >
-              Your email cannot be longer than 100 characters.
+              Your email cannot be longer than 50 characters.
             </small>
           </div>
         </div>

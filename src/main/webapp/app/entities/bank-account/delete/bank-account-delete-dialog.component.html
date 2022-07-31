@@ -7,13 +7,12 @@
 
   <div class="modal-body">
     <jhi-alert-error></jhi-alert-error>
-
     <p
       id="jhi-delete-bankAccount-heading"
       jhiTranslate="jhipsterSampleApplicationApp.bankAccount.delete.question"
       [translateValues]="{ id: bankAccount.id }"
     >
-      Are you sure you want to delete this Bank Account?
+      Are you sure you want to delete Bank Account {{ bankAccount.id }}?
     </p>
   </div>
 

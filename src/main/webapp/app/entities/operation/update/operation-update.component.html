@@ -12,7 +12,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
@@ -36,8 +36,8 @@
             </small>
             <small
               class="form-text text-danger"
-              [hidden]="!editForm.get('date')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
+              [hidden]="!editForm.get('date')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
             >
               This field should be a date and time.
             </small>
@@ -75,14 +75,16 @@
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount"
             >Bank Account</label
           >
-          <select class="form-control" id="field_bankAccount" data-cy="bankAccount" name="bankAccount" formControlName="bankAccount">
+          <select
+            class="form-control"
+            id="field_bankAccount"
+            data-cy="bankAccount"
+            name="bankAccount"
+            formControlName="bankAccount"
+            [compareWith]="compareBankAccount"
+          >
             <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                bankAccountOption.id === editForm.get('bankAccount')!.value?.id ? editForm.get('bankAccount')!.value : bankAccountOption
-              "
-              *ngFor="let bankAccountOption of bankAccountsSharedCollection; trackBy: trackBankAccountById"
-            >
+            <option [ngValue]="bankAccountOption" *ngFor="let bankAccountOption of bankAccountsSharedCollection">
               {{ bankAccountOption.name }}
             </option>
           </select>
@@ -90,13 +92,16 @@
 
         <div class="row mb-3">
           <label jhiTranslate="jhipsterSampleApplicationApp.operation.label" for="field_labels">Label</label>
-          <select class="form-control" id="field_labels" data-cy="label" multiple name="labels" formControlName="labels">
-            <option
-              [ngValue]="getSelectedLabel(labelOption, editForm.get('labels')!.value)"
-              *ngFor="let labelOption of labelsSharedCollection; trackBy: trackLabelById"
-            >
-              {{ labelOption.label }}
-            </option>
+          <select
+            class="form-control"
+            id="field_labels"
+            data-cy="label"
+            multiple
+            name="labels"
+            formControlName="labels"
+            [compareWith]="compareLabel"
+          >
+            <option [ngValue]="labelOption" *ngFor="let labelOption of labelsSharedCollection">{{ labelOption.label }}</option>
           </select>
         </div>
       </div>
