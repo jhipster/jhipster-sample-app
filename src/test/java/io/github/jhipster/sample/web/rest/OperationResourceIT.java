@@ -228,7 +228,7 @@ class OperationResourceIT {
 
     @Test
     @Transactional
-    void putNewOperation() throws Exception {
+    void putExistingOperation() throws Exception {
         // Initialize the database
         operationRepository.saveAndFlush(operation);
 

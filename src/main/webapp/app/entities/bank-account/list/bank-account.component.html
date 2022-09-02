@@ -28,19 +28,33 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.notFound">No Bank Accounts found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="bankAccounts && bankAccounts.length > 0">
+  <div class="table-responsive table-entities" id="entities" *ngIf="bankAccounts && bankAccounts.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="name">
-            <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name">Name</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name">Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col" jhiSortBy="balance">
-            <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance">Balance</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance">Balance</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col" jhiSortBy="user.login">
-            <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col"></th>
         </tr>

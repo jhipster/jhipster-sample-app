@@ -28,27 +28,49 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No Operations found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="operations && operations.length > 0">
+  <div class="table-responsive table-entities" id="entities" *ngIf="operations && operations.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="date">
-            <span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col" jhiSortBy="description">
-            <span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col" jhiSortBy="amount">
-            <span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col" jhiSortBy="bankAccount.name">
-            <span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+      <tbody
+        infinite-scroll
+        (scrolled)="loadPage(page + 1)"
+        [infiniteScrollDisabled]="page - 1 >= links['last']"
+        [infiniteScrollDistance]="0"
+      >
         <tr *ngFor="let operation of operations; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/operation', operation.id, 'view']">{{ operation.id }}</a>
@@ -58,7 +80,7 @@
           <td>{{ operation.amount }}</td>
           <td>
             <div *ngIf="operation.bankAccount">
-              <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount?.name }}</a>
+              <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount.name }}</a>
             </div>
           </td>
           <td class="text-end">

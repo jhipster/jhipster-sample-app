@@ -3,12 +3,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { LANGUAGES } from 'app/config/language.constants';
-import { User } from '../user-management.model';
+import { IUser } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
 
-const initialUser: User = {
+const userTemplate = {} as IUser;
+
+const newUser: IUser = {
   langKey: 'en',
-};
+  activated: true,
+} as IUser;
 
 @Component({
   selector: 'jhi-user-mgmt-update',
@@ -20,8 +23,8 @@ export class UserManagementUpdateComponent implements OnInit {
   isSaving = false;
 
   editForm = new FormGroup({
-    id: new FormControl(initialUser.id),
-    login: new FormControl(initialUser.login, {
+    id: new FormControl(userTemplate.id),
+    login: new FormControl(userTemplate.login, {
       nonNullable: true,
       validators: [
         Validators.required,
@@ -30,15 +33,15 @@ export class UserManagementUpdateComponent implements OnInit {
         Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
       ],
     }),
-    firstName: new FormControl(initialUser.firstName, { validators: [Validators.maxLength(50)] }),
-    lastName: new FormControl(initialUser.lastName, { validators: [Validators.maxLength(50)] }),
-    email: new FormControl(initialUser.email, {
+    firstName: new FormControl(userTemplate.firstName, { validators: [Validators.maxLength(50)] }),
+    lastName: new FormControl(userTemplate.lastName, { validators: [Validators.maxLength(50)] }),
+    email: new FormControl(userTemplate.email, {
       nonNullable: true,
       validators: [Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
-    activated: new FormControl(initialUser.activated, { nonNullable: true }),
-    langKey: new FormControl(initialUser.langKey, { nonNullable: true }),
-    authorities: new FormControl(initialUser.authorities, { nonNullable: true }),
+    activated: new FormControl(userTemplate.activated, { nonNullable: true }),
+    langKey: new FormControl(userTemplate.langKey, { nonNullable: true }),
+    authorities: new FormControl(userTemplate.authorities, { nonNullable: true }),
   });
 
   constructor(private userService: UserManagementService, private route: ActivatedRoute) {}
@@ -46,10 +49,9 @@ export class UserManagementUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {
       if (user) {
-        if (user.id === undefined) {
-          user.activated = true;
-        }
-        this.editForm.patchValue(user);
+        this.editForm.reset(user);
+      } else {
+        this.editForm.reset(newUser);
       }
     });
     this.userService.authorities().subscribe(authorities => (this.authorities = authorities));

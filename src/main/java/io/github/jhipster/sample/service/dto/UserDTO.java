@@ -1,11 +1,14 @@
 package io.github.jhipster.sample.service.dto;
 
 import io.github.jhipster.sample.domain.User;
+import java.io.Serializable;
 
 /**
  * A DTO representing a user, with only the public attributes.
  */
-public class UserDTO {
+public class UserDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long id;
 

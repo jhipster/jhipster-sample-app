@@ -28,13 +28,21 @@
     <span jhiTranslate="jhipsterSampleApplicationApp.label.home.notFound">No Labels found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="labels && labels.length > 0">
+  <div class="table-responsive table-entities" id="entities" *ngIf="labels && labels.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="label">
-            <span jhiTranslate="jhipsterSampleApplicationApp.label.label">Label</span> <fa-icon icon="sort"></fa-icon>
+            <div class="d-flex">
+              <span jhiTranslate="jhipsterSampleApplicationApp.label.label">Label</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
           </th>
           <th scope="col"></th>
         </tr>
