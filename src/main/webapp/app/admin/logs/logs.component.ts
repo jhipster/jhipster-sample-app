@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize, map } from 'rxjs/operators';
 
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { SortDirective, SortByDirective } from 'app/shared/sort';
 import { Log, LoggersResponse, Level } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
+  standalone: true,
   selector: 'jhi-logs',
   templateUrl: './logs.component.html',
+  imports: [SharedModule, FormsModule, SortDirective, SortByDirective],
 })
-export class LogsComponent implements OnInit {
+export default class LogsComponent implements OnInit {
   loggers?: Log[];
   filteredAndOrderedLoggers?: Log[];
+  isLoading = false;
   filter = '';
   orderProp: keyof Log = 'name';
   ascending = true;
@@ -40,9 +47,19 @@ export class LogsComponent implements OnInit {
   }
 
   private findAndExtractLoggers(): void {
-    this.logsService.findAll().subscribe((response: LoggersResponse) => {
-      this.loggers = Object.entries(response.loggers).map(([key, logger]) => new Log(key, logger.effectiveLevel));
-      this.filterAndSort();
-    });
+    this.isLoading = true;
+    this.logsService
+      .findAll()
+      .pipe(
+        finalize(() => {
+          this.filterAndSort();
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (response: LoggersResponse) =>
+          (this.loggers = Object.entries(response.loggers).map(([key, logger]) => new Log(key, logger.effectiveLevel))),
+        error: () => (this.loggers = []),
+      });
   }
 }

@@ -4,8 +4,8 @@
   <div class="col-md-4">
     <div *ngIf="garbageCollectorMetrics">
       <span>
-        GC Live Data Size/GC Max Data Size ({{ garbageCollectorMetrics['jvm.gc.live.data.size'] / 1048576 | number: '1.0-0' }}M /
-        {{ garbageCollectorMetrics['jvm.gc.max.data.size'] / 1048576 | number: '1.0-0' }}M)
+        GC Live Data Size/GC Max Data Size ({{ garbageCollectorMetrics['jvm.gc.live.data.size'] / 1048576 | number : '1.0-0' }}M /
+        {{ garbageCollectorMetrics['jvm.gc.max.data.size'] / 1048576 | number : '1.0-0' }}M)
       </span>
 
       <ngb-progressbar
@@ -17,7 +17,7 @@
       >
         <span>
           {{
-            (100 * garbageCollectorMetrics['jvm.gc.live.data.size']) / garbageCollectorMetrics['jvm.gc.max.data.size'] | number: '1.0-2'
+            (100 * garbageCollectorMetrics['jvm.gc.live.data.size']) / garbageCollectorMetrics['jvm.gc.max.data.size'] | number : '1.0-2'
           }}%
         </span>
       </ngb-progressbar>
@@ -27,8 +27,8 @@
   <div class="col-md-4">
     <div *ngIf="garbageCollectorMetrics">
       <span>
-        GC Memory Promoted/GC Memory Allocated ({{ garbageCollectorMetrics['jvm.gc.memory.promoted'] / 1048576 | number: '1.0-0' }}M /
-        {{ garbageCollectorMetrics['jvm.gc.memory.allocated'] / 1048576 | number: '1.0-0' }}M)
+        GC Memory Promoted/GC Memory Allocated ({{ garbageCollectorMetrics['jvm.gc.memory.promoted'] / 1048576 | number : '1.0-0' }}M /
+        {{ garbageCollectorMetrics['jvm.gc.memory.allocated'] / 1048576 | number : '1.0-0' }}M)
       </span>
 
       <ngb-progressbar
@@ -41,7 +41,7 @@
         <span>
           {{
             (100 * garbageCollectorMetrics['jvm.gc.memory.promoted']) / garbageCollectorMetrics['jvm.gc.memory.allocated']
-              | number: '1.0-2'
+              | number : '1.0-2'
           }}%
         </span>
       </ngb-progressbar>
@@ -78,13 +78,13 @@
         <tr>
           <td>jvm.gc.pause</td>
           <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause'].count }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause'].mean | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.0'] | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.5'] | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.75'] | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.95'] | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.99'] | number: '1.0-3' }}</td>
-          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause'].max | number: '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause'].mean | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.0'] | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.5'] | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.75'] | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.95'] | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause']['0.99'] | number : '1.0-3' }}</td>
+          <td class="text-end">{{ garbageCollectorMetrics['jvm.gc.pause'].max | number : '1.0-3' }}</td>
         </tr>
       </tbody>
     </table>

@@ -12,18 +12,21 @@
                                  baseTableName="operation"
                                  constraintName="fk_operation__bank_account_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="bank_account"/>
+                                 referencedTableName="bank_account"
+                                 />
 
         <addForeignKeyConstraint baseColumnNames="operation_id"
                                  baseTableName="rel_operation__label"
                                  constraintName="fk_rel_operation__label__operation_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="operation"/>
+                                 referencedTableName="operation"
+                                 />
 
         <addForeignKeyConstraint baseColumnNames="label_id"
                                  baseTableName="rel_operation__label"
                                  constraintName="fk_rel_operation__label__label_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="label"/>
+                                 referencedTableName="label"
+                                 />
     </changeSet>
 </databaseChangeLog>

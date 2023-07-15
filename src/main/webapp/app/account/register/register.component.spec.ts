@@ -7,7 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 
 import { RegisterService } from './register.service';
-import { RegisterComponent } from './register.component';
+import RegisterComponent from './register.component';
 
 describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
@@ -15,8 +15,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      declarations: [RegisterComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RegisterComponent],
       providers: [FormBuilder],
     })
       .overrideTemplate(RegisterComponent, '')

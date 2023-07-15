@@ -1,6 +1,7 @@
 {
   "changelogDate": "20150805124838",
   "dto": "no",
+  "entityTableName": "bank_account",
   "fields": [
     {
       "fieldId": 1,
@@ -23,6 +24,7 @@
       "otherEntityName": "user",
       "relationshipId": 1,
       "relationshipName": "user",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
@@ -30,7 +32,9 @@
       "otherEntityRelationshipName": "bankAccount",
       "relationshipId": 2,
       "relationshipName": "operation",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     }
-  ]
+  ],
+  "searchEngine": "no"
 }

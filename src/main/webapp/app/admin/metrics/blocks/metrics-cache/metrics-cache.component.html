@@ -27,13 +27,13 @@
         <td class="text-end">
           {{
             filterNaN((100 * entry.value['cache.gets.hit']) / (entry.value['cache.gets.hit'] + entry.value['cache.gets.miss']))
-              | number: '1.0-4'
+              | number : '1.0-4'
           }}
         </td>
         <td class="text-end">
           {{
             filterNaN((100 * entry.value['cache.gets.miss']) / (entry.value['cache.gets.hit'] + entry.value['cache.gets.miss']))
-              | number: '1.0-4'
+              | number : '1.0-4'
           }}
         </td>
       </tr>

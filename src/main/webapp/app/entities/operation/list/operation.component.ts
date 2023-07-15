@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import SharedModule from 'app/shared/shared.module';
+import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormsModule } from '@angular/forms';
 import { IOperation } from '../operation.model';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -11,10 +15,23 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, OperationService } from '../service/operation.service';
 import { OperationDeleteDialogComponent } from '../delete/operation-delete-dialog.component';
 import { ParseLinks } from 'app/core/util/parse-links.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
+  standalone: true,
   selector: 'jhi-operation',
   templateUrl: './operation.component.html',
+  imports: [
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    SortDirective,
+    SortByDirective,
+    DurationPipe,
+    FormatMediumDatetimePipe,
+    FormatMediumDatePipe,
+    InfiniteScrollModule,
+  ],
 })
 export class OperationComponent implements OnInit {
   operations?: IOperation[];
@@ -106,15 +123,19 @@ export class OperationComponent implements OnInit {
   }
 
   protected fillComponentAttributesFromResponseBody(data: IOperation[] | null): IOperation[] {
-    const operationsNew = this.operations ?? [];
-    if (data) {
-      for (const d of data) {
-        if (operationsNew.map(op => op.id).indexOf(d.id) === -1) {
-          operationsNew.push(d);
+    // If there is previus link, data is a infinite scroll pagination content.
+    if ('prev' in this.links) {
+      const operationsNew = this.operations ?? [];
+      if (data) {
+        for (const d of data) {
+          if (operationsNew.map(op => op.id).indexOf(d.id) === -1) {
+            operationsNew.push(d);
+          }
         }
       }
+      return operationsNew;
     }
-    return operationsNew;
+    return data ?? [];
   }
 
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {
@@ -131,7 +152,7 @@ export class OperationComponent implements OnInit {
   protected queryBackend(page?: number, predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;
-    const queryObject = {
+    const queryObject: any = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       eagerload: true,

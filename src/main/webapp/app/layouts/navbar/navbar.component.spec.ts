@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { NgxWebstorageModule } from 'ngx-webstorage';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ProfileInfo } from 'app/layouts/profiles/profile-info.model';
@@ -13,7 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { LoginService } from 'app/login/login.service';
 
-import { NavbarComponent } from './navbar.component';
+import NavbarComponent from './navbar.component';
 
 describe('Navbar Component', () => {
   let comp: NavbarComponent;
@@ -33,8 +32,7 @@ describe('Navbar Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgxWebstorageModule.forRoot()],
-      declarations: [NavbarComponent],
+      imports: [NavbarComponent, HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       providers: [LoginService],
     })
       .overrideTemplate(NavbarComponent, '')

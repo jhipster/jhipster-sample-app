@@ -27,8 +27,7 @@ describe('Operation Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [OperationUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), OperationUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -55,10 +54,10 @@ describe('Operation Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call BankAccount query and add missing value', () => {
       const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 65249 };
+      const bankAccount: IBankAccount = { id: 16992 };
       operation.bankAccount = bankAccount;
 
-      const bankAccountCollection: IBankAccount[] = [{ id: 39284 }];
+      const bankAccountCollection: IBankAccount[] = [{ id: 76900 }];
       jest.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
       const additionalBankAccounts = [bankAccount];
       const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
@@ -77,10 +76,10 @@ describe('Operation Management Update Component', () => {
 
     it('Should call Label query and add missing value', () => {
       const operation: IOperation = { id: 456 };
-      const labels: ILabel[] = [{ id: 647 }];
+      const labels: ILabel[] = [{ id: 10422 }];
       operation.labels = labels;
 
-      const labelCollection: ILabel[] = [{ id: 16623 }];
+      const labelCollection: ILabel[] = [{ id: 54251 }];
       jest.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
       const additionalLabels = [...labels];
       const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
@@ -99,9 +98,9 @@ describe('Operation Management Update Component', () => {
 
     it('Should update editForm', () => {
       const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 53557 };
+      const bankAccount: IBankAccount = { id: 52892 };
       operation.bankAccount = bankAccount;
-      const label: ILabel = { id: 2284 };
+      const label: ILabel = { id: 70943 };
       operation.labels = [label];
 
       activatedRoute.data = of({ operation });

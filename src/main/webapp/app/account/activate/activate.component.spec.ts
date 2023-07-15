@@ -4,15 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { ActivateService } from './activate.service';
-import { ActivateComponent } from './activate.component';
+import ActivateComponent from './activate.component';
 
 describe('ActivateComponent', () => {
   let comp: ActivateComponent;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [ActivateComponent],
+      imports: [HttpClientTestingModule, ActivateComponent],
       providers: [
         {
           provide: ActivatedRoute,

@@ -30,12 +30,12 @@ public interface OperationRepository extends OperationRepositoryWithBagRelations
     }
 
     @Query(
-        value = "select distinct operation from Operation operation left join fetch operation.bankAccount",
-        countQuery = "select count(distinct operation) from Operation operation"
+        value = "select operation from Operation operation left join fetch operation.bankAccount",
+        countQuery = "select count(operation) from Operation operation"
     )
     Page<Operation> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct operation from Operation operation left join fetch operation.bankAccount")
+    @Query("select operation from Operation operation left join fetch operation.bankAccount")
     List<Operation> findAllWithToOneRelationships();
 
     @Query("select operation from Operation operation left join fetch operation.bankAccount where operation.id =:id")

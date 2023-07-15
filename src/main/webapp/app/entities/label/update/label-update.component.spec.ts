@@ -21,8 +21,7 @@ describe('Label Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [LabelUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), LabelUpdateComponent],
       providers: [
         FormBuilder,
         {

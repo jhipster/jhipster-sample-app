@@ -32,7 +32,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=LEGACY
+    url: jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: jhipsterSampleApplication
     password:
     hikari:
@@ -42,7 +42,6 @@ spring:
     console:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
-  jpa:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -97,7 +96,7 @@ jhipster:
       enabled: false
       host: localhost
       port: 5000
-      queue-size: 512
+      ring-buffer-size: 512
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

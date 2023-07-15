@@ -10,9 +10,9 @@ import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
 import io.github.jhipster.sample.web.rest.errors.*;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,18 +77,6 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
-    }
-
-    /**
-     * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
-     *
-     * @param request the HTTP request.
-     * @return the login if the user is authenticated.
-     */
-    @GetMapping("/authenticate")
-    public String isAuthenticated(HttpServletRequest request) {
-        log.debug("REST request to check if the current user is authenticated");
-        return request.getRemoteUser();
     }
 
     /**

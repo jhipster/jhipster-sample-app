@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
-import { MetricsComponent } from './metrics.component';
+import MetricsComponent from './metrics.component';
 import { MetricsService } from './metrics.service';
 import { Metrics } from './metrics.model';
 
@@ -13,8 +13,7 @@ describe('MetricsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [MetricsComponent],
+      imports: [HttpClientTestingModule, MetricsComponent],
     })
       .overrideTemplate(MetricsComponent, '')
       .compileComponents();

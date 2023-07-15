@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 
-import { HealthComponent } from './health.component';
+import HealthComponent from './health.component';
 import { HealthService } from './health.service';
 import { Health } from './health.model';
 
@@ -14,8 +14,7 @@ describe('HealthComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [HealthComponent],
+      imports: [HttpClientTestingModule, HealthComponent],
     })
       .overrideTemplate(HealthComponent, '')
       .compileComponents();

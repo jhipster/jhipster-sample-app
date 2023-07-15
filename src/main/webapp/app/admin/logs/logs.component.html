@@ -1,6 +1,10 @@
 <div class="table-responsive" *ngIf="loggers">
   <h2 id="logs-page-heading" jhiTranslate="logs.title" data-cy="logsPageHeading">Logs</h2>
 
+  <div class="float-end me-3" *ngIf="isLoading">
+    <div class="spinner-border"></div>
+  </div>
+
   <p jhiTranslate="logs.nbloggers" [translateValues]="{ total: loggers.length }">There are {{ loggers.length }} loggers.</p>
 
   <span jhiTranslate="logs.filter">Filter</span>
@@ -17,7 +21,7 @@
     <tbody>
       <tr *ngFor="let logger of filteredAndOrderedLoggers">
         <td>
-          <small>{{ logger.name | slice: 0:140 }}</small>
+          <small>{{ logger.name | slice : 0 : 140 }}</small>
         </td>
         <td>
           <button

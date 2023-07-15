@@ -28,7 +28,7 @@
 # - In Consul mode, the ports are in the consul.yml file.
 # - In Eureka mode, the ports are in the jhipster-registry.yml file.
 
-version: '3.8'
+name: jhipstersampleapplication
 services:
   jhipster-control-center:
     image: 'jhipster/jhipster-control-center:v0.5.0'
@@ -40,7 +40,6 @@ services:
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs,static
-      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
       - SPRING_SECURITY_USER_PASSWORD=admin
       # The token should have the same value than the one declared in you Spring configuration under the jhipster.security.authentication.jwt.base64-secret configuration's entry
       - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo=

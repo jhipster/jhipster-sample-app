@@ -1,13 +1,13 @@
 package io.github.jhipster.sample.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -39,11 +39,11 @@ public class Operation implements Serializable {
     @Column(name = "amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "user", "operations" }, allowSetters = true)
     private BankAccount bankAccount;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "rel_operation__label",
         joinColumns = @JoinColumn(name = "operation_id"),

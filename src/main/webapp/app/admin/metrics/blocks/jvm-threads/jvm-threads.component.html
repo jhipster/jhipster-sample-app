@@ -9,7 +9,7 @@
   [animated]="false"
   type="success"
 >
-  <span>{{ (threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll | number: '1.0-0' }}%</span>
+  <span>{{ (threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </ngb-progressbar>
 
 <span><span jhiTranslate="metrics.jvm.threads.timedwaiting">Timed waiting</span> ({{ threadStats.threadDumpTimedWaiting }})</span>
@@ -21,7 +21,7 @@
   [animated]="false"
   type="warning"
 >
-  <span>{{ (threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll | number: '1.0-0' }}%</span>
+  <span>{{ (threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </ngb-progressbar>
 
 <span><span jhiTranslate="metrics.jvm.threads.waiting">Waiting</span> ({{ threadStats.threadDumpWaiting }})</span>
@@ -33,7 +33,7 @@
   [animated]="false"
   type="warning"
 >
-  <span>{{ (threadStats.threadDumpWaiting * 100) / threadStats.threadDumpAll | number: '1.0-0' }}%</span>
+  <span>{{ (threadStats.threadDumpWaiting * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </ngb-progressbar>
 
 <span><span jhiTranslate="metrics.jvm.threads.blocked">Blocked</span> ({{ threadStats.threadDumpBlocked }})</span>
@@ -45,7 +45,7 @@
   [animated]="false"
   type="success"
 >
-  <span>{{ (threadStats.threadDumpBlocked * 100) / threadStats.threadDumpAll | number: '1.0-0' }}%</span>
+  <span>{{ (threadStats.threadDumpBlocked * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </ngb-progressbar>
 
 <div>Total: {{ threadStats.threadDumpAll }}</div>

@@ -1,7 +1,7 @@
 package io.github.jhipster.sample.web.rest.vm;
 
 import io.github.jhipster.sample.service.dto.AdminUserDTO;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 /**
  * View Model extending the AdminUserDTO, which is meant to be used in the user management UI.

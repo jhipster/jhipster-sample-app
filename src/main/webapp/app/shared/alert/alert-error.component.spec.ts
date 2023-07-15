@@ -15,8 +15,7 @@ describe('Alert Error Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [AlertErrorComponent],
+      imports: [TranslateModule.forRoot(), AlertErrorComponent],
       providers: [EventManager, AlertService],
     })
       .overrideTemplate(AlertErrorComponent, '')

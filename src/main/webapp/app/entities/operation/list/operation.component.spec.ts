@@ -18,8 +18,11 @@ describe('Operation Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'operation', component: OperationComponent }]), HttpClientTestingModule],
-      declarations: [OperationComponent],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'operation', component: OperationComponent }]),
+        HttpClientTestingModule,
+        OperationComponent,
+      ],
       providers: [
         {
           provide: ActivatedRoute,

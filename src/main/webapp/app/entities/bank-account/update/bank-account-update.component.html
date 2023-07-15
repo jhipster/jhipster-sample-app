@@ -12,12 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name" for="field_name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance" for="field_balance">Balance</label>
           <input type="number" class="form-control" name="balance" id="field_balance" data-cy="balance" formControlName="balance" />
           <div *ngIf="editForm.get('balance')!.invalid && (editForm.get('balance')!.dirty || editForm.get('balance')!.touched)">
@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>

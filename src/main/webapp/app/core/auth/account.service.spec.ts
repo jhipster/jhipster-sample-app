@@ -6,7 +6,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';
 
 import { Account } from 'app/core/auth/account.model';
 import { Authority } from 'app/config/authority.constants';
@@ -35,11 +34,10 @@ describe('Account Service', () => {
   let mockStorageService: StateStorageService;
   let mockRouter: Router;
   let mockTranslateService: TranslateService;
-  let sessionStorageService: SessionStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgxWebstorageModule.forRoot()],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       providers: [StateStorageService],
     });
 
@@ -52,7 +50,6 @@ describe('Account Service', () => {
 
     mockTranslateService = TestBed.inject(TranslateService);
     jest.spyOn(mockTranslateService, 'use').mockImplementation(() => of(''));
-    sessionStorageService = TestBed.inject(SessionStorageService);
   });
 
   afterEach(() => {
@@ -136,7 +133,7 @@ describe('Account Service', () => {
     describe('should change the language on authentication if necessary', () => {
       it('should change language if user has not changed language manually', () => {
         // GIVEN
-        sessionStorageService.retrieve = jest.fn(key => (key === 'locale' ? undefined : 'otherSessionStorageValue'));
+        mockStorageService.getLocale = jest.fn(() => null);
 
         // WHEN
         service.identity().subscribe();
@@ -148,7 +145,7 @@ describe('Account Service', () => {
 
       it('should not change language if user has changed language manually', () => {
         // GIVEN
-        sessionStorageService.retrieve = jest.fn(key => (key === 'locale' ? 'sessionLang' : undefined));
+        mockStorageService.getLocale = jest.fn(() => 'sessionLang');
 
         // WHEN
         service.identity().subscribe();

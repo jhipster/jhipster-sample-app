@@ -1,22 +1,23 @@
 import { Component, OnInit, RendererFactory2, Renderer2 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  providers: [AppPageTitleStrategy],
 })
-export class MainComponent implements OnInit {
+export default class MainComponent implements OnInit {
   private renderer: Renderer2;
 
   constructor(
-    private accountService: AccountService,
-    private titleService: Title,
     private router: Router,
+    private appPageTitleStrategy: AppPageTitleStrategy,
+    private accountService: AccountService,
     private translateService: TranslateService,
     rootRenderer: RendererFactory2
   ) {
@@ -27,32 +28,10 @@ export class MainComponent implements OnInit {
     // try to log in automatically
     this.accountService.identity().subscribe();
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateTitle();
-      }
-    });
-
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.updateTitle();
+      this.appPageTitleStrategy.updateTitle(this.router.routerState.snapshot);
       dayjs.locale(langChangeEvent.lang);
       this.renderer.setAttribute(document.querySelector('html'), 'lang', langChangeEvent.lang);
     });
-  }
-
-  private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
-    const title: string = routeSnapshot.data['pageTitle'] ?? '';
-    if (routeSnapshot.firstChild) {
-      return this.getPageTitle(routeSnapshot.firstChild) || title;
-    }
-    return title;
-  }
-
-  private updateTitle(): void {
-    let pageTitle = this.getPageTitle(this.router.routerState.snapshot.root);
-    if (!pageTitle) {
-      pageTitle = 'global.title';
-    }
-    this.translateService.get(pageTitle).subscribe(title => this.titleService.setTitle(title));
   }
 }

@@ -8,7 +8,7 @@ import { of, Subject } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
-import { HomeComponent } from './home.component';
+import HomeComponent from './home.component';
 
 describe('Home Component', () => {
   let comp: HomeComponent;
@@ -28,8 +28,7 @@ describe('Home Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      declarations: [HomeComponent],
+      imports: [HomeComponent, RouterTestingModule.withRoutes([])],
       providers: [AccountService],
     })
       .overrideTemplate(HomeComponent, '')

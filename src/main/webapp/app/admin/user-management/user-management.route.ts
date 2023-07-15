@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 
 import { IUser } from './user-management.model';
 import { UserManagementService } from './service/user-management.service';
-import { UserManagementComponent } from './list/user-management.component';
-import { UserManagementDetailComponent } from './detail/user-management-detail.component';
-import { UserManagementUpdateComponent } from './update/user-management-update.component';
+import UserManagementComponent from './list/user-management.component';
+import UserManagementDetailComponent from './detail/user-management-detail.component';
+import UserManagementUpdateComponent from './update/user-management-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class UserManagementResolve implements Resolve<IUser | null> {
@@ -21,7 +21,7 @@ export class UserManagementResolve implements Resolve<IUser | null> {
   }
 }
 
-export const userManagementRoute: Routes = [
+const userManagementRoute: Routes = [
   {
     path: '',
     component: UserManagementComponent,
@@ -51,3 +51,5 @@ export const userManagementRoute: Routes = [
     },
   },
 ];
+
+export default userManagementRoute;

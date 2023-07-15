@@ -25,8 +25,7 @@ describe('BankAccount Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [BankAccountUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), BankAccountUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -52,10 +51,10 @@ describe('BankAccount Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call User query and add missing value', () => {
       const bankAccount: IBankAccount = { id: 456 };
-      const user: IUser = { id: 39533 };
+      const user: IUser = { id: 12193 };
       bankAccount.user = user;
 
-      const userCollection: IUser[] = [{ id: 39416 }];
+      const userCollection: IUser[] = [{ id: 85991 }];
       jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
       const additionalUsers = [user];
       const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
@@ -74,7 +73,7 @@ describe('BankAccount Management Update Component', () => {
 
     it('Should update editForm', () => {
       const bankAccount: IBankAccount = { id: 456 };
-      const user: IUser = { id: 90365 };
+      const user: IUser = { id: 22136 };
       bankAccount.user = user;
 
       activatedRoute.data = of({ bankAccount });

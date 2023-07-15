@@ -1,4 +1,4 @@
 /**
- * MapStruct mappers for mapping domain objects and Data Transfer Objects.
+ * Data transfer objects mappers.
  */
 package io.github.jhipster.sample.service.mapper;

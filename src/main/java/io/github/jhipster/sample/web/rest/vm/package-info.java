@@ -1,4 +1,4 @@
 /**
- * View Models used by Spring MVC REST controllers.
+ * Rest layer visual models.
  */
 package io.github.jhipster.sample.web.rest.vm;

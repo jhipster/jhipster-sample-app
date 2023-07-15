@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { BankAccountFormService, BankAccountFormGroup } from './bank-account-form.service';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
@@ -11,8 +14,10 @@ import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 
 @Component({
+  standalone: true,
   selector: 'jhi-bank-account-update',
   templateUrl: './bank-account-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class BankAccountUpdateComponent implements OnInit {
   isSaving = false;

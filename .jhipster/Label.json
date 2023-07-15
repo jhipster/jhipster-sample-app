@@ -1,6 +1,7 @@
 {
   "changelogDate": "20150805124936",
   "dto": "no",
+  "entityTableName": "label",
   "fields": [
     {
       "fieldId": 1,
@@ -19,7 +20,9 @@
       "ownerSide": false,
       "relationshipId": 1,
       "relationshipName": "operation",
+      "relationshipSide": "right",
       "relationshipType": "many-to-many"
     }
-  ]
+  ],
+  "searchEngine": "no"
 }

@@ -12,12 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.label.label" for="field_label">Label</label>
           <input type="text" class="form-control" name="label" id="field_label" data-cy="label" formControlName="label" />
           <div *ngIf="editForm.get('label')!.invalid && (editForm.get('label')!.dirty || editForm.get('label')!.touched)">

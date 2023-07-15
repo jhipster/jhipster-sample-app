@@ -26,7 +26,7 @@
             "outputPath": "target/classes/static/",
             "index": "src/main/webapp/index.html",
             "main": "src/main/webapp/main.ts",
-            "polyfills": "src/main/webapp/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

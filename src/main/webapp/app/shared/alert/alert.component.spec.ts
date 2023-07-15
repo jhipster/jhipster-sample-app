@@ -13,7 +13,7 @@ describe('Alert Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AlertComponent],
+      imports: [AlertComponent],
       providers: [AlertService],
     })
       .overrideTemplate(AlertComponent, '')

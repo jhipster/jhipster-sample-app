@@ -18,8 +18,7 @@ describe('Operation Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [OperationDeleteDialogComponent],
+      imports: [HttpClientTestingModule, OperationDeleteDialogComponent],
       providers: [NgbActiveModal],
     })
       .overrideTemplate(OperationDeleteDialogComponent, '')

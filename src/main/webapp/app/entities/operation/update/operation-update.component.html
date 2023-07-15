@@ -12,12 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
           <div class="d-flex">
             <input
@@ -44,7 +44,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.description" for="field_description"
             >Description</label
           >
@@ -58,7 +58,7 @@
           />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
           <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
@@ -71,7 +71,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount"
             >Bank Account</label
           >
@@ -90,7 +90,7 @@
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label jhiTranslate="jhipsterSampleApplicationApp.operation.label" for="field_labels">Label</label>
           <select
             class="form-control"

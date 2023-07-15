@@ -1,17 +1,19 @@
-export const EntityNavbarItems = [
+import NavbarItem from 'app/layouts/navbar/navbar-item.model';
+
+export const EntityNavbarItems: NavbarItem[] = [
   {
     name: 'BankAccount',
-    route: 'bank-account',
+    route: '/bank-account',
     translationKey: 'global.menu.entities.bankAccount',
   },
   {
     name: 'Label',
-    route: 'label',
+    route: '/label',
     translationKey: 'global.menu.entities.label',
   },
   {
     name: 'Operation',
-    route: 'operation',
+    route: '/operation',
     translationKey: 'global.menu.entities.operation',
   },
 ];

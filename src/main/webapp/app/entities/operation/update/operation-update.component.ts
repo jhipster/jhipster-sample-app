@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { OperationFormService, OperationFormGroup } from './operation-form.service';
 import { IOperation } from '../operation.model';
 import { OperationService } from '../service/operation.service';
@@ -13,8 +16,10 @@ import { ILabel } from 'app/entities/label/label.model';
 import { LabelService } from 'app/entities/label/service/label.service';
 
 @Component({
+  standalone: true,
   selector: 'jhi-operation-update',
   templateUrl: './operation-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class OperationUpdateComponent implements OnInit {
   isSaving = false;

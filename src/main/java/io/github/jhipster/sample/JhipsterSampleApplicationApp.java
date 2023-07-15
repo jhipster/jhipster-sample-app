@@ -2,12 +2,12 @@ package io.github.jhipster.sample;
 
 import io.github.jhipster.sample.config.ApplicationProperties;
 import io.github.jhipster.sample.config.CRLFLogConverter;
+import jakarta.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,11 +86,14 @@ public class JhipsterSampleApplicationApp {
         }
         log.info(
             CRLFLogConverter.CRLF_SAFE_MARKER,
-            "\n----------------------------------------------------------\n\t" +
-            "Application '{}' is running! Access URLs:\n\t" +
-            "Local: \t\t{}://localhost:{}{}\n\t" +
-            "External: \t{}://{}:{}{}\n\t" +
-            "Profile(s): \t{}\n----------------------------------------------------------",
+            """
+
+                ----------------------------------------------------------
+                \tApplication '{}' is running! Access URLs:
+                \tLocal: \t\t{}://localhost:{}{}
+                \tExternal: \t{}://{}:{}{}
+                \tProfile(s): \t{}
+                ----------------------------------------------------------""",
             env.getProperty("spring.application.name"),
             protocol,
             serverPort,

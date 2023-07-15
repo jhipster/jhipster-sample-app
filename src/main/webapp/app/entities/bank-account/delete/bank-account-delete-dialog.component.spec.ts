@@ -18,8 +18,7 @@ describe('BankAccount Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [BankAccountDeleteDialogComponent],
+      imports: [HttpClientTestingModule, BankAccountDeleteDialogComponent],
       providers: [NgbActiveModal],
     })
       .overrideTemplate(BankAccountDeleteDialogComponent, '')

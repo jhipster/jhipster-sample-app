@@ -18,8 +18,7 @@ describe('Label Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [LabelDeleteDialogComponent],
+      imports: [HttpClientTestingModule, LabelDeleteDialogComponent],
       providers: [NgbActiveModal],
     })
       .overrideTemplate(LabelDeleteDialogComponent, '')

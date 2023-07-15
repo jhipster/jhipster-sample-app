@@ -16,8 +16,11 @@ describe('BankAccount Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'bank-account', component: BankAccountComponent }]), HttpClientTestingModule],
-      declarations: [BankAccountComponent],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'bank-account', component: BankAccountComponent }]),
+        HttpClientTestingModule,
+        BankAccountComponent,
+      ],
       providers: [
         {
           provide: ActivatedRoute,

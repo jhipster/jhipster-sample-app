@@ -16,8 +16,7 @@ describe('Label Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'label', component: LabelComponent }]), HttpClientTestingModule],
-      declarations: [LabelComponent],
+      imports: [RouterTestingModule.withRoutes([{ path: 'label', component: LabelComponent }]), HttpClientTestingModule, LabelComponent],
       providers: [
         {
           provide: ActivatedRoute,

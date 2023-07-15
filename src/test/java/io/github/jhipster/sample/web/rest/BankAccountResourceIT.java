@@ -10,12 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.github.jhipster.sample.IntegrationTest;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
+import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
