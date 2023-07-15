@@ -22,7 +22,6 @@ import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,6 +46,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     private static final String FIELD_ERRORS_KEY = "fieldErrors";
     private static final String MESSAGE_KEY = "message";
     private static final String PATH_KEY = "path";
+    private static final boolean CASUAL_CHAIN_ENABLED = false;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -250,7 +250,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
 
     private boolean isCasualChainEnabled() {
         // Customize as per the needs
-        return false;
+        return CASUAL_CHAIN_ENABLED;
     }
 
     private boolean containsPackageName(String message) {

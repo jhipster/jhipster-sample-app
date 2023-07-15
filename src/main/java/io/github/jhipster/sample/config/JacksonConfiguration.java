@@ -1,6 +1,6 @@
 package io.github.jhipster.sample.config;
 
-import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
+import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class JacksonConfiguration {
      * Support for Hibernate types in Jackson.
      */
     @Bean
-    public Hibernate5JakartaModule hibernate5Module() {
-        return new Hibernate5JakartaModule();
+    public Hibernate6Module hibernate6Module() {
+        return new Hibernate6Module();
     }
 }

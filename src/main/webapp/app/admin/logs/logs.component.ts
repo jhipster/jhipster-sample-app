@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule } from '@angular/forms';

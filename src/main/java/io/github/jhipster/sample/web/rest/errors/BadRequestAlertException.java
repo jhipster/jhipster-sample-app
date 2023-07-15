@@ -1,8 +1,6 @@
 package io.github.jhipster.sample.web.rest.errors;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponseException;
 import tech.jhipster.web.rest.errors.ProblemDetailWithCause;
@@ -48,12 +46,5 @@ public class BadRequestAlertException extends ErrorResponseException {
 
     public ProblemDetailWithCause getProblemDetailWithCause() {
         return (ProblemDetailWithCause) this.getBody();
-    }
-
-    private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("message", "error." + errorKey);
-        parameters.put("params", entityName);
-        return parameters;
     }
 }

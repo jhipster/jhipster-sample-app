@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @WithMockUser
 @IntegrationTest
-public class SpaWebFilterIT {
+class SpaWebFilterIT {
 
     @Autowired
     private MockMvc mockMvc;

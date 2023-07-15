@@ -15,7 +15,7 @@ describe('Operation e2e test', () => {
   const operationPageUrlPattern = new RegExp('/operation(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const operationSample = { date: '2015-08-04T19:26:22.509Z', amount: 19597 };
+  const operationSample = { date: '2015-08-05T05:24:11.952Z', amount: 20913 };
 
   let operation;
 
@@ -160,15 +160,15 @@ describe('Operation e2e test', () => {
     });
 
     it('should create an instance of Operation', () => {
-      cy.get(`[data-cy="date"]`).type('2015-08-05T09:08');
+      cy.get(`[data-cy="date"]`).type('2015-08-04T22:14');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-05T09:08');
+      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-04T22:14');
 
-      cy.get(`[data-cy="description"]`).type('Gasoline Livermorium Account');
-      cy.get(`[data-cy="description"]`).should('have.value', 'Gasoline Livermorium Account');
+      cy.get(`[data-cy="description"]`).type('Soap wireless Peso');
+      cy.get(`[data-cy="description"]`).should('have.value', 'Soap wireless Peso');
 
-      cy.get(`[data-cy="amount"]`).type('60873');
-      cy.get(`[data-cy="amount"]`).should('have.value', '60873');
+      cy.get(`[data-cy="amount"]`).type('31059');
+      cy.get(`[data-cy="amount"]`).should('have.value', '31059');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
