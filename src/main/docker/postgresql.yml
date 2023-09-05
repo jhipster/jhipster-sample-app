@@ -1,14 +1,19 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-version: '3.8'
+name: jhipstersampleapplication
 services:
-  jhipstersampleapplication-postgresql:
-    image: postgres:14.5
+  postgresql:
+    image: postgres:15.4
     # volumes:
     #   - ~/volumes/jhipster/jhipsterSampleApplication/postgresql/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=jhipsterSampleApplication
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:

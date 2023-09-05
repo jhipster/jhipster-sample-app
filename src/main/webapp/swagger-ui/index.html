@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>jhipsterSampleApplication - Swagger UI</title>
+    <base href="/swagger-ui/" />
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
@@ -25,27 +26,30 @@
       };
 
       window.onload = async function () {
+        const serverBaseUri = document.baseURI.replace('swagger-ui/', '');
         const getBearerToken = () => {
           var authToken = localStorage.getItem('jhi-authenticationToken') || sessionStorage.getItem('jhi-authenticationToken');
           if (authToken) {
+            authToken = JSON.parse(authToken);
             return `Bearer ${authToken}`;
           }
           return null;
         };
         const axiosConfig = {
           timeout: 5000,
+          baseURL: serverBaseUri,
           headers: { Authorization: getBearerToken() },
         };
 
-        const baseUrl = '/v3/api-docs';
+        const baseUrl = 'v3/api-docs';
         let urls;
 
         if (!urls || urls.length === 0) {
           const response = await axios.get('/management/jhiopenapigroups', axiosConfig);
           if (Array.isArray(response.data)) {
-            urls = response.data.map(({ group, description }) => ({ name: description, url: `${baseUrl}/${group}` }));
+            urls = response.data.map(({ group, description }) => ({ name: description, url: `${serverBaseUri}${baseUrl}/${group}` }));
           } else {
-            urls = [{ name: 'default', url: baseUrl }];
+            urls = [{ name: 'default', url: `${serverBaseUri}${baseUrl}` }];
           }
         }
         console.log(`Swagger urls`, urls);
@@ -58,7 +62,8 @@
             if (y.includes('(default)')) return 1;
             if (x.includes('(management)')) return -1;
             if (y.includes('(management)')) return 1;
-            return x < y ? -1 : x > y ? 1 : 0;
+            if (x < y) return -1;
+            return x > y ? 1 : 0;
           });
         }
 

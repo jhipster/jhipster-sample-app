@@ -42,5 +42,5 @@
       "relationshipType": "many-to-many"
     }
   ],
-  "searchEngine": false
+  "searchEngine": "no"
 }

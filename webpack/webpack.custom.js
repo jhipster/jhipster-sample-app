@@ -1,6 +1,6 @@
+const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const path = require('path');
 const { hashElement } = require('folder-hash');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
@@ -32,7 +32,7 @@ module.exports = async (config, options, targetOptions) => {
       new WebpackNotifierPlugin({
         title: 'Jhipster Sample Application',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
-      })
+      }),
     );
   }
 
@@ -50,7 +50,7 @@ module.exports = async (config, options, targetOptions) => {
           port: 9000,
           https: tls,
           proxy: {
-            target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '4200' : '8080'}`,
+            target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '9060' : '8080'}`,
             ws: true,
             proxyOptions: {
               changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
@@ -72,8 +72,8 @@ module.exports = async (config, options, targetOptions) => {
         },
         {
           reload: targetOptions.target === 'build', // enabled for build --watch
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -84,7 +84,7 @@ module.exports = async (config, options, targetOptions) => {
         openAnalyzer: false,
         // Webpack statistics in target folder
         reportFilename: '../stats.html',
-      })
+      }),
     );
   }
 
@@ -127,11 +127,11 @@ module.exports = async (config, options, targetOptions) => {
           // jhipster-needle-i18n-language-webpack - JHipster will add/remove languages in this array
         ],
       },
-    })
+    }),
   );
 
   config = merge(
-    config
+    config,
     // jhipster-needle-add-webpack-config - JHipster will add custom config
   );
 

@@ -7,6 +7,7 @@
   },
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:cypress/recommended"],
   "rules": {
-    "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true }]
+    "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true }],
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

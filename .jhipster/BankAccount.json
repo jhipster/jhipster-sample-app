@@ -36,5 +36,5 @@
       "relationshipType": "one-to-many"
     }
   ],
-  "searchEngine": false
+  "searchEngine": "no"
 }

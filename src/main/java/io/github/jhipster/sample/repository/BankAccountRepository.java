@@ -30,12 +30,12 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     }
 
     @Query(
-        value = "select distinct bankAccount from BankAccount bankAccount left join fetch bankAccount.user",
-        countQuery = "select count(distinct bankAccount) from BankAccount bankAccount"
+        value = "select bankAccount from BankAccount bankAccount left join fetch bankAccount.user",
+        countQuery = "select count(bankAccount) from BankAccount bankAccount"
     )
     Page<BankAccount> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct bankAccount from BankAccount bankAccount left join fetch bankAccount.user")
+    @Query("select bankAccount from BankAccount bankAccount left join fetch bankAccount.user")
     List<BankAccount> findAllWithToOneRelationships();
 
     @Query("select bankAccount from BankAccount bankAccount left join fetch bankAccount.user where bankAccount.id =:id")

@@ -1,4 +1,4 @@
 /**
- * Spring Security configuration.
+ * Application security utilities.
  */
 package io.github.jhipster.sample.security;
