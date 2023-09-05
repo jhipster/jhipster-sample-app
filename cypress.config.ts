@@ -1,6 +1,6 @@
 import { defineConfig } from 'cypress';
 
-export default defineConfig({
+export const defaultConfig = {
   video: false,
   fixturesFolder: 'src/test/javascript/cypress/fixtures',
   screenshotsFolder: 'target/cypress/screenshots',
@@ -23,6 +23,8 @@ export default defineConfig({
     baseUrl: 'http://localhost:8080/',
     specPattern: 'src/test/javascript/cypress/e2e/**/*.cy.ts',
     supportFile: 'src/test/javascript/cypress/support/index.ts',
-    experimentalRunAllSpecs: true,
+    experimentalSessionAndOrigin: true,
   },
-});
+};
+
+export default defineConfig(defaultConfig);

@@ -1,7 +1,7 @@
 package io.github.jhipster.sample.web.rest.vm;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * View Model object for storing a user's credentials.

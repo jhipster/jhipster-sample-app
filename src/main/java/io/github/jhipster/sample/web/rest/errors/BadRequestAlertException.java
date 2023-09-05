@@ -1,13 +1,13 @@
 package io.github.jhipster.sample.web.rest.errors;
 
 import java.net.URI;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.ErrorResponseException;
-import tech.jhipster.web.rest.errors.ProblemDetailWithCause;
-import tech.jhipster.web.rest.errors.ProblemDetailWithCause.ProblemDetailWithCauseBuilder;
+import java.util.HashMap;
+import java.util.Map;
+import org.zalando.problem.AbstractThrowableProblem;
+import org.zalando.problem.Status;
 
 @SuppressWarnings("java:S110") // Inheritance tree of classes should not be too deep
-public class BadRequestAlertException extends ErrorResponseException {
+public class BadRequestAlertException extends AbstractThrowableProblem {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,18 +20,7 @@ public class BadRequestAlertException extends ErrorResponseException {
     }
 
     public BadRequestAlertException(URI type, String defaultMessage, String entityName, String errorKey) {
-        super(
-            HttpStatus.BAD_REQUEST,
-            ProblemDetailWithCauseBuilder
-                .instance()
-                .withStatus(HttpStatus.BAD_REQUEST.value())
-                .withType(type)
-                .withTitle(defaultMessage)
-                .withProperty("message", "error." + errorKey)
-                .withProperty("params", entityName)
-                .build(),
-            null
-        );
+        super(type, defaultMessage, Status.BAD_REQUEST, null, null, null, getAlertParameters(entityName, errorKey));
         this.entityName = entityName;
         this.errorKey = errorKey;
     }
@@ -44,7 +33,10 @@ public class BadRequestAlertException extends ErrorResponseException {
         return errorKey;
     }
 
-    public ProblemDetailWithCause getProblemDetailWithCause() {
-        return (ProblemDetailWithCause) this.getBody();
+    private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("message", "error." + errorKey);
+        parameters.put("params", entityName);
+        return parameters;
     }
 }

@@ -1,8 +1,8 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: jhipstersampleapplication
+version: '3.8'
 services:
-  prometheus:
-    image: prom/prometheus:v2.45.0
+  jhipstersampleapplication-prometheus:
+    image: prom/prometheus:v2.38.0
     volumes:
       - ./prometheus/:/etc/prometheus/
     command:
@@ -14,8 +14,8 @@ services:
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
     network_mode: 'host' # to test locally running service
-  grafana:
-    image: grafana/grafana:10.0.2
+  jhipstersampleapplication-grafana:
+    image: grafana/grafana:9.1.0
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:

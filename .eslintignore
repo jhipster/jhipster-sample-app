@@ -5,5 +5,4 @@ webpack/
 target/
 build/
 node/
-coverage/
 postcss.config.js

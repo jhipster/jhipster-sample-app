@@ -31,8 +31,8 @@ public class LiquibaseConfiguration {
     @Bean
     public SpringLiquibase liquibase(
         @Qualifier("taskExecutor") Executor executor,
-        LiquibaseProperties liquibaseProperties,
         @LiquibaseDataSource ObjectProvider<DataSource> liquibaseDataSource,
+        LiquibaseProperties liquibaseProperties,
         ObjectProvider<DataSource> dataSource,
         DataSourceProperties dataSourceProperties
     ) {
@@ -54,7 +54,7 @@ public class LiquibaseConfiguration {
         liquibase.setDatabaseChangeLogLockTable(liquibaseProperties.getDatabaseChangeLogLockTable());
         liquibase.setDatabaseChangeLogTable(liquibaseProperties.getDatabaseChangeLogTable());
         liquibase.setDropFirst(liquibaseProperties.isDropFirst());
-        liquibase.setLabelFilter(liquibaseProperties.getLabelFilter());
+        liquibase.setLabels(liquibaseProperties.getLabels());
         liquibase.setChangeLogParameters(liquibaseProperties.getParameters());
         liquibase.setRollbackFile(liquibaseProperties.getRollbackFile());
         liquibase.setTestRollbackOnUpdate(liquibaseProperties.isTestRollbackOnUpdate());

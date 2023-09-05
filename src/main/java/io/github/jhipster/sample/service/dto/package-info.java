@@ -1,4 +1,4 @@
 /**
- * Data transfer objects for rest mapping.
+ * Data Transfer Objects.
  */
 package io.github.jhipster.sample.service.dto;

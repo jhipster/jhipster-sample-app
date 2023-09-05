@@ -1,13 +1,14 @@
 package io.github.jhipster.sample.repository;
 
 import io.github.jhipster.sample.domain.Operation;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -37,10 +38,11 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
     Operation fetchLabels(Operation result) {
         return entityManager
             .createQuery(
-                "select operation from Operation operation left join fetch operation.labels where operation.id = :id",
+                "select operation from Operation operation left join fetch operation.labels where operation is :operation",
                 Operation.class
             )
-            .setParameter("id", result.getId())
+            .setParameter("operation", result)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getSingleResult();
     }
 
@@ -49,10 +51,11 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
         IntStream.range(0, operations.size()).forEach(index -> order.put(operations.get(index).getId(), index));
         List<Operation> result = entityManager
             .createQuery(
-                "select operation from Operation operation left join fetch operation.labels where operation in :operations",
+                "select distinct operation from Operation operation left join fetch operation.labels where operation in :operations",
                 Operation.class
             )
             .setParameter("operations", operations)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
         Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
         return result;

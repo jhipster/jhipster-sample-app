@@ -62,8 +62,7 @@ Cypress.Commands.add('setFieldSelectToLastOfEntity', (fieldName: string) => {
       return cy.get(`[data-cy="${fieldName}"] option`).then((options: JQuery<HTMLElement>) => {
         const elements = [...options].map((o: HTMLElement) => (o as HTMLOptionElement).label);
         const lastElement = elements.length - 1;
-        cy.get(`[data-cy="${fieldName}"]`).select(lastElement);
-        cy.get(`[data-cy="${fieldName}"]`).type('{downarrow}');
+        cy.get(`[data-cy="${fieldName}"]`).select(lastElement).type('{downarrow}');
       });
     } else {
       return cy.get(`[data-cy="${fieldName}"]`).type('{downarrow}');

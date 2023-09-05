@@ -27,25 +27,20 @@ describe('/account/password', () => {
   });
 
   it('requires current password', () => {
-    cy.get(currentPasswordSelector).should('have.class', classInvalid);
-    cy.get(currentPasswordSelector).type('wrong-current-password');
-    cy.get(currentPasswordSelector).blur();
-    cy.get(currentPasswordSelector).should('have.class', classValid);
+    cy.get(currentPasswordSelector)
+      .should('have.class', classInvalid)
+      .type('wrong-current-password')
+      .blur()
+      .should('have.class', classValid);
   });
 
   it('requires new password', () => {
-    cy.get(newPasswordSelector).should('have.class', classInvalid);
-    cy.get(newPasswordSelector).type('jhipster');
-    cy.get(newPasswordSelector).blur();
-    cy.get(newPasswordSelector).should('have.class', classValid);
+    cy.get(newPasswordSelector).should('have.class', classInvalid).type('jhipster').blur().should('have.class', classValid);
   });
 
   it('requires confirm new password', () => {
     cy.get(newPasswordSelector).type('jhipster');
-    cy.get(confirmPasswordSelector).should('have.class', classInvalid);
-    cy.get(confirmPasswordSelector).type('jhipster');
-    cy.get(confirmPasswordSelector).blur();
-    cy.get(confirmPasswordSelector).should('have.class', classValid);
+    cy.get(confirmPasswordSelector).should('have.class', classInvalid).type('jhipster').blur().should('have.class', classValid);
   });
 
   it('should fail to update password when using incorrect current password', () => {

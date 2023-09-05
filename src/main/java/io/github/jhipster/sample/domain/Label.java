@@ -1,11 +1,11 @@
 package io.github.jhipster.sample.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -31,7 +31,7 @@ public class Label implements Serializable {
     @Column(name = "label", nullable = false)
     private String label;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "labels")
+    @ManyToMany(mappedBy = "labels")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "bankAccount", "labels" }, allowSetters = true)
     private Set<Operation> operations = new HashSet<>();
