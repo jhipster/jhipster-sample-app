@@ -20,7 +20,7 @@ jobs:
             - uses: actions/setup-java@v2
               with:
                   distribution: 'adopt'
-                  java-version: '11.x'
+                  java-version: '17.x'
             - name: Install node.js packages
               run: npm install
             - name: Run backend test
