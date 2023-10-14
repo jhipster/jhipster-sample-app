@@ -138,7 +138,7 @@ public class BankAccount implements Serializable {
         if (!(o instanceof BankAccount)) {
             return false;
         }
-        return id != null && id.equals(((BankAccount) o).id);
+        return getId() != null && getId().equals(((BankAccount) o).getId());
     }
 
     @Override

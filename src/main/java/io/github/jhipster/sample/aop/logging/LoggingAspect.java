@@ -83,7 +83,7 @@ public class LoggingAspect {
                 .error(
                     "Exception in {}() with cause = {}",
                     joinPoint.getSignature().getName(),
-                    e.getCause() != null ? e.getCause() : "NULL"
+                    e.getCause() != null ? String.valueOf(e.getCause()) : "NULL"
                 );
         }
     }

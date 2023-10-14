@@ -18,6 +18,7 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     async setupNodeEvents(on, config) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return (await import('./src/test/javascript/cypress/plugins/index')).default(on, config);
     },
     baseUrl: 'http://localhost:8080/',

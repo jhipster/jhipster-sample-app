@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "sourceMap": false,
-    "outDir": "../../../../target/cypress/out-tsc",
+    "outDir": "../../../../target/cypress/tsc",
     "target": "es2018",
     "types": ["cypress", "node"]
   },

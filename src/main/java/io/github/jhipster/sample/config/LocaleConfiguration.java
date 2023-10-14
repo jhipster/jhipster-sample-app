@@ -12,9 +12,7 @@ public class LocaleConfiguration implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
-        AngularCookieLocaleResolver cookieLocaleResolver = new AngularCookieLocaleResolver();
-        cookieLocaleResolver.setCookieName("NG_TRANSLATE_LANG_KEY");
-        return cookieLocaleResolver;
+        return new AngularCookieLocaleResolver("NG_TRANSLATE_LANG_KEY");
     }
 
     @Override

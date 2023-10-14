@@ -105,7 +105,7 @@ public class Label implements Serializable {
         if (!(o instanceof Label)) {
             return false;
         }
-        return id != null && id.equals(((Label) o).id);
+        return getId() != null && getId().equals(((Label) o).getId());
     }
 
     @Override

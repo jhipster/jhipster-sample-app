@@ -35,7 +35,7 @@ describe('Event Manager tests', () => {
         eventManager.subscribe('modifier', (event: EventWithContent<unknown> | string) => (recievedEvent = event));
 
         // WHEN
-        eventManager.broadcast({ name: 'unrelatedModifier', content: 'unreleated modification' });
+        eventManager.broadcast({ name: 'unrelatedModifier', content: 'unrelated modification' });
         // THEN
         expect(recievedEvent).toBeNull();
 

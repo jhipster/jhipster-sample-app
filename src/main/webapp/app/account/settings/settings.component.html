@@ -6,9 +6,7 @@
         >]
       </h2>
 
-      <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
-        <strong>Settings saved!</strong>
-      </div>
+      <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success"><strong>Settings saved!</strong></div>
 
       <jhi-alert-error></jhi-alert-error>
 
@@ -34,25 +32,22 @@
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.required"
               jhiTranslate="settings.messages.validate.firstname.required"
+              >Your first name is required.</small
             >
-              Your first name is required.
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.minlength"
               jhiTranslate="settings.messages.validate.firstname.minlength"
+              >Your first name is required to be at least 1 character</small
             >
-              Your first name is required to be at least 1 character
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.maxlength"
               jhiTranslate="settings.messages.validate.firstname.maxlength"
+              >Your first name cannot be longer than 50 characters</small
             >
-              Your first name cannot be longer than 50 characters
-            </small>
           </div>
         </div>
 
@@ -75,25 +70,22 @@
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.required"
               jhiTranslate="settings.messages.validate.lastname.required"
+              >Your last name is required.</small
             >
-              Your last name is required.
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.minlength"
               jhiTranslate="settings.messages.validate.lastname.minlength"
+              >Your last name is required to be at least 1 character</small
             >
-              Your last name is required to be at least 1 character
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.maxlength"
               jhiTranslate="settings.messages.validate.lastname.maxlength"
+              >Your last name cannot be longer than 50 characters</small
             >
-              Your last name cannot be longer than 50 characters
-            </small>
           </div>
         </div>
 
@@ -114,33 +106,29 @@
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.required"
               jhiTranslate="global.messages.validate.email.required"
+              >Your email is required.</small
             >
-              Your email is required.
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.email"
               jhiTranslate="global.messages.validate.email.invalid"
+              >Your email is invalid.</small
             >
-              Your email is invalid.
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.minlength"
               jhiTranslate="global.messages.validate.email.minlength"
+              >Your email is required to be at least 5 characters.</small
             >
-              Your email is required to be at least 5 characters.
-            </small>
 
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.maxlength"
               jhiTranslate="global.messages.validate.email.maxlength"
+              >Your email cannot be longer than 50 characters.</small
             >
-              Your email cannot be longer than 50 characters.
-            </small>
           </div>
         </div>
 

@@ -23,6 +23,11 @@ describe('login modal', () => {
     cy.get(titleLoginSelector).should('be.visible');
   });
 
+  it('greets visiting /login directly', () => {
+    cy.visit('/login');
+    cy.get(titleLoginSelector).should('be.visible');
+  });
+
   it('requires username', () => {
     cy.get(passwordLoginSelector).type('a-password');
     cy.get(submitLoginSelector).click();

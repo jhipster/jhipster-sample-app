@@ -155,7 +155,7 @@ public class Operation implements Serializable {
         if (!(o instanceof Operation)) {
             return false;
         }
-        return id != null && id.equals(((Operation) o).id);
+        return getId() != null && getId().equals(((Operation) o).getId());
     }
 
     @Override

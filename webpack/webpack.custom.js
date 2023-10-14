@@ -82,8 +82,8 @@ module.exports = async (config, options, targetOptions) => {
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
         openAnalyzer: false,
-        // Webpack statistics in target folder
-        reportFilename: '../stats.html',
+        // Webpack statistics in temporary folder
+        reportFilename: '../../stats.html',
       }),
     );
   }

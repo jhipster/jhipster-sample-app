@@ -86,7 +86,7 @@ describe('LoginComponent', () => {
   });
 
   describe('ngAfterViewInit', () => {
-    it('shoult set focus to username input after the view has been initialized', () => {
+    it('should set focus to username input after the view has been initialized', () => {
       // GIVEN
       const node = {
         focus: jest.fn(),
