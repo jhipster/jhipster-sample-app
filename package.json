@@ -129,7 +129,7 @@
     "eslint-plugin-cypress": "2.15.1",
     "eslint-webpack-plugin": "4.0.1",
     "folder-hash": "4.0.4",
-    "generator-jhipster": "7.9.4",
+    "generator-jhipster": "8.0.0",
     "husky": "8.0.3",
     "jest": "29.7.0",
     "jest-date-mock": "1.0.8",
