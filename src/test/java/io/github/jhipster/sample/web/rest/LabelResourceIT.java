@@ -36,7 +36,7 @@ class LabelResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private LabelRepository labelRepository;
@@ -197,7 +197,7 @@ class LabelResourceIT {
     @Transactional
     void putNonExistingLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restLabelMockMvc
@@ -217,12 +217,12 @@ class LabelResourceIT {
     @Transactional
     void putWithIdMismatchLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restLabelMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(label))
             )
@@ -237,7 +237,7 @@ class LabelResourceIT {
     @Transactional
     void putWithMissingIdPathParamLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restLabelMockMvc
@@ -309,7 +309,7 @@ class LabelResourceIT {
     @Transactional
     void patchNonExistingLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restLabelMockMvc
@@ -329,12 +329,12 @@ class LabelResourceIT {
     @Transactional
     void patchWithIdMismatchLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restLabelMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(label))
             )
@@ -349,7 +349,7 @@ class LabelResourceIT {
     @Transactional
     void patchWithMissingIdPathParamLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
-        label.setId(count.incrementAndGet());
+        label.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restLabelMockMvc

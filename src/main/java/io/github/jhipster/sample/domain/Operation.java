@@ -135,13 +135,11 @@ public class Operation implements Serializable {
 
     public Operation addLabel(Label label) {
         this.labels.add(label);
-        label.getOperations().add(this);
         return this;
     }
 
     public Operation removeLabel(Label label) {
         this.labels.remove(label);
-        label.getOperations().remove(this);
         return this;
     }
 
