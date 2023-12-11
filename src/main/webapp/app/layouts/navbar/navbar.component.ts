@@ -19,7 +19,7 @@ import NavbarItem from './navbar-item.model';
   standalone: true,
   selector: 'jhi-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrl: './navbar.component.scss',
   imports: [RouterModule, SharedModule, HasAnyAuthorityDirective, ActiveMenuDirective],
 })
 export default class NavbarComponent implements OnInit {

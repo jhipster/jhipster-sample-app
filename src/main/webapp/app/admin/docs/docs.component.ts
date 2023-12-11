@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'jhi-docs',
   templateUrl: './docs.component.html',
-  styleUrls: ['./docs.component.scss'],
+  styleUrl: './docs.component.scss',
 })
 export default class DocsComponent {}

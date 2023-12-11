@@ -26,8 +26,7 @@ describe('MainComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
-      declarations: [MainComponent],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, MainComponent],
       providers: [Title, AccountService, { provide: TitleStrategy, useClass: AppPageTitleStrategy }],
     })
       .overrideTemplate(MainComponent, '')

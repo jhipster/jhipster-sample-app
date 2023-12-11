@@ -12,10 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
 
         <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
@@ -30,17 +32,19 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
-          <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('date')?.errors?.required" jhiTranslate="entity.validation.required"
-              >This field is required.</small
-            >
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('date')?.errors?.datetimelocal"
-              jhiTranslate="entity.validation.datetimelocal"
-              >This field should be a date and time.</small
-            >
-          </div>
+          @if (editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)) {
+            <div>
+              @if (editForm.get('date')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('date')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
         </div>
 
         <div class="mb-3">
@@ -60,14 +64,19 @@
         <div class="mb-3">
           <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
-          <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required" jhiTranslate="entity.validation.required"
-              >This field is required.</small
-            >
-            <small class="form-text text-danger" [hidden]="!editForm.get('amount')?.errors?.number" jhiTranslate="entity.validation.number"
-              >This field should be a number.</small
-            >
-          </div>
+          @if (editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)) {
+            <div>
+              @if (editForm.get('amount')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('amount')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
         </div>
 
         <div class="mb-3">
@@ -83,9 +92,9 @@
             [compareWith]="compareBankAccount"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="bankAccountOption" *ngFor="let bankAccountOption of bankAccountsSharedCollection">
-              {{ bankAccountOption.name }}
-            </option>
+            @for (bankAccountOption of bankAccountsSharedCollection; track $index) {
+              <option [ngValue]="bankAccountOption">{{ bankAccountOption.name }}</option>
+            }
           </select>
         </div>
 
@@ -100,7 +109,9 @@
             formControlName="labels"
             [compareWith]="compareLabel"
           >
-            <option [ngValue]="labelOption" *ngFor="let labelOption of labelsSharedCollection">{{ labelOption.label }}</option>
+            @for (labelOption of labelsSharedCollection; track $index) {
+              <option [ngValue]="labelOption">{{ labelOption.label }}</option>
+            }
           </select>
         </div>
       </div>

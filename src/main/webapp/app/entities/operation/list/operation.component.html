@@ -24,85 +24,97 @@
 
   <jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="operations?.length === 0">
-    <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No Operations found</span>
-  </div>
+  @if (operations?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jhipsterSampleApplicationApp.operation.home.notFound">No Operations found</span>
+    </div>
+  }
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="operations && operations.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="date">
-            <div class="d-flex">
-              <span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="description">
-            <div class="d-flex">
-              <span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="amount">
-            <div class="d-flex">
-              <span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="bankAccount.name">
-            <div class="d-flex">
-              <span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody
-        infinite-scroll
-        (scrolled)="loadPage(page + 1)"
-        [infiniteScrollDisabled]="page - 1 >= links['last']"
-        [infiniteScrollDistance]="0"
-      >
-        <tr *ngFor="let operation of operations; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/operation', operation.id, 'view']">{{ operation.id }}</a>
-          </td>
-          <td>{{ operation.date | formatMediumDatetime }}</td>
-          <td>{{ operation.description }}</td>
-          <td>{{ operation.amount }}</td>
-          <td>
-            <div *ngIf="operation.bankAccount">
-              <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount.name }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <a [routerLink]="['/operation', operation.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </a>
+  @if (operations && operations.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
 
-              <a [routerLink]="['/operation', operation.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </a>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="date">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span>
 
-              <button type="submit" (click)="delete(operation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="amount">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="bankAccount.name">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody
+          infinite-scroll
+          (scrolled)="loadPage(page + 1)"
+          [infiniteScrollDisabled]="page - 1 >= links['last']"
+          [infiniteScrollDistance]="0"
+        >
+          @for (operation of operations; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/operation', operation.id, 'view']">{{ operation.id }}</a>
+              </td>
+              <td>{{ operation.date | formatMediumDatetime }}</td>
+              <td>{{ operation.description }}</td>
+              <td>{{ operation.amount }}</td>
+              <td>
+                @if (operation.bankAccount) {
+                  <div>
+                    <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount.name }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/operation', operation.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/operation', operation.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(operation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>

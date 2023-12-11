@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20150805124936"
+  },
   "changelogDate": "20150805124936",
   "dto": "no",
   "entityTableName": "label",

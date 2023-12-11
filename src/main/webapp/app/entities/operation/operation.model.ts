@@ -7,8 +7,8 @@ export interface IOperation {
   date?: dayjs.Dayjs | null;
   description?: string | null;
   amount?: number | null;
-  bankAccount?: Pick<IBankAccount, 'id' | 'name'> | null;
-  labels?: Pick<ILabel, 'id' | 'label'>[] | null;
+  bankAccount?: IBankAccount | null;
+  labels?: ILabel[] | null;
 }
 
 export type NewOperation = Omit<IOperation, 'id'> & { id: null };
