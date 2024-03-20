@@ -58,9 +58,9 @@ describe('ConfigurationComponent', () => {
       // THEN
       expect(service.getBeans).toHaveBeenCalled();
       expect(service.getPropertySources).toHaveBeenCalled();
-      expect(comp.allBeans).toEqual(beans);
-      expect(comp.beans).toEqual(beans);
-      expect(comp.propertySources).toEqual(propertySources);
+      expect(comp.allBeans()).toEqual(beans);
+      expect(comp.beans()).toEqual(beans);
+      expect(comp.propertySources()).toEqual(propertySources);
     });
   });
 });

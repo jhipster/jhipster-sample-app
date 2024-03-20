@@ -19,6 +19,15 @@
           <dd>
             <span>{{ label.label }}</span>
           </dd>
+          <dt><span jhiTranslate="jhipsterSampleApplicationApp.label.operation">Operation</span></dt>
+          <dd>
+            @for (operation of label.operations; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/operation', operation.id, 'view']">{{ operation.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

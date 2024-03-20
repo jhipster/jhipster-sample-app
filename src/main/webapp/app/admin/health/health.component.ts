@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,10 +16,8 @@ import HealthModalComponent from './modal/health-modal.component';
 export default class HealthComponent implements OnInit {
   health?: Health;
 
-  constructor(
-    private modalService: NgbModal,
-    private healthService: HealthService,
-  ) {}
+  private modalService = inject(NgbModal);
+  private healthService = inject(HealthService);
 
   ngOnInit(): void {
     this.refresh();

@@ -7,7 +7,7 @@ import { mergeMap } from 'rxjs/operators';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
-export const bankAccountResolve = (route: ActivatedRouteSnapshot): Observable<null | IBankAccount> => {
+const bankAccountResolve = (route: ActivatedRouteSnapshot): Observable<null | IBankAccount> => {
   const id = route.params['id'];
   if (id) {
     return inject(BankAccountService)

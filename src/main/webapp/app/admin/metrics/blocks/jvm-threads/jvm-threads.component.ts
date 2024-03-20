@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
@@ -49,7 +49,7 @@ export class JvmThreadsComponent {
 
   private _threads: Thread[] | undefined;
 
-  constructor(private modalService: NgbModal) {}
+  private modalService = inject(NgbModal);
 
   open(): void {
     const modalRef = this.modalService.open(MetricsModalThreadsComponent);

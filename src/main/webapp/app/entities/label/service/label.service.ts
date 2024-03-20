@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,12 +14,10 @@ export type EntityArrayResponseType = HttpResponse<ILabel[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LabelService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/labels');
+  protected http = inject(HttpClient);
+  protected applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/labels');
 
   create(label: NewLabel): Observable<EntityResponseType> {
     return this.http.post<ILabel>(this.resourceUrl, label, { observe: 'response' });
@@ -60,7 +58,7 @@ export class LabelService {
   ): Type[] {
     const labels: Type[] = labelsToCheck.filter(isPresent);
     if (labels.length > 0) {
-      const labelCollectionIdentifiers = labelCollection.map(labelItem => this.getLabelIdentifier(labelItem)!);
+      const labelCollectionIdentifiers = labelCollection.map(labelItem => this.getLabelIdentifier(labelItem));
       const labelsToAdd = labels.filter(labelItem => {
         const labelIdentifier = this.getLabelIdentifier(labelItem);
         if (labelCollectionIdentifiers.includes(labelIdentifier)) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, ElementRef, ViewChild, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import PasswordStrengthBarComponent from 'app/account/password/password-strength-bar/password-strength-bar.component';
@@ -16,11 +16,11 @@ export default class PasswordResetFinishComponent implements OnInit, AfterViewIn
   @ViewChild('newPassword', { static: false })
   newPassword?: ElementRef;
 
-  initialized = false;
-  doNotMatch = false;
-  error = false;
-  success = false;
-  key = '';
+  initialized = signal(false);
+  doNotMatch = signal(false);
+  error = signal(false);
+  success = signal(false);
+  key = signal('');
 
   passwordForm = new FormGroup({
     newPassword: new FormControl('', {
@@ -33,17 +33,15 @@ export default class PasswordResetFinishComponent implements OnInit, AfterViewIn
     }),
   });
 
-  constructor(
-    private passwordResetFinishService: PasswordResetFinishService,
-    private route: ActivatedRoute,
-  ) {}
+  private passwordResetFinishService = inject(PasswordResetFinishService);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['key']) {
-        this.key = params['key'];
+        this.key.set(params['key']);
       }
-      this.initialized = true;
+      this.initialized.set(true);
     });
   }
 
@@ -54,17 +52,17 @@ export default class PasswordResetFinishComponent implements OnInit, AfterViewIn
   }
 
   finishReset(): void {
-    this.doNotMatch = false;
-    this.error = false;
+    this.doNotMatch.set(false);
+    this.error.set(false);
 
     const { newPassword, confirmPassword } = this.passwordForm.getRawValue();
 
     if (newPassword !== confirmPassword) {
-      this.doNotMatch = true;
+      this.doNotMatch.set(true);
     } else {
-      this.passwordResetFinishService.save(this.key, newPassword).subscribe({
-        next: () => (this.success = true),
-        error: () => (this.error = true),
+      this.passwordResetFinishService.save(this.key(), newPassword).subscribe({
+        next: () => this.success.set(true),
+        error: () => this.error.set(true),
       });
     }
   }

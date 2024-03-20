@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { SortDirective, SortByDirective, sortStateSignal, SortService } from 'app/shared/sort';
 import { Log, LoggersResponse, Level } from './log.model';
 import { LogsService } from './logs.service';
 
@@ -14,14 +14,26 @@ import { LogsService } from './logs.service';
   imports: [SharedModule, FormsModule, SortDirective, SortByDirective],
 })
 export default class LogsComponent implements OnInit {
-  loggers?: Log[];
-  filteredAndOrderedLoggers?: Log[];
-  isLoading = false;
-  filter = '';
-  orderProp: keyof Log = 'name';
-  ascending = true;
+  loggers = signal<Log[] | undefined>(undefined);
+  isLoading = signal(false);
+  filter = signal('');
+  sortState = sortStateSignal({ predicate: 'name', order: 'asc' });
+  filteredAndOrderedLoggers = computed<Log[] | undefined>(() => {
+    let data = this.loggers() ?? [];
+    const filter = this.filter();
+    if (filter) {
+      data = data.filter(logger => logger.name.toLowerCase().includes(filter.toLowerCase()));
+    }
 
-  constructor(private logsService: LogsService) {}
+    const { order, predicate } = this.sortState();
+    if (order && predicate) {
+      data = data.sort(this.sortService.startSort({ order, predicate }, { predicate: 'name', order: 'asc' }));
+    }
+    return data;
+  });
+
+  private logsService = inject(LogsService);
+  private sortService = inject(SortService);
 
   ngOnInit(): void {
     this.findAndExtractLoggers();
@@ -31,35 +43,19 @@ export default class LogsComponent implements OnInit {
     this.logsService.changeLevel(name, level).subscribe(() => this.findAndExtractLoggers());
   }
 
-  filterAndSort(): void {
-    this.filteredAndOrderedLoggers = this.loggers!.filter(
-      logger => !this.filter || logger.name.toLowerCase().includes(this.filter.toLowerCase()),
-    ).sort((a, b) => {
-      if (a[this.orderProp] < b[this.orderProp]) {
-        return this.ascending ? -1 : 1;
-      } else if (a[this.orderProp] > b[this.orderProp]) {
-        return this.ascending ? 1 : -1;
-      } else if (this.orderProp === 'level') {
-        return a.name < b.name ? -1 : 1;
-      }
-      return 0;
-    });
-  }
-
   private findAndExtractLoggers(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.logsService
       .findAll()
       .pipe(
         finalize(() => {
-          this.filterAndSort();
-          this.isLoading = false;
+          this.isLoading.set(false);
         }),
       )
       .subscribe({
         next: (response: LoggersResponse) =>
-          (this.loggers = Object.entries(response.loggers).map(([key, logger]) => new Log(key, logger.effectiveLevel))),
-        error: () => (this.loggers = []),
+          this.loggers.set(Object.entries(response.loggers).map(([key, logger]) => new Log(key, logger.effectiveLevel))),
+        error: () => this.loggers.set([]),
       });
   }
 }

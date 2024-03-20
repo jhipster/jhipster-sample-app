@@ -21,6 +21,7 @@ describe('Label Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             label: expect.any(Object),
+            operations: expect.any(Object),
           }),
         );
       });
@@ -32,6 +33,7 @@ describe('Label Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             label: expect.any(Object),
+            operations: expect.any(Object),
           }),
         );
       });

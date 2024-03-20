@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -28,15 +28,14 @@ export class OperationUpdateComponent implements OnInit {
   bankAccountsSharedCollection: IBankAccount[] = [];
   labelsSharedCollection: ILabel[] = [];
 
-  editForm: OperationFormGroup = this.operationFormService.createOperationFormGroup();
+  protected operationService = inject(OperationService);
+  protected operationFormService = inject(OperationFormService);
+  protected bankAccountService = inject(BankAccountService);
+  protected labelService = inject(LabelService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    protected operationService: OperationService,
-    protected operationFormService: OperationFormService,
-    protected bankAccountService: BankAccountService,
-    protected labelService: LabelService,
-    protected activatedRoute: ActivatedRoute,
-  ) {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: OperationFormGroup = this.operationFormService.createOperationFormGroup();
 
   compareBankAccount = (o1: IBankAccount | null, o2: IBankAccount | null): boolean => this.bankAccountService.compareBankAccount(o1, o2);
 

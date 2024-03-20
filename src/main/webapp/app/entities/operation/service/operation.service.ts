@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-import { map } from 'rxjs/operators';
+import { map, Observable } from 'rxjs';
 
 import dayjs from 'dayjs/esm';
 
@@ -28,12 +26,10 @@ export type EntityArrayResponseType = HttpResponse<IOperation[]>;
 
 @Injectable({ providedIn: 'root' })
 export class OperationService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/operations');
+  protected http = inject(HttpClient);
+  protected applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/operations');
 
   create(operation: NewOperation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(operation);
@@ -87,7 +83,7 @@ export class OperationService {
   ): Type[] {
     const operations: Type[] = operationsToCheck.filter(isPresent);
     if (operations.length > 0) {
-      const operationCollectionIdentifiers = operationCollection.map(operationItem => this.getOperationIdentifier(operationItem)!);
+      const operationCollectionIdentifiers = operationCollection.map(operationItem => this.getOperationIdentifier(operationItem));
       const operationsToAdd = operations.filter(operationItem => {
         const operationIdentifier = this.getOperationIdentifier(operationItem);
         if (operationCollectionIdentifiers.includes(operationIdentifier)) {

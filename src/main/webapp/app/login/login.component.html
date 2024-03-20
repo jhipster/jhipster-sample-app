@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center">
     <div class="col-lg-6 col-md-8 col-sm-10">
       <h1 jhiTranslate="login.title" data-cy="loginTitle">Sign in</h1>
-      @if (authenticationError) {
+      @if (authenticationError()) {
         <div class="alert alert-danger" jhiTranslate="login.messages.error.authentication" data-cy="loginError">
           <strong>Failed to sign in!</strong> Please check your credentials and try again.
         </div>

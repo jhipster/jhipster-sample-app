@@ -34,7 +34,7 @@
     <div class="table-responsive table-entities" id="entities">
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
-          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
@@ -49,6 +49,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="operation.id">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterSampleApplicationApp.label.operation">Operation</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -59,6 +65,14 @@
                 <a [routerLink]="['/label', label.id, 'view']">{{ label.id }}</a>
               </td>
               <td>{{ label.label }}</td>
+              <td>
+                @for (operation of label.operations; track $index; let last = $last) {
+                  <span>
+                    <a class="form-control-static" [routerLink]="['/operation', operation.id, 'view']">{{ operation.id }}</a
+                    >{{ last ? '' : ', ' }}
+                  </span>
+                }
+              </td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/label', label.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

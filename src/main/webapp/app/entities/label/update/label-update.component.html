@@ -35,6 +35,23 @@
             </div>
           }
         </div>
+
+        <div class="mb-3">
+          <label jhiTranslate="jhipsterSampleApplicationApp.label.operation" for="field_operations">Operation</label>
+          <select
+            class="form-control"
+            id="field_operations"
+            data-cy="operation"
+            multiple
+            name="operations"
+            formControlName="operations"
+            [compareWith]="compareOperation"
+          >
+            @for (operationOption of operationsSharedCollection; track $index) {
+              <option [ngValue]="operationOption">{{ operationOption.id }}</option>
+            }
+          </select>
+        </div>
       </div>
 
       <div>

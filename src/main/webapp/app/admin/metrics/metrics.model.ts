@@ -155,5 +155,4 @@ export enum ThreadState {
   Waiting = 'WAITING',
   Blocked = 'BLOCKED',
   New = 'NEW',
-  Terminated = 'TERMINATED',
 }

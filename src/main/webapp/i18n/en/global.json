@@ -8,6 +8,7 @@
       "entities": {
         "main": "Entities",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "adminAuthority": "Authority",
         "bankAccount": "Bank Account",
         "label": "Label",
         "operation": "Operation"

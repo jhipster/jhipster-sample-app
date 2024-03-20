@@ -1,28 +1,22 @@
-@if (loggers) {
+@defer (when loggers() && !isLoading()) {
   <div class="table-responsive">
     <h2 id="logs-page-heading" jhiTranslate="logs.title" data-cy="logsPageHeading">Logs</h2>
 
-    @if (isLoading) {
-      <div class="float-end me-3">
-        <div class="spinner-border"></div>
-      </div>
-    }
-
-    <p jhiTranslate="logs.nbloggers" [translateValues]="{ total: loggers.length }">There are {{ loggers.length }} loggers.</p>
+    <p jhiTranslate="logs.nbloggers" [translateValues]="{ total: loggers()?.length }">There are {{ loggers()?.length }} loggers.</p>
 
     <span jhiTranslate="logs.filter">Filter</span>
-    <input type="text" [(ngModel)]="filter" (ngModelChange)="filterAndSort()" class="form-control" />
+    <input type="text" [ngModel]="filter()" (ngModelChange)="filter.set($event)" class="form-control" />
 
     <table class="table table-sm table-striped table-bordered" aria-describedby="logs-page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="orderProp" [(ascending)]="ascending" (sortChange)="filterAndSort()">
+        <tr jhiSort [sortState]="sortState" (sortChange)="sortState.set($event)">
           <th jhiSortBy="name" scope="col"><span jhiTranslate="logs.table.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th jhiSortBy="level" scope="col"><span jhiTranslate="logs.table.level">Level</span> <fa-icon icon="sort"></fa-icon></th>
         </tr>
       </thead>
 
       <tbody>
-        @for (logger of filteredAndOrderedLoggers; track $index) {
+        @for (logger of filteredAndOrderedLoggers(); track $index) {
           <tr>
             <td>
               <small>{{ logger.name | slice: 0 : 140 }}</small>
@@ -80,5 +74,9 @@
         }
       </tbody>
     </table>
+  </div>
+} @loading {
+  <div class="d-flex justify-content-center me-3">
+    <div class="spinner-border"></div>
   </div>
 }

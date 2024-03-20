@@ -34,7 +34,7 @@
     <div class="table-responsive table-entities" id="entities">
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
-          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
@@ -72,12 +72,7 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody
-          infinite-scroll
-          (scrolled)="loadPage(page + 1)"
-          [infiniteScrollDisabled]="page - 1 >= links['last']"
-          [infiniteScrollDistance]="0"
-        >
+        <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
           @for (operation of operations; track trackId) {
             <tr data-cy="entityTable">
               <td>

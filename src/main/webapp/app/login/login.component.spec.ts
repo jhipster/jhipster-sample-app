@@ -120,7 +120,7 @@ describe('LoginComponent', () => {
       comp.login();
 
       // THEN
-      expect(comp.authenticationError).toEqual(false);
+      expect(comp.authenticationError()).toEqual(false);
       expect(mockLoginService.login).toHaveBeenCalledWith(credentials);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['']);
     });
@@ -133,19 +133,19 @@ describe('LoginComponent', () => {
       comp.login();
 
       // THEN
-      expect(comp.authenticationError).toEqual(false);
+      expect(comp.authenticationError()).toEqual(false);
       expect(mockRouter.navigate).not.toHaveBeenCalled();
     });
 
     it('should stay on login form and show error message on login error', () => {
       // GIVEN
-      mockLoginService.login = jest.fn(() => throwError({}));
+      mockLoginService.login = jest.fn(() => throwError(() => {}));
 
       // WHEN
       comp.login();
 
       // THEN
-      expect(comp.authenticationError).toEqual(true);
+      expect(comp.authenticationError()).toEqual(true);
       expect(mockRouter.navigate).not.toHaveBeenCalled();
     });
   });

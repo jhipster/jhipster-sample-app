@@ -34,8 +34,8 @@ describe('PasswordResetFinishComponent', () => {
   });
 
   it('should define its initial state', () => {
-    expect(comp.initialized).toBe(true);
-    expect(comp.key).toEqual('XYZPDQ');
+    expect(comp.initialized()).toBe(true);
+    expect(comp.key()).toEqual('XYZPDQ');
   });
 
   it('sets focus after the view has been initialized', () => {
@@ -57,7 +57,7 @@ describe('PasswordResetFinishComponent', () => {
 
     comp.finishReset();
 
-    expect(comp.doNotMatch).toBe(true);
+    expect(comp.doNotMatch()).toBe(true);
   });
 
   it('should update success to true after resetting password', inject(
@@ -73,7 +73,7 @@ describe('PasswordResetFinishComponent', () => {
       tick();
 
       expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
-      expect(comp.success).toBe(true);
+      expect(comp.success()).toBe(true);
     }),
   ));
 
@@ -90,8 +90,8 @@ describe('PasswordResetFinishComponent', () => {
       tick();
 
       expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
-      expect(comp.success).toBe(false);
-      expect(comp.error).toBe(true);
+      expect(comp.success()).toBe(false);
+      expect(comp.error()).toBe(true);
     }),
   ));
 });

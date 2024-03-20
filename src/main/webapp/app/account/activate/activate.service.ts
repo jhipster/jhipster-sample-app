@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,10 +6,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 
 @Injectable({ providedIn: 'root' })
 export class ActivateService {
-  constructor(
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
-  ) {}
+  private http = inject(HttpClient);
+  private applicationConfigService = inject(ApplicationConfigService);
 
   get(key: string): Observable<{}> {
     return this.http.get(this.applicationConfigService.getEndpointFor('api/activate'), {

@@ -41,22 +41,18 @@ describe('PasswordResetInitComponent', () => {
     comp.requestReset();
 
     expect(service.save).toHaveBeenCalledWith('user@domain.com');
-    expect(comp.success).toBe(true);
+    expect(comp.success()).toBe(true);
   }));
 
   it('no notification of success upon error response', inject([PasswordResetInitService], (service: PasswordResetInitService) => {
-    jest.spyOn(service, 'save').mockReturnValue(
-      throwError({
-        status: 503,
-        data: 'something else',
-      }),
-    );
+    const err = { status: 503, data: 'something else' };
+    jest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
     comp.resetRequestForm.patchValue({
       email: 'user@domain.com',
     });
     comp.requestReset();
 
     expect(service.save).toHaveBeenCalledWith('user@domain.com');
-    expect(comp.success).toBe(false);
+    expect(comp.success()).toBe(false);
   }));
 });

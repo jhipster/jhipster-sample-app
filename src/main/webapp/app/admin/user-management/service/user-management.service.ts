@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
@@ -9,12 +9,10 @@ import { IUser } from '../user-management.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
-  private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
+  private http = inject(HttpClient);
+  private applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
-  ) {}
+  private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
 
   create(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(this.resourceUrl, user);
@@ -38,6 +36,8 @@ export class UserManagementService {
   }
 
   authorities(): Observable<string[]> {
-    return this.http.get<string[]>(this.applicationConfigService.getEndpointFor('api/authorities'));
+    return this.http
+      .get<Array<{ name: string }>>(this.applicationConfigService.getEndpointFor('api/authorities'))
+      .pipe(map(authorities => authorities.map(a => a.name)));
   }
 }

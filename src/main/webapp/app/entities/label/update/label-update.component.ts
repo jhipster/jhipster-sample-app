@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { IOperation } from 'app/entities/operation/operation.model';
+import { OperationService } from 'app/entities/operation/service/operation.service';
 import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 import { LabelFormService, LabelFormGroup } from './label-form.service';
@@ -21,13 +23,17 @@ export class LabelUpdateComponent implements OnInit {
   isSaving = false;
   label: ILabel | null = null;
 
+  operationsSharedCollection: IOperation[] = [];
+
+  protected labelService = inject(LabelService);
+  protected labelFormService = inject(LabelFormService);
+  protected operationService = inject(OperationService);
+  protected activatedRoute = inject(ActivatedRoute);
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: LabelFormGroup = this.labelFormService.createLabelFormGroup();
 
-  constructor(
-    protected labelService: LabelService,
-    protected labelFormService: LabelFormService,
-    protected activatedRoute: ActivatedRoute,
-  ) {}
+  compareOperation = (o1: IOperation | null, o2: IOperation | null): boolean => this.operationService.compareOperation(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ label }) => {
@@ -35,6 +41,8 @@ export class LabelUpdateComponent implements OnInit {
       if (label) {
         this.updateForm(label);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -74,5 +82,22 @@ export class LabelUpdateComponent implements OnInit {
   protected updateForm(label: ILabel): void {
     this.label = label;
     this.labelFormService.resetForm(this.editForm, label);
+
+    this.operationsSharedCollection = this.operationService.addOperationToCollectionIfMissing<IOperation>(
+      this.operationsSharedCollection,
+      ...(label.operations ?? []),
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.operationService
+      .query()
+      .pipe(map((res: HttpResponse<IOperation[]>) => res.body ?? []))
+      .pipe(
+        map((operations: IOperation[]) =>
+          this.operationService.addOperationToCollectionIfMissing<IOperation>(operations, ...(this.label?.operations ?? [])),
+        ),
+      )
+      .subscribe((operations: IOperation[]) => (this.operationsSharedCollection = operations));
   }
 }

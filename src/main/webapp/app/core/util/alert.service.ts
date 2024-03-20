@@ -1,4 +1,4 @@
-import { Injectable, SecurityContext, NgZone } from '@angular/core';
+import { inject, Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -30,11 +30,8 @@ export class AlertService {
   private alertId = 0;
   private alerts: Alert[] = [];
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private ngZone: NgZone,
-    private translateService: TranslateService,
-  ) {}
+  private sanitizer = inject(DomSanitizer);
+  private translateService = inject(TranslateService);
 
   clear(): void {
     this.alerts = [];

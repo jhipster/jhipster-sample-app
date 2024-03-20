@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,10 +15,8 @@ import { LabelService } from '../service/label.service';
 export class LabelDeleteDialogComponent {
   label?: ILabel;
 
-  constructor(
-    protected labelService: LabelService,
-    protected activeModal: NgbActiveModal,
-  ) {}
+  protected labelService = inject(LabelService);
+  protected activeModal = inject(NgbActiveModal);
 
   cancel(): void {
     this.activeModal.dismiss();

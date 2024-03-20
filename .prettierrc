@@ -14,7 +14,7 @@ bracketSameLine: false
 plugins:
   - prettier-plugin-packagejson
   - prettier-plugin-java
-  
+
 # java rules:
 overrides:
   - files: "*.java"

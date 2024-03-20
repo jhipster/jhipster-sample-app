@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, NgZone, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, Observable, Subscription, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { sortStateSignal, SortDirective, SortByDirective, type SortState, SortService } from 'app/shared/sort';
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { FormsModule } from '@angular/forms';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EntityArrayResponseType, OperationService } from '../service/operation.service';
@@ -34,40 +34,42 @@ import { IOperation } from '../operation.model';
   ],
 })
 export class OperationComponent implements OnInit {
+  subscription: Subscription | null = null;
   operations?: IOperation[];
   isLoading = false;
 
-  predicate = 'id';
-  ascending = true;
+  sortState = sortStateSignal({});
 
   itemsPerPage = ITEMS_PER_PAGE;
-  links: { [key: string]: number } = {
-    last: 0,
-  };
-  page = 1;
+  links: WritableSignal<{ [key: string]: undefined | { [key: string]: string | undefined } }> = signal({});
+  hasMorePage = computed(() => !!this.links().next);
+  isFirstFetch = computed(() => Object.keys(this.links()).length === 0);
 
-  constructor(
-    protected operationService: OperationService,
-    protected activatedRoute: ActivatedRoute,
-    public router: Router,
-    protected parseLinks: ParseLinks,
-    protected modalService: NgbModal,
-  ) {}
-
-  reset(): void {
-    this.page = 1;
-    this.operations = [];
-    this.load();
-  }
-
-  loadPage(page: number): void {
-    this.page = page;
-    this.load();
-  }
+  public router = inject(Router);
+  protected operationService = inject(OperationService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected sortService = inject(SortService);
+  protected parseLinks = inject(ParseLinks);
+  protected modalService = inject(NgbModal);
+  protected ngZone = inject(NgZone);
 
   trackId = (_index: number, item: IOperation): number => this.operationService.getOperationIdentifier(item);
 
   ngOnInit(): void {
+    this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])
+      .pipe(
+        tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+        tap(() => this.reset()),
+        tap(() => this.load()),
+      )
+      .subscribe();
+  }
+
+  reset(): void {
+    this.operations = [];
+  }
+
+  loadNextPage(): void {
     this.load();
   }
 
@@ -78,42 +80,25 @@ export class OperationComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        switchMap(() => this.loadFromBackendWithRouteInformations()),
+        tap(() => this.load()),
       )
-      .subscribe({
-        next: (res: EntityArrayResponseType) => {
-          this.onResponseSuccess(res);
-        },
-      });
+      .subscribe();
   }
 
   load(): void {
-    this.loadFromBackendWithRouteInformations().subscribe({
+    this.queryBackend().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
       },
     });
   }
 
-  navigateToWithComponentValues(): void {
-    this.handleNavigation(this.page, this.predicate, this.ascending);
-  }
-
-  navigateToPage(page = this.page): void {
-    this.handleNavigation(page, this.predicate, this.ascending);
-  }
-
-  protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
-    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
-      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending)),
-    );
+  navigateToWithComponentValues(event: SortState): void {
+    this.handleNavigation(event);
   }
 
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
-    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
-    this.predicate = sort[0];
-    this.ascending = sort[1] === ASC;
+    this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
@@ -124,7 +109,7 @@ export class OperationComponent implements OnInit {
 
   protected fillComponentAttributesFromResponseBody(data: IOperation[] | null): IOperation[] {
     // If there is previous link, data is a infinite scroll pagination content.
-    if ('prev' in this.links) {
+    if (this.links().prev) {
       const operationsNew = this.operations ?? [];
       if (data) {
         for (const d of data) {
@@ -141,45 +126,39 @@ export class OperationComponent implements OnInit {
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {
     const linkHeader = headers.get('link');
     if (linkHeader) {
-      this.links = this.parseLinks.parse(linkHeader);
+      this.links.set(this.parseLinks.parseAll(linkHeader));
     } else {
-      this.links = {
-        last: 0,
-      };
+      this.links.set({});
     }
   }
 
-  protected queryBackend(page?: number, predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
+  protected queryBackend(): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-    const pageToLoad: number = page ?? 1;
     const queryObject: any = {
-      page: pageToLoad - 1,
       size: this.itemsPerPage,
       eagerload: true,
-      sort: this.getSortQueryParam(predicate, ascending),
     };
+    if (this.hasMorePage()) {
+      Object.assign(queryObject, this.links().next);
+    } else if (this.isFirstFetch()) {
+      Object.assign(queryObject, { sort: this.sortService.buildSortParam(this.sortState()) });
+    }
+
     return this.operationService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
-  protected handleNavigation(page = this.page, predicate?: string, ascending?: boolean): void {
+  protected handleNavigation(sortState: SortState): void {
+    this.links.set({});
+
     const queryParamsObj = {
-      page,
-      size: this.itemsPerPage,
-      sort: this.getSortQueryParam(predicate, ascending),
+      sort: this.sortService.buildSortParam(sortState),
     };
 
-    this.router.navigate(['./'], {
-      relativeTo: this.activatedRoute,
-      queryParams: queryParamsObj,
+    this.ngZone.run(() => {
+      this.router.navigate(['./'], {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParamsObj,
+      });
     });
-  }
-
-  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
-    const ascendingQueryParam = ascending ? ASC : DESC;
-    if (predicate === '') {
-      return [];
-    } else {
-      return [predicate + ',' + ascendingQueryParam];
-    }
   }
 }

@@ -3,31 +3,31 @@
     <div class="col-md-8">
       <h1 jhiTranslate="register.title" data-cy="registerTitle">Registration</h1>
 
-      @if (success) {
+      @if (success()) {
         <div class="alert alert-success" jhiTranslate="register.messages.success">
           <strong>Registration saved!</strong> Please check your email for confirmation.
         </div>
       }
 
-      @if (error) {
+      @if (error()) {
         <div class="alert alert-danger" jhiTranslate="register.messages.error.fail">
           <strong>Registration failed!</strong> Please try again later.
         </div>
       }
 
-      @if (errorUserExists) {
+      @if (errorUserExists()) {
         <div class="alert alert-danger" jhiTranslate="register.messages.error.userexists">
           <strong>Login name already registered!</strong> Please choose another one.
         </div>
       }
 
-      @if (errorEmailExists) {
+      @if (errorEmailExists()) {
         <div class="alert alert-danger" jhiTranslate="register.messages.error.emailexists">
           <strong>Email is already in use!</strong> Please choose another one.
         </div>
       }
 
-      @if (doNotMatch) {
+      @if (doNotMatch()) {
         <div class="alert alert-danger" jhiTranslate="global.messages.error.dontmatch">The password and its confirmation do not match!</div>
       }
     </div>
@@ -35,7 +35,7 @@
 
   <div class="d-flex justify-content-center">
     <div class="col-md-8">
-      @if (!success) {
+      @if (!success()) {
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm">
           <div class="mb-3">
             <label class="form-label" for="login" jhiTranslate="global.form.username.label">Username</label>

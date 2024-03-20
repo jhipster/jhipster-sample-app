@@ -7,10 +7,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
 import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { UserService } from 'app/entities/user/service/user.service';
 import { BankAccountService } from '../service/bank-account.service';
 import { IBankAccount } from '../bank-account.model';
-
 import { BankAccountFormService } from './bank-account-form.service';
 
 import { BankAccountUpdateComponent } from './bank-account-update.component';
@@ -51,10 +50,10 @@ describe('BankAccount Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call User query and add missing value', () => {
       const bankAccount: IBankAccount = { id: 456 };
-      const user: IUser = { id: 3995 };
+      const user: IUser = { id: 19560 };
       bankAccount.user = user;
 
-      const userCollection: IUser[] = [{ id: 28177 }];
+      const userCollection: IUser[] = [{ id: 32469 }];
       jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
       const additionalUsers = [user];
       const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
@@ -73,7 +72,7 @@ describe('BankAccount Management Update Component', () => {
 
     it('Should update editForm', () => {
       const bankAccount: IBankAccount = { id: 456 };
-      const user: IUser = { id: 7253 };
+      const user: IUser = { id: 13561 };
       bankAccount.user = user;
 
       activatedRoute.data = of({ bankAccount });

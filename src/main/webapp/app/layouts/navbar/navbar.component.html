@@ -17,7 +17,7 @@
     >
       <fa-icon icon="bars"></fa-icon>
     </a>
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed">
+    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed()">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
@@ -28,7 +28,7 @@
           </a>
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-        @if (account !== null) {
+        @if (account() !== null) {
           <li
             ngbDropdown
             class="nav-item dropdown pointer"
@@ -99,6 +99,19 @@
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
             <li>
+              <a
+                class="dropdown-item"
+                routerLink="/authority"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.entities.adminAuthority">Authority</span>
+              </a>
+            </li>
+            <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+            <li>
               <a class="dropdown-item" routerLink="/admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.admin.userManagement">User management</span>
@@ -136,7 +149,6 @@
                 </a>
               </li>
             }
-            <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
             @if (!inProduction) {
               <li>
                 <a class="dropdown-item" href="./h2-console/" target="_tab" (click)="collapseNavbar()">
@@ -178,19 +190,19 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
-            @if (!account?.imageUrl) {
+            @if (!account()?.imageUrl) {
               <span>
                 <fa-icon icon="user"></fa-icon>
                 <span jhiTranslate="global.menu.account.main">Account</span>
               </span>
             } @else {
               <span>
-                <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+                <img [src]="account()!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
               </span>
             }
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
-            @if (account !== null) {
+            @if (account() !== null) {
               <li>
                 <a
                   class="dropdown-item"

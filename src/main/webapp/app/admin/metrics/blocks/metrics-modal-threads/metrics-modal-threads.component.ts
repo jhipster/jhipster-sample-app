@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
@@ -21,7 +21,7 @@ export class MetricsModalThreadsComponent implements OnInit {
   threadDumpTimedWaiting = 0;
   threadDumpWaiting = 0;
 
-  constructor(private activeModal: NgbActiveModal) {}
+  private activeModal = inject(NgbActiveModal);
 
   ngOnInit(): void {
     this.threads?.forEach(thread => {

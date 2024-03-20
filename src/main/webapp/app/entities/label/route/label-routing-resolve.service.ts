@@ -7,7 +7,7 @@ import { mergeMap } from 'rxjs/operators';
 import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
-export const labelResolve = (route: ActivatedRouteSnapshot): Observable<null | ILabel> => {
+const labelResolve = (route: ActivatedRouteSnapshot): Observable<null | ILabel> => {
   const id = route.params['id'];
   if (id) {
     return inject(LabelService)

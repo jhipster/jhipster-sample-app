@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
+import { IOperation } from 'app/entities/operation/operation.model';
+import { OperationService } from 'app/entities/operation/service/operation.service';
 import { LabelService } from '../service/label.service';
 import { ILabel } from '../label.model';
 import { LabelFormService } from './label-form.service';
@@ -18,6 +20,7 @@ describe('Label Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let labelFormService: LabelFormService;
   let labelService: LabelService;
+  let operationService: OperationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,17 +42,43 @@ describe('Label Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     labelFormService = TestBed.inject(LabelFormService);
     labelService = TestBed.inject(LabelService);
+    operationService = TestBed.inject(OperationService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call Operation query and add missing value', () => {
       const label: ILabel = { id: 456 };
+      const operations: IOperation[] = [{ id: 1022 }];
+      label.operations = operations;
+
+      const operationCollection: IOperation[] = [{ id: 17395 }];
+      jest.spyOn(operationService, 'query').mockReturnValue(of(new HttpResponse({ body: operationCollection })));
+      const additionalOperations = [...operations];
+      const expectedCollection: IOperation[] = [...additionalOperations, ...operationCollection];
+      jest.spyOn(operationService, 'addOperationToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ label });
       comp.ngOnInit();
 
+      expect(operationService.query).toHaveBeenCalled();
+      expect(operationService.addOperationToCollectionIfMissing).toHaveBeenCalledWith(
+        operationCollection,
+        ...additionalOperations.map(expect.objectContaining),
+      );
+      expect(comp.operationsSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const label: ILabel = { id: 456 };
+      const operation: IOperation = { id: 30603 };
+      label.operations = [operation];
+
+      activatedRoute.data = of({ label });
+      comp.ngOnInit();
+
+      expect(comp.operationsSharedCollection).toContain(operation);
       expect(comp.label).toEqual(label);
     });
   });
@@ -119,6 +148,18 @@ describe('Label Management Update Component', () => {
       expect(labelService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareOperation', () => {
+      it('Should forward to operationService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(operationService, 'compareOperation');
+        comp.compareOperation(entity, entity2);
+        expect(operationService.compareOperation).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

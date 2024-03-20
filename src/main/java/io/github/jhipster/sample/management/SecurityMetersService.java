@@ -26,8 +26,7 @@ public class SecurityMetersService {
     }
 
     private Counter.Builder invalidTokensCounterForCauseBuilder(String cause) {
-        return Counter
-            .builder(INVALID_TOKENS_METER_NAME)
+        return Counter.builder(INVALID_TOKENS_METER_NAME)
             .baseUnit(INVALID_TOKENS_METER_BASE_UNIT)
             .description(INVALID_TOKENS_METER_DESCRIPTION)
             .tag(INVALID_TOKENS_METER_CAUSE_DIMENSION, cause);

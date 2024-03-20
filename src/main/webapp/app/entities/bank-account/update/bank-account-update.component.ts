@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { UserService } from 'app/entities/user/service/user.service';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 import { BankAccountFormService, BankAccountFormGroup } from './bank-account-form.service';
@@ -25,14 +25,13 @@ export class BankAccountUpdateComponent implements OnInit {
 
   usersSharedCollection: IUser[] = [];
 
-  editForm: BankAccountFormGroup = this.bankAccountFormService.createBankAccountFormGroup();
+  protected bankAccountService = inject(BankAccountService);
+  protected bankAccountFormService = inject(BankAccountFormService);
+  protected userService = inject(UserService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    protected bankAccountService: BankAccountService,
-    protected bankAccountFormService: BankAccountFormService,
-    protected userService: UserService,
-    protected activatedRoute: ActivatedRoute,
-  ) {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: BankAccountFormGroup = this.bankAccountFormService.createBankAccountFormGroup();
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 

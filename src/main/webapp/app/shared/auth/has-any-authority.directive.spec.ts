@@ -1,9 +1,7 @@
 jest.mock('app/core/auth/account.service');
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, WritableSignal, signal } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -20,7 +18,7 @@ class TestHasAnyAuthorityDirectiveComponent {
 
 describe('HasAnyAuthorityDirective tests', () => {
   let mockAccountService: AccountService;
-  const authenticationState = new Subject<Account | null>();
+  let currentAccount: WritableSignal<Account | null>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -32,7 +30,8 @@ describe('HasAnyAuthorityDirective tests', () => {
 
   beforeEach(() => {
     mockAccountService = TestBed.inject(AccountService);
-    mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
+    currentAccount = signal<Account | null>({ activated: true, authorities: [] } as any);
+    mockAccountService.trackCurrentAccount = jest.fn(() => currentAccount);
   });
 
   describe('set jhiHasAnyAuthority', () => {
@@ -41,6 +40,7 @@ describe('HasAnyAuthorityDirective tests', () => {
       mockAccountService.hasAnyAuthority = jest.fn(() => true);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
+      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();
@@ -54,6 +54,7 @@ describe('HasAnyAuthorityDirective tests', () => {
       mockAccountService.hasAnyAuthority = jest.fn(() => false);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
+      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();
@@ -66,9 +67,10 @@ describe('HasAnyAuthorityDirective tests', () => {
   describe('change authorities', () => {
     it('should show or not show restricted content correctly if user authorities are changing', () => {
       // GIVEN
-      mockAccountService.hasAnyAuthority = jest.fn(() => true);
+      mockAccountService.hasAnyAuthority = jest.fn((): boolean => Boolean(currentAccount()));
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
+      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();
@@ -77,55 +79,20 @@ describe('HasAnyAuthorityDirective tests', () => {
       expect(comp.content).toBeDefined();
 
       // GIVEN
-      mockAccountService.hasAnyAuthority = jest.fn(() => false);
+      currentAccount.set(null);
 
       // WHEN
-      authenticationState.next(null);
       fixture.detectChanges();
 
       // THEN
       expect(comp.content).toBeUndefined();
 
-      // GIVEN
-      mockAccountService.hasAnyAuthority = jest.fn(() => true);
-
       // WHEN
-      authenticationState.next(null);
+      currentAccount.set({ activated: true, authorities: ['foo'] } as any);
       fixture.detectChanges();
 
       // THEN
       expect(comp.content).toBeDefined();
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    it('should destroy authentication state subscription on component destroy', () => {
-      // GIVEN
-      mockAccountService.hasAnyAuthority = jest.fn(() => true);
-      const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
-      const div = fixture.debugElement.queryAllNodes(By.directive(HasAnyAuthorityDirective))[0];
-      const hasAnyAuthorityDirective = div.injector.get(HasAnyAuthorityDirective);
-
-      // WHEN
-      fixture.detectChanges();
-
-      // THEN
-      expect(mockAccountService.hasAnyAuthority).toHaveBeenCalled();
-
-      // WHEN
-      jest.clearAllMocks();
-      authenticationState.next(null);
-
-      // THEN
-      expect(mockAccountService.hasAnyAuthority).toHaveBeenCalled();
-
-      // WHEN
-      jest.clearAllMocks();
-      hasAnyAuthorityDirective.ngOnDestroy();
-      authenticationState.next(null);
-
-      // THEN
-      expect(mockAccountService.hasAnyAuthority).not.toHaveBeenCalled();
     });
   });
 });

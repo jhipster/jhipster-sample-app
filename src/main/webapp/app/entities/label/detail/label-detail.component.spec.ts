@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { LabelDetailComponent } from './label-detail.component';
 
 describe('Label Management Detail Component', () => {
+  let comp: LabelDetailComponent;
+  let fixture: ComponentFixture<LabelDetailComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LabelDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
@@ -26,6 +29,11 @@ describe('Label Management Detail Component', () => {
       .compileComponents();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LabelDetailComponent);
+    comp = fixture.componentInstance;
+  });
+
   describe('OnInit', () => {
     it('Should load label on init', async () => {
       const harness = await RouterTestingHarness.create();
@@ -33,6 +41,14 @@ describe('Label Management Detail Component', () => {
 
       // THEN
       expect(instance.label).toEqual(expect.objectContaining({ id: 123 }));
+    });
+  });
+
+  describe('PreviousState', () => {
+    it('Should navigate to previous state', () => {
+      jest.spyOn(window.history, 'back');
+      comp.previousState();
+      expect(window.history.back).toHaveBeenCalled();
     });
   });
 });

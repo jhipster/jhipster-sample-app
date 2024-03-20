@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, signal } from '@angular/core';
 import { combineLatest } from 'rxjs';
 
 import SharedModule from 'app/shared/shared.module';
@@ -33,34 +33,32 @@ import { MetricsSystemComponent } from './blocks/metrics-system/metrics-system.c
   ],
 })
 export default class MetricsComponent implements OnInit {
-  metrics?: Metrics;
-  threads?: Thread[];
-  updatingMetrics = true;
+  metrics = signal<Metrics | undefined>(undefined);
+  threads = signal<Thread[] | undefined>(undefined);
+  updatingMetrics = signal(true);
 
-  constructor(
-    private metricsService: MetricsService,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  private metricsService = inject(MetricsService);
+  private changeDetector = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.refresh();
   }
 
   refresh(): void {
-    this.updatingMetrics = true;
+    this.updatingMetrics.set(true);
     combineLatest([this.metricsService.getMetrics(), this.metricsService.threadDump()]).subscribe(([metrics, threadDump]) => {
-      this.metrics = metrics;
-      this.threads = threadDump.threads;
-      this.updatingMetrics = false;
+      this.metrics.set(metrics);
+      this.threads.set(threadDump.threads);
+      this.updatingMetrics.set(false);
       this.changeDetector.markForCheck();
     });
   }
 
   metricsKeyExists(key: keyof Metrics): boolean {
-    return Boolean(this.metrics?.[key]);
+    return Boolean(this.metrics()?.[key]);
   }
 
   metricsKeyExistsAndObjectNotEmpty(key: keyof Metrics): boolean {
-    return Boolean(this.metrics?.[key] && JSON.stringify(this.metrics[key]) !== '{}');
+    return Boolean(this.metrics()?.[key] && JSON.stringify(this.metrics()?.[key]) !== '{}');
   }
 }

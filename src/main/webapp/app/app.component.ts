@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import locale from '@angular/common/locales/en';
 import dayjs from 'dayjs/esm';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import locale from '@angular/common/locales/en';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -20,10 +20,14 @@ import MainComponent from './layouts/main/main.component';
   ],
 })
 export default class AppComponent {
-  constructor(applicationConfigService: ApplicationConfigService, iconLibrary: FaIconLibrary, dpConfig: NgbDatepickerConfig) {
-    applicationConfigService.setEndpointPrefix(SERVER_API_URL);
+  private applicationConfigService = inject(ApplicationConfigService);
+  private iconLibrary = inject(FaIconLibrary);
+  private dpConfig = inject(NgbDatepickerConfig);
+
+  constructor() {
+    this.applicationConfigService.setEndpointPrefix(SERVER_API_URL);
     registerLocaleData(locale);
-    iconLibrary.addIcons(...fontAwesomeIcons);
-    dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
+    this.iconLibrary.addIcons(...fontAwesomeIcons);
+    this.dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
   }
 }

@@ -14,11 +14,12 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type LabelFormGroupInput = ILabel | PartialWithRequiredKeyOf<NewLabel>;
 
-type LabelFormDefaults = Pick<NewLabel, 'id'>;
+type LabelFormDefaults = Pick<NewLabel, 'id' | 'operations'>;
 
 type LabelFormGroupContent = {
   id: FormControl<ILabel['id'] | NewLabel['id']>;
   label: FormControl<ILabel['label']>;
+  operations: FormControl<ILabel['operations']>;
 };
 
 export type LabelFormGroup = FormGroup<LabelFormGroupContent>;
@@ -41,6 +42,7 @@ export class LabelFormService {
       label: new FormControl(labelRawValue.label, {
         validators: [Validators.required, Validators.minLength(3)],
       }),
+      operations: new FormControl(labelRawValue.operations ?? []),
     });
   }
 
@@ -61,6 +63,7 @@ export class LabelFormService {
   private getFormDefaults(): LabelFormDefaults {
     return {
       id: null,
+      operations: [],
     };
   }
 }

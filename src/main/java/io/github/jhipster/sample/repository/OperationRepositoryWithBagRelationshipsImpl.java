@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageImpl;
  */
 public class OperationRepositoryWithBagRelationshipsImpl implements OperationRepositoryWithBagRelationships {
 
+    private static final String ID_PARAMETER = "id";
+    private static final String OPERATIONS_PARAMETER = "operations";
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -40,7 +43,7 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
                 "select operation from Operation operation left join fetch operation.labels where operation.id = :id",
                 Operation.class
             )
-            .setParameter("id", result.getId())
+            .setParameter(ID_PARAMETER, result.getId())
             .getSingleResult();
     }
 
@@ -52,7 +55,7 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
                 "select operation from Operation operation left join fetch operation.labels where operation in :operations",
                 Operation.class
             )
-            .setParameter("operations", operations)
+            .setParameter(OPERATIONS_PARAMETER, operations)
             .getResultList();
         Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
         return result;

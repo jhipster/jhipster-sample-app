@@ -54,9 +54,9 @@ describe('MetricsComponent', () => {
 
       // THEN
       expect(service.getMetrics).toHaveBeenCalled();
-      expect(comp.metrics).toEqual(metrics);
-      expect(comp.threads).toEqual(threadDump.threads);
-      expect(comp.updatingMetrics).toBeFalsy();
+      expect(comp.metrics()).toEqual(metrics);
+      expect(comp.threads()).toEqual(threadDump.threads);
+      expect(comp.updatingMetrics()).toBeFalsy();
       expect(changeDetector.constructor.prototype.markForCheck).toHaveBeenCalled();
     });
   });
@@ -64,7 +64,7 @@ describe('MetricsComponent', () => {
   describe('metricsKeyExists', () => {
     it('should check that metrics key exists', () => {
       // GIVEN
-      comp.metrics = {
+      comp.metrics.set({
         garbageCollector: {
           'PS Scavenge': {
             collectionCount: 0,
@@ -75,7 +75,7 @@ describe('MetricsComponent', () => {
             collectionTime: 0,
           },
         },
-      } as unknown as Metrics;
+      } as unknown as Metrics);
 
       // WHEN
       const garbageCollectorKeyExists = comp.metricsKeyExists('garbageCollector');
@@ -86,7 +86,7 @@ describe('MetricsComponent', () => {
 
     it('should check that metrics key does not exist', () => {
       // GIVEN
-      comp.metrics = {
+      comp.metrics.set({
         garbageCollector: {
           'PS Scavenge': {
             collectionCount: 0,
@@ -97,7 +97,7 @@ describe('MetricsComponent', () => {
             collectionTime: 0,
           },
         },
-      } as unknown as Metrics;
+      } as unknown as Metrics);
 
       // WHEN
       const databasesCollectorKeyExists = comp.metricsKeyExists('databases');
@@ -110,7 +110,7 @@ describe('MetricsComponent', () => {
   describe('metricsKeyExistsAndObjectNotEmpty', () => {
     it('should check that metrics key exists and is not empty', () => {
       // GIVEN
-      comp.metrics = {
+      comp.metrics.set({
         garbageCollector: {
           'PS Scavenge': {
             collectionCount: 0,
@@ -121,7 +121,7 @@ describe('MetricsComponent', () => {
             collectionTime: 0,
           },
         },
-      } as unknown as Metrics;
+      } as unknown as Metrics);
 
       // WHEN
       const garbageCollectorKeyExistsAndNotEmpty = comp.metricsKeyExistsAndObjectNotEmpty('garbageCollector');
@@ -132,9 +132,9 @@ describe('MetricsComponent', () => {
 
     it('should check that metrics key is empty', () => {
       // GIVEN
-      comp.metrics = {
+      comp.metrics.set({
         garbageCollector: {},
-      } as Metrics;
+      } as Metrics);
 
       // WHEN
       const garbageCollectorKeyEmpty = comp.metricsKeyExistsAndObjectNotEmpty('garbageCollector');

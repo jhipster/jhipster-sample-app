@@ -1,44 +1,54 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { Authority } from 'app/config/authority.constants';
-import { User } from '../user-management.model';
 
 import UserManagementDetailComponent from './user-management-detail.component';
 
 describe('User Management Detail Component', () => {
-  let comp: UserManagementDetailComponent;
-  let fixture: ComponentFixture<UserManagementDetailComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [UserManagementDetailComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [UserManagementDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            data: of({ user: new User(123, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') }),
-          },
-        },
+        provideRouter(
+          [
+            {
+              path: '**',
+              component: UserManagementDetailComponent,
+              resolve: {
+                user: () =>
+                  of({
+                    id: 123,
+                    login: 'user',
+                    firstName: 'first',
+                    lastName: 'last',
+                    email: 'first@last.com',
+                    activated: true,
+                    langKey: 'en',
+                    authorities: [Authority.USER],
+                    createdBy: 'admin',
+                  }),
+              },
+            },
+          ],
+          withComponentInputBinding(),
+        ),
       ],
     })
       .overrideTemplate(UserManagementDetailComponent, '')
       .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserManagementDetailComponent);
-    comp = fixture.componentInstance;
   });
 
-  describe('OnInit', () => {
-    it('Should call load all on init', () => {
+  describe('Construct', () => {
+    it('Should call load all on construct', async () => {
       // WHEN
-      comp.ngOnInit();
+      const harness = await RouterTestingHarness.create();
+      const instance = await harness.navigateByUrl('/', UserManagementDetailComponent);
 
       // THEN
-      expect(comp.user).toEqual(
+      expect(instance.user).toEqual(
         expect.objectContaining({
           id: 123,
           login: 'user',

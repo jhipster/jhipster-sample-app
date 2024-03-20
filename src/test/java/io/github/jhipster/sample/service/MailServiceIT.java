@@ -213,8 +213,9 @@ class MailServiceIT {
 
             String emailTitle = (String) properties.get("email.test.title");
             assertThat(message.getSubject()).isEqualTo(emailTitle);
-            assertThat(message.getContent().toString())
-                .isEqualToNormalizingNewlines("<html>" + emailTitle + ", http://127.0.0.1:8080, john</html>\n");
+            assertThat(message.getContent().toString()).isEqualToNormalizingNewlines(
+                "<html>" + emailTitle + ", http://127.0.0.1:8080, john</html>\n"
+            );
         }
     }
 

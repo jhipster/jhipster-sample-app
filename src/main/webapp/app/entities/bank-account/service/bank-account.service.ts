@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,12 +14,10 @@ export type EntityArrayResponseType = HttpResponse<IBankAccount[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
+  protected http = inject(HttpClient);
+  protected applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
 
   create(bankAccount: NewBankAccount): Observable<EntityResponseType> {
     return this.http.post<IBankAccount>(this.resourceUrl, bankAccount, { observe: 'response' });
@@ -64,9 +62,7 @@ export class BankAccountService {
   ): Type[] {
     const bankAccounts: Type[] = bankAccountsToCheck.filter(isPresent);
     if (bankAccounts.length > 0) {
-      const bankAccountCollectionIdentifiers = bankAccountCollection.map(
-        bankAccountItem => this.getBankAccountIdentifier(bankAccountItem)!,
-      );
+      const bankAccountCollectionIdentifiers = bankAccountCollection.map(bankAccountItem => this.getBankAccountIdentifier(bankAccountItem));
       const bankAccountsToAdd = bankAccounts.filter(bankAccountItem => {
         const bankAccountIdentifier = this.getBankAccountIdentifier(bankAccountItem);
         if (bankAccountCollectionIdentifiers.includes(bankAccountIdentifier)) {

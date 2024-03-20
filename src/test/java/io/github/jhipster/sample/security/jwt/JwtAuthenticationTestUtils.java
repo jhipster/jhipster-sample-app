@@ -44,12 +44,11 @@ public class JwtAuthenticationTestUtils {
 
         var now = Instant.now();
 
-        JwtClaimsSet claims = JwtClaimsSet
-            .builder()
+        JwtClaimsSet claims = JwtClaimsSet.builder()
             .issuedAt(now)
             .expiresAt(now.plusSeconds(60))
             .subject(user)
-            .claims(customClain -> customClain.put(AUTHORITIES_KEY, Collections.singletonList("ROLE_ADMIN")))
+            .claims(customClaim -> customClaim.put(AUTHORITIES_KEY, Collections.singletonList("ROLE_ADMIN")))
             .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
@@ -80,7 +79,7 @@ public class JwtAuthenticationTestUtils {
         return encoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
-    public static String createInvalidToken(String jwtKey) throws Exception {
+    public static String createInvalidToken(String jwtKey) {
         return createValidToken(jwtKey).substring(1);
     }
 
