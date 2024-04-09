@@ -7,8 +7,8 @@ import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
-  selector: 'jhi-login',
   standalone: true,
+  selector: 'jhi-login',
   imports: [SharedModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
 })

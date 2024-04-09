@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { LabelDetailComponent } from './label-detail.component';
@@ -11,7 +11,7 @@ describe('Label Management Detail Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LabelDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+      imports: [LabelDetailComponent],
       providers: [
         provideRouter(
           [
@@ -40,7 +40,7 @@ describe('Label Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', LabelDetailComponent);
 
       // THEN
-      expect(instance.label).toEqual(expect.objectContaining({ id: 123 }));
+      expect(instance.label()).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 

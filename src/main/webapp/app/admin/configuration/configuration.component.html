@@ -1,6 +1,6 @@
 @if (allBeans()) {
   <div>
-    <h2 id="configuration-page-heading" jhiTranslate="configuration.title" data-cy="configurationPageHeading">Configuration</h2>
+    <h2 id="configuration-page-heading" data-cy="configurationPageHeading" jhiTranslate="configuration.title">Configuration</h2>
 
     <span jhiTranslate="configuration.filter">Filter (by prefix)</span>
     <input type="text" [ngModel]="beansFilter()" (ngModelChange)="beansFilter.set($event)" class="form-control" />

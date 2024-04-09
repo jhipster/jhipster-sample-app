@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (operation) {
+    @if (operation()) {
       <div>
         <h2 data-cy="operationDetailsHeading"><span jhiTranslate="jhipsterSampleApplicationApp.operation.detail.title">Operation</span></h2>
 
@@ -13,33 +13,33 @@
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ operation.id }}</span>
+            <span>{{ operation()!.id }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</span></dt>
           <dd>
-            <span>{{ operation.date | formatMediumDatetime }}</span>
+            <span>{{ operation()!.date | formatMediumDatetime }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.description">Description</span></dt>
           <dd>
-            <span>{{ operation.description }}</span>
+            <span>{{ operation()!.description }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</span></dt>
           <dd>
-            <span>{{ operation.amount }}</span>
+            <span>{{ operation()!.amount }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
           <dd>
-            @if (operation.bankAccount) {
+            @if (operation()!.bankAccount) {
               <div>
-                <a [routerLink]="['/bank-account', operation.bankAccount.id, 'view']">{{ operation.bankAccount.name }}</a>
+                <a [routerLink]="['/bank-account', operation()!.bankAccount?.id, 'view']">{{ operation()!.bankAccount?.name }}</a>
               </div>
             }
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.operation.label">Label</span></dt>
           <dd>
-            @for (label of operation.labels; track $index; let last = $last) {
+            @for (label of operation()!.labels; track $index; let last = $last) {
               <span>
-                <a [routerLink]="['/label', label.id, 'view']">{{ label.label }}</a
+                <a [routerLink]="['/label', label.id, 'view']">{{ label?.label }}</a
                 >{{ last ? '' : ', ' }}
               </span>
             }
@@ -50,7 +50,7 @@
           <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
-        <button type="button" [routerLink]="['/operation', operation.id, 'edit']" class="btn btn-primary">
+        <button type="button" [routerLink]="['/operation', operation()!.id, 'edit']" class="btn btn-primary">
           <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>

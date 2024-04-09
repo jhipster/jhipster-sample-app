@@ -14,13 +14,13 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" for="field_id" jhiTranslate="jhipsterSampleApplicationApp.label.id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.label.label" for="field_label">Label</label>
+          <label class="form-label" for="field_label" jhiTranslate="jhipsterSampleApplicationApp.label.label">Label</label>
           <input type="text" class="form-control" name="label" id="field_label" data-cy="label" formControlName="label" />
           @if (editForm.get('label')!.invalid && (editForm.get('label')!.dirty || editForm.get('label')!.touched)) {
             <div>
@@ -28,7 +28,7 @@
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
               @if (editForm.get('label')?.errors?.minlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }"
+                <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '3' }"
                   >This field is required to be at least 3 characters.</small
                 >
               }
@@ -37,7 +37,7 @@
         </div>
 
         <div class="mb-3">
-          <label jhiTranslate="jhipsterSampleApplicationApp.label.operation" for="field_operations">Operation</label>
+          <label for="field_operations" jhiTranslate="jhipsterSampleApplicationApp.label.operation">Operation</label>
           <select
             class="form-control"
             id="field_operations"

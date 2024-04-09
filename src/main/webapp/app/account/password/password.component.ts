@@ -9,8 +9,8 @@ import { PasswordService } from './password.service';
 import PasswordStrengthBarComponent from './password-strength-bar/password-strength-bar.component';
 
 @Component({
-  selector: 'jhi-password',
   standalone: true,
+  selector: 'jhi-password',
   imports: [SharedModule, FormsModule, ReactiveFormsModule, PasswordStrengthBarComponent],
   templateUrl: './password.component.html',
 })

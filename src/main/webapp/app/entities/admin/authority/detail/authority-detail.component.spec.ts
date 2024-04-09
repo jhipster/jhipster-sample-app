@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { AuthorityDetailComponent } from './authority-detail.component';
@@ -11,7 +11,7 @@ describe('Authority Management Detail Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthorityDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+      imports: [AuthorityDetailComponent],
       providers: [
         provideRouter(
           [
@@ -40,7 +40,7 @@ describe('Authority Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', AuthorityDetailComponent);
 
       // THEN
-      expect(instance.authority).toEqual(expect.objectContaining({ name: 'ABC' }));
+      expect(instance.authority()).toEqual(expect.objectContaining({ name: 'ABC' }));
     });
   });
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 import { Services } from 'app/admin/metrics/metrics.model';
@@ -13,10 +13,10 @@ export class MetricsEndpointsRequestsComponent {
   /**
    * object containing service related metrics
    */
-  @Input() endpointsRequestsMetrics?: Services;
+  endpointsRequestsMetrics = input<Services>();
 
   /**
    * boolean field saying if the metrics are in the process of being updated
    */
-  @Input() updating?: boolean;
+  updating = input<boolean>();
 }

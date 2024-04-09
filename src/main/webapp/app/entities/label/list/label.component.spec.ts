@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, fakeAsync, inject, tick } from '@angular/cor
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,7 +19,7 @@ describe('Label Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'label', component: LabelComponent }]), HttpClientTestingModule, LabelComponent],
+      imports: [HttpClientTestingModule, LabelComponent],
       providers: [
         {
           provide: ActivatedRoute,

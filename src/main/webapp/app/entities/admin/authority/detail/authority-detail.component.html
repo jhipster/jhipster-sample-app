@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (authority) {
+    @if (authority()) {
       <div>
         <h2 data-cy="authorityDetailsHeading">
           <span jhiTranslate="jhipsterSampleApplicationApp.adminAuthority.detail.title">Authority</span>
@@ -15,7 +15,7 @@
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.adminAuthority.name">Name</span></dt>
           <dd>
-            <span>{{ authority.name }}</span>
+            <span>{{ authority()!.name }}</span>
           </dd>
         </dl>
 

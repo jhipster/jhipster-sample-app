@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (bankAccount) {
+    @if (bankAccount()) {
       <div>
         <h2 data-cy="bankAccountDetailsHeading">
           <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.detail.title">Bank Account</span>
@@ -15,19 +15,19 @@
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ bankAccount.id }}</span>
+            <span>{{ bankAccount()!.id }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name">Name</span></dt>
           <dd>
-            <span>{{ bankAccount.name }}</span>
+            <span>{{ bankAccount()!.name }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance">Balance</span></dt>
           <dd>
-            <span>{{ bankAccount.balance }}</span>
+            <span>{{ bankAccount()!.balance }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</span></dt>
           <dd>
-            <span>{{ bankAccount.user?.login }}</span>
+            <span>{{ bankAccount()!.user?.login }}</span>
           </dd>
         </dl>
 
@@ -35,7 +35,7 @@
           <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
-        <button type="button" [routerLink]="['/bank-account', bankAccount.id, 'edit']" class="btn btn-primary">
+        <button type="button" [routerLink]="['/bank-account', bankAccount()!.id, 'edit']" class="btn btn-primary">
           <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>

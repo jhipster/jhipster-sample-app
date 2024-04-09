@@ -21,7 +21,7 @@
             }
 
             @if (editForm.get('login')?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }"
+              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
                 >This field cannot be longer than 50 characters.</small
               >
             }
@@ -42,7 +42,7 @@
         @if (editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)) {
           <div>
             @if (editForm.get('firstName')?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }"
+              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
                 >This field cannot be longer than 50 characters.</small
               >
             }
@@ -57,7 +57,7 @@
         @if (editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)) {
           <div>
             @if (editForm.get('lastName')?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }"
+              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
                 >This field cannot be longer than 50 characters.</small
               >
             }
@@ -76,13 +76,13 @@
             }
 
             @if (editForm.get('email')?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }"
+              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '100' }"
                 >This field cannot be longer than 100 characters.</small
               >
             }
 
             @if (editForm.get('email')?.errors?.minlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 5 }"
+              <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '5' }"
                 >This field is required to be at least 5 characters.</small
               >
             }

@@ -9,8 +9,8 @@ import FooterComponent from '../footer/footer.component';
 import PageRibbonComponent from '../profiles/page-ribbon.component';
 
 @Component({
-  selector: 'jhi-main',
   standalone: true,
+  selector: 'jhi-main',
   templateUrl: './main.component.html',
   providers: [AppPageTitleStrategy],
   imports: [RouterOutlet, FooterComponent, PageRibbonComponent],

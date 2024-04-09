@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 import { GarbageCollector } from 'app/admin/metrics/metrics.model';
@@ -13,10 +13,10 @@ export class MetricsGarbageCollectorComponent {
   /**
    * object containing garbage collector related metrics
    */
-  @Input() garbageCollectorMetrics?: GarbageCollector;
+  garbageCollectorMetrics = input<GarbageCollector>();
 
   /**
    * boolean field saying if the metrics are in the process of being updated
    */
-  @Input() updating?: boolean;
+  updating = input<boolean>();
 }

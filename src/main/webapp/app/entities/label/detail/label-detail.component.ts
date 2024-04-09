@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
@@ -12,7 +12,7 @@ import { ILabel } from '../label.model';
   imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
 })
 export class LabelDetailComponent {
-  @Input() label: ILabel | null = null;
+  label = input<ILabel | null>(null);
 
   previousState(): void {
     window.history.back();

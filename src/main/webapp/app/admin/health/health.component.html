@@ -1,6 +1,6 @@
 <div>
   <h2>
-    <span id="health-page-heading" jhiTranslate="health.title" data-cy="healthPageHeading">Health Checks</span>
+    <span id="health-page-heading" data-cy="healthPageHeading" jhiTranslate="health.title">Health Checks</span>
 
     <button class="btn btn-primary float-end" (click)="refresh()">
       <fa-icon icon="sync"></fa-icon> <span jhiTranslate="health.refresh.button">Refresh</span>
@@ -20,18 +20,27 @@
         <tbody>
           @for (componentHealth of health.components | keyvalue; track componentHealth.key) {
             <tr>
-              <td>
-                {{ 'health.indicator.' + componentHealth.key | translate }}
+              <td [jhiTranslate]="'health.indicator.' + componentHealth.key">
+                {{
+                  {
+                    diskSpace: 'Disk space',
+                    mail: 'Email',
+                    livenessState: 'Liveness state',
+                    readinessState: 'Readiness state',
+                    ping: 'Application',
+                    db: 'Database'
+                  }[componentHealth.key] || componentHealth.key
+                }}
               </td>
               <td class="text-center">
                 <span
                   class="badge"
                   [ngClass]="getBadgeClass(componentHealth.value!.status)"
-                  jhiTranslate="{{ 'health.status.' + componentHealth.value!.status }}"
+                  [jhiTranslate]="'health.status.' + (componentHealth.value?.status ?? 'UNKNOWN')"
                 >
                   {{
                     { UNKNOWN: 'UNKNOWN', UP: 'UP', OUT_OF_SERVICE: 'OUT_OF_SERVICE', DOWN: 'DOWN' }[
-                      componentHealth.value!.status || 'UNKNOWN'
+                      componentHealth.value?.status ?? 'UNKNOWN'
                     ]
                   }}
                 </span>

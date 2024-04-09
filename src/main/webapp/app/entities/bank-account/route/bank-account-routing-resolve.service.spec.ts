@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { IBankAccount } from '../bank-account.model';
@@ -18,7 +17,7 @@ describe('BankAccount routing resolve service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [HttpClientTestingModule],
       providers: [
         {
           provide: ActivatedRoute,

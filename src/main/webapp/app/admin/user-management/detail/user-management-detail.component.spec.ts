@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { Authority } from 'app/config/authority.constants';
@@ -10,7 +10,7 @@ import UserManagementDetailComponent from './user-management-detail.component';
 describe('User Management Detail Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserManagementDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+      imports: [UserManagementDetailComponent],
       providers: [
         provideRouter(
           [
@@ -48,7 +48,7 @@ describe('User Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', UserManagementDetailComponent);
 
       // THEN
-      expect(instance.user).toEqual(
+      expect(instance.user()).toEqual(
         expect.objectContaining({
           id: 123,
           login: 'user',

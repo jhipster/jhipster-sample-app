@@ -14,13 +14,13 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" for="field_id" jhiTranslate="jhipsterSampleApplicationApp.operation.id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.date" for="field_date">Date</label>
+          <label class="form-label" for="field_date" jhiTranslate="jhipsterSampleApplicationApp.operation.date">Date</label>
           <div class="d-flex">
             <input
               id="field_date"
@@ -48,7 +48,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.description" for="field_description"
+          <label class="form-label" for="field_description" jhiTranslate="jhipsterSampleApplicationApp.operation.description"
             >Description</label
           >
           <input
@@ -62,7 +62,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.amount" for="field_amount">Amount</label>
+          <label class="form-label" for="field_amount" jhiTranslate="jhipsterSampleApplicationApp.operation.amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
           @if (editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)) {
             <div>
@@ -80,7 +80,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount" for="field_bankAccount"
+          <label class="form-label" for="field_bankAccount" jhiTranslate="jhipsterSampleApplicationApp.operation.bankAccount"
             >Bank Account</label
           >
           <select
@@ -99,7 +99,7 @@
         </div>
 
         <div class="mb-3">
-          <label jhiTranslate="jhipsterSampleApplicationApp.operation.label" for="field_labels">Label</label>
+          <label for="field_labels" jhiTranslate="jhipsterSampleApplicationApp.operation.label">Label</label>
           <select
             class="form-control"
             id="field_labels"

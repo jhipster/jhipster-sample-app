@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import SharedModule from 'app/shared/shared.module';
 
@@ -11,5 +11,5 @@ import { User } from '../user-management.model';
   imports: [RouterModule, SharedModule],
 })
 export default class UserManagementDetailComponent {
-  @Input() user: User | null = null;
+  user = input<User | null>(null);
 }

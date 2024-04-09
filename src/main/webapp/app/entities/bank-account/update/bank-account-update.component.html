@@ -14,13 +14,13 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" for="field_id" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name" for="field_name">Name</label>
+          <label class="form-label" for="field_name" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           @if (editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)) {
             <div>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance" for="field_balance">Balance</label>
+          <label class="form-label" for="field_balance" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance">Balance</label>
           <input type="number" class="form-control" name="balance" id="field_balance" data-cy="balance" formControlName="balance" />
           @if (editForm.get('balance')!.invalid && (editForm.get('balance')!.dirty || editForm.get('balance')!.touched)) {
             <div>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user" for="field_user">User</label>
+          <label class="form-label" for="field_user" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
             @for (userOption of usersSharedCollection; track $index) {

@@ -1,6 +1,6 @@
 <h3 id="requestMetrics" jhiTranslate="metrics.jvm.http.title">HTTP requests (time in millisecond)</h3>
 
-@if (!updating && requestMetrics) {
+@if (!updating() && requestMetrics()) {
   <table class="table table-striped" aria-describedby="requestMetrics">
     <thead>
       <tr>
@@ -11,12 +11,12 @@
       </tr>
     </thead>
     <tbody>
-      @for (entry of requestMetrics['percode'] | keyvalue; track entry.key) {
+      @for (entry of requestMetrics()!['percode'] | keyvalue; track entry.key) {
         <tr>
           <td>{{ entry.key }}</td>
           <td>
             <ngb-progressbar
-              [max]="requestMetrics['all'].count"
+              [max]="requestMetrics()!['all'].count"
               [value]="entry.value.count"
               [striped]="true"
               [animated]="false"

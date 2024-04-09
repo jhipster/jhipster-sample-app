@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 import { JvmMetrics } from 'app/admin/metrics/metrics.model';
@@ -13,10 +13,10 @@ export class JvmMemoryComponent {
   /**
    * object containing all jvm memory metrics
    */
-  @Input() jvmMemoryMetrics?: { [key: string]: JvmMetrics };
+  jvmMemoryMetrics = input<{ [key: string]: JvmMetrics }>();
 
   /**
    * boolean field saying if the metrics are in the process of being updated
    */
-  @Input() updating?: boolean;
+  updating = input<boolean>();
 }

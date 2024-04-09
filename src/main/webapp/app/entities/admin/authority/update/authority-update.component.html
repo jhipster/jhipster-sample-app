@@ -13,7 +13,7 @@
         <jhi-alert-error></jhi-alert-error>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="jhipsterSampleApplicationApp.adminAuthority.name" for="field_name">Name</label>
+          <label class="form-label" for="field_name" jhiTranslate="jhipsterSampleApplicationApp.adminAuthority.name">Name</label>
           <input
             type="text"
             class="form-control"
@@ -29,7 +29,7 @@
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
               @if (editForm.get('name')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }"
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
                   >This field cannot be longer than 50 characters.</small
                 >
               }

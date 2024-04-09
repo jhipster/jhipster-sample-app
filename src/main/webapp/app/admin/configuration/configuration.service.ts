@@ -17,7 +17,7 @@ export class ConfigurationService {
         Object.values(
           Object.values(configProps.contexts)
             .map(context => context.beans)
-            .reduce((allBeans: Beans, contextBeans: Beans) => ({ ...allBeans, ...contextBeans })),
+            .reduce((allBeans: Beans, contextBeans: Beans) => ({ ...allBeans, ...contextBeans }), {}),
         ),
       ),
     );

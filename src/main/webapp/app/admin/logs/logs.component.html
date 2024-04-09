@@ -1,6 +1,6 @@
 @defer (when loggers() && !isLoading()) {
   <div class="table-responsive">
-    <h2 id="logs-page-heading" jhiTranslate="logs.title" data-cy="logsPageHeading">Logs</h2>
+    <h2 id="logs-page-heading" data-cy="logsPageHeading" jhiTranslate="logs.title">Logs</h2>
 
     <p jhiTranslate="logs.nbloggers" [translateValues]="{ total: loggers()?.length }">There are {{ loggers()?.length }} loggers.</p>
 

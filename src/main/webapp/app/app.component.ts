@@ -11,8 +11,8 @@ import { fontAwesomeIcons } from './config/font-awesome-icons';
 import MainComponent from './layouts/main/main.component';
 
 @Component({
-  selector: 'jhi-app',
   standalone: true,
+  selector: 'jhi-app',
   template: '<jhi-main></jhi-main>',
   imports: [
     MainComponent,
