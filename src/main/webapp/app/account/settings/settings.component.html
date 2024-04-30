@@ -15,7 +15,7 @@
       <jhi-alert-error></jhi-alert-error>
 
       @if (settingsForm.value.login) {
-        <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" novalidate>
+        <form name="form" (ngSubmit)="save()" [formGroup]="settingsForm" novalidate>
           <div class="mb-3">
             <label class="form-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
             <input

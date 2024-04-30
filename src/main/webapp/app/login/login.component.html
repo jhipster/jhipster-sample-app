@@ -7,7 +7,7 @@
           <strong>Failed to sign in!</strong> Please check your credentials and try again.
         </div>
       }
-      <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+      <form class="form" (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="mb-3">
           <label class="username-label" for="username" jhiTranslate="global.form.username.label">Username</label>
           <input

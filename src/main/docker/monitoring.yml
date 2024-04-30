@@ -2,7 +2,7 @@
 name: jhipstersampleapplication
 services:
   prometheus:
-    image: prom/prometheus:v2.51.1
+    image: prom/prometheus:v2.51.2
     volumes:
       - ./prometheus/:/etc/prometheus/
     command:
@@ -15,7 +15,7 @@ services:
     # grafana/provisioning/datasources/datasource.yml
     network_mode: 'host' # to test locally running service
   grafana:
-    image: grafana/grafana:10.4.1
+    image: grafana/grafana:10.4.2
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:
