@@ -9,7 +9,6 @@ import static io.gatling.javaapi.http.HttpDsl.headerRegex;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
 
-import ch.qos.logback.classic.LoggerContext;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
@@ -17,21 +16,13 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
-import org.slf4j.LoggerFactory;
 
 /**
  * Performance test for the BankAccount entity.
+ *
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.5.0/generators/gatling#logging-tips">Logging tips</a>
  */
 public class BankAccountGatlingTest extends Simulation {
-
-    LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-
-    {
-        // Log all HTTP requests
-        //context.getLogger("io.gatling.http").setLevel(Level.valueOf("TRACE"));
-        // Log failed HTTP requests
-        //context.getLogger("io.gatling.http").setLevel(Level.valueOf("DEBUG"));
-    }
 
     String baseURL = Optional.ofNullable(System.getProperty("baseURL")).orElse("http://localhost:8080");
 

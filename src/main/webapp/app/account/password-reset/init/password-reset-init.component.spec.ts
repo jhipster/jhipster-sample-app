@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
@@ -25,7 +25,7 @@ describe('PasswordResetInitComponent', () => {
     const node = {
       focus: jest.fn(),
     };
-    comp.email = new ElementRef(node);
+    comp.email = signal<ElementRef>(new ElementRef(node));
 
     comp.ngAfterViewInit();
 

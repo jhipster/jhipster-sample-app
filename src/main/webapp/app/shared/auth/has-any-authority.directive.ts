@@ -1,4 +1,4 @@
-import { Directive, inject, Input, TemplateRef, ViewContainerRef, effect, signal, computed } from '@angular/core';
+import { Directive, inject, input, TemplateRef, ViewContainerRef, effect, computed } from '@angular/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -18,7 +18,7 @@ import { AccountService } from 'app/core/auth/account.service';
   selector: '[jhiHasAnyAuthority]',
 })
 export default class HasAnyAuthorityDirective {
-  private authorities = signal<string | string[]>([]);
+  public authorities = input<string | string[]>([], { alias: 'jhiHasAnyAuthority' });
 
   private templateRef = inject(TemplateRef<any>);
   private viewContainerRef = inject(ViewContainerRef);
@@ -28,17 +28,15 @@ export default class HasAnyAuthorityDirective {
     const currentAccount = accountService.trackCurrentAccount();
     const hasPermission = computed(() => currentAccount()?.authorities && accountService.hasAnyAuthority(this.authorities()));
 
-    effect(() => {
-      if (hasPermission()) {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      } else {
-        this.viewContainerRef.clear();
-      }
-    });
-  }
-
-  @Input()
-  set jhiHasAnyAuthority(value: string | string[]) {
-    this.authorities.set(value);
+    effect(
+      () => {
+        if (hasPermission()) {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        } else {
+          this.viewContainerRef.clear();
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 }

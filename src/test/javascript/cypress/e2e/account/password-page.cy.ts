@@ -53,7 +53,7 @@ describe('/account/password', () => {
     cy.get(newPasswordSelector).type('jhipster');
     cy.get(confirmPasswordSelector).type('jhipster');
     cy.get(submitPasswordSelector).click();
-    cy.wait('@passwordSave').then(({ response }) => expect(response.statusCode).to.equal(400));
+    cy.wait('@passwordSave').then(({ response }) => expect(response?.statusCode).to.equal(400));
   });
 
   it('should be able to update password', () => {
@@ -61,6 +61,6 @@ describe('/account/password', () => {
     cy.get(newPasswordSelector).type(password);
     cy.get(confirmPasswordSelector).type(password);
     cy.get(submitPasswordSelector).click();
-    cy.wait('@passwordSave').then(({ response }) => expect(response.statusCode).to.equal(200));
+    cy.wait('@passwordSave').then(({ response }) => expect(response?.statusCode).to.equal(200));
   });
 });

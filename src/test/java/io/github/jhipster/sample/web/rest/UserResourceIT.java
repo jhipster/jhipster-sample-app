@@ -7,21 +7,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jhipster.sample.IntegrationTest;
-import io.github.jhipster.sample.domain.Authority;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.repository.UserRepository;
 import io.github.jhipster.sample.security.AuthoritiesConstants;
+import io.github.jhipster.sample.service.UserService;
 import io.github.jhipster.sample.service.dto.AdminUserDTO;
 import io.github.jhipster.sample.service.mapper.UserMapper;
 import jakarta.persistence.EntityManager;
-import java.time.Instant;
 import java.util.*;
+import java.util.Objects;
 import java.util.function.Consumer;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -66,6 +68,9 @@ class UserResourceIT {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -79,10 +84,11 @@ class UserResourceIT {
 
     private User user;
 
+    private Long numberOfUsers;
+
     @BeforeEach
-    public void setup() {
-        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).clear();
-        cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
+    public void countUsers() {
+        numberOfUsers = userRepository.count();
     }
 
     /**
@@ -92,65 +98,81 @@ class UserResourceIT {
      * if they test an entity which has a required relationship to the User entity.
      */
     public static User createEntity(EntityManager em) {
-        User user = new User();
-        user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
-        user.setPassword(RandomStringUtils.randomAlphanumeric(60));
-        user.setActivated(true);
-        user.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
-        return user;
+        User persistUser = new User();
+        persistUser.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
+        persistUser.setPassword(RandomStringUtils.randomAlphanumeric(60));
+        persistUser.setActivated(true);
+        persistUser.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
+        persistUser.setFirstName(DEFAULT_FIRSTNAME);
+        persistUser.setLastName(DEFAULT_LASTNAME);
+        persistUser.setImageUrl(DEFAULT_IMAGEURL);
+        persistUser.setLangKey(DEFAULT_LANGKEY);
+        return persistUser;
     }
 
     /**
      * Setups the database with one user.
      */
-    public static User initTestUser(UserRepository userRepository, EntityManager em) {
-        userRepository.deleteAll();
-        User user = createEntity(em);
-        user.setLogin(DEFAULT_LOGIN);
-        user.setEmail(DEFAULT_EMAIL);
-        return user;
+    public static User initTestUser(EntityManager em) {
+        User persistUser = createEntity(em);
+        persistUser.setLogin(DEFAULT_LOGIN);
+        persistUser.setEmail(DEFAULT_EMAIL);
+        return persistUser;
     }
 
     @BeforeEach
     public void initTest() {
-        user = initTestUser(userRepository, em);
+        user = initTestUser(em);
+    }
+
+    @AfterEach
+    public void cleanupAndCheck() {
+        cacheManager
+            .getCacheNames()
+            .stream()
+            .map(cacheName -> this.cacheManager.getCache(cacheName))
+            .filter(Objects::nonNull)
+            .forEach(Cache::clear);
+        userService.deleteUser(DEFAULT_LOGIN);
+        userService.deleteUser(UPDATED_LOGIN);
+        userService.deleteUser(user.getLogin());
+        userService.deleteUser("anotherlogin");
+        assertThat(userRepository.count()).isEqualTo(numberOfUsers);
+        numberOfUsers = null;
     }
 
     @Test
     @Transactional
     void createUser() throws Exception {
-        int databaseSizeBeforeCreate = userRepository.findAll().size();
-
         // Create the User
-        AdminUserDTO user = new AdminUserDTO();
-        user.setLogin(DEFAULT_LOGIN);
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setEmail(DEFAULT_EMAIL);
-        user.setActivated(true);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setLogin(DEFAULT_LOGIN);
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL);
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
-        restUserMockMvc
-            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
-            .andExpect(status().isCreated());
+        var returnedUserDTO = om.readValue(
+            restUserMockMvc
+                .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(),
+            AdminUserDTO.class
+        );
 
-        // Validate the User in the database
-        assertPersistedUsers(users -> {
-            assertThat(users).hasSize(databaseSizeBeforeCreate + 1);
-            User testUser = users.get(users.size() - 1);
-            assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
-            assertThat(testUser.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-            assertThat(testUser.getLastName()).isEqualTo(DEFAULT_LASTNAME);
-            assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
-            assertThat(testUser.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-            assertThat(testUser.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-        });
+        User convertedUser = userMapper.userDTOToUser(returnedUserDTO);
+        // Validate the returned User
+        assertThat(convertedUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(convertedUser.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
+        assertThat(convertedUser.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(convertedUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(convertedUser.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
+        assertThat(convertedUser.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
     }
 
     @Test
@@ -158,20 +180,20 @@ class UserResourceIT {
     void createUserWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setId(DEFAULT_ID);
-        user.setLogin(DEFAULT_LOGIN);
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setEmail(DEFAULT_EMAIL);
-        user.setActivated(true);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setId(DEFAULT_ID);
+        userDTO.setLogin(DEFAULT_LOGIN);
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL);
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserMockMvc
-            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the User in the database
@@ -185,19 +207,19 @@ class UserResourceIT {
         userRepository.saveAndFlush(user);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setLogin(DEFAULT_LOGIN); // this login should already be used
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setEmail("anothermail@localhost");
-        user.setActivated(true);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setLogin(DEFAULT_LOGIN); // this login should already be used
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail("anothermail@localhost");
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         // Create the User
         restUserMockMvc
-            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the User in the database
@@ -211,19 +233,19 @@ class UserResourceIT {
         userRepository.saveAndFlush(user);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setLogin("anotherlogin");
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setEmail(DEFAULT_EMAIL); // this email should already be used
-        user.setActivated(true);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setLogin("anotherlogin");
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL); // this email should already be used
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         // Create the User
         restUserMockMvc
-            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(post("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the User in the database
@@ -288,23 +310,23 @@ class UserResourceIT {
         // Update the user
         User updatedUser = userRepository.findById(user.getId()).orElseThrow();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setId(updatedUser.getId());
-        user.setLogin(updatedUser.getLogin());
-        user.setFirstName(UPDATED_FIRSTNAME);
-        user.setLastName(UPDATED_LASTNAME);
-        user.setEmail(UPDATED_EMAIL);
-        user.setActivated(updatedUser.isActivated());
-        user.setImageUrl(UPDATED_IMAGEURL);
-        user.setLangKey(UPDATED_LANGKEY);
-        user.setCreatedBy(updatedUser.getCreatedBy());
-        user.setCreatedDate(updatedUser.getCreatedDate());
-        user.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        user.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(updatedUser.getLogin());
+        userDTO.setFirstName(UPDATED_FIRSTNAME);
+        userDTO.setLastName(UPDATED_LASTNAME);
+        userDTO.setEmail(UPDATED_EMAIL);
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(UPDATED_IMAGEURL);
+        userDTO.setLangKey(UPDATED_LANGKEY);
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc
-            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isOk());
 
         // Validate the User in the database
@@ -329,23 +351,23 @@ class UserResourceIT {
         // Update the user
         User updatedUser = userRepository.findById(user.getId()).orElseThrow();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setId(updatedUser.getId());
-        user.setLogin(UPDATED_LOGIN);
-        user.setFirstName(UPDATED_FIRSTNAME);
-        user.setLastName(UPDATED_LASTNAME);
-        user.setEmail(UPDATED_EMAIL);
-        user.setActivated(updatedUser.isActivated());
-        user.setImageUrl(UPDATED_IMAGEURL);
-        user.setLangKey(UPDATED_LANGKEY);
-        user.setCreatedBy(updatedUser.getCreatedBy());
-        user.setCreatedDate(updatedUser.getCreatedDate());
-        user.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        user.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(UPDATED_LOGIN);
+        userDTO.setFirstName(UPDATED_FIRSTNAME);
+        userDTO.setLastName(UPDATED_LASTNAME);
+        userDTO.setEmail(UPDATED_EMAIL);
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(UPDATED_IMAGEURL);
+        userDTO.setLangKey(UPDATED_LANGKEY);
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc
-            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isOk());
 
         // Validate the User in the database
@@ -381,23 +403,23 @@ class UserResourceIT {
         // Update the user
         User updatedUser = userRepository.findById(user.getId()).orElseThrow();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setId(updatedUser.getId());
-        user.setLogin(updatedUser.getLogin());
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail("jhipster@localhost"); // this email should already be used by anotherUser
-        user.setActivated(updatedUser.isActivated());
-        user.setImageUrl(updatedUser.getImageUrl());
-        user.setLangKey(updatedUser.getLangKey());
-        user.setCreatedBy(updatedUser.getCreatedBy());
-        user.setCreatedDate(updatedUser.getCreatedDate());
-        user.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        user.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(updatedUser.getLogin());
+        userDTO.setFirstName(updatedUser.getFirstName());
+        userDTO.setLastName(updatedUser.getLastName());
+        userDTO.setEmail("jhipster@localhost"); // this email should already be used by anotherUser
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(updatedUser.getImageUrl());
+        userDTO.setLangKey(updatedUser.getLangKey());
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc
-            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isBadRequest());
     }
 
@@ -421,23 +443,23 @@ class UserResourceIT {
         // Update the user
         User updatedUser = userRepository.findById(user.getId()).orElseThrow();
 
-        AdminUserDTO user = new AdminUserDTO();
-        user.setId(updatedUser.getId());
-        user.setLogin("jhipster"); // this login should already be used by anotherUser
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-        user.setActivated(updatedUser.isActivated());
-        user.setImageUrl(updatedUser.getImageUrl());
-        user.setLangKey(updatedUser.getLangKey());
-        user.setCreatedBy(updatedUser.getCreatedBy());
-        user.setCreatedDate(updatedUser.getCreatedDate());
-        user.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        user.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        user.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin("jhipster"); // this login should already be used by anotherUser
+        userDTO.setFirstName(updatedUser.getFirstName());
+        userDTO.setLastName(updatedUser.getLastName());
+        userDTO.setEmail(updatedUser.getEmail());
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(updatedUser.getImageUrl());
+        userDTO.setLangKey(updatedUser.getLangKey());
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc
-            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(user)))
+            .perform(put("/api/admin/users").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(userDTO)))
             .andExpect(status().isBadRequest());
     }
 
@@ -471,68 +493,6 @@ class UserResourceIT {
         assertThat(user1).isNotEqualTo(user2);
         user1.setId(null);
         assertThat(user1).isNotEqualTo(user2);
-    }
-
-    @Test
-    void testUserDTOtoUser() {
-        AdminUserDTO userDTO = new AdminUserDTO();
-        userDTO.setId(DEFAULT_ID);
-        userDTO.setLogin(DEFAULT_LOGIN);
-        userDTO.setFirstName(DEFAULT_FIRSTNAME);
-        userDTO.setLastName(DEFAULT_LASTNAME);
-        userDTO.setEmail(DEFAULT_EMAIL);
-        userDTO.setActivated(true);
-        userDTO.setImageUrl(DEFAULT_IMAGEURL);
-        userDTO.setLangKey(DEFAULT_LANGKEY);
-        userDTO.setCreatedBy(DEFAULT_LOGIN);
-        userDTO.setLastModifiedBy(DEFAULT_LOGIN);
-        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
-
-        User user = userMapper.userDTOToUser(userDTO);
-        assertThat(user.getId()).isEqualTo(DEFAULT_ID);
-        assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(user.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(user.getLastName()).isEqualTo(DEFAULT_LASTNAME);
-        assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(user.isActivated()).isTrue();
-        assertThat(user.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-        assertThat(user.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-        assertThat(user.getCreatedBy()).isNull();
-        assertThat(user.getCreatedDate()).isNotNull();
-        assertThat(user.getLastModifiedBy()).isNull();
-        assertThat(user.getLastModifiedDate()).isNotNull();
-        assertThat(user.getAuthorities()).extracting("name").containsExactly(AuthoritiesConstants.USER);
-    }
-
-    @Test
-    void testUserToUserDTO() {
-        user.setId(DEFAULT_ID);
-        user.setCreatedBy(DEFAULT_LOGIN);
-        user.setCreatedDate(Instant.now());
-        user.setLastModifiedBy(DEFAULT_LOGIN);
-        user.setLastModifiedDate(Instant.now());
-        Set<Authority> authorities = new HashSet<>();
-        Authority authority = new Authority();
-        authority.setName(AuthoritiesConstants.USER);
-        authorities.add(authority);
-        user.setAuthorities(authorities);
-
-        AdminUserDTO userDTO = userMapper.userToAdminUserDTO(user);
-
-        assertThat(userDTO.getId()).isEqualTo(DEFAULT_ID);
-        assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
-        assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(userDTO.isActivated()).isTrue();
-        assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-        assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-        assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
-        assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-        assertThat(userDTO.getAuthorities()).containsExactly(AuthoritiesConstants.USER);
-        assertThat(userDTO.toString()).isNotNull();
     }
 
     private void assertPersistedUsers(Consumer<List<User>> userAssertion) {

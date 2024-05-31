@@ -6,8 +6,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import io.github.jhipster.sample.IntegrationTest;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.repository.UserRepository;
+import io.github.jhipster.sample.service.UserService;
 import java.util.Locale;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +36,13 @@ class DomainUserDetailsServiceIT {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     @Qualifier("userDetailsService")
     private UserDetailsService domainUserDetailsService;
 
-    @BeforeEach
-    public void init() {
+    public User getUserOne() {
         User userOne = new User();
         userOne.setLogin(USER_ONE_LOGIN);
         userOne.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -47,8 +51,10 @@ class DomainUserDetailsServiceIT {
         userOne.setFirstName("userOne");
         userOne.setLastName("doe");
         userOne.setLangKey("en");
-        userRepository.save(userOne);
+        return userOne;
+    }
 
+    public User getUserTwo() {
         User userTwo = new User();
         userTwo.setLogin(USER_TWO_LOGIN);
         userTwo.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -57,8 +63,10 @@ class DomainUserDetailsServiceIT {
         userTwo.setFirstName("userTwo");
         userTwo.setLastName("doe");
         userTwo.setLangKey("en");
-        userRepository.save(userTwo);
+        return userTwo;
+    }
 
+    public User getUserThree() {
         User userThree = new User();
         userThree.setLogin(USER_THREE_LOGIN);
         userThree.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -67,7 +75,21 @@ class DomainUserDetailsServiceIT {
         userThree.setFirstName("userThree");
         userThree.setLastName("doe");
         userThree.setLangKey("en");
-        userRepository.save(userThree);
+        return userThree;
+    }
+
+    @BeforeEach
+    public void init() {
+        userRepository.save(getUserOne());
+        userRepository.save(getUserTwo());
+        userRepository.save(getUserThree());
+    }
+
+    @AfterEach
+    public void cleanup() {
+        userService.deleteUser(USER_ONE_LOGIN);
+        userService.deleteUser(USER_TWO_LOGIN);
+        userService.deleteUser(USER_THREE_LOGIN);
     }
 
     @Test

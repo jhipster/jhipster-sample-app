@@ -26,7 +26,7 @@ class BankAccountTest {
     }
 
     @Test
-    void operationTest() throws Exception {
+    void operationTest() {
         BankAccount bankAccount = getBankAccountRandomSampleGenerator();
         Operation operationBack = getOperationRandomSampleGenerator();
 

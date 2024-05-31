@@ -15,7 +15,7 @@ describe('Label e2e test', () => {
   const labelPageUrlPattern = new RegExp('/label(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const labelSample = { label: 'ouch frank auction' };
+  const labelSample = { label: 'accomplished along following' };
 
   let label;
 
@@ -44,7 +44,7 @@ describe('Label e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('label');
     cy.wait('@entitiesRequest').then(({ response }) => {
-      if (response.body.length === 0) {
+      if (response?.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
         cy.get(entityTableSelector).should('exist');
@@ -68,7 +68,7 @@ describe('Label e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', labelPageUrlPattern);
       });
@@ -106,7 +106,7 @@ describe('Label e2e test', () => {
         cy.getEntityDetailsHeading('label');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', labelPageUrlPattern);
       });
@@ -117,7 +117,7 @@ describe('Label e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', labelPageUrlPattern);
       });
@@ -127,7 +127,7 @@ describe('Label e2e test', () => {
         cy.getEntityCreateUpdateHeading('Label');
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', labelPageUrlPattern);
       });
@@ -137,10 +137,10 @@ describe('Label e2e test', () => {
         cy.getEntityDeleteDialogHeading('label').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
+          expect(response?.statusCode).to.equal(204);
         });
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', labelPageUrlPattern);
 
@@ -157,17 +157,17 @@ describe('Label e2e test', () => {
     });
 
     it('should create an instance of Label', () => {
-      cy.get(`[data-cy="label"]`).type('carelessly tensely on');
-      cy.get(`[data-cy="label"]`).should('have.value', 'carelessly tensely on');
+      cy.get(`[data-cy="label"]`).type('soX');
+      cy.get(`[data-cy="label"]`).should('have.value', 'soX');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
-        expect(response.statusCode).to.equal(201);
+        expect(response?.statusCode).to.equal(201);
         label = response.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
+        expect(response?.statusCode).to.equal(200);
       });
       cy.url().should('match', labelPageUrlPattern);
     });

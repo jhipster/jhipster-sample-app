@@ -23,7 +23,7 @@ class AuthorityTest {
     }
 
     @Test
-    void hashCodeVerifier() throws Exception {
+    void hashCodeVerifier() {
         Authority authority = new Authority();
         assertThat(authority.hashCode()).isZero();
 

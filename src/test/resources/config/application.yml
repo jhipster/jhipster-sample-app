@@ -28,6 +28,12 @@ spring:
     allow-bean-definition-overriding: true
   messages:
     basename: i18n/messages
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          authority-prefix: ''
+          authorities-claim-name: auth
   task:
     execution:
       thread-name-prefix: jhipster-sample-application-task-

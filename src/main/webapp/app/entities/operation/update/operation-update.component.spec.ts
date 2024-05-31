@@ -53,10 +53,10 @@ describe('Operation Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call BankAccount query and add missing value', () => {
       const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 22754 };
+      const bankAccount: IBankAccount = { id: 21320 };
       operation.bankAccount = bankAccount;
 
-      const bankAccountCollection: IBankAccount[] = [{ id: 7983 }];
+      const bankAccountCollection: IBankAccount[] = [{ id: 14791 }];
       jest.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
       const additionalBankAccounts = [bankAccount];
       const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
@@ -75,10 +75,10 @@ describe('Operation Management Update Component', () => {
 
     it('Should call Label query and add missing value', () => {
       const operation: IOperation = { id: 456 };
-      const labels: ILabel[] = [{ id: 12021 }];
+      const labels: ILabel[] = [{ id: 21293 }];
       operation.labels = labels;
 
-      const labelCollection: ILabel[] = [{ id: 1961 }];
+      const labelCollection: ILabel[] = [{ id: 8783 }];
       jest.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
       const additionalLabels = [...labels];
       const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
@@ -97,9 +97,9 @@ describe('Operation Management Update Component', () => {
 
     it('Should update editForm', () => {
       const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 21321 };
+      const bankAccount: IBankAccount = { id: 6174 };
       operation.bankAccount = bankAccount;
-      const label: ILabel = { id: 10019 };
+      const label: ILabel = { id: 25360 };
       operation.labels = [label];
 
       activatedRoute.data = of({ operation });

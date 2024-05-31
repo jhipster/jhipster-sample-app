@@ -26,7 +26,7 @@ class LabelTest {
     }
 
     @Test
-    void operationTest() throws Exception {
+    void operationTest() {
         Label label = getLabelRandomSampleGenerator();
         Operation operationBack = getOperationRandomSampleGenerator();
 

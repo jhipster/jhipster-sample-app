@@ -52,7 +52,7 @@ describe('Authority routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith('ABC');
+      expect(service.find).toHaveBeenCalledWith('ABC');
       expect(resultAuthority).toEqual({ name: 'ABC' });
     });
 
@@ -90,7 +90,7 @@ describe('Authority routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith('ABC');
+      expect(service.find).toHaveBeenCalledWith('ABC');
       expect(resultAuthority).toEqual(undefined);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });

@@ -27,7 +27,7 @@ class OperationTest {
     }
 
     @Test
-    void bankAccountTest() throws Exception {
+    void bankAccountTest() {
         Operation operation = getOperationRandomSampleGenerator();
         BankAccount bankAccountBack = getBankAccountRandomSampleGenerator();
 
@@ -39,7 +39,7 @@ class OperationTest {
     }
 
     @Test
-    void labelTest() throws Exception {
+    void labelTest() {
         Operation operation = getOperationRandomSampleGenerator();
         Label labelBack = getLabelRandomSampleGenerator();
 

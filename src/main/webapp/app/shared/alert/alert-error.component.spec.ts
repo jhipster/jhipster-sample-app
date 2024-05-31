@@ -70,7 +70,7 @@ describe('Alert Error Component', () => {
         status: 400,
         statusText: 'Bad Request',
         error: {
-          type: 'https://www.jhipster.tech/problem/constraint-violation',
+          type: 'https://www.jhipster.tech/problem/problem-with-message',
           title: 'Bad Request',
           status: 400,
           path: '/api/foos',
@@ -105,7 +105,7 @@ describe('Alert Error Component', () => {
         status: 400,
         statusText: 'Bad Request',
         error: {
-          type: 'https://www.jhipster.tech/problem/constraint-violation',
+          type: 'https://www.jhipster.tech/problem/problem-with-message',
           title: 'Method argument not valid',
           status: 400,
           path: '/api/foos',

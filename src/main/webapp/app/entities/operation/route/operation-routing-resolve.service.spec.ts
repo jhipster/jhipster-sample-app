@@ -52,7 +52,7 @@ describe('Operation routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith(123);
+      expect(service.find).toHaveBeenCalledWith(123);
       expect(resultOperation).toEqual({ id: 123 });
     });
 
@@ -90,7 +90,7 @@ describe('Operation routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith(123);
+      expect(service.find).toHaveBeenCalledWith(123);
       expect(resultOperation).toEqual(undefined);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });

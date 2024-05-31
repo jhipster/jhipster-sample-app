@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -24,8 +24,8 @@
         -->
         <maven.version>3.2.5</maven.version>
         <java.version>17</java.version>
-        <node.version>v20.12.2</node.version>
-        <npm.version>10.6.0</npm.version>
+        <node.version>v20.14.0</node.version>
+        <npm.version>10.8.1</npm.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -37,14 +37,14 @@
         <run.addResources>false</run.addResources>
         <spring-boot.version>${project.parent.version}</spring-boot.version>
         <archunit-junit5.version>1.3.0</archunit-junit5.version>
-        <checkstyle.version>10.16.0</checkstyle.version>
+        <checkstyle.version>10.17.0</checkstyle.version>
         <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
-        <gatling-maven-plugin.version>4.9.0</gatling-maven-plugin.version>
-        <gatling.version>3.11.1</gatling.version>
+        <gatling-maven-plugin.version>4.9.1</gatling-maven-plugin.version>
+        <gatling.version>3.11.3</gatling.version>
         <git-commit-id-maven-plugin.version>8.0.2</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <jhipster-framework.version>8.4.0</jhipster-framework.version>
+        <jhipster-framework.version>8.5.0</jhipster-framework.version>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <jib-maven-plugin.image>eclipse-temurin:17-jre-focal</jib-maven-plugin.image>
         <jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
@@ -59,7 +59,7 @@
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-jar-plugin.version>3.4.1</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
@@ -67,7 +67,7 @@
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <modernizer-maven-plugin.version>2.8.0</modernizer-maven-plugin.version>
+        <modernizer-maven-plugin.version>2.9.0</modernizer-maven-plugin.version>
         <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
         <profile.api-docs/>
         <profile.e2e/>
@@ -208,10 +208,6 @@
             <artifactId>HikariCP</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
             <version>${gatling.version}</version>
@@ -219,7 +215,7 @@
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <artifactId>micrometer-registry-prometheus-simpleclient</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
