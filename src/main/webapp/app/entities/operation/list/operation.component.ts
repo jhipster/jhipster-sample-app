@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { ParseLinks } from 'app/core/util/parse-links.service';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { EntityArrayResponseType, OperationService } from '../service/operation.service';
 import { OperationDeleteDialogComponent } from '../delete/operation-delete-dialog.component';
 import { IOperation } from '../operation.model';
@@ -30,7 +30,7 @@ import { IOperation } from '../operation.model';
     DurationPipe,
     FormatMediumDatetimePipe,
     FormatMediumDatePipe,
-    InfiniteScrollModule,
+    InfiniteScrollDirective,
   ],
 })
 export class OperationComponent implements OnInit {

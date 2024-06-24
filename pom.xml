@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.1</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -24,7 +24,7 @@
         -->
         <maven.version>3.2.5</maven.version>
         <java.version>17</java.version>
-        <node.version>v20.14.0</node.version>
+        <node.version>v20.15.0</node.version>
         <npm.version>10.8.1</npm.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -40,14 +40,14 @@
         <checkstyle.version>10.17.0</checkstyle.version>
         <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
-        <gatling-maven-plugin.version>4.9.1</gatling-maven-plugin.version>
-        <gatling.version>3.11.3</gatling.version>
-        <git-commit-id-maven-plugin.version>8.0.2</git-commit-id-maven-plugin.version>
+        <gatling-maven-plugin.version>4.9.4</gatling-maven-plugin.version>
+        <gatling.version>3.11.4</gatling.version>
+        <git-commit-id-maven-plugin.version>9.0.0</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <jhipster-framework.version>8.5.0</jhipster-framework.version>
+        <jhipster-framework.version>8.6.0</jhipster-framework.version>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <jib-maven-plugin.image>eclipse-temurin:17-jre-focal</jib-maven-plugin.image>
-        <jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <liquibase-plugin.driver/>
         <liquibase-plugin.hibernate-dialect/>
@@ -56,16 +56,16 @@
         <liquibase-plugin.username/>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-        <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-        <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+        <maven-checkstyle-plugin.version>3.4.0</maven-checkstyle-plugin.version>
+        <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
-        <maven-jar-plugin.version>3.4.1</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+        <maven-failsafe-plugin.version>3.3.0</maven-failsafe-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
-        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <modernizer-maven-plugin.version>2.9.0</modernizer-maven-plugin.version>
         <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
@@ -75,7 +75,7 @@
         <profile.test/>
         <profile.tls/>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
-        <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
         <springdoc-openapi-starter-webmvc-api.version>2.5.0</springdoc-openapi-starter-webmvc-api.version>
     </properties>
@@ -457,7 +457,6 @@
                     <version>${gatling-maven-plugin.version}</version>
                     <configuration>
                         <runMultipleSimulations>true</runMultipleSimulations>
-                        <resourcesFolder>${project.basedir}/src/test/gatling/conf</resourcesFolder>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -587,8 +586,8 @@
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <message>You are running an incompatible version of Java. JHipster supports JDK 17 to 21.</message>
-                                <version>[17,18),[18,19),[19,20),[20,21),[21,22)</version>
+                                <message>You are running an incompatible version of Java. JHipster supports JDK 17 to 22.</message>
+                                <version>[17,18),[18,19),[19,20),[20,21),[21,22),[22,23)</version>
                             </requireJavaVersion>
                         </rules>
                     </configuration>
@@ -636,32 +635,6 @@
                     <configuration>
                         <source>${maven.compiler.source}</source>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>config-resources</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/resources/</directory>
-                                        <filtering>true</filtering>
-                                        <includes>
-                                            <include>config/*.yml</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

@@ -1,6 +1,6 @@
 import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -14,8 +14,9 @@ describe('PasswordResetFinishComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, PasswordResetFinishComponent],
+      imports: [PasswordResetFinishComponent],
       providers: [
+        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -80,7 +81,7 @@ describe('PasswordResetFinishComponent', () => {
   it('should notify of generic error', inject(
     [PasswordResetFinishService],
     fakeAsync((service: PasswordResetFinishService) => {
-      jest.spyOn(service, 'save').mockReturnValue(throwError('ERROR'));
+      jest.spyOn(service, 'save').mockReturnValue(throwError(() => {}));
       comp.passwordForm.patchValue({
         newPassword: 'password',
         confirmPassword: 'password',

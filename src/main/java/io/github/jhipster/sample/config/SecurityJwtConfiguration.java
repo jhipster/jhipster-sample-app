@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 @Configuration
 public class SecurityJwtConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(SecurityJwtConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityJwtConfiguration.class);
 
     @Value("${jhipster.security.authentication.jwt.base64-secret}")
     private String jwtKey;

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
 import { StateStorageService } from './state-storage.service';
 
@@ -10,7 +11,7 @@ describe('Auth JWT', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
     mockStorageService = TestBed.inject(StateStorageService);

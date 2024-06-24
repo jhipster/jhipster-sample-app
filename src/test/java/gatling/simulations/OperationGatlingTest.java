@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the Operation entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.5.0/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.6.0/generators/gatling#logging-tips">Logging tips</a>
  */
 public class OperationGatlingTest extends Simulation {
 

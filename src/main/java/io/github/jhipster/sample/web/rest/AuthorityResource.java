@@ -26,7 +26,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class AuthorityResource {
 
-    private final Logger log = LoggerFactory.getLogger(AuthorityResource.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthorityResource.class);
 
     private static final String ENTITY_NAME = "adminAuthority";
 

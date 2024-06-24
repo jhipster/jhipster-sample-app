@@ -24,7 +24,7 @@ public class PublicUserResource {
         Arrays.asList("id", "login", "firstName", "lastName", "email", "activated", "langKey")
     );
 
-    private final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
+    private static final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
     private final UserService userService;
 

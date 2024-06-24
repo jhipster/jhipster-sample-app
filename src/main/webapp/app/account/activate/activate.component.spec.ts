@@ -1,5 +1,5 @@
 import { TestBed, waitForAsync, tick, fakeAsync, inject } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
@@ -11,8 +11,9 @@ describe('ActivateComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ActivateComponent],
+      imports: [ActivateComponent],
       providers: [
+        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ key: 'ABC123' }) },
@@ -56,7 +57,7 @@ describe('ActivateComponent', () => {
   it('should set set error to true upon activation failure', inject(
     [ActivateService],
     fakeAsync((service: ActivateService) => {
-      jest.spyOn(service, 'get').mockReturnValue(throwError('ERROR'));
+      jest.spyOn(service, 'get').mockReturnValue(throwError(() => {}));
 
       comp.ngOnInit();
       tick();

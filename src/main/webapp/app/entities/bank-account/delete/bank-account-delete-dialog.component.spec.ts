@@ -1,8 +1,7 @@
 jest.mock('@ng-bootstrap/ng-bootstrap');
 
 import { ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,8 +17,8 @@ describe('BankAccount Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, BankAccountDeleteDialogComponent],
-      providers: [NgbActiveModal],
+      imports: [BankAccountDeleteDialogComponent],
+      providers: [provideHttpClient(), NgbActiveModal],
     })
       .overrideTemplate(BankAccountDeleteDialogComponent, '')
       .compileComponents();

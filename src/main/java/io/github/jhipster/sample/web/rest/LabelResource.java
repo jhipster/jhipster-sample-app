@@ -27,7 +27,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class LabelResource {
 
-    private final Logger log = LoggerFactory.getLogger(LabelResource.class);
+    private static final Logger log = LoggerFactory.getLogger(LabelResource.class);
 
     private static final String ENTITY_NAME = "label";
 

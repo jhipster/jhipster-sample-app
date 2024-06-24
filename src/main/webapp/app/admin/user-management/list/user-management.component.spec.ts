@@ -1,8 +1,7 @@
 jest.mock('app/core/auth/account.service');
 
 import { ComponentFixture, TestBed, waitForAsync, inject, fakeAsync, tick } from '@angular/core/testing';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -30,8 +29,8 @@ describe('User Management Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, UserManagementComponent],
-      providers: [{ provide: ActivatedRoute, useValue: { data, queryParamMap } }, AccountService],
+      imports: [UserManagementComponent],
+      providers: [provideHttpClient(), { provide: ActivatedRoute, useValue: { data, queryParamMap } }, AccountService],
     })
       .overrideTemplate(UserManagementComponent, '')
       .compileComponents();

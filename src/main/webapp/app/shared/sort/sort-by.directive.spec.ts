@@ -1,4 +1,4 @@
-import { Component, DebugElement, inject } from '@angular/core';
+import { Component, DebugElement, Type, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -54,58 +54,58 @@ describe('Directive: SortByDirective', () => {
   it('should have a neutral state for predicate column and undefined order value', () => {
     // GIVEN
     component.sortState.set({ predicate: 'name' });
-    const sortByDirective = tableHead.injector.get(SortByDirective);
+    const sortByDirective = tableHead.injector.get(SortByDirective as Type<SortByDirective>);
 
     // WHEN
     fixture.detectChanges();
 
     // THEN
     expect(sortByDirective.jhiSortBy).toEqual('name');
-    expect(sortByDirective.iconComponent?.icon).toEqual(faSort.iconName);
+    expect(sortByDirective.iconComponent()?.icon).toEqual(faSort.iconName);
   });
 
   it('should have an asc state for predicate column and true asc value', () => {
     // GIVEN
     component.sortState.set({ predicate: 'name', order: 'asc' });
-    const sortByDirective = tableHead.injector.get(SortByDirective);
+    const sortByDirective = tableHead.injector.get(SortByDirective as Type<SortByDirective>);
 
     // WHEN
     fixture.detectChanges();
 
     // THEN
     expect(sortByDirective.jhiSortBy).toEqual('name');
-    expect(sortByDirective.iconComponent?.icon).toEqual(faSortUp.iconName);
+    expect(sortByDirective.iconComponent()?.icon).toEqual(faSortUp.iconName);
   });
 
   it('should have a desc state for predicate column and desc value', () => {
     // GIVEN
     component.sortState.set({ predicate: 'name', order: 'desc' });
-    const sortByDirective = tableHead.injector.get(SortByDirective);
+    const sortByDirective = tableHead.injector.get(SortByDirective as Type<SortByDirective>);
 
     // WHEN
     fixture.detectChanges();
 
     // THEN
     expect(sortByDirective.jhiSortBy).toEqual('name');
-    expect(sortByDirective.iconComponent?.icon).toEqual(faSortDown.iconName);
+    expect(sortByDirective.iconComponent()?.icon).toEqual(faSortDown.iconName);
   });
 
   it('should have a neutral state for non-predicate column', () => {
     // GIVEN
     component.sortState.set({ predicate: 'non-existing-column', order: 'asc' });
-    const sortByDirective = tableHead.injector.get(SortByDirective);
+    const sortByDirective = tableHead.injector.get(SortByDirective as Type<SortByDirective>);
 
     // WHEN
     fixture.detectChanges();
 
     // THEN
     expect(sortByDirective.jhiSortBy).toEqual('name');
-    expect(sortByDirective.iconComponent?.icon).toEqual(faSort.iconName);
+    expect(sortByDirective.iconComponent()?.icon).toEqual(faSort.iconName);
   });
 
   it('multiple clicks at same component, should call SortDirective sort', () => {
     // GIVEN
-    const sortDirective = tableHead.injector.get(SortDirective);
+    const sortDirective = tableHead.injector.get(SortDirective as Type<SortDirective>);
     sortDirective.sort = jest.fn();
 
     // WHEN

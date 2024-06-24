@@ -21,7 +21,7 @@ import tech.jhipster.config.liquibase.SpringLiquibaseUtil;
 @Configuration
 public class LiquibaseConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(LiquibaseConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(LiquibaseConfiguration.class);
 
     private final Environment env;
 

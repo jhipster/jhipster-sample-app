@@ -1,7 +1,8 @@
 jest.mock('app/core/auth/state-storage.service');
 
 import { Router } from '@angular/router';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -36,8 +37,8 @@ describe('Account Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [StateStorageService],
+      imports: [TranslateModule.forRoot()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), StateStorageService],
     });
 
     service = TestBed.inject(AccountService);
@@ -173,7 +174,7 @@ describe('Account Service', () => {
       it('should not navigate to the previous stored url when authentication fails', () => {
         // WHEN
         service.identity().subscribe();
-        httpMock.expectOne({ method: 'GET' }).error(new ErrorEvent(''));
+        httpMock.expectOne({ method: 'GET' }).error(new ProgressEvent(''));
 
         // THEN
         expect(mockStorageService.getUrl).not.toHaveBeenCalled();

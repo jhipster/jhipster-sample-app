@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 import ConfigurationComponent from './configuration.component';
@@ -13,8 +13,8 @@ describe('ConfigurationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ConfigurationComponent],
-      providers: [ConfigurationService],
+      imports: [ConfigurationComponent],
+      providers: [provideHttpClient(), ConfigurationService],
     })
       .overrideTemplate(ConfigurationComponent, '')
       .compileComponents();

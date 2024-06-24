@@ -20,8 +20,8 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
   ],
 })
 export class TranslationModule {
-  private translateService = inject(TranslateService);
-  private stateStorageService = inject(StateStorageService);
+  private readonly translateService = inject(TranslateService);
+  private readonly stateStorageService = inject(StateStorageService);
 
   constructor() {
     this.translateService.setDefaultLang('en');

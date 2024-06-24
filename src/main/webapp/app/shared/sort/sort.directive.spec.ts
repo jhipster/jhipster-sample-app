@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -39,7 +39,7 @@ describe('Directive: SortDirective', () => {
 
   it('should invoke sortChange function', () => {
     // GIVEN
-    const sortDirective = tableRow.injector.get(SortDirective);
+    const sortDirective = tableRow.injector.get(SortDirective as Type<SortDirective>);
 
     // WHEN
     fixture.detectChanges();
@@ -52,7 +52,7 @@ describe('Directive: SortDirective', () => {
 
   it('should change sort order to descending, neutral when same field is sorted again', () => {
     // GIVEN
-    const sortDirective = tableRow.injector.get(SortDirective);
+    const sortDirective = tableRow.injector.get(SortDirective as Type<SortDirective>);
 
     // WHEN
     fixture.detectChanges();
@@ -71,7 +71,7 @@ describe('Directive: SortDirective', () => {
 
   it('should change sort order to ascending when different field is sorted', () => {
     // GIVEN
-    const sortDirective = tableRow.injector.get(SortDirective);
+    const sortDirective = tableRow.injector.get(SortDirective as Type<SortDirective>);
 
     // WHEN
     fixture.detectChanges();

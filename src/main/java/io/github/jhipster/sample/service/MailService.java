@@ -25,7 +25,7 @@ import tech.jhipster.config.JHipsterProperties;
 @Service
 public class MailService {
 
-    private final Logger log = LoggerFactory.getLogger(MailService.class);
+    private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
 

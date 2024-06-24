@@ -49,7 +49,7 @@ export class JvmThreadsComponent {
 
   private _threads: Thread[] | undefined;
 
-  private modalService = inject(NgbModal);
+  private readonly modalService = inject(NgbModal);
 
   open(): void {
     const modalRef = this.modalService.open(MetricsModalThreadsComponent);

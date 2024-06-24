@@ -27,7 +27,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class BankAccountResource {
 
-    private final Logger log = LoggerFactory.getLogger(BankAccountResource.class);
+    private static final Logger log = LoggerFactory.getLogger(BankAccountResource.class);
 
     private static final String ENTITY_NAME = "bankAccount";
 

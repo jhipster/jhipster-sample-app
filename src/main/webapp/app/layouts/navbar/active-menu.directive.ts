@@ -8,9 +8,9 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 export default class ActiveMenuDirective implements OnInit {
   jhiActiveMenu = input();
 
-  private el = inject(ElementRef);
-  private renderer = inject(Renderer2);
-  private translateService = inject(TranslateService);
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {

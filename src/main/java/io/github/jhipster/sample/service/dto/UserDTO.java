@@ -58,6 +58,11 @@ public class UserDTO implements Serializable {
         return Objects.equals(getId(), userDTO.getId()) && Objects.equals(getLogin(), userDTO.getLogin());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLogin());
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
