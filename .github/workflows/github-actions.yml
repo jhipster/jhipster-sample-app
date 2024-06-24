@@ -7,7 +7,7 @@ jobs:
         if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.pull_request.title, '[skip ci]') && !contains(github.event.pull_request.title, '[ci skip]')"
         timeout-minutes: 40
         env:
-            NODE_VERSION: 18.17.1
+            NODE_VERSION: 20.15.0
             SPRING_OUTPUT_ANSI_ENABLED: DETECT
             SPRING_JPA_SHOW_SQL: false
             JHI_DISABLE_WEBPACK_LOGS: true
@@ -16,7 +16,7 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
-                  node-version: 18.17.1
+                  node-version: 20.15.0
             - uses: actions/setup-java@v2
               with:
                   distribution: 'adopt'
