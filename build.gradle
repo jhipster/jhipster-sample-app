@@ -1,0 +1,151 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.diffplug.spotless' version '6.12.0'
+    id 'com.google.cloud.tools.jib' version '3.4.3'
+    id 'io.gatling.gradle' version '3.8.4'
+    id 'jacoco'
+    id 'org.sonarqube' version '4.0.0.2929'
+}
+
+group = 'io.github.jhipster.sample'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'tech.jhipster:jhipster-framework:8.6.0'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security:spring-security-data'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.5.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hppc'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations'
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.ehcache:ehcache:jakarta'
+    implementation 'org.glassfish.jaxb:jaxb-runtime'
+    implementation 'org.hibernate.orm:hibernate-core'
+    implementation 'org.hibernate.orm:hibernate-jcache'
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'jakarta.annotation:jakarta.annotation-api'
+    implementation 'javax.cache:cache-api'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:1.3.0'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-engine:1.3.0'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'io.gatling.highcharts:gatling-charts-highcharts:3.11.4'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+spotless {
+    java {
+        // configuration for spotless
+    }
+}
+
+jib {
+    from {
+        image = 'eclipse-temurin:17-jre-focal'
+        platforms {
+            platform {
+                architecture = 'amd64'
+                os = 'linux'
+            }
+        }
+    }
+    to {
+        image = 'jhipstersampleapplication:latest'
+    }
+    container {
+        entrypoint = ['bash', '-c', '/entrypoint.sh']
+        ports = ['8080']
+        environment = [
+                SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS',
+                JHIPSTER_SLEEP: '0'
+        ]
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+        user = '1000'
+    }
+    extraDirectories {
+        paths = ['src/main/docker/jib']
+        permissions = [
+                file('/entrypoint.sh'): '755'
+        ]
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "your_project_key"
+        property "sonar.host.url", "https://sonarqube.yourdomain.com"
+        property "sonar.login", "your_sonar_login_token"
+    }
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport' // Ensure that the test report is generated after tests run
+}
+
+tasks.withType(Jar) {
+    archiveBaseName = 'jhipster-sample-application'
+    archiveVersion = '0.0.1-SNAPSHOT'
+}
+
+tasks.register('integrationTest', Test) {
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/java')
+        }
+        resources.srcDir file('src/integrationTest/resources')
+    }
+}
