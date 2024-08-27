@@ -84,9 +84,8 @@ class OperationResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Operation createEntity(EntityManager em) {
-        Operation operation = new Operation().date(DEFAULT_DATE).description(DEFAULT_DESCRIPTION).amount(DEFAULT_AMOUNT);
-        return operation;
+    public static Operation createEntity() {
+        return new Operation().date(DEFAULT_DATE).description(DEFAULT_DESCRIPTION).amount(DEFAULT_AMOUNT);
     }
 
     /**
@@ -95,14 +94,13 @@ class OperationResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Operation createUpdatedEntity(EntityManager em) {
-        Operation operation = new Operation().date(UPDATED_DATE).description(UPDATED_DESCRIPTION).amount(UPDATED_AMOUNT);
-        return operation;
+    public static Operation createUpdatedEntity() {
+        return new Operation().date(UPDATED_DATE).description(UPDATED_DESCRIPTION).amount(UPDATED_AMOUNT);
     }
 
     @BeforeEach
     public void initTest() {
-        operation = createEntity(em);
+        operation = createEntity();
     }
 
     @AfterEach

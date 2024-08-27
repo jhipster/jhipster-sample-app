@@ -1,10 +1,10 @@
 import {
-  usernameLoginSelector,
-  forgetYourPasswordSelector,
-  emailResetPasswordSelector,
-  submitInitResetPasswordSelector,
   classInvalid,
   classValid,
+  emailResetPasswordSelector,
+  forgetYourPasswordSelector,
+  submitInitResetPasswordSelector,
+  usernameLoginSelector,
 } from '../../support/commands';
 
 describe('forgot your password', () => {

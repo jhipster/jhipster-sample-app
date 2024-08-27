@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, RendererFactory2, Renderer2 } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Component, OnInit, Renderer2, RendererFactory2, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
 import { AccountService } from 'app/core/auth/account.service';

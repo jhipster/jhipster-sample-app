@@ -189,20 +189,21 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
+          @let accountRef = account();
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
-            @if (!account()?.imageUrl) {
+            @if (!accountRef?.imageUrl) {
               <span>
                 <fa-icon icon="user"></fa-icon>
                 <span jhiTranslate="global.menu.account.main">Account</span>
               </span>
             } @else {
               <span>
-                <img [src]="account()!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+                <img [src]="accountRef!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
               </span>
             }
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
-            @if (account() !== null) {
+            @if (accountRef !== null) {
               <li>
                 <a
                   class="dropdown-item"

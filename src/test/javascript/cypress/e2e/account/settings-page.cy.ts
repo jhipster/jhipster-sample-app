@@ -1,4 +1,4 @@
-import { firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector, emailSettingsSelector } from '../../support/commands';
+import { emailSettingsSelector, firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector } from '../../support/commands';
 import type { Account } from '../../support/account';
 
 describe('/account/settings', () => {

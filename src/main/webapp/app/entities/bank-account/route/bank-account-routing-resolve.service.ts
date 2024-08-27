@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
-import { of, EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
 const bankAccountResolve = (route: ActivatedRouteSnapshot): Observable<null | IBankAccount> => {
-  const id = route.params['id'];
+  const id = route.params.id;
   if (id) {
     return inject(BankAccountService)
       .find(id)
@@ -16,10 +16,9 @@ const bankAccountResolve = (route: ActivatedRouteSnapshot): Observable<null | IB
         mergeMap((bankAccount: HttpResponse<IBankAccount>) => {
           if (bankAccount.body) {
             return of(bankAccount.body);
-          } else {
-            inject(Router).navigate(['404']);
-            return EMPTY;
           }
+          inject(Router).navigate(['404']);
+          return EMPTY;
         }),
       );
   }

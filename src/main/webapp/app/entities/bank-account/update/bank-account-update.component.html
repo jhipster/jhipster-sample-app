@@ -19,10 +19,11 @@
           </div>
         }
 
+        @let nameRef = editForm.get('name')!;
         <div class="mb-3">
           <label class="form-label" for="field_name" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          @if (editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)) {
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
             <div>
               @if (editForm.get('name')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -31,10 +32,11 @@
           }
         </div>
 
+        @let balanceRef = editForm.get('balance')!;
         <div class="mb-3">
           <label class="form-label" for="field_balance" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.balance">Balance</label>
           <input type="number" class="form-control" name="balance" id="field_balance" data-cy="balance" formControlName="balance" />
-          @if (editForm.get('balance')!.invalid && (editForm.get('balance')!.dirty || editForm.get('balance')!.touched)) {
+          @if (balanceRef.invalid && (balanceRef.dirty || balanceRef.touched)) {
             <div>
               @if (editForm.get('balance')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

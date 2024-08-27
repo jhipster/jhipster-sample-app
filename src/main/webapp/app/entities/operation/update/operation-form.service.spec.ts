@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../operation.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../operation.test-samples';
 
 import { OperationFormService } from './operation-form.service';
 

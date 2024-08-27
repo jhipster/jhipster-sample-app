@@ -63,9 +63,8 @@ class LabelResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Label createEntity(EntityManager em) {
-        Label label = new Label().label(DEFAULT_LABEL);
-        return label;
+    public static Label createEntity() {
+        return new Label().label(DEFAULT_LABEL);
     }
 
     /**
@@ -74,14 +73,13 @@ class LabelResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Label createUpdatedEntity(EntityManager em) {
-        Label label = new Label().label(UPDATED_LABEL);
-        return label;
+    public static Label createUpdatedEntity() {
+        return new Label().label(UPDATED_LABEL);
     }
 
     @BeforeEach
     public void initTest() {
-        label = createEntity(em);
+        label = createEntity();
     }
 
     @AfterEach

@@ -17,7 +17,7 @@ describe('Authority Management Detail Component', () => {
           [
             {
               path: '**',
-              component: AuthorityDetailComponent,
+              loadComponent: () => import('./authority-detail.component').then(m => m.AuthorityDetailComponent),
               resolve: { authority: () => of({ name: 'ABC' }) },
             },
           ],

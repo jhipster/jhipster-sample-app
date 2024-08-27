@@ -12,7 +12,7 @@ export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapsh
   return accountService.identity().pipe(
     map(account => {
       if (account) {
-        const authorities = next.data['authorities'];
+        const { authorities } = next.data;
 
         if (!authorities || authorities.length === 0 || accountService.hasAnyAuthority(authorities)) {
           return true;

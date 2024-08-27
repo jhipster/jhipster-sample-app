@@ -1,14 +1,11 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes, ResolveFn } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { of } from 'rxjs';
 
 import { IUser } from './user-management.model';
 import { UserManagementService } from './service/user-management.service';
-import UserManagementComponent from './list/user-management.component';
-import UserManagementDetailComponent from './detail/user-management-detail.component';
-import UserManagementUpdateComponent from './update/user-management-update.component';
 
-export const UserManagementResolve: ResolveFn<IUser | null> = (route: ActivatedRouteSnapshot) => {
+export const userManagementResolve: ResolveFn<IUser | null> = (route: ActivatedRouteSnapshot) => {
   const login = route.paramMap.get('login');
   if (login) {
     return inject(UserManagementService).find(login);
@@ -19,30 +16,30 @@ export const UserManagementResolve: ResolveFn<IUser | null> = (route: ActivatedR
 const userManagementRoute: Routes = [
   {
     path: '',
-    component: UserManagementComponent,
+    loadComponent: () => import('./list/user-management.component'),
     data: {
       defaultSort: 'id,asc',
     },
   },
   {
     path: ':login/view',
-    component: UserManagementDetailComponent,
+    loadComponent: () => import('./detail/user-management-detail.component'),
     resolve: {
-      user: UserManagementResolve,
+      user: userManagementResolve,
     },
   },
   {
     path: 'new',
-    component: UserManagementUpdateComponent,
+    loadComponent: () => import('./update/user-management-update.component'),
     resolve: {
-      user: UserManagementResolve,
+      user: userManagementResolve,
     },
   },
   {
     path: ':login/edit',
-    component: UserManagementUpdateComponent,
+    loadComponent: () => import('./update/user-management-update.component'),
     resolve: {
-      user: UserManagementResolve,
+      user: userManagementResolve,
     },
   },
 ];

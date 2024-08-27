@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IAuthority } from '../authority.model';
 import { AuthorityService } from '../service/authority.service';
-import { AuthorityFormService, AuthorityFormGroup } from './authority-form.service';
+import { AuthorityFormGroup, AuthorityFormService } from './authority-form.service';
 
 @Component({
   standalone: true,

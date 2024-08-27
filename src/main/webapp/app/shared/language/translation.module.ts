@@ -1,7 +1,7 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateService, TranslateLoader, MissingTranslationHandler } from '@ngx-translate/core';
-import { translatePartialLoader, missingTranslationHandler } from 'app/config/translation.config';
+import { MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { missingTranslationHandler, translatePartialLoader } from 'app/config/translation.config';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 
 @NgModule({

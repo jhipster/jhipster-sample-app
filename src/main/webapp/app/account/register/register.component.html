@@ -50,27 +50,28 @@
               #login
             />
 
-            @if (registerForm.get('login')!.invalid && (registerForm.get('login')!.dirty || registerForm.get('login')!.touched)) {
+            @let loginRef = registerForm.get('login')!;
+            @if (loginRef.invalid && (loginRef.dirty || loginRef.touched)) {
               <div>
-                @if (registerForm.get('login')?.errors?.required) {
+                @if (loginRef?.errors?.required) {
                   <small class="form-text text-danger" jhiTranslate="register.messages.validate.login.required"
                     >Your username is required.</small
                   >
                 }
 
-                @if (registerForm.get('login')?.errors?.minlength) {
+                @if (loginRef?.errors?.minlength) {
                   <small class="form-text text-danger" jhiTranslate="register.messages.validate.login.minlength"
                     >Your username is required to be at least 1 character.</small
                   >
                 }
 
-                @if (registerForm.get('login')?.errors?.maxlength) {
+                @if (loginRef?.errors?.maxlength) {
                   <small class="form-text text-danger" jhiTranslate="register.messages.validate.login.maxlength"
                     >Your username cannot be longer than 50 characters.</small
                   >
                 }
 
-                @if (registerForm.get('login')?.errors?.pattern) {
+                @if (loginRef?.errors?.pattern) {
                   <small class="form-text text-danger" jhiTranslate="register.messages.validate.login.pattern"
                     >Your username is invalid.</small
                   >
@@ -91,25 +92,26 @@
               data-cy="email"
             />
 
-            @if (registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)) {
+            @let emailRef = registerForm.get('email')!;
+            @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
               <div>
-                @if (registerForm.get('email')?.errors?.required) {
+                @if (emailRef?.errors?.required) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.required"
                     >Your email is required.</small
                   >
                 }
 
-                @if (registerForm.get('email')?.errors?.invalid) {
+                @if (emailRef?.errors?.invalid) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.invalid">Your email is invalid.</small>
                 }
 
-                @if (registerForm.get('email')?.errors?.minlength) {
+                @if (emailRef?.errors?.minlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.minlength"
                     >Your email is required to be at least 5 characters.</small
                   >
                 }
 
-                @if (registerForm.get('email')?.errors?.maxlength) {
+                @if (emailRef?.errors?.maxlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.maxlength"
                     >Your email cannot be longer than 50 characters.</small
                   >
@@ -130,21 +132,22 @@
               data-cy="firstPassword"
             />
 
-            @if (registerForm.get('password')!.invalid && (registerForm.get('password')!.dirty || registerForm.get('password')!.touched)) {
+            @let passwordRef = registerForm.get('password')!;
+            @if (passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)) {
               <div>
-                @if (registerForm.get('password')?.errors?.required) {
+                @if (passwordRef?.errors?.required) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.newpassword.required"
                     >Your password is required.</small
                   >
                 }
 
-                @if (registerForm.get('password')?.errors?.minlength) {
+                @if (passwordRef?.errors?.minlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.newpassword.minlength"
                     >Your password is required to be at least 4 characters.</small
                   >
                 }
 
-                @if (registerForm.get('password')?.errors?.maxlength) {
+                @if (passwordRef?.errors?.maxlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.newpassword.maxlength"
                     >Your password cannot be longer than 50 characters.</small
                   >
@@ -152,7 +155,7 @@
               </div>
             }
 
-            <jhi-password-strength-bar [passwordToCheck]="registerForm.get('password')!.value"></jhi-password-strength-bar>
+            <jhi-password-strength-bar [passwordToCheck]="passwordRef.value"></jhi-password-strength-bar>
           </div>
 
           <div class="mb-3">
@@ -169,24 +172,22 @@
               data-cy="secondPassword"
             />
 
-            @if (
-              registerForm.get('confirmPassword')!.invalid &&
-              (registerForm.get('confirmPassword')!.dirty || registerForm.get('confirmPassword')!.touched)
-            ) {
+            @let confirmPasswordRef = registerForm.get('confirmPassword')!;
+            @if (confirmPasswordRef.invalid && (confirmPasswordRef.dirty || confirmPasswordRef.touched)) {
               <div>
-                @if (registerForm.get('confirmPassword')?.errors?.required) {
+                @if (confirmPasswordRef?.errors?.required) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.confirmpassword.required"
                     >Your confirmation password is required.</small
                   >
                 }
 
-                @if (registerForm.get('confirmPassword')?.errors?.minlength) {
+                @if (confirmPasswordRef?.errors?.minlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.confirmpassword.minlength"
                     >Your confirmation password is required to be at least 4 characters.</small
                   >
                 }
 
-                @if (registerForm.get('confirmPassword')?.errors?.maxlength) {
+                @if (confirmPasswordRef?.errors?.maxlength) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.confirmpassword.maxlength"
                     >Your confirmation password cannot be longer than 50 characters.</small
                   >

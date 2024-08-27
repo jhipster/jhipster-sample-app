@@ -1,10 +1,10 @@
+const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const path = require('path');
 const { hashElement } = require('folder-hash');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -23,11 +23,8 @@ module.exports = async (config, options, targetOptions) => {
   if (config.mode === 'development') {
     config.plugins.push(
       new ESLintPlugin({
-        baseConfig: {
-          parserOptions: {
-            project: ['../tsconfig.app.json'],
-          },
-        },
+        configType: 'flat',
+        extensions: ['ts', 'js', 'html'],
       }),
       new WebpackNotifierPlugin({
         title: 'Jhipster Sample Application',
@@ -55,6 +52,13 @@ module.exports = async (config, options, targetOptions) => {
             proxyOptions: {
               changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
             },
+            proxyReq: [
+              function (proxyReq) {
+                // URI that will be retrieved by the ForwardedHeaderFilter on the server side
+                proxyReq.setHeader('X-Forwarded-Host', 'localhost:9000');
+                proxyReq.setHeader('X-Forwarded-Proto', 'https');
+              },
+            ],
           },
           socket: {
             clients: {

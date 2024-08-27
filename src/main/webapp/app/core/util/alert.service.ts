@@ -1,4 +1,4 @@
-import { inject, Injectable, SecurityContext } from '@angular/core';
+import { Injectable, SecurityContext, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -7,11 +7,11 @@ import { translationNotFoundMessage } from 'app/config/translation.config';
 export type AlertType = 'success' | 'danger' | 'warning' | 'info';
 
 export interface Alert {
-  id?: number;
+  id: number;
   type: AlertType;
   message?: string;
   translationKey?: string;
-  translationParams?: { [key: string]: unknown };
+  translationParams?: Record<string, unknown>;
   timeout?: number;
   toast?: boolean;
   position?: string;
@@ -49,8 +49,8 @@ export class AlertService {
    *                   Else adding `alert` to `extAlerts`.
    * @returns  Added alert
    */
-  addAlert(alert: Alert, extAlerts?: Alert[]): Alert {
-    alert.id = this.alertId++;
+  addAlert(alertToAdd: Omit<Alert, 'id'>, extAlerts?: Alert[]): Alert {
+    const alert: Alert = { ...alertToAdd, id: this.alertId++ };
 
     if (alert.translationKey) {
       const translatedMessage = this.translateService.instant(alert.translationKey, alert.translationParams);
@@ -66,13 +66,13 @@ export class AlertService {
     alert.timeout = alert.timeout ?? this.timeout;
     alert.toast = alert.toast ?? this.toast;
     alert.position = alert.position ?? this.position;
-    alert.close = (alertsArray: Alert[]) => this.closeAlert(alert.id!, alertsArray);
+    alert.close = (alertsArray: Alert[]) => this.closeAlert(alert.id, alertsArray);
 
     (extAlerts ?? this.alerts).push(alert);
 
     if (alert.timeout > 0) {
       setTimeout(() => {
-        this.closeAlert(alert.id!, extAlerts ?? this.alerts);
+        this.closeAlert(alert.id, extAlerts ?? this.alerts);
       }, alert.timeout);
     }
 

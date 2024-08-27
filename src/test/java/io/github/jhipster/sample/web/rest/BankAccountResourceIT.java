@@ -83,9 +83,8 @@ class BankAccountResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BankAccount createEntity(EntityManager em) {
-        BankAccount bankAccount = new BankAccount().name(DEFAULT_NAME).balance(DEFAULT_BALANCE);
-        return bankAccount;
+    public static BankAccount createEntity() {
+        return new BankAccount().name(DEFAULT_NAME).balance(DEFAULT_BALANCE);
     }
 
     /**
@@ -94,14 +93,13 @@ class BankAccountResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BankAccount createUpdatedEntity(EntityManager em) {
-        BankAccount bankAccount = new BankAccount().name(UPDATED_NAME).balance(UPDATED_BALANCE);
-        return bankAccount;
+    public static BankAccount createUpdatedEntity() {
+        return new BankAccount().name(UPDATED_NAME).balance(UPDATED_BALANCE);
     }
 
     @BeforeEach
     public void initTest() {
-        bankAccount = createEntity(em);
+        bankAccount = createEntity();
     }
 
     @AfterEach

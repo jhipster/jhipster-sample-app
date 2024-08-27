@@ -27,7 +27,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class BankAccountResource {
 
-    private static final Logger log = LoggerFactory.getLogger(BankAccountResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BankAccountResource.class);
 
     private static final String ENTITY_NAME = "bankAccount";
 
@@ -49,7 +49,7 @@ public class BankAccountResource {
      */
     @PostMapping("")
     public ResponseEntity<BankAccount> createBankAccount(@Valid @RequestBody BankAccount bankAccount) throws URISyntaxException {
-        log.debug("REST request to save BankAccount : {}", bankAccount);
+        LOG.debug("REST request to save BankAccount : {}", bankAccount);
         if (bankAccount.getId() != null) {
             throw new BadRequestAlertException("A new bankAccount cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -74,7 +74,7 @@ public class BankAccountResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody BankAccount bankAccount
     ) throws URISyntaxException {
-        log.debug("REST request to update BankAccount : {}, {}", id, bankAccount);
+        LOG.debug("REST request to update BankAccount : {}, {}", id, bankAccount);
         if (bankAccount.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class BankAccountResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BankAccount bankAccount
     ) throws URISyntaxException {
-        log.debug("REST request to partial update BankAccount partially : {}, {}", id, bankAccount);
+        LOG.debug("REST request to partial update BankAccount partially : {}, {}", id, bankAccount);
         if (bankAccount.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -150,7 +150,7 @@ public class BankAccountResource {
     public List<BankAccount> getAllBankAccounts(
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
-        log.debug("REST request to get all BankAccounts");
+        LOG.debug("REST request to get all BankAccounts");
         if (eagerload) {
             return bankAccountRepository.findAllWithEagerRelationships();
         } else {
@@ -166,7 +166,7 @@ public class BankAccountResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BankAccount> getBankAccount(@PathVariable("id") Long id) {
-        log.debug("REST request to get BankAccount : {}", id);
+        LOG.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccount> bankAccount = bankAccountRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(bankAccount);
     }
@@ -179,7 +179,7 @@ public class BankAccountResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBankAccount(@PathVariable("id") Long id) {
-        log.debug("REST request to delete BankAccount : {}", id);
+        LOG.debug("REST request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

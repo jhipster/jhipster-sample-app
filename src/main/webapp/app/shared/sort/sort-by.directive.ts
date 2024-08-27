@@ -1,6 +1,6 @@
-import { Directive, Host, HostListener, Input, contentChild, effect } from '@angular/core';
+import { Directive, HostListener, Input, contentChild, effect, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faSort, faSortDown, faSortUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 
 import { SortDirective } from './sort.directive';
 
@@ -17,7 +17,9 @@ export class SortByDirective {
   protected sortAscIcon = faSortUp;
   protected sortDescIcon = faSortDown;
 
-  constructor(@Host() private sort: SortDirective) {
+  private sort = inject(SortDirective, { host: true });
+
+  constructor() {
     effect(() => {
       if (this.iconComponent()) {
         let icon: IconDefinition = this.sortIcon;

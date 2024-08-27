@@ -5,8 +5,8 @@ import static io.github.jhipster.sample.security.SecurityUtils.JWT_ALGORITHM;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.jhipster.sample.web.rest.vm.LoginVM;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class AuthenticateController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticateController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticateController.class);
 
     private final JwtEncoder jwtEncoder;
 
@@ -69,13 +70,13 @@ public class AuthenticateController {
     /**
      * {@code GET /authenticate} : check if the user is authenticated, and return its login.
      *
-     * @param request the HTTP request.
+     * @param principal the authentication principal.
      * @return the login if the user is authenticated.
      */
-    @GetMapping("/authenticate")
-    public String isAuthenticated(HttpServletRequest request) {
-        log.debug("REST request to check if the current user is authenticated");
-        return request.getRemoteUser();
+    @GetMapping(value = "/authenticate", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String isAuthenticated(Principal principal) {
+        LOG.debug("REST request to check if the current user is authenticated");
+        return principal == null ? null : principal.getName();
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {

@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the Operation entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.6.0/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.7.0/generators/gatling#logging-tips">Logging tips</a>
  */
 public class OperationGatlingTest extends Simulation {
 
@@ -36,35 +36,35 @@ public class OperationGatlingTest extends Simulation {
         .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:33.0) Gecko/20100101 Firefox/33.0")
         .silentResources(); // Silence all resources like css or css so they don't clutter the results
 
-    Map<String, String> headers_http = Map.of("Accept", "application/json");
+    Map<String, String> headersHttp = Map.of("Accept", "application/json");
 
-    Map<String, String> headers_http_authentication = Map.of("Content-Type", "application/json", "Accept", "application/json");
+    Map<String, String> headersHttpAuthentication = Map.of("Content-Type", "application/json", "Accept", "application/json");
 
-    Map<String, String> headers_http_authenticated = Map.of("Accept", "application/json", "Authorization", "${access_token}");
+    Map<String, String> headersHttpAuthenticated = Map.of("Accept", "application/json", "Authorization", "${access_token}");
 
-    ChainBuilder scn = exec(http("First unauthenticated request").get("/api/account").headers(headers_http).check(status().is(401)))
+    ChainBuilder scn = exec(http("First unauthenticated request").get("/api/account").headers(headersHttp).check(status().is(401)))
         .exitHereIfFailed()
         .pause(10)
         .exec(
             http("Authentication")
                 .post("/api/authenticate")
-                .headers(headers_http_authentication)
+                .headers(headersHttpAuthentication)
                 .body(StringBody("{\"username\":\"admin\", \"password\":\"admin\"}"))
                 .asJson()
                 .check(header("Authorization").saveAs("access_token"))
         )
         .exitHereIfFailed()
         .pause(2)
-        .exec(http("Authenticated request").get("/api/account").headers(headers_http_authenticated).check(status().is(200)))
+        .exec(http("Authenticated request").get("/api/account").headers(headersHttpAuthenticated).check(status().is(200)))
         .pause(10)
         .repeat(2)
         .on(
-            exec(http("Get all operations").get("/api/operations").headers(headers_http_authenticated).check(status().is(200)))
+            exec(http("Get all operations").get("/api/operations").headers(headersHttpAuthenticated).check(status().is(200)))
                 .pause(Duration.ofSeconds(10), Duration.ofSeconds(20))
                 .exec(
                     http("Create new operation")
                         .post("/api/operations")
-                        .headers(headers_http_authenticated)
+                        .headers(headersHttpAuthenticated)
                         .body(
                             StringBody(
                                 "{" +
@@ -81,8 +81,8 @@ public class OperationGatlingTest extends Simulation {
                 .exitHereIfFailed()
                 .pause(10)
                 .repeat(5)
-                .on(exec(http("Get created operation").get("${new_operation_url}").headers(headers_http_authenticated)).pause(10))
-                .exec(http("Delete created operation").delete("${new_operation_url}").headers(headers_http_authenticated))
+                .on(exec(http("Get created operation").get("${new_operation_url}").headers(headersHttpAuthenticated)).pause(10))
+                .exec(http("Delete created operation").delete("${new_operation_url}").headers(headersHttpAuthenticated))
                 .pause(10)
         );
 

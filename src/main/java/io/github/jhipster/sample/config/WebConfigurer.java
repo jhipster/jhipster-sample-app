@@ -29,7 +29,7 @@ import tech.jhipster.config.h2.H2ConfigurationHelper;
 @Configuration
 public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer<WebServerFactory> {
 
-    private static final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebConfigurer.class);
 
     private final Environment env;
 
@@ -43,13 +43,13 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     @Override
     public void onStartup(ServletContext servletContext) {
         if (env.getActiveProfiles().length != 0) {
-            log.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
+            LOG.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
         }
 
         if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
             initH2Console(servletContext);
         }
-        log.info("Web application fully configured");
+        LOG.info("Web application fully configured");
     }
 
     /**
@@ -91,7 +91,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = jHipsterProperties.getCors();
         if (!CollectionUtils.isEmpty(config.getAllowedOrigins()) || !CollectionUtils.isEmpty(config.getAllowedOriginPatterns())) {
-            log.debug("Registering CORS filter");
+            LOG.debug("Registering CORS filter");
             source.registerCorsConfiguration("/api/**", config);
             source.registerCorsConfiguration("/management/**", config);
             source.registerCorsConfiguration("/v3/api-docs", config);
@@ -104,7 +104,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
      * Initializes H2 console.
      */
     private void initH2Console(ServletContext servletContext) {
-        log.debug("Initialize H2 console");
+        LOG.debug("Initialize H2 console");
         H2ConfigurationHelper.initH2Console(servletContext);
     }
 }

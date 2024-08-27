@@ -17,7 +17,7 @@ describe('Operation Management Detail Component', () => {
           [
             {
               path: '**',
-              component: OperationDetailComponent,
+              loadComponent: () => import('./operation-detail.component').then(m => m.OperationDetailComponent),
               resolve: { operation: () => of({ id: 123 }) },
             },
           ],

@@ -4,7 +4,7 @@ jest.mock('app/login/login.service');
 import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { Router, Navigation } from '@angular/router';
+import { Navigation, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';

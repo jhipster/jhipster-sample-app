@@ -19,10 +19,11 @@
           </div>
         }
 
+        @let labelRef = editForm.get('label')!;
         <div class="mb-3">
           <label class="form-label" for="field_label" jhiTranslate="jhipsterSampleApplicationApp.label.label">Label</label>
           <input type="text" class="form-control" name="label" id="field_label" data-cy="label" formControlName="label" />
-          @if (editForm.get('label')!.invalid && (editForm.get('label')!.dirty || editForm.get('label')!.touched)) {
+          @if (labelRef.invalid && (labelRef.dirty || labelRef.touched)) {
             <div>
               @if (editForm.get('label')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

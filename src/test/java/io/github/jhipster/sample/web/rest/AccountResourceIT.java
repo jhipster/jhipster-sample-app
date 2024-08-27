@@ -77,7 +77,7 @@ class AccountResourceIT {
     @WithUnauthenticatedMockUser
     void testNonAuthenticatedUser() throws Exception {
         restAccountMockMvc
-            .perform(get("/api/authenticate").accept(MediaType.APPLICATION_JSON))
+            .perform(get("/api/authenticate").accept(MediaType.TEXT_PLAIN))
             .andExpect(status().isOk())
             .andExpect(content().string(""));
     }
@@ -86,7 +86,7 @@ class AccountResourceIT {
     @WithMockUser(TEST_USER_LOGIN)
     void testAuthenticatedUser() throws Exception {
         restAccountMockMvc
-            .perform(get("/api/authenticate").with(request -> request).accept(MediaType.APPLICATION_JSON))
+            .perform(get("/api/authenticate").with(request -> request).accept(MediaType.TEXT_PLAIN))
             .andExpect(status().isOk())
             .andExpect(content().string(TEST_USER_LOGIN));
     }

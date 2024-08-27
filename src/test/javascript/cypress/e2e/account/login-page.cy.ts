@@ -1,9 +1,9 @@
 import {
-  titleLoginSelector,
   errorLoginSelector,
-  usernameLoginSelector,
   passwordLoginSelector,
   submitLoginSelector,
+  titleLoginSelector,
+  usernameLoginSelector,
 } from '../../support/commands';
 
 describe('login modal', () => {

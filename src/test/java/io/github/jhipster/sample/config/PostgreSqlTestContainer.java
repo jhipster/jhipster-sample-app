@@ -9,7 +9,7 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 
 public class PostgreSqlTestContainer implements SqlTestContainer {
 
-    private static final Logger log = LoggerFactory.getLogger(PostgreSqlTestContainer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PostgreSqlTestContainer.class);
 
     private PostgreSQLContainer<?> postgreSQLContainer;
 
@@ -23,10 +23,10 @@ public class PostgreSqlTestContainer implements SqlTestContainer {
     @Override
     public void afterPropertiesSet() {
         if (null == postgreSQLContainer) {
-            postgreSQLContainer = new PostgreSQLContainer<>("postgres:16.3")
+            postgreSQLContainer = new PostgreSQLContainer<>("postgres:16.4")
                 .withDatabaseName("jhipsterSampleApplication")
                 .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
-                .withLogConsumer(new Slf4jLogConsumer(log))
+                .withLogConsumer(new Slf4jLogConsumer(LOG))
                 .withReuse(true);
         }
         if (!postgreSQLContainer.isRunning()) {

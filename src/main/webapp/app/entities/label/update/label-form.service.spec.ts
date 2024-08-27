@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../label.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../label.test-samples';
 
 import { LabelFormService } from './label-form.service';
 

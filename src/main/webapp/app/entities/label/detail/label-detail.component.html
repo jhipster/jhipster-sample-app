@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (label()) {
+    @if (label(); as labelRef) {
       <div>
         <h2 data-cy="labelDetailsHeading"><span jhiTranslate="jhipsterSampleApplicationApp.label.detail.title">Label</span></h2>
 
@@ -13,15 +13,15 @@
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ label()!.id }}</span>
+            <span>{{ labelRef.id }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.label.label">Label</span></dt>
           <dd>
-            <span>{{ label()!.label }}</span>
+            <span>{{ labelRef.label }}</span>
           </dd>
           <dt><span jhiTranslate="jhipsterSampleApplicationApp.label.operation">Operation</span></dt>
           <dd>
-            @for (operation of label()!.operations; track $index; let last = $last) {
+            @for (operation of labelRef.operations; track $index; let last = $last) {
               <span>
                 <a [routerLink]="['/operation', operation.id, 'view']">{{ operation?.id }}</a
                 >{{ last ? '' : ', ' }}
@@ -34,7 +34,7 @@
           <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
-        <button type="button" [routerLink]="['/label', label()!.id, 'edit']" class="btn btn-primary">
+        <button type="button" [routerLink]="['/label', labelRef.id, 'edit']" class="btn btn-primary">
           <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>

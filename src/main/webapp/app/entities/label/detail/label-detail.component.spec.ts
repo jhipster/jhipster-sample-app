@@ -17,7 +17,7 @@ describe('Label Management Detail Component', () => {
           [
             {
               path: '**',
-              component: LabelDetailComponent,
+              loadComponent: () => import('./label-detail.component').then(m => m.LabelDetailComponent),
               resolve: { label: () => of({ id: 123 }) },
             },
           ],

@@ -71,7 +71,7 @@ export class DataUtils {
           };
           observer.error(error);
         } else {
-          const fieldContentType: string = field + 'ContentType';
+          const fieldContentType = `${field}ContentType`;
           this.toBase64(file, (base64Data: string) => {
             editForm.patchValue({
               [field]: base64Data,
@@ -125,6 +125,6 @@ export class DataUtils {
   }
 
   private formatAsBytes(size: number): string {
-    return size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' bytes'; // NOSONAR
+    return `${size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} bytes`; // NOSONAR
   }
 }

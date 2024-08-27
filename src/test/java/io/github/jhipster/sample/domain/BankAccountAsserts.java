@@ -49,8 +49,8 @@ public class BankAccountAsserts {
         assertThat(expected)
             .as("Verify BankAccount relevant properties")
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
-            .satisfies(
-                e -> assertThat(e.getBalance()).as("check balance").usingComparator(bigDecimalCompareTo).isEqualTo(actual.getBalance())
+            .satisfies(e ->
+                assertThat(e.getBalance()).as("check balance").usingComparator(bigDecimalCompareTo).isEqualTo(actual.getBalance())
             );
     }
 
@@ -60,5 +60,7 @@ public class BankAccountAsserts {
      * @param expected the expected entity
      * @param actual the actual entity
      */
-    public static void assertBankAccountUpdatableRelationshipsEquals(BankAccount expected, BankAccount actual) {}
+    public static void assertBankAccountUpdatableRelationshipsEquals(BankAccount expected, BankAccount actual) {
+        // empty method
+    }
 }

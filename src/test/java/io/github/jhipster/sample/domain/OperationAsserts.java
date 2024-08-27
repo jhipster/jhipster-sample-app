@@ -50,8 +50,7 @@ public class OperationAsserts {
             .as("Verify Operation relevant properties")
             .satisfies(e -> assertThat(e.getDate()).as("check date").isEqualTo(actual.getDate()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
-            .satisfies(
-                e -> assertThat(e.getAmount()).as("check amount").usingComparator(bigDecimalCompareTo).isEqualTo(actual.getAmount())
+            .satisfies(e -> assertThat(e.getAmount()).as("check amount").usingComparator(bigDecimalCompareTo).isEqualTo(actual.getAmount())
             );
     }
 

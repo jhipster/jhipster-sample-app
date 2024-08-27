@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync, tick, fakeAsync, inject } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject, tick, waitForAsync } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';

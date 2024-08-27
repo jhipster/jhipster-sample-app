@@ -1,15 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { AuthorityComponent } from './list/authority.component';
-import { AuthorityDetailComponent } from './detail/authority-detail.component';
-import { AuthorityUpdateComponent } from './update/authority-update.component';
 import AuthorityResolve from './route/authority-routing-resolve.service';
 
 const authorityRoute: Routes = [
   {
     path: '',
-    component: AuthorityComponent,
+    loadComponent: () => import('./list/authority.component').then(m => m.AuthorityComponent),
     data: {
       authorities: ['ROLE_ADMIN'],
     },
@@ -17,7 +14,7 @@ const authorityRoute: Routes = [
   },
   {
     path: ':name/view',
-    component: AuthorityDetailComponent,
+    loadComponent: () => import('./detail/authority-detail.component').then(m => m.AuthorityDetailComponent),
     resolve: {
       authority: AuthorityResolve,
     },
@@ -28,7 +25,7 @@ const authorityRoute: Routes = [
   },
   {
     path: 'new',
-    component: AuthorityUpdateComponent,
+    loadComponent: () => import('./update/authority-update.component').then(m => m.AuthorityUpdateComponent),
     resolve: {
       authority: AuthorityResolve,
     },

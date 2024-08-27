@@ -17,7 +17,7 @@ describe('BankAccount Management Detail Component', () => {
           [
             {
               path: '**',
-              component: BankAccountDetailComponent,
+              loadComponent: () => import('./bank-account-detail.component').then(m => m.BankAccountDetailComponent),
               resolve: { bankAccount: () => of({ id: 123 }) },
             },
           ],

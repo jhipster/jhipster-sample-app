@@ -12,6 +12,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
+        @let nameRef = editForm.get('name')!;
         <div class="mb-3">
           <label class="form-label" for="field_name" jhiTranslate="jhipsterSampleApplicationApp.adminAuthority.name">Name</label>
           <input
@@ -23,7 +24,7 @@
             formControlName="name"
             [readonly]="editForm.get('name')!.disabled"
           />
-          @if (editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)) {
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
             <div>
               @if (editForm.get('name')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

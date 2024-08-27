@@ -19,7 +19,7 @@ import tech.jhipster.config.h2.H2ConfigurationHelper;
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     private final Environment env;
 
@@ -37,7 +37,7 @@ public class DatabaseConfiguration {
     @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
     public Object h2TCPServer() throws SQLException {
         String port = getValidPortForH2();
-        log.debug("H2 database is available on port {}", port);
+        LOG.debug("H2 database is available on port {}", port);
         return H2ConfigurationHelper.createServer(port);
     }
 

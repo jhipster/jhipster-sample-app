@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { IOperation } from 'app/entities/operation/operation.model';
 import { OperationService } from 'app/entities/operation/service/operation.service';
 import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
-import { LabelFormService, LabelFormGroup } from './label-form.service';
+import { LabelFormGroup, LabelFormService } from './label-form.service';
 
 @Component({
   standalone: true,

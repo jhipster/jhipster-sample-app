@@ -18,13 +18,19 @@ public class ExceptionTranslatorTestController {
     }
 
     @PostMapping("/method-argument")
-    public void methodArgument(@Valid @RequestBody TestDTO testDTO) {}
+    public void methodArgument(@Valid @RequestBody TestDTO testDTO) {
+        // empty method
+    }
 
     @GetMapping("/missing-servlet-request-part")
-    public void missingServletRequestPartException(@RequestPart("part") String part) {}
+    public void missingServletRequestPartException(@RequestPart("part") String part) {
+        // empty method
+    }
 
     @GetMapping("/missing-servlet-request-parameter")
-    public void missingServletRequestParameterException(@RequestParam("param") String param) {}
+    public void missingServletRequestParameterException(@RequestParam("param") String param) {
+        // empty method
+    }
 
     @GetMapping("/access-denied")
     public void accessdenied() {
