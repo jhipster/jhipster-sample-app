@@ -62,6 +62,7 @@
     <logger name="Validator" level="INFO"/>
     <!-- See https://github.com/jhipster/generator-jhipster/issues/14444 -->
     <logger name="_org.springframework.web.servlet.HandlerMapping.Mappings" level="INFO"/>
+    <logger name="org.springframework.boot.docker" level="WARN"/>
     <logger name="liquibase" level="WARN"/>
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <!-- jhipster-needle-logback-add-log - JHipster will add a new log with level -->
@@ -71,6 +72,9 @@
         <appender-ref ref="CONSOLE" />
     </root>
 
+    <!-- Prevent logback from outputting its own status -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <!-- Reset the JUL logging level to avoid conflicts with Logback -->
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>

@@ -329,6 +329,8 @@ class BankAccountResourceIT {
         BankAccount partialUpdatedBankAccount = new BankAccount();
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
+        partialUpdatedBankAccount.balance(UPDATED_BALANCE);
+
         restBankAccountMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedBankAccount.getId())

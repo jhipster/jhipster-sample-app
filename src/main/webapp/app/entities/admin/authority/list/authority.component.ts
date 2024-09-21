@@ -41,7 +41,7 @@ export class AuthorityComponent implements OnInit {
   protected modalService = inject(NgbModal);
   protected ngZone = inject(NgZone);
 
-  trackName = (_index: number, item: IAuthority): string => this.authorityService.getAuthorityIdentifier(item);
+  trackName = (item: IAuthority): string => this.authorityService.getAuthorityIdentifier(item);
 
   ngOnInit(): void {
     this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])

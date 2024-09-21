@@ -91,7 +91,7 @@ describe('Authority Management Component', () => {
     it('Should forward to authorityService', () => {
       const entity = { name: 'ABC' };
       jest.spyOn(service, 'getAuthorityIdentifier');
-      const name = comp.trackName(0, entity);
+      const name = comp.trackName(entity);
       expect(service.getAuthorityIdentifier).toHaveBeenCalledWith(entity);
       expect(name).toBe(entity.name);
     });

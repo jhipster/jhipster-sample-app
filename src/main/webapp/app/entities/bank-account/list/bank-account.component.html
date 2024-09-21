@@ -66,7 +66,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (bankAccount of bankAccounts; track trackId) {
+          @for (bankAccount of bankAccounts; track trackId(bankAccount)) {
             <tr data-cy="entityTable">
               <td>
                 <a [routerLink]="['/bank-account', bankAccount.id, 'view']">{{ bankAccount.id }}</a>

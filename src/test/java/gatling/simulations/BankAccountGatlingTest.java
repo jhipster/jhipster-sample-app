@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the BankAccount entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.7.0/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.7.1/generators/gatling#logging-tips">Logging tips</a>
  */
 public class BankAccountGatlingTest extends Simulation {
 

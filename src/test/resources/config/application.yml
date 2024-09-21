@@ -16,6 +16,7 @@
 spring:
   application:
     name: jhipsterSampleApplication
+  cloud:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test

@@ -41,7 +41,7 @@ export class LabelComponent implements OnInit {
   protected modalService = inject(NgbModal);
   protected ngZone = inject(NgZone);
 
-  trackId = (_index: number, item: ILabel): number => this.labelService.getLabelIdentifier(item);
+  trackId = (item: ILabel): number => this.labelService.getLabelIdentifier(item);
 
   ngOnInit(): void {
     this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])

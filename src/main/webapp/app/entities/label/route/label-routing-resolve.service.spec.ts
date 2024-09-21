@@ -70,7 +70,7 @@ describe('Label routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).not.toBeCalled();
+      expect(service.find).not.toHaveBeenCalled();
       expect(resultLabel).toEqual(null);
     });
 

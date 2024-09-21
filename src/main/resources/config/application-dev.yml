@@ -27,6 +27,10 @@ spring:
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
+  docker:
+    compose:
+      profiles:
+        active: dev
   jackson:
     serialization:
       indent-output: true

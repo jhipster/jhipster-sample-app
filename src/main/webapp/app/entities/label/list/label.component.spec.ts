@@ -91,7 +91,7 @@ describe('Label Management Component', () => {
     it('Should forward to labelService', () => {
       const entity = { id: 123 };
       jest.spyOn(service, 'getLabelIdentifier');
-      const id = comp.trackId(0, entity);
+      const id = comp.trackId(entity);
       expect(service.getLabelIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
     });

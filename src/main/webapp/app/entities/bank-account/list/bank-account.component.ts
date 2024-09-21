@@ -41,7 +41,7 @@ export class BankAccountComponent implements OnInit {
   protected modalService = inject(NgbModal);
   protected ngZone = inject(NgZone);
 
-  trackId = (_index: number, item: IBankAccount): number => this.bankAccountService.getBankAccountIdentifier(item);
+  trackId = (item: IBankAccount): number => this.bankAccountService.getBankAccountIdentifier(item);
 
   ngOnInit(): void {
     this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])

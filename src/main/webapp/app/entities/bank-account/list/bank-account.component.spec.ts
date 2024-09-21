@@ -91,7 +91,7 @@ describe('BankAccount Management Component', () => {
     it('Should forward to bankAccountService', () => {
       const entity = { id: 123 };
       jest.spyOn(service, 'getBankAccountIdentifier');
-      const id = comp.trackId(0, entity);
+      const id = comp.trackId(entity);
       expect(service.getBankAccountIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
     });
