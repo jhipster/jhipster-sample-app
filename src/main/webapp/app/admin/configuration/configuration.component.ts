@@ -31,8 +31,8 @@ export default class ConfigurationComponent implements OnInit {
     return data;
   });
 
-  private sortService = inject(SortService);
-  private configurationService = inject(ConfigurationService);
+  private readonly sortService = inject(SortService);
+  private readonly configurationService = inject(ConfigurationService);
 
   ngOnInit(): void {
     this.configurationService.getBeans().subscribe(beans => {

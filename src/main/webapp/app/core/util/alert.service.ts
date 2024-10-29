@@ -30,8 +30,8 @@ export class AlertService {
   private alertId = 0;
   private alerts: Alert[] = [];
 
-  private sanitizer = inject(DomSanitizer);
-  private translateService = inject(TranslateService);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly translateService = inject(TranslateService);
 
   clear(): void {
     this.alerts = [];

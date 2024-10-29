@@ -16,13 +16,13 @@ import PageRibbonComponent from '../profiles/page-ribbon.component';
   imports: [RouterOutlet, FooterComponent, PageRibbonComponent],
 })
 export default class MainComponent implements OnInit {
-  private renderer: Renderer2;
+  private readonly renderer: Renderer2;
 
-  private router = inject(Router);
-  private appPageTitleStrategy = inject(AppPageTitleStrategy);
-  private accountService = inject(AccountService);
-  private translateService = inject(TranslateService);
-  private rootRenderer = inject(RendererFactory2);
+  private readonly router = inject(Router);
+  private readonly appPageTitleStrategy = inject(AppPageTitleStrategy);
+  private readonly accountService = inject(AccountService);
+  private readonly translateService = inject(TranslateService);
+  private readonly rootRenderer = inject(RendererFactory2);
 
   constructor() {
     this.renderer = this.rootRenderer.createRenderer(document.querySelector('html'), null);

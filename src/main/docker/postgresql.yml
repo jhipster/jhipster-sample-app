@@ -2,7 +2,7 @@
 name: jhipstersampleapplication
 services:
   postgresql:
-    image: postgres:16.4
+    image: postgres:17.0
     # volumes:
     #   - ~/volumes/jhipster/jhipsterSampleApplication/postgresql/:/var/lib/postgresql/data/
     environment:

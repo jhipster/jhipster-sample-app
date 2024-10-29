@@ -13,7 +13,7 @@ import { HealthDetails, HealthKey } from '../health.model';
 export default class HealthModalComponent {
   health?: { key: HealthKey; value: HealthDetails };
 
-  private activeModal = inject(NgbActiveModal);
+  private readonly activeModal = inject(NgbActiveModal);
 
   readableValue(value: any): string {
     if (this.health?.key === 'diskSpace') {

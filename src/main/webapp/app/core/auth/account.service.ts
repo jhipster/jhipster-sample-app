@@ -11,15 +11,15 @@ import { ApplicationConfigService } from '../config/application-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userIdentity = signal<Account | null>(null);
-  private authenticationState = new ReplaySubject<Account | null>(1);
+  private readonly userIdentity = signal<Account | null>(null);
+  private readonly authenticationState = new ReplaySubject<Account | null>(1);
   private accountCache$?: Observable<Account> | null;
 
-  private translateService = inject(TranslateService);
-  private http = inject(HttpClient);
-  private stateStorageService = inject(StateStorageService);
-  private router = inject(Router);
-  private applicationConfigService = inject(ApplicationConfigService);
+  private readonly translateService = inject(TranslateService);
+  private readonly http = inject(HttpClient);
+  private readonly stateStorageService = inject(StateStorageService);
+  private readonly router = inject(Router);
+  private readonly applicationConfigService = inject(ApplicationConfigService);
 
   save(account: Account): Observable<{}> {
     return this.http.post(this.applicationConfigService.getEndpointFor('api/account'), account);

@@ -6,7 +6,7 @@ import {
   usernameLoginSelector,
 } from '../../support/commands';
 
-describe('login modal', () => {
+describe('login page', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
 
@@ -51,7 +51,7 @@ describe('login modal', () => {
     cy.get(errorLoginSelector).should('be.visible');
   });
 
-  it('go to login page when successfully logs in', () => {
+  it('go to home page when successfully logs in', () => {
     cy.get(usernameLoginSelector).type(username);
     cy.get(passwordLoginSelector).type(password);
     cy.get(submitLoginSelector).click();

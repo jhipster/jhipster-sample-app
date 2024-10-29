@@ -13,7 +13,7 @@ import { Alert, AlertService } from 'app/core/util/alert.service';
 export class AlertComponent implements OnInit, OnDestroy {
   alerts = signal<Alert[]>([]);
 
-  private alertService = inject(AlertService);
+  private readonly alertService = inject(AlertService);
 
   ngOnInit(): void {
     this.alerts.set(this.alertService.get());

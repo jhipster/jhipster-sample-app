@@ -20,8 +20,8 @@ import { AccountService } from 'app/core/auth/account.service';
 export default class HasAnyAuthorityDirective {
   public authorities = input<string | string[]>([], { alias: 'jhiHasAnyAuthority' });
 
-  private templateRef = inject(TemplateRef<any>);
-  private viewContainerRef = inject(ViewContainerRef);
+  private readonly templateRef = inject(TemplateRef<any>);
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
   constructor() {
     const accountService = inject(AccountService);

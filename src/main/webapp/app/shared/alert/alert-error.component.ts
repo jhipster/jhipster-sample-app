@@ -20,10 +20,10 @@ export class AlertErrorComponent implements OnDestroy {
   errorListener: Subscription;
   httpErrorListener: Subscription;
 
-  private alertService = inject(AlertService);
-  private eventManager = inject(EventManager);
+  private readonly alertService = inject(AlertService);
+  private readonly eventManager = inject(EventManager);
 
-  private translateService = inject(TranslateService);
+  private readonly translateService = inject(TranslateService);
 
   constructor() {
     this.errorListener = this.eventManager.subscribe(

@@ -32,8 +32,8 @@ export default class LogsComponent implements OnInit {
     return data;
   });
 
-  private logsService = inject(LogsService);
-  private sortService = inject(SortService);
+  private readonly logsService = inject(LogsService);
+  private readonly sortService = inject(SortService);
 
   ngOnInit(): void {
     this.findAndExtractLoggers();

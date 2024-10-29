@@ -29,6 +29,7 @@ spring:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   docker:
     compose:
+      enabled: true
       profiles:
         active: dev
   jackson:
@@ -44,8 +45,8 @@ spring:
       auto-commit: false
   h2:
     console:
-      # disable spring boot built-in h2-console since we start it manually with correct configuration
-      enabled: false
+      # JHipster uses a custom h2-console initializer
+      enabled: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

@@ -17,7 +17,7 @@ export class SortByDirective {
   protected sortAscIcon = faSortUp;
   protected sortDescIcon = faSortDown;
 
-  private sort = inject(SortDirective, { host: true });
+  private readonly sort = inject(SortDirective, { host: true });
 
   constructor() {
     effect(() => {

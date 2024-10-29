@@ -29,11 +29,11 @@ export default class UserManagementComponent implements OnInit {
   page!: number;
   sortState = sortStateSignal({});
 
-  private userService = inject(UserManagementService);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private sortService = inject(SortService);
-  private modalService = inject(NgbModal);
+  private readonly userService = inject(UserManagementService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly sortService = inject(SortService);
+  private readonly modalService = inject(NgbModal);
 
   ngOnInit(): void {
     this.handleNavigation();

@@ -19,8 +19,8 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  private accountService = inject(AccountService);
-  private router = inject(Router);
+  private readonly accountService = inject(AccountService);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.accountService

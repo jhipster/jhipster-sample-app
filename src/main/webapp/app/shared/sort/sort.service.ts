@@ -3,7 +3,7 @@ import { SortState } from './sort-state';
 
 @Injectable({ providedIn: 'root' })
 export class SortService {
-  private collator = new Intl.Collator(undefined, {
+  private readonly collator = new Intl.Collator(undefined, {
     numeric: true,
     sensitivity: 'base',
   });

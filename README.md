@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 8.7.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.7.1](https://www.jhipster.tech/documentation-archive/v8.7.1).
+This application was generated using JHipster 8.7.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.7.2](https://www.jhipster.tech/documentation-archive/v8.7.2).
 
 ## Project Structure
 
@@ -215,57 +215,65 @@ sonar.password=admin
 
 For more information, refer to the [Code quality page][].
 
-### Using Docker to simplify development (optional)
+### Docker Compose support
 
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+JHipster generates a number of Docker Compose configuration files in the [src/main/docker/](src/main/docker/) folder to launch required third party services.
 
-For example, to start a postgresql database in a docker container, run:
-
-```
-docker compose -f src/main/docker/postgresql.yml up -d
-```
-
-To stop it and remove the container, run:
+For example, to start required services in Docker containers, run:
 
 ```
-docker compose -f src/main/docker/postgresql.yml down
+docker compose -f src/main/docker/services.yml up -d
+```
+
+To stop and remove the containers, run:
+
+```
+docker compose -f src/main/docker/services.yml down
+```
+
+[Spring Docker Compose Integration](https://docs.spring.io/spring-boot/reference/features/dev-services.html) is enable by default. It's possible to disable it in application.yml:
+
+```yaml
+spring:
+  ...
+  docker:
+    compose:
+      enabled: false
 ```
 
 You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
+To achieve this, first build a Docker image of your app by running:
 
-```
+```sh
 npm run java:docker
 ```
 
-Or build a arm64 docker image when using an arm64 processor os like MacOS with M1 processor family running:
+Or build a arm64 Docker image when using an arm64 processor os like MacOS with M1 processor family running:
 
-```
+```sh
 npm run java:docker:arm64
 ```
 
 Then run:
 
-```
+```sh
 docker compose -f src/main/docker/app.yml up -d
 ```
 
-When running Docker Desktop on MacOS Big Sur or later, consider enabling experimental `Use the new Virtualization framework` for better processing performance ([disk access performance is worse](https://github.com/docker/roadmap/issues/7)).
-
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the Docker Compose sub-generator (`jhipster docker-compose`), which is able to generate Docker configurations for one or several JHipster applications.
 
 ## Continuous Integration (optional)
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: https://www.jhipster.tech
-[JHipster 8.7.1 archive]: https://www.jhipster.tech/documentation-archive/v8.7.1
-[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v8.7.1/development/
-[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v8.7.1/docker-compose
-[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v8.7.1/production/
-[Running tests page]: https://www.jhipster.tech/documentation-archive/v8.7.1/running-tests/
-[Code quality page]: https://www.jhipster.tech/documentation-archive/v8.7.1/code-quality/
-[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v8.7.1/setting-up-ci/
+[JHipster 8.7.2 archive]: https://www.jhipster.tech/documentation-archive/v8.7.2
+[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v8.7.2/development/
+[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v8.7.2/docker-compose
+[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v8.7.2/production/
+[Running tests page]: https://www.jhipster.tech/documentation-archive/v8.7.2/running-tests/
+[Code quality page]: https://www.jhipster.tech/documentation-archive/v8.7.2/code-quality/
+[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v8.7.2/setting-up-ci/
 [Node.js]: https://nodejs.org/
 [NPM]: https://www.npmjs.com/
 [Gatling]: https://gatling.io/

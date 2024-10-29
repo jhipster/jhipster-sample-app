@@ -37,8 +37,8 @@ export default class MetricsComponent implements OnInit {
   threads = signal<Thread[] | undefined>(undefined);
   updatingMetrics = signal(true);
 
-  private metricsService = inject(MetricsService);
-  private changeDetector = inject(ChangeDetectorRef);
+  private readonly metricsService = inject(MetricsService);
+  private readonly changeDetector = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.refresh();
