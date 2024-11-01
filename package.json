@@ -129,7 +129,7 @@
     "eslint-plugin-prettier": "5.2.1",
     "eslint-webpack-plugin": "4.2.0",
     "folder-hash": "4.0.4",
-    "generator-jhipster": "8.7.2",
+    "generator-jhipster": "8.7.3",
     "globals": "15.11.0",
     "husky": "9.1.6",
     "jest": "29.7.0",
@@ -148,14 +148,14 @@
     "swagger-ui-dist": "5.17.14",
     "ts-jest": "29.2.5",
     "typescript": "5.5.4",
-    "typescript-eslint": "8.11.0",
+    "typescript-eslint": "8.12.2",
     "wait-on": "8.0.1",
     "webpack-bundle-analyzer": "4.10.2",
     "webpack-merge": "6.0.1",
     "webpack-notifier": "1.15.0"
   },
   "engines": {
-    "node": ">=20.18.0"
+    "node": ">=22.11.0"
   },
   "cacheDirectories": [
     "node_modules"

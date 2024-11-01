@@ -4,9 +4,7 @@ export type HealthKey = 'binders' | 'diskSpace' | 'mail' | 'ping' | 'livenessSta
 
 export interface Health {
   status: HealthStatus;
-  components: {
-    [key in HealthKey]?: HealthDetails;
-  };
+  components?: Partial<Record<HealthKey, HealthDetails>>;
 }
 
 export interface HealthDetails {
