@@ -16,7 +16,6 @@ import { IOperation } from '../operation.model';
 import { OperationFormGroup, OperationFormService } from './operation-form.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-operation-update',
   templateUrl: './operation-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],

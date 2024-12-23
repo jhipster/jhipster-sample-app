@@ -59,7 +59,7 @@ describe('BankAccount Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 123 }],
+            body: [{ id: 22720 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
             }),
@@ -69,7 +69,7 @@ describe('BankAccount Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 456 }],
+            body: [{ id: 22583 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
             }),
@@ -84,12 +84,12 @@ describe('BankAccount Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.bankAccounts?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+    expect(comp.bankAccounts()[0]).toEqual(expect.objectContaining({ id: 22720 }));
   });
 
   describe('trackId', () => {
     it('Should forward to bankAccountService', () => {
-      const entity = { id: 123 };
+      const entity = { id: 22720 };
       jest.spyOn(service, 'getBankAccountIdentifier');
       const id = comp.trackId(entity);
       expect(service.getBankAccountIdentifier).toHaveBeenCalledWith(entity);

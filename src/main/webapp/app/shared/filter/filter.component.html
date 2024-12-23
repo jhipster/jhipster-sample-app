@@ -1,11 +1,11 @@
-@if (filters.hasAnyFilterSet()) {
+@if (filters().hasAnyFilterSet()) {
   <div class="filter-display">
     <span jhiTranslate="entity.filters.set">Following filters are set</span>
     <button class="btn" (click)="clearAllFilters()" (keydown.enter)="clearAllFilters()">
       <fa-icon icon="times" title="{{ 'entity.filters.clearAll' | translate }}"></fa-icon>
     </button>
     <ul>
-      @for (filterOption of filters.filterOptions; track filterOption.name) {
+      @for (filterOption of filters().filterOptions; track filterOption.name) {
         @for (value of filterOption.values; track value) {
           <li>
             <span>{{ filterOption.name }}:</span> {{ value }}

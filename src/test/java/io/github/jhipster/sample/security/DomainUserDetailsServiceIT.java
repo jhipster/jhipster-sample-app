@@ -45,7 +45,7 @@ class DomainUserDetailsServiceIT {
     public User getUserOne() {
         User userOne = new User();
         userOne.setLogin(USER_ONE_LOGIN);
-        userOne.setPassword(RandomStringUtils.randomAlphanumeric(60));
+        userOne.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
         userOne.setActivated(true);
         userOne.setEmail(USER_ONE_EMAIL);
         userOne.setFirstName("userOne");
@@ -57,7 +57,7 @@ class DomainUserDetailsServiceIT {
     public User getUserTwo() {
         User userTwo = new User();
         userTwo.setLogin(USER_TWO_LOGIN);
-        userTwo.setPassword(RandomStringUtils.randomAlphanumeric(60));
+        userTwo.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
         userTwo.setActivated(true);
         userTwo.setEmail(USER_TWO_EMAIL);
         userTwo.setFirstName("userTwo");
@@ -69,7 +69,7 @@ class DomainUserDetailsServiceIT {
     public User getUserThree() {
         User userThree = new User();
         userThree.setLogin(USER_THREE_LOGIN);
-        userThree.setPassword(RandomStringUtils.randomAlphanumeric(60));
+        userThree.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
         userThree.setActivated(false);
         userThree.setEmail(USER_THREE_EMAIL);
         userThree.setFirstName("userThree");

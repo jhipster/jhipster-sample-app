@@ -18,7 +18,7 @@ describe('Label Management Detail Component', () => {
             {
               path: '**',
               loadComponent: () => import('./label-detail.component').then(m => m.LabelDetailComponent),
-              resolve: { label: () => of({ id: 123 }) },
+              resolve: { label: () => of({ id: 4199 }) },
             },
           ],
           withComponentInputBinding(),
@@ -40,7 +40,7 @@ describe('Label Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', LabelDetailComponent);
 
       // THEN
-      expect(instance.label()).toEqual(expect.objectContaining({ id: 123 }));
+      expect(instance.label()).toEqual(expect.objectContaining({ id: 4199 }));
     });
   });
 

@@ -14,7 +14,6 @@ import { LabelService } from '../service/label.service';
 import { LabelFormGroup, LabelFormService } from './label-form.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-label-update',
   templateUrl: './label-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],

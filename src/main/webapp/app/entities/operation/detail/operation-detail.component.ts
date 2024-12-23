@@ -2,14 +2,13 @@ import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { DurationPipe, FormatMediumDatePipe, FormatMediumDatetimePipe } from 'app/shared/date';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { IOperation } from '../operation.model';
 
 @Component({
-  standalone: true,
   selector: 'jhi-operation-detail',
   templateUrl: './operation-detail.component.html',
-  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class OperationDetailComponent {
   operation = input<IOperation | null>(null);

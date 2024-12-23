@@ -1,24 +1,19 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { SortOrder, SortState, SortStateSignal } from './sort-state';
-
-export interface SortChangeDirective<T> {
-  sortChange: EventEmitter<SortState>;
-
-  sort(field: T): void;
-}
+import { Directive, model, output } from '@angular/core';
+import { SortOrder, SortState } from './sort-state';
 
 @Directive({
-  standalone: true,
   selector: '[jhiSort]',
 })
-export class SortDirective implements SortChangeDirective<string> {
-  @Input() sortState!: SortStateSignal;
+export class SortDirective {
+  readonly sortState = model.required<SortState>();
 
-  @Output() sortChange = new EventEmitter<SortState>();
+  readonly sortChange = output<SortState>();
 
   sort(field: string): void {
     const { predicate, order } = this.sortState();
     const toggle = (): SortOrder => (order === 'asc' ? 'desc' : 'asc');
-    this.sortChange.emit({ predicate: field, order: field !== predicate ? 'asc' : toggle() });
+    const newSortState = { predicate: field, order: field !== predicate ? 'asc' : toggle() };
+    this.sortState.update(() => newSortState);
+    this.sortChange.emit(newSortState);
   }
 }

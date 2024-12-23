@@ -29,7 +29,7 @@ spring:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   docker:
     compose:
-      enabled: true
+      enabled: false
       profiles:
         active: dev
   jackson:

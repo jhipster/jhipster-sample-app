@@ -18,7 +18,7 @@ describe('Authority Management Detail Component', () => {
             {
               path: '**',
               loadComponent: () => import('./authority-detail.component').then(m => m.AuthorityDetailComponent),
-              resolve: { authority: () => of({ name: 'ABC' }) },
+              resolve: { authority: () => of({ name: '572a7ecc-bf76-43f4-8026-46b42fba586d' }) },
             },
           ],
           withComponentInputBinding(),
@@ -40,7 +40,7 @@ describe('Authority Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', AuthorityDetailComponent);
 
       // THEN
-      expect(instance.authority()).toEqual(expect.objectContaining({ name: 'ABC' }));
+      expect(instance.authority()).toEqual(expect.objectContaining({ name: '572a7ecc-bf76-43f4-8026-46b42fba586d' }));
     });
   });
 

@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Component, NgZone } from '@angular/core';
 import { of } from 'rxjs';
-import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { InterpolatableTranslationObject, LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -52,7 +52,7 @@ describe('MainComponent', () => {
     const defaultPageTitle = 'global.title';
     const parentRoutePageTitle = 'parentTitle';
     const childRoutePageTitle = 'childTitle';
-    const langChangeEvent: LangChangeEvent = { lang: 'en', translations: null };
+    const langChangeEvent: LangChangeEvent = { lang: 'en', translations: {} as InterpolatableTranslationObject };
 
     beforeEach(() => {
       routerState.snapshot.root = { data: {} };
@@ -214,13 +214,13 @@ describe('MainComponent', () => {
       comp.ngOnInit();
 
       // WHEN
-      translateService.onLangChange.emit({ lang: 'lang1', translations: null });
+      translateService.onLangChange.emit({ lang: 'lang1', translations: {} as InterpolatableTranslationObject });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang1');
 
       // WHEN
-      translateService.onLangChange.emit({ lang: 'lang2', translations: null });
+      translateService.onLangChange.emit({ lang: 'lang2', translations: {} as InterpolatableTranslationObject });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang2');
@@ -228,5 +228,7 @@ describe('MainComponent', () => {
   });
 });
 
-@Component({ template: '' })
+@Component({
+  template: '',
+})
 export class BlankComponent {}

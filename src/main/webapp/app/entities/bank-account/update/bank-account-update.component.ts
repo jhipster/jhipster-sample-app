@@ -14,7 +14,6 @@ import { BankAccountService } from '../service/bank-account.service';
 import { BankAccountFormGroup, BankAccountFormService } from './bank-account-form.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-bank-account-update',
   templateUrl: './bank-account-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],

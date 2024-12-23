@@ -8,7 +8,6 @@ import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
 @Component({
-  standalone: true,
   templateUrl: './bank-account-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })

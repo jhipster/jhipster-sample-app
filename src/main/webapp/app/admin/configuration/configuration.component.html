@@ -9,7 +9,7 @@
 
     <table class="table table-striped table-bordered table-responsive d-table" aria-describedby="spring-configuration">
       <thead>
-        <tr jhiSort [sortState]="sortState" (sortChange)="sortState.set($event)">
+        <tr jhiSort [(sortState)]="sortState">
           <th jhiSortBy="prefix" scope="col" class="w-40">
             <span jhiTranslate="configuration.table.prefix">Prefix</span> <fa-icon icon="sort"></fa-icon>
           </th>

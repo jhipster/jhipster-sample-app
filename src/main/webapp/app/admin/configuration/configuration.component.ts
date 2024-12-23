@@ -7,7 +7,6 @@ import { ConfigurationService } from './configuration.service';
 import { Bean, PropertySource } from './configuration.model';
 
 @Component({
-  standalone: true,
   selector: 'jhi-configuration',
   templateUrl: './configuration.component.html',
   imports: [SharedModule, FormsModule, SortDirective, SortByDirective],

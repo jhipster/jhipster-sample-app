@@ -6,7 +6,6 @@ import SharedModule from 'app/shared/shared.module';
 import { ProfileService } from './profile.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-page-ribbon',
   template: `
     @if (ribbonEnv$ | async; as ribbonEnv) {

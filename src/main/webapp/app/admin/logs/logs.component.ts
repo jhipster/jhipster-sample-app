@@ -8,7 +8,6 @@ import { Level, Log, LoggersResponse } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-logs',
   templateUrl: './logs.component.html',
   imports: [SharedModule, FormsModule, SortDirective, SortByDirective],

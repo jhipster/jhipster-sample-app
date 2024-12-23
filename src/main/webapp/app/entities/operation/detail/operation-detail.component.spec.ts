@@ -18,7 +18,7 @@ describe('Operation Management Detail Component', () => {
             {
               path: '**',
               loadComponent: () => import('./operation-detail.component').then(m => m.OperationDetailComponent),
-              resolve: { operation: () => of({ id: 123 }) },
+              resolve: { operation: () => of({ id: 13822 }) },
             },
           ],
           withComponentInputBinding(),
@@ -40,7 +40,7 @@ describe('Operation Management Detail Component', () => {
       const instance = await harness.navigateByUrl('/', OperationDetailComponent);
 
       // THEN
-      expect(instance.operation()).toEqual(expect.objectContaining({ id: 123 }));
+      expect(instance.operation()).toEqual(expect.objectContaining({ id: 13822 }));
     });
   });
 

@@ -52,11 +52,11 @@ describe('Operation Management Update Component', () => {
 
   describe('ngOnInit', () => {
     it('Should call BankAccount query and add missing value', () => {
-      const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 29786 };
+      const operation: IOperation = { id: 5986 };
+      const bankAccount: IBankAccount = { id: 22720 };
       operation.bankAccount = bankAccount;
 
-      const bankAccountCollection: IBankAccount[] = [{ id: 7279 }];
+      const bankAccountCollection: IBankAccount[] = [{ id: 22720 }];
       jest.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
       const additionalBankAccounts = [bankAccount];
       const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
@@ -74,11 +74,11 @@ describe('Operation Management Update Component', () => {
     });
 
     it('Should call Label query and add missing value', () => {
-      const operation: IOperation = { id: 456 };
-      const labels: ILabel[] = [{ id: 16574 }];
+      const operation: IOperation = { id: 5986 };
+      const labels: ILabel[] = [{ id: 4199 }];
       operation.labels = labels;
 
-      const labelCollection: ILabel[] = [{ id: 26795 }];
+      const labelCollection: ILabel[] = [{ id: 4199 }];
       jest.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
       const additionalLabels = [...labels];
       const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
@@ -96,17 +96,17 @@ describe('Operation Management Update Component', () => {
     });
 
     it('Should update editForm', () => {
-      const operation: IOperation = { id: 456 };
-      const bankAccount: IBankAccount = { id: 817 };
+      const operation: IOperation = { id: 5986 };
+      const bankAccount: IBankAccount = { id: 22720 };
       operation.bankAccount = bankAccount;
-      const label: ILabel = { id: 655 };
+      const label: ILabel = { id: 4199 };
       operation.labels = [label];
 
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
 
-      expect(comp.bankAccountsSharedCollection).toContain(bankAccount);
-      expect(comp.labelsSharedCollection).toContain(label);
+      expect(comp.bankAccountsSharedCollection).toContainEqual(bankAccount);
+      expect(comp.labelsSharedCollection).toContainEqual(label);
       expect(comp.operation).toEqual(operation);
     });
   });
@@ -115,7 +115,7 @@ describe('Operation Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
-      const operation = { id: 123 };
+      const operation = { id: 13822 };
       jest.spyOn(operationFormService, 'getOperation').mockReturnValue(operation);
       jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -138,7 +138,7 @@ describe('Operation Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
-      const operation = { id: 123 };
+      const operation = { id: 13822 };
       jest.spyOn(operationFormService, 'getOperation').mockReturnValue({ id: null });
       jest.spyOn(operationService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -161,7 +161,7 @@ describe('Operation Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
-      const operation = { id: 123 };
+      const operation = { id: 13822 };
       jest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ operation });
@@ -182,8 +182,8 @@ describe('Operation Management Update Component', () => {
   describe('Compare relationships', () => {
     describe('compareBankAccount', () => {
       it('Should forward to bankAccountService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { id: 22720 };
+        const entity2 = { id: 22583 };
         jest.spyOn(bankAccountService, 'compareBankAccount');
         comp.compareBankAccount(entity, entity2);
         expect(bankAccountService.compareBankAccount).toHaveBeenCalledWith(entity, entity2);
@@ -192,8 +192,8 @@ describe('Operation Management Update Component', () => {
 
     describe('compareLabel', () => {
       it('Should forward to labelService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { id: 4199 };
+        const entity2 = { id: 7351 };
         jest.spyOn(labelService, 'compareLabel');
         comp.compareLabel(entity, entity2);
         expect(labelService.compareLabel).toHaveBeenCalledWith(entity, entity2);

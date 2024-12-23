@@ -14,7 +14,6 @@ import { AccountService } from 'app/core/auth/account.service';
  * ```
  */
 @Directive({
-  standalone: true,
   selector: '[jhiHasAnyAuthority]',
 })
 export default class HasAnyAuthorityDirective {
@@ -28,15 +27,12 @@ export default class HasAnyAuthorityDirective {
     const currentAccount = accountService.trackCurrentAccount();
     const hasPermission = computed(() => currentAccount()?.authorities && accountService.hasAnyAuthority(this.authorities()));
 
-    effect(
-      () => {
-        if (hasPermission()) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        } else {
-          this.viewContainerRef.clear();
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (hasPermission()) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainerRef.clear();
+      }
+    });
   }
 }

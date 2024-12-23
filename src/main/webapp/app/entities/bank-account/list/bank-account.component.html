@@ -24,17 +24,15 @@
 
   <jhi-alert></jhi-alert>
 
-  @if (bankAccounts?.length === 0) {
+  @if (bankAccounts().length === 0) {
     <div class="alert alert-warning" id="no-result">
       <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.home.notFound">No Bank Accounts found</span>
     </div>
-  }
-
-  @if (bankAccounts && bankAccounts.length > 0) {
+  } @else {
     <div class="table-responsive table-entities" id="entities">
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
-          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
@@ -66,7 +64,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (bankAccount of bankAccounts; track trackId(bankAccount)) {
+          @for (bankAccount of bankAccounts(); track trackId(bankAccount)) {
             <tr data-cy="entityTable">
               <td>
                 <a [routerLink]="['/bank-account', bankAccount.id, 'view']">{{ bankAccount.id }}</a>

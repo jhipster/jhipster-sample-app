@@ -5,7 +5,6 @@ import { HttpServerRequests } from 'app/admin/metrics/metrics.model';
 import { filterNaN } from 'app/core/util/operators';
 
 @Component({
-  standalone: true,
   selector: 'jhi-metrics-request',
   templateUrl: './metrics-request.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

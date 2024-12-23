@@ -21,7 +21,7 @@
     <div class="table-responsive">
       <table class="table table-striped" aria-describedby="user-management-page-heading">
         <thead>
-          <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="transition($event)">
             <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
             <th scope="col" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <fa-icon icon="sort"></fa-icon></th>
             <th scope="col" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <fa-icon icon="sort"></fa-icon></th>

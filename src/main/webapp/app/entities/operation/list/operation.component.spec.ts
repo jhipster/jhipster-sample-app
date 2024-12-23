@@ -59,7 +59,7 @@ describe('Operation Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 123 }],
+            body: [{ id: 13822 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
             }),
@@ -69,7 +69,7 @@ describe('Operation Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 456 }],
+            body: [{ id: 5986 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
             }),
@@ -84,12 +84,12 @@ describe('Operation Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.operations?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+    expect(comp.operations()[0]).toEqual(expect.objectContaining({ id: 13822 }));
   });
 
   describe('trackId', () => {
     it('Should forward to operationService', () => {
-      const entity = { id: 123 };
+      const entity = { id: 13822 };
       jest.spyOn(service, 'getOperationIdentifier');
       const id = comp.trackId(entity);
       expect(service.getOperationIdentifier).toHaveBeenCalledWith(entity);

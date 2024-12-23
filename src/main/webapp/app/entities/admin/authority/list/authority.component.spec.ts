@@ -59,7 +59,7 @@ describe('Authority Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ name: 'ABC' }],
+            body: [{ name: '572a7ecc-bf76-43f4-8026-46b42fba586d' }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
             }),
@@ -69,7 +69,7 @@ describe('Authority Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ name: 'CBA' }],
+            body: [{ name: 'c56c1cf7-aca8-48fe-ad81-eeebbf872cb1' }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
             }),
@@ -84,12 +84,12 @@ describe('Authority Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.authorities?.[0]).toEqual(expect.objectContaining({ name: 'ABC' }));
+    expect(comp.authorities()[0]).toEqual(expect.objectContaining({ name: '572a7ecc-bf76-43f4-8026-46b42fba586d' }));
   });
 
   describe('trackName', () => {
     it('Should forward to authorityService', () => {
-      const entity = { name: 'ABC' };
+      const entity = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };
       jest.spyOn(service, 'getAuthorityIdentifier');
       const name = comp.trackName(entity);
       expect(service.getAuthorityIdentifier).toHaveBeenCalledWith(entity);

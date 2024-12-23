@@ -8,7 +8,6 @@ import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
 @Component({
-  standalone: true,
   templateUrl: './label-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })

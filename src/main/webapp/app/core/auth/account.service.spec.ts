@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { InterpolatableTranslationObject, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { Account } from 'app/core/auth/account.model';
@@ -51,7 +51,7 @@ describe('Account Service', () => {
     jest.spyOn(mockRouter, 'navigateByUrl').mockImplementation(() => Promise.resolve(true));
 
     mockTranslateService = TestBed.inject(TranslateService);
-    jest.spyOn(mockTranslateService, 'use').mockImplementation(() => of(''));
+    jest.spyOn(mockTranslateService, 'use').mockImplementation(() => of({} as InterpolatableTranslationObject));
   });
 
   afterEach(() => {

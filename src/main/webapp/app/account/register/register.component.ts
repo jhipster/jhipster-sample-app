@@ -10,7 +10,6 @@ import PasswordStrengthBarComponent from '../password/password-strength-bar/pass
 import { RegisterService } from './register.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-register',
   imports: [SharedModule, RouterModule, FormsModule, ReactiveFormsModule, PasswordStrengthBarComponent],
   templateUrl: './register.component.html',

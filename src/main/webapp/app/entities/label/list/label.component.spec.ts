@@ -59,7 +59,7 @@ describe('Label Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 123 }],
+            body: [{ id: 4199 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
             }),
@@ -69,7 +69,7 @@ describe('Label Management Component', () => {
       .mockReturnValueOnce(
         of(
           new HttpResponse({
-            body: [{ id: 456 }],
+            body: [{ id: 7351 }],
             headers: new HttpHeaders({
               link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
             }),
@@ -84,12 +84,12 @@ describe('Label Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.labels?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+    expect(comp.labels()[0]).toEqual(expect.objectContaining({ id: 4199 }));
   });
 
   describe('trackId', () => {
     it('Should forward to labelService', () => {
-      const entity = { id: 123 };
+      const entity = { id: 4199 };
       jest.spyOn(service, 'getLabelIdentifier');
       const id = comp.trackId(entity);
       expect(service.getLabelIdentifier).toHaveBeenCalledWith(entity);

@@ -8,7 +8,6 @@ import { IOperation } from '../operation.model';
 import { OperationService } from '../service/operation.service';
 
 @Component({
-  standalone: true,
   templateUrl: './operation-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })

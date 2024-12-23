@@ -33,7 +33,7 @@ class UserMapperTest {
         userMapper = new UserMapper();
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
-        user.setPassword(RandomStringUtils.randomAlphanumeric(60));
+        user.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
         user.setActivated(true);
         user.setEmail("johndoe@localhost");
         user.setFirstName("john");

@@ -12,7 +12,6 @@ import { AuthorityService } from '../service/authority.service';
 import { AuthorityFormGroup, AuthorityFormService } from './authority-form.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-authority-update',
   templateUrl: './authority-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],

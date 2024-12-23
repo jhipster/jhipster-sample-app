@@ -5,7 +5,6 @@ import { Databases } from 'app/admin/metrics/metrics.model';
 import { filterNaN } from 'app/core/util/operators';
 
 @Component({
-  standalone: true,
   selector: 'jhi-metrics-datasource',
   templateUrl: './metrics-datasource.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

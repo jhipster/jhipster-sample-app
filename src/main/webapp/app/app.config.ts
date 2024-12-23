@@ -15,9 +15,9 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
-import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import './config/dayjs';
 import { TranslationModule } from 'app/shared/language/translation.module';
+import { environment } from 'environments/environment';
 import { httpInterceptorProviders } from './core/interceptor';
 import routes from './app.routes';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
@@ -39,7 +39,7 @@ const routerFeatures: RouterFeatures[] = [
     }
   }),
 ];
-if (DEBUG_INFO_ENABLED) {
+if (environment.DEBUG_INFO_ENABLED) {
   routerFeatures.push(withDebugTracing());
 }
 

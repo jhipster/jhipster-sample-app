@@ -11,6 +11,7 @@ import { Account } from 'app/core/auth/account.model';
 import HasAnyAuthorityDirective from './has-any-authority.directive';
 
 @Component({
+  imports: [HasAnyAuthorityDirective],
   template: ` <div *jhiHasAnyAuthority="'ROLE_ADMIN'" #content></div> `,
 })
 class TestHasAnyAuthorityDirectiveComponent {
@@ -23,8 +24,7 @@ describe('HasAnyAuthorityDirective tests', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HasAnyAuthorityDirective, TranslateModule.forRoot()],
-      declarations: [TestHasAnyAuthorityDirectiveComponent],
+      imports: [TestHasAnyAuthorityDirectiveComponent, TranslateModule.forRoot()],
       providers: [provideHttpClient(), AccountService],
     });
   }));
