@@ -20,7 +20,6 @@
       "id": "ID",
       "name": "Name",
       "balance": "Balance",
-      "country": "Country",
       "user": "User",
       "operation": "Operation"
     }

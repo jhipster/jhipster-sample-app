@@ -56,12 +56,6 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="country">
-              <div class="d-flex">
-                <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.country">Country</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="user.login">
               <div class="d-flex">
                 <span jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</span>
@@ -79,7 +73,6 @@
               </td>
               <td>{{ bankAccount.name }}</td>
               <td>{{ bankAccount.balance }}</td>
-              <td>{{ bankAccount.country }}</td>
               <td>
                 {{ bankAccount.user?.login }}
               </td>

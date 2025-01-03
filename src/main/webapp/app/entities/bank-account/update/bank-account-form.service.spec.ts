@@ -4,8 +4,6 @@ import { sampleWithNewData, sampleWithRequiredData } from '../bank-account.test-
 
 import { BankAccountFormService } from './bank-account-form.service';
 
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 describe('BankAccount Form Service', () => {
   let service: BankAccountFormService;
 
@@ -24,7 +22,6 @@ describe('BankAccount Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             balance: expect.any(Object),
-            country: expect.any(Object),
             user: expect.any(Object),
           }),
         );
@@ -38,7 +35,6 @@ describe('BankAccount Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             balance: expect.any(Object),
-            country: expect.any(Object),
             user: expect.any(Object),
           }),
         );

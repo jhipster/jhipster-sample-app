@@ -20,9 +20,6 @@
             <column name="balance" type="decimal(21,2)">
                 <constraints nullable="false" />
             </column>
-            <column name="country" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -49,7 +46,6 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="balance" type="numeric"/>
-            <column name="country" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

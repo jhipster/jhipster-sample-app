@@ -1,13 +1,10 @@
 import { IUser } from 'app/entities/user/user.model';
-import { IOperation } from 'app/entities/operation/operation.model';
 
 export interface IBankAccount {
   id: number;
-  name: string;
-  balance: number;
-  country: string;
+  name?: string | null;
+  balance?: number | null;
   user?: Pick<IUser, 'id' | 'login'> | null;
-  operations?: Pick<IOperation, 'id' | 'description'>[] | null;
 }
 
-export type NewBankAccount = { id: null } & Omit<IBankAccount, 'id'>;
+export type NewBankAccount = Omit<IBankAccount, 'id'> & { id: null };

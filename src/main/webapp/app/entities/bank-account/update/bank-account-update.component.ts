@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IBankAccount, NewBankAccount } from '../bank-account.model';
-import { BankAccountService } from '../service/bank-account.service';
-import { BankAccountFormService } from './bank-account-form.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/service/user.service';
+import { IBankAccount } from '../bank-account.model';
+import { BankAccountService } from '../service/bank-account.service';
+import { BankAccountFormGroup, BankAccountFormService } from './bank-account-form.service';
 
 @Component({
   standalone: true,
@@ -26,16 +25,13 @@ export class BankAccountUpdateComponent implements OnInit {
 
   usersSharedCollection: IUser[] = [];
 
-  editForm: FormGroup;
+  protected bankAccountService = inject(BankAccountService);
+  protected bankAccountFormService = inject(BankAccountFormService);
+  protected userService = inject(UserService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    protected bankAccountService: BankAccountService,
-    protected bankAccountFormService: BankAccountFormService,
-    protected userService: UserService,
-    protected activatedRoute: ActivatedRoute,
-  ) {
-    this.editForm = this.bankAccountFormService.createBankAccountFormGroup();
-  }
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: BankAccountFormGroup = this.bankAccountFormService.createBankAccountFormGroup();
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
@@ -45,6 +41,7 @@ export class BankAccountUpdateComponent implements OnInit {
       if (bankAccount) {
         this.updateForm(bankAccount);
       }
+
       this.loadRelationshipsOptions();
     });
   }
@@ -56,14 +53,10 @@ export class BankAccountUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const bankAccount = this.bankAccountFormService.getBankAccount(this.editForm);
-    if (bankAccount.id) {
+    if (bankAccount.id !== null) {
       this.subscribeToSaveResponse(this.bankAccountService.update(bankAccount));
     } else {
-      const newBankAccount: NewBankAccount = {
-        ...bankAccount,
-        id: null,
-      };
-      this.subscribeToSaveResponse(this.bankAccountService.create(newBankAccount));
+      this.subscribeToSaveResponse(this.bankAccountService.create(bankAccount));
     }
   }
 
@@ -89,6 +82,7 @@ export class BankAccountUpdateComponent implements OnInit {
   protected updateForm(bankAccount: IBankAccount): void {
     this.bankAccount = bankAccount;
     this.bankAccountFormService.resetForm(this.editForm, bankAccount);
+
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, bankAccount.user);
   }
 
@@ -96,6 +90,7 @@ export class BankAccountUpdateComponent implements OnInit {
     this.userService
       .query()
       .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.bankAccount?.user)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }
