@@ -35,7 +35,11 @@ public class BankAccount implements Serializable {
     @Column(name = "balance", precision = 21, scale = 2, nullable = false)
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Column(name = "country", nullable = false)
+    private String country;
+
+    @ManyToOne
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bankAccount")
@@ -82,6 +86,19 @@ public class BankAccount implements Serializable {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public BankAccount country(String country) {
+        this.setCountry(country);
+        return this;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public User getUser() {
@@ -154,6 +171,7 @@ public class BankAccount implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", balance=" + getBalance() +
+            ", country='" + getCountry() + "'" +
             "}";
     }
 }
