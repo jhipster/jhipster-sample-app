@@ -1,80 +1,58 @@
 How to Run the JHipster Sample Application
-=========================================
+==========================================
 
-Prerequisites
-------------
-1. Java JDK (version specified in pom.xml)
-2. Node.js and npm
-3. Docker and Docker Compose
-4. Maven
-
-Database Setup
+Prerequisites:
 -------------
-The application uses PostgreSQL which runs in Docker:
-1. PostgreSQL database runs on port 5432
-2. Database is automatically started with Docker Compose
-3. Check if database is running:
-   ```
-   docker ps
-   ```
-   You should see a container named "jhipstersampleapplication-postgresql-1"
+- Java JDK 17 or later
+- Maven
+- Node.js and npm
+- Git
 
-Starting the Frontend
--------------------
-1. Navigate to the project root directory
-2. Run the frontend using npm:
-   ```
-   ./npmw start
-   ```
-3. The frontend will be available at:
-   http://localhost:9001
-4. Login page will be at:
-   http://localhost:9001/login
+Step 1: Start the Backend (Terminal 1)
+------------------------------------
+1. Navigate to the project directory:
+   cd /Users/matze/_Projekte/KI-Transformation/jhipster-sample-app
 
-Starting the Backend
-------------------
-1. Navigate to the project root directory
-2. Start the Spring Boot application:
-   ```
-   mvn spring-boot:run
-   ```
-   or with explicit port configuration:
-   ```
-   mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8080
-   ```
-3. The backend API will be available at:
-   http://localhost:8080
+2. Start the Spring Boot application with the dev profile (uses H2 in-memory database):
+   mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
-Verification
------------
-1. Check if PostgreSQL is running:
-   ```
-   docker ps
-   ```
-   Should show PostgreSQL container running on port 5432
+3. Wait until you see the Spring Boot startup banner and "Started JhipsterSampleApplicationApp" message
+   The backend will be running at http://localhost:8080
 
-2. Check if frontend is running:
-   ```
-   lsof -i :9001
-   ```
-   Should show Node.js process
 
-3. Check if backend is running:
-   ```
-   lsof -i :8080
-   ```
-   Should show Java process
+Step 2: Start the Frontend (Terminal 2)
+-------------------------------------
+1. Navigate to the project directory:
+   cd /Users/matze/_Projekte/KI-Transformation/jhipster-sample-app
 
-Troubleshooting
---------------
-1. If you see libunistring errors when using Maven wrapper (./mvnw):
-   ```
-   brew reinstall libunistring
-   brew link libunistring --force
-   ```
-   Or use the Maven binary (mvn) directly instead of the wrapper
+2. Install frontend dependencies:
+   npm install
 
-2. If the application doesn't start, check:
-   - Database connection in application-dev.yml
-   - Logs in target/spring-boot.log
-   - Docker container status with 'docker ps'
+3. Start the frontend development server:
+   npm start
+
+4. The frontend will be available at http://localhost:9000
+
+
+Verify the Setup
+---------------
+1. Open http://localhost:9000 in your browser
+2. Click the "Sign in" button
+3. Login with the default admin account:
+   - Username: admin
+   - Password: admin
+
+Database Access (H2 Console)
+--------------------------
+1. Open http://localhost:8080/h2-console in your browser
+2. Use these connection settings:
+   - JDBC URL: jdbc:h2:mem:jhipsterSampleApplication
+   - Username: jhipsterSampleApplication
+   - Password: (leave empty)
+3. Click "Connect" to access the database
+
+Note: The H2 database is in-memory, which means:
+- It starts fresh each time you restart the application
+- Perfect for development and testing
+- No additional database setup required
+- Sample data is automatically loaded on startup
