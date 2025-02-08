@@ -25,7 +25,6 @@ import { sortStateSignal } from './sort-state';
 })
 class TestSortByDirectiveComponent {
   sortState = sortStateSignal({ predicate: 'name' });
-  sortAllowed = true;
   transition = jest.fn();
 
   private library = inject(FaIconLibrary);

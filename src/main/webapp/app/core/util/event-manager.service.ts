@@ -10,7 +10,7 @@ export class EventWithContent<T> {
 }
 
 /**
- * An utility class to manage RX events
+ * A utility class to manage RX events
  */
 @Injectable({
   providedIn: 'root',

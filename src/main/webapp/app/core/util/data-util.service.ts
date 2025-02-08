@@ -12,7 +12,7 @@ export interface FileLoadError {
 }
 
 /**
- * An utility service for data.
+ * A utility service for data.
  */
 @Injectable({
   providedIn: 'root',

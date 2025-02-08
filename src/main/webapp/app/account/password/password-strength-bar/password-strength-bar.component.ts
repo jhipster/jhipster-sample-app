@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, inject } from '@angular/core';
+import { Component, ElementRef, Renderer2, effect, inject, input } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 
@@ -9,10 +9,33 @@ import SharedModule from 'app/shared/shared.module';
   styleUrl: './password-strength-bar.component.scss',
 })
 export default class PasswordStrengthBarComponent {
+  passwordToCheck = input<string>('');
+
   colors = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
 
   private readonly renderer = inject(Renderer2);
   private readonly elementRef = inject(ElementRef);
+
+  constructor() {
+    effect(() => {
+      const password = this.passwordToCheck();
+      if (password) {
+        const c = this.getColor(this.measureStrength(password));
+        const element = this.elementRef.nativeElement;
+        if (element.className) {
+          this.renderer.removeClass(element, element.className);
+        }
+        const lis = element.getElementsByTagName('li');
+        for (let i = 0; i < lis.length; i++) {
+          if (i < c.idx) {
+            this.renderer.setStyle(lis[i], 'backgroundColor', c.color);
+          } else {
+            this.renderer.setStyle(lis[i], 'backgroundColor', '#DDD');
+          }
+        }
+      }
+    });
+  }
 
   measureStrength(p: string): number {
     let force = 0;
@@ -53,24 +76,5 @@ export default class PasswordStrengthBarComponent {
       }
     }
     return { idx: idx + 1, color: this.colors[idx] };
-  }
-
-  @Input()
-  set passwordToCheck(password: string) {
-    if (password) {
-      const c = this.getColor(this.measureStrength(password));
-      const element = this.elementRef.nativeElement;
-      if (element.className) {
-        this.renderer.removeClass(element, element.className);
-      }
-      const lis = element.getElementsByTagName('li');
-      for (let i = 0; i < lis.length; i++) {
-        if (i < c.idx) {
-          this.renderer.setStyle(lis[i], 'backgroundColor', c.color);
-        } else {
-          this.renderer.setStyle(lis[i], 'backgroundColor', '#DDD');
-        }
-      }
-    }
   }
 }

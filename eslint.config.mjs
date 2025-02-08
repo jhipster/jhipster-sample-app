@@ -83,6 +83,7 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/no-misused-spread': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-shadow': ['error'],
@@ -124,7 +125,7 @@ export default tseslint.config(
     rules: {},
   },
   {
-    // Html templates requires some work
+    // Html templates require some work
     ignores: ['**/*.html'],
     extends: [prettier],
   },

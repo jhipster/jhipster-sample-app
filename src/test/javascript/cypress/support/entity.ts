@@ -19,25 +19,19 @@ export const entityConfirmDeleteButtonSelector = '[data-cy="entityConfirmDeleteB
 // End Specific Selector Attributes for Cypress
 // ***********************************************
 
-Cypress.Commands.add('getEntityHeading', (entityName: string) => {
-  return cy.get(`[data-cy="${entityName}Heading"]`);
-});
+Cypress.Commands.add('getEntityHeading', (entityName: string) => cy.get(`[data-cy="${entityName}Heading"]`));
 
-Cypress.Commands.add('getEntityCreateUpdateHeading', (entityName: string) => {
-  return cy.get(`[data-cy="${entityName}CreateUpdateHeading"]`);
-});
+Cypress.Commands.add('getEntityCreateUpdateHeading', (entityName: string) => cy.get(`[data-cy="${entityName}CreateUpdateHeading"]`));
 
-Cypress.Commands.add('getEntityDetailsHeading', (entityInstanceName: string) => {
-  return cy.get(`[data-cy="${entityInstanceName}DetailsHeading"]`);
-});
+Cypress.Commands.add('getEntityDetailsHeading', (entityInstanceName: string) => cy.get(`[data-cy="${entityInstanceName}DetailsHeading"]`));
 
-Cypress.Commands.add('getEntityDeleteDialogHeading', (entityInstanceName: string) => {
-  return cy.get(`[data-cy="${entityInstanceName}DeleteDialogHeading"]`);
-});
+Cypress.Commands.add('getEntityDeleteDialogHeading', (entityInstanceName: string) =>
+  cy.get(`[data-cy="${entityInstanceName}DeleteDialogHeading"]`),
+);
 
 Cypress.Commands.add('setFieldImageAsBytesOfEntity', (fieldName: string, fileName: string, mimeType: string) => {
   // fileName is the image which you have already put in cypress fixture folder
-  // should be like : 'integration-test.png', 'image/png'
+  // should be like: 'integration-test.png', 'image/png'
   cy.fixture(fileName)
     .as('image')
     .get(`[data-cy="${fieldName}"]`)
@@ -46,8 +40,7 @@ Cypress.Commands.add('setFieldImageAsBytesOfEntity', (fieldName: string, fileNam
       const file = new File([blob], fileName, { type: mimeType });
       const list = new DataTransfer();
       list.items.add(file);
-      const myFileList = list.files;
-      (el[0] as HTMLInputElement).files = myFileList;
+      (el[0] as HTMLInputElement).files = list.files;
       el[0].dispatchEvent(new Event('change', { bubbles: true }));
     });
 });
@@ -80,5 +73,5 @@ declare global {
   }
 }
 
-// Convert this to a module instead of script (allows import/export)
+// Convert this to a module instead of a script (allows import/export)
 export {};

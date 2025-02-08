@@ -41,7 +41,6 @@ describe('HasAnyAuthorityDirective tests', () => {
       mockAccountService.hasAnyAuthority = jest.fn(() => true);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
-      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();
@@ -55,7 +54,6 @@ describe('HasAnyAuthorityDirective tests', () => {
       mockAccountService.hasAnyAuthority = jest.fn(() => false);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
-      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();
@@ -71,7 +69,6 @@ describe('HasAnyAuthorityDirective tests', () => {
       mockAccountService.hasAnyAuthority = jest.fn((): boolean => Boolean(currentAccount()));
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirectiveComponent);
       const comp = fixture.componentInstance;
-      fixture.detectChanges();
 
       // WHEN
       fixture.detectChanges();

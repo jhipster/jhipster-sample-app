@@ -61,5 +61,5 @@ declare global {
   }
 }
 
-// Convert this to a module instead of script (allows import/export)
+// Convert this to a module instead of a script (allows import/export)
 export {};

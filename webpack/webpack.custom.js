@@ -7,7 +7,6 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
 
 const environment = require('./environment');
 const proxyConfig = require('./proxy.conf');
@@ -22,10 +21,6 @@ module.exports = async (config, options, targetOptions) => {
   // PLUGINS
   if (config.mode === 'development') {
     config.plugins.push(
-      new ESLintPlugin({
-        configType: 'flat',
-        extensions: ['ts', 'js', 'html'],
-      }),
       new WebpackNotifierPlugin({
         title: 'Jhipster Sample Application',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
@@ -50,13 +45,13 @@ module.exports = async (config, options, targetOptions) => {
             target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '9060' : '8080'}`,
             ws: true,
             proxyOptions: {
-              changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
+              changeOrigin: false, //pass the Host header to the backend unchanged https://github.com/Browsersync/browser-sync/issues/430
             },
             proxyReq: [
               function (proxyReq) {
                 // URI that will be retrieved by the ForwardedHeaderFilter on the server side
                 proxyReq.setHeader('X-Forwarded-Host', 'localhost:9000');
-                proxyReq.setHeader('X-Forwarded-Proto', 'https');
+                proxyReq.setHeader('X-Forwarded-Proto', `http${tls ? 's' : ''}`);
               },
             ],
           },
