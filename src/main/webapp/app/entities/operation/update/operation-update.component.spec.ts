@@ -51,7 +51,7 @@ describe('Operation Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call BankAccount query and add missing value', () => {
+    it('should call BankAccount query and add missing value', () => {
       const operation: IOperation = { id: 5986 };
       const bankAccount: IBankAccount = { id: 22720 };
       operation.bankAccount = bankAccount;
@@ -73,7 +73,7 @@ describe('Operation Management Update Component', () => {
       expect(comp.bankAccountsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Label query and add missing value', () => {
+    it('should call Label query and add missing value', () => {
       const operation: IOperation = { id: 5986 };
       const labels: ILabel[] = [{ id: 4199 }];
       operation.labels = labels;
@@ -95,7 +95,7 @@ describe('Operation Management Update Component', () => {
       expect(comp.labelsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
+    it('should update editForm', () => {
       const operation: IOperation = { id: 5986 };
       const bankAccount: IBankAccount = { id: 22720 };
       operation.bankAccount = bankAccount;
@@ -112,7 +112,7 @@ describe('Operation Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
       const operation = { id: 13822 };
@@ -135,7 +135,7 @@ describe('Operation Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
       const operation = { id: 13822 };
@@ -158,7 +158,7 @@ describe('Operation Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IOperation>>();
       const operation = { id: 13822 };
@@ -181,7 +181,7 @@ describe('Operation Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareBankAccount', () => {
-      it('Should forward to bankAccountService', () => {
+      it('should forward to bankAccountService', () => {
         const entity = { id: 22720 };
         const entity2 = { id: 22583 };
         jest.spyOn(bankAccountService, 'compareBankAccount');
@@ -191,7 +191,7 @@ describe('Operation Management Update Component', () => {
     });
 
     describe('compareLabel', () => {
-      it('Should forward to labelService', () => {
+      it('should forward to labelService', () => {
         const entity = { id: 4199 };
         const entity2 = { id: 7351 };
         jest.spyOn(labelService, 'compareLabel');

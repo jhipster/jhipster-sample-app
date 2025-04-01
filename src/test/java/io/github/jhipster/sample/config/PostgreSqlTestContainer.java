@@ -23,7 +23,7 @@ public class PostgreSqlTestContainer implements SqlTestContainer {
     @Override
     public void afterPropertiesSet() {
         if (null == postgreSQLContainer) {
-            postgreSQLContainer = new PostgreSQLContainer<>("postgres:17.2")
+            postgreSQLContainer = new PostgreSQLContainer<>("postgres:17.4")
                 .withDatabaseName("jhipsterSampleApplication")
                 .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                 .withLogConsumer(new Slf4jLogConsumer(LOG))

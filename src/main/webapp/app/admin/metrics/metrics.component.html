@@ -12,19 +12,16 @@
   @let metricsRef = metrics();
   @if (metricsRef && !updatingMetrics()) {
     <div class="row">
-      <jhi-jvm-memory class="col-md-4" [updating]="updatingMetrics()" [jvmMemoryMetrics]="metricsRef.jvm"></jhi-jvm-memory>
+      <jhi-jvm-memory class="col-md-4" [updating]="updatingMetrics()" [jvmMemoryMetrics]="metricsRef.jvm" />
 
-      <jhi-jvm-threads class="col-md-4" [threads]="threads()"></jhi-jvm-threads>
+      <jhi-jvm-threads class="col-md-4" [threads]="threads()" />
 
-      <jhi-metrics-system class="col-md-4" [updating]="updatingMetrics()" [systemMetrics]="metricsRef.processMetrics"></jhi-metrics-system>
+      <jhi-metrics-system class="col-md-4" [updating]="updatingMetrics()" [systemMetrics]="metricsRef.processMetrics" />
     </div>
   }
 
   @if (metricsRef?.garbageCollector; as metricsRefGarbageCollector) {
-    <jhi-metrics-garbagecollector
-      [updating]="updatingMetrics()"
-      [garbageCollectorMetrics]="metricsRefGarbageCollector"
-    ></jhi-metrics-garbagecollector>
+    <jhi-metrics-garbagecollector [updating]="updatingMetrics()" [garbageCollectorMetrics]="metricsRefGarbageCollector" />
   }
 
   @if (updatingMetrics()) {
@@ -32,21 +29,18 @@
   }
 
   @if (metricsRef?.['http.server.requests']; as metricsRefHttpServerRequests) {
-    <jhi-metrics-request [updating]="updatingMetrics()" [requestMetrics]="metricsRefHttpServerRequests"></jhi-metrics-request>
+    <jhi-metrics-request [updating]="updatingMetrics()" [requestMetrics]="metricsRefHttpServerRequests" />
   }
 
   @if (metricsRef?.services; as metricsRefServices) {
-    <jhi-metrics-endpoints-requests
-      [updating]="updatingMetrics()"
-      [endpointsRequestsMetrics]="metricsRefServices"
-    ></jhi-metrics-endpoints-requests>
+    <jhi-metrics-endpoints-requests [updating]="updatingMetrics()" [endpointsRequestsMetrics]="metricsRefServices" />
   }
 
   @if (metricsRef?.cache; as metricsRefCache) {
-    <jhi-metrics-cache [updating]="updatingMetrics()" [cacheMetrics]="metricsRefCache"></jhi-metrics-cache>
+    <jhi-metrics-cache [updating]="updatingMetrics()" [cacheMetrics]="metricsRefCache" />
   }
 
   @if (metricsRef && metricsKeyExistsAndObjectNotEmpty('databases')) {
-    <jhi-metrics-datasource [updating]="updatingMetrics()" [datasourceMetrics]="metricsRef.databases"></jhi-metrics-datasource>
+    <jhi-metrics-datasource [updating]="updatingMetrics()" [datasourceMetrics]="metricsRef.databases" />
   }
 </div>

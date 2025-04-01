@@ -47,7 +47,7 @@ describe('Label Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call Operation query and add missing value', () => {
+    it('should call Operation query and add missing value', () => {
       const label: ILabel = { id: 7351 };
       const operations: IOperation[] = [{ id: 13822 }];
       label.operations = operations;
@@ -69,7 +69,7 @@ describe('Label Management Update Component', () => {
       expect(comp.operationsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
+    it('should update editForm', () => {
       const label: ILabel = { id: 7351 };
       const operation: IOperation = { id: 13822 };
       label.operations = [operation];
@@ -83,7 +83,7 @@ describe('Label Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ILabel>>();
       const label = { id: 4199 };
@@ -106,7 +106,7 @@ describe('Label Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ILabel>>();
       const label = { id: 4199 };
@@ -129,7 +129,7 @@ describe('Label Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ILabel>>();
       const label = { id: 4199 };
@@ -152,7 +152,7 @@ describe('Label Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareOperation', () => {
-      it('Should forward to operationService', () => {
+      it('should forward to operationService', () => {
         const entity = { id: 13822 };
         const entity2 = { id: 5986 };
         jest.spyOn(operationService, 'compareOperation');

@@ -78,7 +78,7 @@ describe('Operation Management Component', () => {
       );
   });
 
-  it('Should call load all on init', () => {
+  it('should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -88,7 +88,7 @@ describe('Operation Management Component', () => {
   });
 
   describe('trackId', () => {
-    it('Should forward to operationService', () => {
+    it('should forward to operationService', () => {
       const entity = { id: 13822 };
       jest.spyOn(service, 'getOperationIdentifier');
       const id = comp.trackId(entity);

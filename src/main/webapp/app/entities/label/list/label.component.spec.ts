@@ -78,7 +78,7 @@ describe('Label Management Component', () => {
       );
   });
 
-  it('Should call load all on init', () => {
+  it('should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -88,7 +88,7 @@ describe('Label Management Component', () => {
   });
 
   describe('trackId', () => {
-    it('Should forward to labelService', () => {
+    it('should forward to labelService', () => {
       const entity = { id: 4199 };
       jest.spyOn(service, 'getLabelIdentifier');
       const id = comp.trackId(entity);

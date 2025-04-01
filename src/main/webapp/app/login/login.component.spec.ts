@@ -47,7 +47,7 @@ describe('LoginComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call accountService.identity on Init', () => {
+    it('should call accountService.identity on Init', () => {
       // GIVEN
       mockAccountService.identity = jest.fn(() => of(null));
       mockAccountService.getAuthenticationState = jest.fn(() => of(null));
@@ -59,7 +59,7 @@ describe('LoginComponent', () => {
       expect(mockAccountService.identity).toHaveBeenCalled();
     });
 
-    it('Should call accountService.isAuthenticated on Init', () => {
+    it('should call accountService.isAuthenticated on Init', () => {
       // GIVEN
       mockAccountService.identity = jest.fn(() => of(null));
 
@@ -138,7 +138,7 @@ describe('LoginComponent', () => {
 
     it('should stay on login form and show error message on login error', () => {
       // GIVEN
-      mockLoginService.login = jest.fn(() => throwError(() => {}));
+      mockLoginService.login = jest.fn(() => throwError(Error));
 
       // WHEN
       comp.login();

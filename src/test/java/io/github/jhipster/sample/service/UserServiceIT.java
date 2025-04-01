@@ -64,12 +64,12 @@ class UserServiceIT {
     private Long numberOfUsers;
 
     @BeforeEach
-    public void countUsers() {
+    void countUsers() {
         numberOfUsers = userRepository.count();
     }
 
     @BeforeEach
-    public void init() {
+    void init() {
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
@@ -85,7 +85,7 @@ class UserServiceIT {
     }
 
     @AfterEach
-    public void cleanupAndCheck() {
+    void cleanupAndCheck() {
         cacheManager
             .getCacheNames()
             .stream()

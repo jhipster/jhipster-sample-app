@@ -27,7 +27,7 @@ describe('ConfigurationComponent', () => {
   });
 
   describe('OnInit', () => {
-    it('Should call load all on init', () => {
+    it('should call load all on init', () => {
       // GIVEN
       const beans: Bean[] = [
         {

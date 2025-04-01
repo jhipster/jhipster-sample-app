@@ -47,17 +47,17 @@ class PublicUserResourceIT {
     private Long numberOfUsers;
 
     @BeforeEach
-    public void countUsers() {
+    void countUsers() {
         numberOfUsers = userRepository.count();
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         user = UserResourceIT.initTestUser();
     }
 
     @AfterEach
-    public void cleanupAndCheck() {
+    void cleanupAndCheck() {
         cacheManager
             .getCacheNames()
             .stream()

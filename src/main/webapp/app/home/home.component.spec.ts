@@ -46,7 +46,7 @@ describe('Home Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should synchronize account variable with current account', () => {
+    it('should synchronize account variable with current account', () => {
       // GIVEN
       const authenticationState = new Subject<Account | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
@@ -72,7 +72,7 @@ describe('Home Component', () => {
   });
 
   describe('login', () => {
-    it('Should navigate to /login on login', () => {
+    it('should navigate to /login on login', () => {
       // WHEN
       comp.login();
 
@@ -82,7 +82,7 @@ describe('Home Component', () => {
   });
 
   describe('ngOnDestroy', () => {
-    it('Should destroy authentication state subscription on component destroy', () => {
+    it('should destroy authentication state subscription on component destroy', () => {
       // GIVEN
       const authenticationState = new Subject<Account | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());

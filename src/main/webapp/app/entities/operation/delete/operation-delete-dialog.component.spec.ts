@@ -29,7 +29,7 @@ describe('Operation Management Delete Component', () => {
   });
 
   describe('confirmDelete', () => {
-    it('Should call delete service on confirmDelete', inject(
+    it('should call delete service on confirmDelete', inject(
       [],
       fakeAsync(() => {
         // GIVEN
@@ -45,7 +45,7 @@ describe('Operation Management Delete Component', () => {
       }),
     ));
 
-    it('Should not call delete service on clear', () => {
+    it('should not call delete service on clear', () => {
       // GIVEN
       jest.spyOn(service, 'delete');
 

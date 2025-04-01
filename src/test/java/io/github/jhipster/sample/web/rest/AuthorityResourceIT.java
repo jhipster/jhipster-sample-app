@@ -70,12 +70,12 @@ class AuthorityResourceIT {
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         authority = createEntity();
     }
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         if (insertedAuthority != null) {
             authorityRepository.delete(insertedAuthority);
             insertedAuthority = null;

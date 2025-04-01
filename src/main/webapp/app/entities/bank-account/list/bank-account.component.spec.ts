@@ -78,7 +78,7 @@ describe('BankAccount Management Component', () => {
       );
   });
 
-  it('Should call load all on init', () => {
+  it('should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -88,7 +88,7 @@ describe('BankAccount Management Component', () => {
   });
 
   describe('trackId', () => {
-    it('Should forward to bankAccountService', () => {
+    it('should forward to bankAccountService', () => {
       const entity = { id: 22720 };
       jest.spyOn(service, 'getBankAccountIdentifier');
       const id = comp.trackId(entity);

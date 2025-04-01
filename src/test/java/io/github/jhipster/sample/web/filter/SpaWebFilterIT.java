@@ -27,7 +27,7 @@ class SpaWebFilterIT {
 
     @Test
     void testFilterDoesNotForwardToIndexForApi() throws Exception {
-        mockMvc.perform(get("/api/authenticate")).andExpect(status().isOk()).andExpect(forwardedUrl(null));
+        mockMvc.perform(get("/api/authenticate")).andExpect(status().is2xxSuccessful()).andExpect(forwardedUrl(null));
     }
 
     @Test

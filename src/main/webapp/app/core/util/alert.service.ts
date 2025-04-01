@@ -57,9 +57,8 @@ export class AlertService {
       // if translation key exists
       if (translatedMessage !== `${translationNotFoundMessage}[${alert.translationKey}]`) {
         alert.message = translatedMessage;
-      } else if (!alert.message) {
-        alert.message = alert.translationKey;
       }
+      alert.message ??= alert.translationKey;
     }
 
     alert.message = this.sanitizer.sanitize(SecurityContext.HTML, alert.message ?? '') ?? '';

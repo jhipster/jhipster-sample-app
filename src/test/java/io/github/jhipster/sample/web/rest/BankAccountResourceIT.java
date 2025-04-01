@@ -98,12 +98,12 @@ class BankAccountResourceIT {
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         bankAccount = createEntity();
     }
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         if (insertedBankAccount != null) {
             bankAccountRepository.delete(insertedBankAccount);
             insertedBankAccount = null;

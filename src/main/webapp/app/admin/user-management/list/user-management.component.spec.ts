@@ -45,7 +45,7 @@ describe('User Management Component', () => {
   });
 
   describe('OnInit', () => {
-    it('Should call load all on init', inject(
+    it('should call load all on init', inject(
       [],
       fakeAsync(() => {
         // GIVEN
@@ -71,7 +71,7 @@ describe('User Management Component', () => {
   });
 
   describe('setActive', () => {
-    it('Should update user and call load all', inject(
+    it('should update user and call load all', inject(
       [],
       fakeAsync(() => {
         // GIVEN

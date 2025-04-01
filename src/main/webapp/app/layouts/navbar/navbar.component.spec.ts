@@ -46,7 +46,7 @@ describe('Navbar Component', () => {
     profileService = TestBed.inject(ProfileService);
   });
 
-  it('Should call profileService.getProfileInfo on init', () => {
+  it('should call profileService.getProfileInfo on init', () => {
     // GIVEN
     jest.spyOn(profileService, 'getProfileInfo').mockReturnValue(of(new ProfileInfo()));
 
@@ -57,7 +57,7 @@ describe('Navbar Component', () => {
     expect(profileService.getProfileInfo).toHaveBeenCalled();
   });
 
-  it('Should hold current authenticated user in variable account', () => {
+  it('should hold current authenticated user in variable account', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -77,7 +77,7 @@ describe('Navbar Component', () => {
     expect(comp.account()).toBeNull();
   });
 
-  it('Should hold current authenticated user in variable account if user is authenticated before page load', () => {
+  it('should hold current authenticated user in variable account if user is authenticated before page load', () => {
     // GIVEN
     accountService.authenticate(account);
 

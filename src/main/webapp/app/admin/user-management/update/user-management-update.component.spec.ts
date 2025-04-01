@@ -40,7 +40,7 @@ describe('User Management Update Component', () => {
   });
 
   describe('OnInit', () => {
-    it('Should load authorities and language on init', inject(
+    it('should load authorities and language on init', inject(
       [],
       fakeAsync(() => {
         // GIVEN
@@ -57,7 +57,7 @@ describe('User Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing user', inject(
+    it('should call update service on save for existing user', inject(
       [],
       fakeAsync(() => {
         // GIVEN
@@ -74,7 +74,7 @@ describe('User Management Update Component', () => {
       }),
     ));
 
-    it('Should call create service on save for new user', inject(
+    it('should call create service on save for new user', inject(
       [],
       fakeAsync(() => {
         // GIVEN

@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, Injector, OnInit, Signal, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import SharedModule from 'app/shared/shared.module';
 import { AccountService } from 'app/core/auth/account.service';
@@ -17,7 +17,7 @@ export default class PasswordComponent implements OnInit {
   doNotMatch = signal(false);
   error = signal(false);
   success = signal(false);
-  account$?: Observable<Account | null>;
+  account?: Signal<Account | undefined | null>;
   passwordForm = new FormGroup({
     currentPassword: new FormControl('', { nonNullable: true, validators: Validators.required }),
     newPassword: new FormControl('', {
@@ -32,9 +32,11 @@ export default class PasswordComponent implements OnInit {
 
   private readonly passwordService = inject(PasswordService);
   private readonly accountService = inject(AccountService);
+  private readonly injector = inject(Injector);
 
   ngOnInit(): void {
-    this.account$ = this.accountService.identity();
+    const account$ = this.accountService.identity();
+    this.account = toSignal(account$, { injector: this.injector });
   }
 
   changePassword(): void {

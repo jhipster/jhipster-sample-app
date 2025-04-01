@@ -78,12 +78,12 @@ class LabelResourceIT {
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         label = createEntity();
     }
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         if (insertedLabel != null) {
             labelRepository.delete(insertedLabel);
             insertedLabel = null;

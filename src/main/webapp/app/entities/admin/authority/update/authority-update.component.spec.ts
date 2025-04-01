@@ -43,7 +43,7 @@ describe('Authority Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('should update editForm', () => {
       const authority: IAuthority = { name: 'c56c1cf7-aca8-48fe-ad81-eeebbf872cb1' };
 
       activatedRoute.data = of({ authority });
@@ -54,7 +54,7 @@ describe('Authority Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IAuthority>>();
       const authority = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };

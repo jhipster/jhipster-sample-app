@@ -63,12 +63,12 @@ class AccountResourceIT {
     private Long numberOfUsers;
 
     @BeforeEach
-    public void countUsers() {
+    void countUsers() {
         numberOfUsers = userRepository.count();
     }
 
     @AfterEach
-    public void cleanupAndCheck() {
+    void cleanupAndCheck() {
         assertThat(userRepository.count()).isEqualTo(numberOfUsers);
         numberOfUsers = null;
     }
@@ -76,19 +76,13 @@ class AccountResourceIT {
     @Test
     @WithUnauthenticatedMockUser
     void testNonAuthenticatedUser() throws Exception {
-        restAccountMockMvc
-            .perform(get("/api/authenticate").accept(MediaType.TEXT_PLAIN))
-            .andExpect(status().isOk())
-            .andExpect(content().string(""));
+        restAccountMockMvc.perform(get("/api/authenticate")).andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser(TEST_USER_LOGIN)
     void testAuthenticatedUser() throws Exception {
-        restAccountMockMvc
-            .perform(get("/api/authenticate").with(request -> request).accept(MediaType.TEXT_PLAIN))
-            .andExpect(status().isOk())
-            .andExpect(content().string(TEST_USER_LOGIN));
+        restAccountMockMvc.perform(get("/api/authenticate").with(request -> request)).andExpect(status().isNoContent());
     }
 
     @Test

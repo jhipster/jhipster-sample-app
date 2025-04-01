@@ -12,7 +12,7 @@
         <div class="alert alert-success" jhiTranslate="settings.messages.success"><strong>Settings saved!</strong></div>
       }
 
-      <jhi-alert-error></jhi-alert-error>
+      <jhi-alert-error />
 
       @if (settingsForm.value.login) {
         <form name="form" (ngSubmit)="save()" [formGroup]="settingsForm" novalidate>

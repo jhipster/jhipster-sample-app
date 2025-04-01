@@ -83,7 +83,7 @@ class UserResourceIT {
     private Long numberOfUsers;
 
     @BeforeEach
-    public void countUsers() {
+    void countUsers() {
         numberOfUsers = userRepository.count();
     }
 
@@ -117,12 +117,12 @@ class UserResourceIT {
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         user = initTestUser();
     }
 
     @AfterEach
-    public void cleanupAndCheck() {
+    void cleanupAndCheck() {
         userService.deleteUser(DEFAULT_LOGIN);
         userService.deleteUser(UPDATED_LOGIN);
         userService.deleteUser(user.getLogin());

@@ -78,7 +78,7 @@ describe('Authority Management Component', () => {
       );
   });
 
-  it('Should call load all on init', () => {
+  it('should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -88,7 +88,7 @@ describe('Authority Management Component', () => {
   });
 
   describe('trackName', () => {
-    it('Should forward to authorityService', () => {
+    it('should forward to authorityService', () => {
       const entity = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };
       jest.spyOn(service, 'getAuthorityIdentifier');
       const name = comp.trackName(entity);

@@ -29,7 +29,7 @@ class UserMapperTest {
     private AdminUserDTO userDto;
 
     @BeforeEach
-    public void init() {
+    void init() {
         userMapper = new UserMapper();
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
