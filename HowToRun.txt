@@ -1,0 +1,58 @@
+How to Run the JHipster Sample Application
+==========================================
+
+Prerequisites:
+-------------
+- Java JDK 17 or later
+- Maven
+- Node.js and npm
+- Git
+
+Step 1: Start the Backend (Terminal 1)
+------------------------------------
+1. Navigate to the project directory:
+   cd /Users/matze/_Projekte/KI-Transformation/jhipster-sample-app
+
+2. Start the Spring Boot application with the dev profile (uses H2 in-memory database):
+   mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+3. Wait until you see the Spring Boot startup banner and "Started JhipsterSampleApplicationApp" message
+   The backend will be running at http://localhost:8080
+
+
+Step 2: Start the Frontend (Terminal 2)
+-------------------------------------
+1. Navigate to the project directory:
+   cd /Users/matze/_Projekte/KI-Transformation/jhipster-sample-app
+
+2. Install frontend dependencies:
+   npm install
+
+3. Start the frontend development server:
+   npm start
+
+4. The frontend will be available at http://localhost:9000
+
+
+Verify the Setup
+---------------
+1. Open http://localhost:9000 in your browser
+2. Click the "Sign in" button
+3. Login with the default admin account:
+   - Username: admin
+   - Password: admin
+
+Database Access (H2 Console)
+--------------------------
+1. Open http://localhost:8080/h2-console in your browser
+2. Use these connection settings:
+   - JDBC URL: jdbc:h2:mem:jhipsterSampleApplication
+   - Username: jhipsterSampleApplication
+   - Password: (leave empty)
+3. Click "Connect" to access the database
+
+Note: The H2 database is in-memory, which means:
+- It starts fresh each time you restart the application
+- Perfect for development and testing
+- No additional database setup required
+- Sample data is automatically loaded on startup
