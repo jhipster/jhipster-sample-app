@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/jhipsterSampleApplication
+    depends_on:
+      - postgresql
+    networks:
+      - jhipster-network
+
+  postgresql:
+    image: postgres:17.4
+    environment:
+      - POSTGRES_USER=jhipsterSampleApplication
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - jhipster-network
+
+volumes:
+  postgres_data:
+
+networks:
+  jhipster-network:

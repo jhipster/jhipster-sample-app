@@ -1,0 +1,269 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.google.cloud.tools.jib' version '3.4.5'
+    id 'org.liquibase.gradle' version '2.2.2'
+    id 'org.sonarqube' version '5.1.0.4882'
+    id 'com.github.node-gradle.node' version '7.1.0'
+    id 'checkstyle'
+    id 'jacoco'
+}
+
+group = 'io.github.jhipster.sample'
+version = '0.0.1-SNAPSHOT'
+description = 'Description for Jhipster Sample Application'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+ext {
+    set('jhipsterVersion', '8.11.0')
+    set('springBootVersion', '3.4.5')
+    set('mapstructVersion', '1.6.3')
+    set('archunitVersion', '1.4.0')
+    set('gatlingVersion', '3.13.5')
+    set('springdocVersion', '2.8.8')
+    set('liquibaseVersion', '4.29.2')
+    set('junitJupiterVersion', '5.11.4')
+    set('testcontainersVersion', '1.20.4')
+}
+
+dependencies {
+    implementation "tech.jhipster:jhipster-framework:${jhipsterVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hppc'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations'
+    implementation 'com.h2database:h2'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'net.ttddyy:datasource-proxy:1.10'
+    implementation 'org.ehcache:ehcache:3.10.8'
+    implementation 'org.hibernate.orm:hibernate-jcache'
+    implementation 'com.zaxxer:HikariCP'
+    
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:${springdocVersion}"
+    
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunitVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
+    testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
+}
+
+// Node.js and npm configuration
+node {
+    version = '22.15.0'
+    npmVersion = '11.3.0'
+    download = true
+}
+
+// Frontend build tasks
+task webapp(type: com.github.gradle.node.npm.task.NpmTask, dependsOn: 'npmInstall') {
+    args = ['run', 'webapp:build']
+}
+
+task webappProd(type: com.github.gradle.node.npm.task.NpmTask, dependsOn: 'npmInstall') {
+    args = ['run', 'webapp:prod']
+}
+
+task webappTest(type: com.github.gradle.node.npm.task.NpmTask, dependsOn: 'npmInstall') {
+    args = ['test', '--', '--watch=false', '--browsers=ChromeHeadless']
+}
+
+// Make sure webapp builds before jar
+processResources.dependsOn webapp
+bootJar.dependsOn webapp
+
+// Test configuration
+test {
+    useJUnitPlatform()
+    exclude '**/*IT*', '**/*IntTest*'
+    testLogging {
+        events 'FAILED', 'SKIPPED'
+    }
+    systemProperty 'java.security.egd', 'file:/dev/./urandom'
+    jvmArgs '-Xmx1G'
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform()
+    description = 'Runs integration tests.'
+    group = 'verification'
+    include '**/*IT*', '**/*IntTest*'
+    exclude '**/*Test*'
+    testLogging {
+        events 'FAILED', 'SKIPPED'
+    }
+    systemProperty 'java.security.egd', 'file:/dev/./urandom'
+    shouldRunAfter test
+}
+
+check.dependsOn integrationTest
+
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '10.23.1'
+    configFile = file('checkstyle.xml')
+}
+
+// JaCoCo configuration
+jacoco {
+    toolVersion = '0.8.13'
+}
+
+jacocoTestReport {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+// Jib configuration for Docker
+jib {
+    from {
+        image = 'eclipse-temurin:17-jre-focal'
+        platforms {
+            platform {
+                architecture = 'amd64'
+                os = 'linux'
+            }
+        }
+    }
+    to {
+        image = 'jhipstersampleapplication'
+    }
+    container {
+        entrypoint = ['bash', '-c', '/entrypoint.sh']
+        ports = ['8080']
+        environment = [
+            SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS',
+            JHIPSTER_SLEEP: '0'
+        ]
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+        user = 'root'
+    }
+    extraDirectories {
+        paths {
+            path {
+                from = file('src/main/docker/jib')
+                into = '/'
+            }
+        }
+        permissions = [
+            '/entrypoint.sh': '755'
+        ]
+    }
+}
+
+// Basic Jib configuration for Docker
+
+// Liquibase configuration - basic setup
+// Run liquibase tasks manually when needed
+
+// SonarQube configuration
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'Jhipster Sample Application'
+        property 'sonar.projectKey', 'io.github.jhipster.sample:jhipster-sample-application'
+        property 'sonar.sources', 'src/main/'
+        property 'sonar.tests', 'src/test/'
+        property 'sonar.host.url', 'http://localhost:9001'
+        property 'sonar.coverage.jacoco.xmlReportPaths', './build/reports/jacoco/test/jacocoTestReport.xml'
+    }
+}
+
+// Production profile configuration
+task bootJarProd(type: org.springframework.boot.gradle.tasks.bundling.BootJar) {
+    dependsOn webappProd
+    archiveClassifier = 'prod'
+    mainClass = 'io.github.jhipster.sample.JhipsterSampleApplicationApp'
+    
+    manifest {
+        attributes 'Start-Class': 'io.github.jhipster.sample.JhipsterSampleApplicationApp'
+    }
+}
+
+// Custom tasks for convenience
+task backendTests(type: Test) {
+    useJUnitPlatform()
+    include '**/*Test*'
+    exclude '**/*IT*', '**/*IntTest*'
+}
+
+task frontendTests(type: com.github.gradle.node.npm.task.NpmTask, dependsOn: 'npmInstall') {
+    args = ['test', '--', '--watch=false', '--browsers=ChromeHeadless']
+}
+
+task allTests {
+    dependsOn backendTests, frontendTests
+    group = 'verification'
+    description = 'Run all backend and frontend tests'
+}
+
+// Docker tasks
+task dockerBuild {
+    dependsOn jib
+    group = 'docker'
+    description = 'Build Docker image using Jib'
+}
+
+task dockerBuildProd {
+    dependsOn bootJarProd
+    doLast {
+        exec {
+            commandLine './gradlew', 'jib'
+        }
+    }
+    group = 'docker'
+    description = 'Build production Docker image'
+}
+
+// Clean task enhancement
+clean {
+    delete 'target'
+    delete 'node_modules'
+}
+
+// Task to display project info
+task info {
+    doLast {
+        println "Project: ${project.name}"
+        println "Version: ${project.version}"
+        println "Java version: ${java.sourceCompatibility}"
+        println "Spring Boot version: ${springBootVersion}"
+        println "JHipster version: ${jhipsterVersion}"
+    }
+}

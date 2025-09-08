@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+.npm
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+.DS_Store
+Thumbs.db

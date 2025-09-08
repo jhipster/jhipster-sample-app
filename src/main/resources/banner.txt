@@ -1,10 +1,15 @@
 
-  ${AnsiColor.GREEN}      ██╗${AnsiColor.RED} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.RED} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.RED} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.RED} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+  ${AnsiColor.CYAN}╔══════════════════════════════════════════════════════════════════════════════╗
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW}    ██╗██╗  ██╗██╗██████╗ ███████╗████████╗███████╗██████╗     ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW}    ██║██║  ██║██║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW}    ██║███████║██║██████╔╝███████╗   ██║   █████╗  ██████╔╝    ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW}██  ██║██╔══██║██║██╔═══╝ ╚════██║   ██║   ██╔══╝  ██╔══██╗    ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW}╚█████╔╝██║  ██║██║██║     ███████║   ██║   ███████╗██║  ██║    ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_YELLOW} ╚════╝ ╚═╝  ╚═╝╚═╝╚═╝     ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝    ${AnsiColor.CYAN}║
+${AnsiColor.CYAN}║                                                                              ║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_GREEN}  🚀 Enhanced Development Platform | Spring Boot ${spring-boot.version}${AnsiColor.CYAN}           ║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_BLUE}  🔧 Profile: ${spring.profiles.active} | Team: UECS2363 Assignment 2${AnsiColor.CYAN}              ║
+${AnsiColor.CYAN}║${AnsiColor.BRIGHT_MAGENTA}  📊 CI/CD Enabled | Modern Full-Stack Architecture${AnsiColor.CYAN}                   ║
+${AnsiColor.CYAN}╚══════════════════════════════════════════════════════════════════════════════╝${AnsiColor.DEFAULT}
 
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} :: Startup profile(s) ${spring.profiles.active} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
+

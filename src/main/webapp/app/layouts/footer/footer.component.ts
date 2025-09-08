@@ -6,4 +6,8 @@ import { TranslateDirective } from 'app/shared/language';
   templateUrl: './footer.component.html',
   imports: [TranslateDirective],
 })
-export default class FooterComponent {}
+export default class FooterComponent {
+  getCurrentYear(): number {
+    return new Date().getFullYear();
+  }
+}
