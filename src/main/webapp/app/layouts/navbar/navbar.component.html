@@ -27,6 +27,13 @@
             </span>
           </a>
         </li>
+        <li class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="#" id="resourcesMenu">Resources</a>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <a class="dropdown-item" href="https://www.jhipster.tech/" target="_blank">Website</a>
+            <a class="dropdown-item" href="https://www.jhipster.tech/jdl/" target="_blank">JDL Studio</a>
+          </div>
+        </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         @if (account() !== null) {
           <li
