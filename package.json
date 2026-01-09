@@ -91,7 +91,7 @@
   "dependencies": {
     "@angular/common": "20.3.14",
     "@angular/compiler": "20.3.14",
-    "@angular/core": "20.3.14",
+    "@angular/core": "20.3.16",
     "@angular/forms": "20.3.14",
     "@angular/localize": "20.3.14",
     "@angular/platform-browser": "20.3.14",
