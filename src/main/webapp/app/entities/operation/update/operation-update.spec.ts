@@ -114,7 +114,7 @@ describe('Operation Management Update Component', () => {
   describe('save', () => {
     it('should call update service on save for existing entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<IOperation>>();
+      const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
       vitest.spyOn(operationFormService, 'getOperation').mockReturnValue(operation);
       vitest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
@@ -125,7 +125,7 @@ describe('Operation Management Update Component', () => {
       // WHEN
       comp.save();
       expect(comp.isSaving()).toEqual(true);
-      saveSubject.next(new HttpResponse({ body: operation }));
+      saveSubject.next(operation);
       saveSubject.complete();
 
       // THEN
@@ -137,7 +137,7 @@ describe('Operation Management Update Component', () => {
 
     it('should call create service on save for new entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<IOperation>>();
+      const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
       vitest.spyOn(operationFormService, 'getOperation').mockReturnValue({ id: null });
       vitest.spyOn(operationService, 'create').mockReturnValue(saveSubject);
@@ -148,7 +148,7 @@ describe('Operation Management Update Component', () => {
       // WHEN
       comp.save();
       expect(comp.isSaving()).toEqual(true);
-      saveSubject.next(new HttpResponse({ body: operation }));
+      saveSubject.next(operation);
       saveSubject.complete();
 
       // THEN
@@ -160,7 +160,7 @@ describe('Operation Management Update Component', () => {
 
     it('should set isSaving to false on error', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<IOperation>>();
+      const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
       vitest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
       vitest.spyOn(comp, 'previousState');

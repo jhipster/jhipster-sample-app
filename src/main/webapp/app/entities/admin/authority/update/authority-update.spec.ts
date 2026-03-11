@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
-import { HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
@@ -56,7 +55,7 @@ describe('Authority Management Update Component', () => {
   describe('save', () => {
     it('should call create service on save for new entity', () => {
       // GIVEN
-      const saveSubject = new Subject<HttpResponse<IAuthority>>();
+      const saveSubject = new Subject<IAuthority>();
       const authority = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };
       vitest.spyOn(authorityFormService, 'getAuthority').mockReturnValue({ name: null });
       vitest.spyOn(authorityService, 'create').mockReturnValue(saveSubject);
@@ -67,7 +66,7 @@ describe('Authority Management Update Component', () => {
       // WHEN
       comp.save();
       expect(comp.isSaving()).toEqual(true);
-      saveSubject.next(new HttpResponse({ body: authority }));
+      saveSubject.next(authority);
       saveSubject.complete();
 
       // THEN

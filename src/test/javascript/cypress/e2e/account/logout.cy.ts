@@ -1,8 +1,14 @@
 import { accountMenuSelector, loginItemSelector, navbarSelector } from '../../support/commands';
 
 describe('logout', () => {
-  const username = Cypress.env('E2E_USERNAME') ?? 'user';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
+  let username: string;
+  let password: string;
+
+  before(() => {
+    cy.credentials().then(credentials => {
+      ({ username, password } = credentials);
+    });
+  });
 
   it('go to home page when successfully logs out', () => {
     cy.login(username, password);
@@ -10,7 +16,7 @@ describe('logout', () => {
 
     cy.clickOnLogoutItem();
 
-    cy.get(navbarSelector).get(accountMenuSelector).click();
-    cy.get(navbarSelector).get(accountMenuSelector).get(loginItemSelector).should('be.visible');
+    cy.get(navbarSelector).find(accountMenuSelector).click();
+    cy.get(navbarSelector).find(accountMenuSelector).find(loginItemSelector).should('be.visible');
   });
 });

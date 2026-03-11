@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
-import { HttpResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of } from 'rxjs';
 
 import { AuthorityService } from '../service/authority.service';
@@ -28,7 +27,7 @@ describe('Authority Management Delete Component', () => {
   describe('confirmDelete', () => {
     it('should call delete service on confirmDelete', () => {
       // GIVEN
-      vitest.spyOn(service, 'delete').mockReturnValue(of(new HttpResponse({ body: {} })));
+      vitest.spyOn(service, 'delete').mockReturnValue(of(undefined));
       vitest.spyOn(mockActiveModal, 'close');
 
       // WHEN

@@ -1,12 +1,11 @@
-import { MockInstance, beforeEach, describe, expect, it, vitest } from 'vitest';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MockInstance, afterEach, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEye, faPencilAlt, faPlus, faSort, faSortDown, faSortUp, faSync, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, of } from 'rxjs';
 
@@ -15,7 +14,10 @@ import { LabelService } from '../service/label.service';
 
 import { Label } from './label';
 
+vitest.useFakeTimers();
+
 describe('Label Management Component', () => {
+  let httpMock: HttpTestingController;
   let comp: Label;
   let fixture: ComponentFixture<Label>;
   let service: LabelService;
@@ -57,39 +59,25 @@ describe('Label Management Component', () => {
     service = TestBed.inject(LabelService);
     routerNavigateSpy = vitest.spyOn(comp.router, 'navigate');
 
-    vitest
-      .spyOn(service, 'query')
-      .mockReturnValueOnce(
-        of(
-          new HttpResponse({
-            body: [{ id: 4199 }],
-            headers: new HttpHeaders({
-              link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
-            }),
-          }),
-        ),
-      )
-      .mockReturnValueOnce(
-        of(
-          new HttpResponse({
-            body: [{ id: 7351 }],
-            headers: new HttpHeaders({
-              link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
-            }),
-          }),
-        ),
-      );
-
     const library = TestBed.inject(FaIconLibrary);
     library.addIcons(faEye, faPencilAlt, faPlus, faSort, faSortDown, faSortUp, faSync, faTimes);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should call load all on init', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+    httpMock.verify();
+  });
+
+  it('should call load all on init', async () => {
     // WHEN
-    comp.ngOnInit();
+    TestBed.tick();
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush([{ id: 4199 }], { headers: { link: '<http://localhost/api/foo?page=1&size=20>; rel="next"' } });
+    await vitest.runAllTimersAsync();
 
     // THEN
-    expect(service.query).toHaveBeenCalled();
+    expect(comp.isLoading()).toEqual(false);
     expect(comp.labels()[0]).toEqual(expect.objectContaining({ id: 4199 }));
   });
 
@@ -120,10 +108,11 @@ describe('Label Management Component', () => {
 
   it('should calculate the sort attribute for an id', () => {
     // WHEN
-    comp.ngOnInit();
+    TestBed.tick();
+    httpMock.expectOne({ method: 'GET' });
 
     // THEN
-    expect(service.query).toHaveBeenLastCalledWith(expect.objectContaining({ sort: ['id,desc'] }));
+    expect(service.labelsParams()).toMatchObject(expect.objectContaining({ sort: ['id,desc'] }));
   });
 
   describe('delete', () => {

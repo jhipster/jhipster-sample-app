@@ -12,7 +12,7 @@ import { TranslateDirective } from 'app/shared/language';
   templateUrl: './error.html',
 })
 export default class Error implements OnInit, OnDestroy {
-  errorMessage = signal<string | undefined>(undefined);
+  readonly errorMessage = signal<string | undefined>(undefined);
   errorKey?: string;
   langChangeSubscription?: Subscription;
 

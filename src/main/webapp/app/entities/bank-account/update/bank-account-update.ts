@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -21,10 +20,10 @@ import { BankAccountFormGroup, BankAccountFormService } from './bank-account-for
 @Component({
   selector: 'jhi-bank-account-update',
   templateUrl: './bank-account-update.html',
-  imports: [TranslateDirective, TranslateModule, NgbModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
+  imports: [TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class BankAccountUpdate implements OnInit {
-  isSaving = signal(false);
+  readonly isSaving = signal(false);
   bankAccount: IBankAccount | null = null;
 
   usersSharedCollection = signal<IUser[]>([]);
@@ -64,7 +63,7 @@ export class BankAccountUpdate implements OnInit {
     }
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBankAccount>>): void {
+  protected subscribeToSaveResponse(result: Observable<IBankAccount | null>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
@@ -87,7 +86,7 @@ export class BankAccountUpdate implements OnInit {
     this.bankAccount = bankAccount;
     this.bankAccountFormService.resetForm(this.editForm, bankAccount);
 
-    this.usersSharedCollection.set(this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection(), bankAccount.user));
+    this.usersSharedCollection.update(users => this.userService.addUserToCollectionIfMissing<IUser>(users, bankAccount.user));
   }
 
   protected loadRelationshipsOptions(): void {

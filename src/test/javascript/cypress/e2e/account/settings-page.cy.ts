@@ -2,14 +2,20 @@ import type { Account } from '../../support/account';
 import { emailSettingsSelector, firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector } from '../../support/commands';
 
 describe('/account/settings', () => {
-  const adminUsername = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const adminPassword = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const username = Cypress.env('E2E_USERNAME') ?? 'user';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
+  let adminUsername;
+  let adminPassword;
+  let username: string;
+  let password: string;
 
   const testUserEmail = 'user@localhost.fr';
   let originalUserAccount: Account;
   let testUserAccount: Account;
+
+  before(() => {
+    cy.credentials().then(credentials => {
+      ({ adminUsername, adminPassword, username, password } = credentials);
+    });
+  });
 
   before(() => {
     cy.login(username, password);

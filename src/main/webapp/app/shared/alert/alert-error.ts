@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, inject, signal } from '@angular/core';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -14,10 +14,10 @@ import { AlertErrorModel } from './alert-error.model';
 @Component({
   selector: 'jhi-alert-error',
   templateUrl: './alert-error.html',
-  imports: [NgbModule],
+  imports: [NgbAlert],
 })
 export class AlertError implements OnDestroy {
-  alerts = signal<AlertModel[]>([]);
+  readonly alerts = signal<AlertModel[]>([]);
   errorListener: Subscription;
   httpErrorListener: Subscription;
 

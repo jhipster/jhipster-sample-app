@@ -8,9 +8,9 @@ import { of } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { UserManagementService } from '../service/user-management.service';
-import { User } from '../user-management.model';
+import { IUserManagement } from '../user-management.model';
 
-import UserManagement from './user-management';
+import { UserManagement } from './user-management';
 
 describe('User Management Component', () => {
   let comp: UserManagement;
@@ -51,7 +51,7 @@ describe('User Management Component', () => {
       vitest.spyOn(service, 'query').mockReturnValue(
         of(
           new HttpResponse({
-            body: [new User(123)],
+            body: [{ id: 123 } as IUserManagement],
             headers,
           }),
         ),
@@ -70,7 +70,7 @@ describe('User Management Component', () => {
     it('should update user and call load all', inject([], () => {
       // GIVEN
       const headers = new HttpHeaders().append('link', 'link;link');
-      const user = new User(123);
+      const user = { id: 123 } as IUserManagement;
       vitest.spyOn(service, 'query').mockReturnValue(
         of(
           new HttpResponse({

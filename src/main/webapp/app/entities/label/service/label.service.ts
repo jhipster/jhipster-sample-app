@@ -1,5 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -10,43 +10,52 @@ import { ILabel, NewLabel } from '../label.model';
 
 export type PartialUpdateLabel = Partial<ILabel> & Pick<ILabel, 'id'>;
 
-export type EntityResponseType = HttpResponse<ILabel>;
-export type EntityArrayResponseType = HttpResponse<ILabel[]>;
+@Injectable()
+export class LabelsService {
+  readonly labelsParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(undefined);
+  readonly labelsResource = httpResource<ILabel[]>(() => {
+    const params = this.labelsParams();
+    if (!params) {
+      return undefined;
+    }
+    return { url: this.resourceUrl, params };
+  });
+  /**
+   * This signal holds the list of label that have been fetched. It is updated when the labelsResource emits a new value.
+   * In case of error while fetching the labels, the signal is set to an empty array.
+   */
+  readonly labels = computed(() => (this.labelsResource.hasValue() ? this.labelsResource.value() : []));
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
+  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/labels');
+}
 
 @Injectable({ providedIn: 'root' })
-export class LabelService {
+export class LabelService extends LabelsService {
   protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/labels');
-
-  create(label: NewLabel): Observable<EntityResponseType> {
-    return this.http.post<ILabel>(this.resourceUrl, label, { observe: 'response' });
+  create(label: NewLabel): Observable<ILabel> {
+    return this.http.post<ILabel>(this.resourceUrl, label);
   }
 
-  update(label: ILabel): Observable<EntityResponseType> {
-    return this.http.put<ILabel>(`${this.resourceUrl}/${encodeURIComponent(this.getLabelIdentifier(label))}`, label, {
-      observe: 'response',
-    });
+  update(label: ILabel): Observable<ILabel> {
+    return this.http.put<ILabel>(`${this.resourceUrl}/${encodeURIComponent(this.getLabelIdentifier(label))}`, label);
   }
 
-  partialUpdate(label: PartialUpdateLabel): Observable<EntityResponseType> {
-    return this.http.patch<ILabel>(`${this.resourceUrl}/${encodeURIComponent(this.getLabelIdentifier(label))}`, label, {
-      observe: 'response',
-    });
+  partialUpdate(label: PartialUpdateLabel): Observable<ILabel> {
+    return this.http.patch<ILabel>(`${this.resourceUrl}/${encodeURIComponent(this.getLabelIdentifier(label))}`, label);
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<ILabel>(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
+  find(id: number): Observable<ILabel> {
+    return this.http.get<ILabel>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(req?: any): Observable<HttpResponse<ILabel[]>> {
     const options = createRequestOption(req);
     return this.http.get<ILabel[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
+  delete(id: number): Observable<undefined> {
+    return this.http.delete<undefined>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
   getLabelIdentifier(label: Pick<ILabel, 'id'>): number {

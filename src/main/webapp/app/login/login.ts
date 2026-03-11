@@ -13,10 +13,10 @@ import { TranslateDirective } from 'app/shared/language';
   imports: [TranslateDirective, TranslateModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
 })
-export default class LoginComponent implements OnInit, AfterViewInit {
+export default class Login implements OnInit, AfterViewInit {
   username = viewChild.required<ElementRef>('username');
 
-  authenticationError = signal(false);
+  readonly authenticationError = signal(false);
 
   loginForm = new FormGroup({
     username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),

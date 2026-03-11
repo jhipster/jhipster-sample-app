@@ -52,7 +52,7 @@ describe('BankAccount Management Detail Component', () => {
 
   describe('PreviousState', () => {
     it('should navigate to previous state', () => {
-      vitest.spyOn(window.history, 'back');
+      vitest.spyOn(globalThis.history, 'back');
       comp.previousState();
       expect(globalThis.history.back).toHaveBeenCalled();
     });

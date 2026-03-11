@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
@@ -18,15 +18,15 @@ import { AuthorityService } from '../service/authority.service';
 export class AuthorityDeleteDialog {
   authority?: IAuthority;
 
-  protected authorityService = inject(AuthorityService);
-  protected activeModal = inject(NgbActiveModal);
+  protected readonly authorityService = inject(AuthorityService);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   cancel(): void {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: string): void {
-    this.authorityService.delete(id).subscribe(() => {
+  confirmDelete(name: string): void {
+    this.authorityService.delete(name).subscribe(() => {
       this.activeModal.close(ITEM_DELETED_EVENT);
     });
   }

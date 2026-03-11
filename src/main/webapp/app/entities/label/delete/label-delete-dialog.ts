@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
@@ -18,8 +18,8 @@ import { LabelService } from '../service/label.service';
 export class LabelDeleteDialog {
   label?: ILabel;
 
-  protected labelService = inject(LabelService);
-  protected activeModal = inject(NgbActiveModal);
+  protected readonly labelService = inject(LabelService);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   cancel(): void {
     this.activeModal.dismiss();

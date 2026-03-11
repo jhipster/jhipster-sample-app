@@ -10,7 +10,12 @@ export default defineConfig({
   viewportWidth: 1200,
   viewportHeight: 720,
   retries: 2,
-  env: {
+  allowCypressEnv: false,
+  expose: {
+    adminUsername: 'admin',
+    adminPassword: 'admin',
+    username: 'user',
+    password: 'user',
     authenticationUrl: '/api/authenticate',
     jwtStorageName: 'jhi-authenticationToken',
   },

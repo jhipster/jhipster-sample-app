@@ -3,8 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { Authority } from 'app/shared/jhipster/constants';
-import { User } from '../user-management.model';
+import { IUserManagement } from '../user-management.model';
 
 import { UserManagementService } from './user-management.service';
 
@@ -34,20 +33,8 @@ describe('User Service', () => {
       });
 
       const req = httpMock.expectOne({ method: 'GET' });
-      req.flush(new User(123, 'user'));
+      req.flush({ id: 123, login: 'user' } as IUserManagement);
       expect(expectedResult).toEqual('user');
-    });
-
-    it('should return Authorities', () => {
-      let expectedResult: string[] = [];
-
-      service.authorities().subscribe(authorities => {
-        expectedResult = authorities;
-      });
-      const req = httpMock.expectOne({ method: 'GET' });
-
-      req.flush([{ name: Authority.USER }, { name: Authority.ADMIN }]);
-      expect(expectedResult).toEqual([Authority.USER, Authority.ADMIN]);
     });
 
     it('should propagate not found response', () => {

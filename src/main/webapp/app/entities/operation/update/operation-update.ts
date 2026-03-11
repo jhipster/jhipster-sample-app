@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -23,10 +22,10 @@ import { OperationFormGroup, OperationFormService } from './operation-form.servi
 @Component({
   selector: 'jhi-operation-update',
   templateUrl: './operation-update.html',
-  imports: [TranslateDirective, TranslateModule, NgbModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
+  imports: [TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class OperationUpdate implements OnInit {
-  isSaving = signal(false);
+  readonly isSaving = signal(false);
   operation: IOperation | null = null;
 
   bankAccountsSharedCollection = signal<IBankAccount[]>([]);
@@ -70,7 +69,7 @@ export class OperationUpdate implements OnInit {
     }
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IOperation>>): void {
+  protected subscribeToSaveResponse(result: Observable<IOperation | null>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
@@ -93,11 +92,11 @@ export class OperationUpdate implements OnInit {
     this.operation = operation;
     this.operationFormService.resetForm(this.editForm, operation);
 
-    this.bankAccountsSharedCollection.set(
-      this.bankAccountService.addBankAccountToCollectionIfMissing<IBankAccount>(this.bankAccountsSharedCollection(), operation.bankAccount),
+    this.bankAccountsSharedCollection.update(bankAccounts =>
+      this.bankAccountService.addBankAccountToCollectionIfMissing<IBankAccount>(bankAccounts, operation.bankAccount),
     );
-    this.labelsSharedCollection.set(
-      this.labelService.addLabelToCollectionIfMissing<ILabel>(this.labelsSharedCollection(), ...(operation.labels ?? [])),
+    this.labelsSharedCollection.update(labels =>
+      this.labelService.addLabelToCollectionIfMissing<ILabel>(labels, ...(operation.labels ?? [])),
     );
   }
 

@@ -1,7 +1,7 @@
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap/progressbar';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { JvmMetrics } from 'app/admin/metrics/metrics.model';
@@ -10,7 +10,7 @@ import { TranslateDirective } from 'app/shared/language';
 @Component({
   selector: 'jhi-jvm-memory',
   templateUrl: './jvm-memory.html',
-  imports: [NgbModule, KeyValuePipe, DecimalPipe, TranslateDirective, TranslateModule],
+  imports: [NgbProgressbar, KeyValuePipe, DecimalPipe, TranslateDirective, TranslateModule],
 })
 export class JvmMemory {
   /**
@@ -21,5 +21,5 @@ export class JvmMemory {
   /**
    * Boolean field saying if the metrics are in the process of being updated
    */
-  updating = input<boolean>();
+  readonly updating = input<boolean>();
 }

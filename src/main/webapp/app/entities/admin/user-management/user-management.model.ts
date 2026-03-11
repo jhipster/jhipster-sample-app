@@ -1,6 +1,6 @@
-export interface IUser {
-  id: number | null;
-  login?: string;
+export interface IUserManagement {
+  login: string;
+  id?: number | null;
   firstName?: string | null;
   lastName?: string | null;
   email?: string;
@@ -13,10 +13,10 @@ export interface IUser {
   lastModifiedDate?: Date;
 }
 
-export class User implements IUser {
+export class User implements IUserManagement {
   constructor(
-    public id: number | null,
-    public login?: string,
+    public login: string,
+    public id?: number | null,
     public firstName?: string | null,
     public lastName?: string | null,
     public email?: string,
@@ -29,3 +29,5 @@ export class User implements IUser {
     public lastModifiedDate?: Date,
   ) {}
 }
+
+export type NewUserManagement = IUserManagement;

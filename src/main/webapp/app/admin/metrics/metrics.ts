@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
@@ -36,12 +36,11 @@ import { MetricsService } from './metrics.service';
   ],
 })
 export default class Metrics implements OnInit {
-  metrics = signal<MetricsModel | undefined>(undefined);
-  threads = signal<Thread[] | undefined>(undefined);
-  updatingMetrics = signal(true);
+  readonly metrics = signal<MetricsModel | undefined>(undefined);
+  readonly threads = signal<Thread[] | undefined>(undefined);
+  readonly updatingMetrics = signal(true);
 
   private readonly metricsService = inject(MetricsService);
-  private readonly changeDetector = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.refresh();
@@ -53,7 +52,6 @@ export default class Metrics implements OnInit {
       this.metrics.set(metrics);
       this.threads.set(threadDump.threads);
       this.updatingMetrics.set(false);
-      this.changeDetector.markForCheck();
     });
   }
 

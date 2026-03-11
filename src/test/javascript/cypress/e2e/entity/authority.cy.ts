@@ -12,11 +12,17 @@ import {
 describe('Authority e2e test', () => {
   const authorityPageUrl = '/authority';
   const authorityPageUrlPattern = new RegExp('/authority(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  let username: string;
+  let password: string;
   const authoritySample = { name: '429cbbda-ec4c-4f2a-81e6-6efefaf84e57' };
 
   let authority;
+
+  before(() => {
+    cy.credentials().then(credentials => {
+      ({ adminUsername: username, adminPassword: password } = credentials);
+    });
+  });
 
   beforeEach(() => {
     cy.login(username, password);
@@ -41,7 +47,7 @@ describe('Authority e2e test', () => {
 
   it('Authorities menu should load Authorities page', () => {
     cy.visit('/');
-    cy.clickOnEntityMenuItem('authority');
+    cy.clickOnAdminMenuItem('authority');
     cy.wait('@entitiesRequest').then(({ response }) => {
       if (response?.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');

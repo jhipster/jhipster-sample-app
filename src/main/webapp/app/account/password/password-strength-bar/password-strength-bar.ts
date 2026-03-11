@@ -11,7 +11,7 @@ import { TranslateDirective } from 'app/shared/language';
   styleUrl: './password-strength-bar.scss',
 })
 export default class PasswordStrengthBar {
-  passwordToCheck = input<string>('');
+  readonly passwordToCheck = input<string>('');
 
   colors = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
 

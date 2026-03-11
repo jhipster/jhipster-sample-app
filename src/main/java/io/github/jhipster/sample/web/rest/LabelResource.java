@@ -135,9 +135,9 @@ public class LabelResource {
     }
 
     /**
-     * {@code GET  /labels} : get all the labels.
+     * {@code GET  /labels} : get all the Labels.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of labels in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Labels in body.
      */
     @GetMapping("")
     public List<Label> getAllLabels() {

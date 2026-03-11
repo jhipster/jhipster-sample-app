@@ -1,11 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable, Subscription, combineLatest, filter, finalize, tap } from 'rxjs';
+import { Subscription, combineLatest, filter, tap } from 'rxjs';
 
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { Alert } from 'app/shared/alert/alert';
@@ -14,7 +14,7 @@ import { TranslateDirective } from 'app/shared/language';
 import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountDeleteDialog } from '../delete/bank-account-delete-dialog';
-import { BankAccountService, EntityArrayResponseType } from '../service/bank-account.service';
+import { BankAccountService } from '../service/bank-account.service';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -23,7 +23,6 @@ import { BankAccountService, EntityArrayResponseType } from '../service/bank-acc
     RouterLink,
     FormsModule,
     FontAwesomeModule,
-    NgbModule,
     AlertError,
     Alert,
     SortDirective,
@@ -34,16 +33,23 @@ import { BankAccountService, EntityArrayResponseType } from '../service/bank-acc
 })
 export class BankAccount implements OnInit {
   subscription: Subscription | null = null;
-  bankAccounts = signal<IBankAccount[]>([]);
-  isLoading = signal(false);
+  readonly bankAccounts = signal<IBankAccount[]>([]);
 
   sortState = sortStateSignal({});
 
   readonly router = inject(Router);
   protected readonly bankAccountService = inject(BankAccountService);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  readonly isLoading = this.bankAccountService.bankAccountsResource.isLoading;
   protected readonly activatedRoute = inject(ActivatedRoute);
   protected readonly sortService = inject(SortService);
   protected modalService = inject(NgbModal);
+
+  constructor() {
+    effect(() => {
+      this.bankAccounts.set(this.fillComponentAttributesFromResponseBody([...this.bankAccountService.bankAccounts()]));
+    });
+  }
 
   trackId = (item: IBankAccount): number => this.bankAccountService.getBankAccountIdentifier(item);
 
@@ -54,8 +60,6 @@ export class BankAccount implements OnInit {
         tap(() => {
           if (this.bankAccounts().length === 0) {
             this.load();
-          } else {
-            this.bankAccounts.set(this.refineData(this.bankAccounts()));
           }
         }),
       )
@@ -75,7 +79,7 @@ export class BankAccount implements OnInit {
   }
 
   load(): void {
-    this.queryBackend().subscribe((res: EntityArrayResponseType) => this.onResponseSuccess(res));
+    this.queryBackend();
   }
 
   navigateToWithComponentValues(event: SortState): void {
@@ -86,27 +90,21 @@ export class BankAccount implements OnInit {
     this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
   }
 
-  protected onResponseSuccess(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.bankAccounts.set(this.refineData(dataFromBody));
-  }
-
   protected refineData(data: IBankAccount[]): IBankAccount[] {
     const { predicate, order } = this.sortState();
     return predicate && order ? data.sort(this.sortService.startSort({ predicate, order })) : data;
   }
 
-  protected fillComponentAttributesFromResponseBody(data: IBankAccount[] | null): IBankAccount[] {
-    return data ?? [];
+  protected fillComponentAttributesFromResponseBody(data: IBankAccount[]): IBankAccount[] {
+    return this.refineData(data);
   }
 
-  protected queryBackend(): Observable<EntityArrayResponseType> {
-    this.isLoading.set(true);
+  protected queryBackend(): void {
     const queryObject: any = {
       eagerload: true,
       sort: this.sortService.buildSortParam(this.sortState()),
     };
-    return this.bankAccountService.query(queryObject).pipe(finalize(() => this.isLoading.set(false)));
+    this.bankAccountService.bankAccountsParams.set(queryObject);
   }
 
   protected handleNavigation(sortState: SortState): void {

@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 9.0.0-beta.3, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3).
+This application was generated using JHipster 9.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.0.0](https://www.jhipster.tech/documentation-archive/v9.0.0).
 
 ## Project Structure
 
@@ -273,22 +273,22 @@ Then run:
 docker compose -f src/main/docker/app.yml up -d
 ```
 
-For more information refer to [Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/docker-compose/), this page also contains information on the Docker Compose sub-generator (`jhipster docker-compose`), which is able to generate Docker configurations for one or several JHipster applications.
+For more information refer to [Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.0.0/docker-compose/), this page also contains information on the Docker Compose sub-generator (`jhipster docker-compose`), which is able to generate Docker configurations for one or several JHipster applications.
 
 ## Continuous Integration (optional)
 
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/setting-up-ci/) page for more information.
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.0.0/setting-up-ci/) page for more information.
 
 ## References
 
 - [JHipster Homepage and latest documentation](https://www.jhipster.tech/)
-- [JHipster 9.0.0-beta.3 archive](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3)
-- [Using JHipster in development](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/development/)
-- [Using Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/docker-compose)
-- [Using JHipster in production](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/production/)
-- [Running tests page](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/running-tests/)
-- [Code quality page](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/code-quality/)
-- [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.3/setting-up-ci/)
+- [JHipster 9.0.0 archive](https://www.jhipster.tech/documentation-archive/v9.0.0)
+- [Using JHipster in development](https://www.jhipster.tech/documentation-archive/v9.0.0/development/)
+- [Using Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.0.0/docker-compose)
+- [Using JHipster in production](https://www.jhipster.tech/documentation-archive/v9.0.0/production/)
+- [Running tests page](https://www.jhipster.tech/documentation-archive/v9.0.0/running-tests/)
+- [Code quality page](https://www.jhipster.tech/documentation-archive/v9.0.0/code-quality/)
+- [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.0.0/setting-up-ci/)
 - [Node.js](https://nodejs.org/)
 - [NPM](https://www.npmjs.com/)
 - [Gatling](https://gatling.io/)

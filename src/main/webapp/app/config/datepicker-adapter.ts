@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 
-import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import dayjs from 'dayjs/esm';
 
 @Injectable()

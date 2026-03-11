@@ -17,7 +17,7 @@ const initialAccount: Account = {} as Account;
   templateUrl: './settings.html',
 })
 export default class Settings implements OnInit {
-  success = signal(false);
+  readonly success = signal(false);
   languages = LANGUAGES;
 
   settingsForm = new FormGroup({

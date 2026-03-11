@@ -13,11 +13,17 @@ import {
 describe('Label e2e test', () => {
   const labelPageUrl = '/label';
   const labelPageUrlPattern = new RegExp('/label(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'user';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
+  let username: string;
+  let password: string;
   const labelSample = { label: 'a bliss what' };
 
   let label;
+
+  before(() => {
+    cy.credentials().then(credentials => {
+      ({ username, password } = credentials);
+    });
+  });
 
   beforeEach(() => {
     cy.login(username, password);

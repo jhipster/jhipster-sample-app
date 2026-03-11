@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vitest } from 'vitest';
 import { Component, ElementRef, WritableSignal, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -18,33 +18,30 @@ class TestHasAnyAuthorityDirective {
 }
 
 describe('HasAnyAuthorityDirective tests', () => {
-  let mockAccountService: AccountService;
   let currentAccount: WritableSignal<Account | null>;
+  let hasAnyAuthority: Mock;
 
   beforeEach(() => {
+    currentAccount = signal<Account | null>({ activated: true, authorities: [] } as any);
+    hasAnyAuthority = vitest.fn((): boolean => Boolean(currentAccount()));
+
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
         {
           provide: AccountService,
           useValue: {
-            isAuthenticated: vitest.fn(),
+            account: currentAccount,
+            hasAnyAuthority,
           },
         },
       ],
     });
   });
 
-  beforeEach(() => {
-    mockAccountService = TestBed.inject(AccountService);
-    currentAccount = signal<Account | null>({ activated: true, authorities: [] } as any);
-    mockAccountService.trackCurrentAccount = vitest.fn(() => currentAccount);
-  });
-
   describe('set jhiHasAnyAuthority', () => {
     it('should show restricted content to user if user has required role', () => {
       // GIVEN
-      mockAccountService.hasAnyAuthority = vitest.fn(() => true);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirective);
       const comp = fixture.componentInstance;
 
@@ -57,7 +54,7 @@ describe('HasAnyAuthorityDirective tests', () => {
 
     it('should not show restricted content to user if user has not required role', () => {
       // GIVEN
-      mockAccountService.hasAnyAuthority = vitest.fn(() => false);
+      currentAccount.set(null);
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirective);
       const comp = fixture.componentInstance;
 
@@ -72,7 +69,6 @@ describe('HasAnyAuthorityDirective tests', () => {
   describe('change authorities', () => {
     it('should show or not show restricted content correctly if user authorities are changing', () => {
       // GIVEN
-      mockAccountService.hasAnyAuthority = vitest.fn((): boolean => Boolean(currentAccount()));
       const fixture = TestBed.createComponent(TestHasAnyAuthorityDirective);
       const comp = fixture.componentInstance;
 

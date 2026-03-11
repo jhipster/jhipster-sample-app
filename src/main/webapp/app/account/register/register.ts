@@ -19,11 +19,11 @@ import { RegisterService } from './register.service';
 export default class Register implements AfterViewInit {
   login = viewChild.required<ElementRef>('login');
 
-  doNotMatch = signal(false);
-  error = signal(false);
-  errorEmailExists = signal(false);
-  errorUserExists = signal(false);
-  success = signal(false);
+  readonly doNotMatch = signal(false);
+  readonly error = signal(false);
+  readonly errorEmailExists = signal(false);
+  readonly errorUserExists = signal(false);
+  readonly success = signal(false);
 
   registerForm = new FormGroup({
     login: new FormControl('', {

@@ -4,7 +4,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap/pagination';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 
@@ -16,9 +17,9 @@ import { AlertError } from 'app/shared/alert/alert-error';
 import { TranslateDirective } from 'app/shared/language';
 import { ItemCount } from 'app/shared/pagination';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from 'app/shared/sort';
-import UserManagementDeleteDialog from '../delete/user-management-delete-dialog';
+import { UserManagementDeleteDialog } from '../delete/user-management-delete-dialog';
 import { UserManagementService } from '../service/user-management.service';
-import { User } from '../user-management.model';
+import { IUserManagement } from '../user-management.model';
 
 @Component({
   selector: 'jhi-user-mgmt',
@@ -28,7 +29,7 @@ import { User } from '../user-management.model';
     FontAwesomeModule,
     AlertError,
     Alert,
-    NgbModule,
+    NgbPagination,
     TranslateDirective,
     TranslateModule,
     SortDirective,
@@ -37,13 +38,13 @@ import { User } from '../user-management.model';
     DatePipe,
   ],
 })
-export default class UserManagement implements OnInit {
-  currentAccount = inject(AccountService).trackCurrentAccount();
-  users = signal<User[] | null>(null);
-  isLoading = signal(false);
-  totalItems = signal(0);
-  itemsPerPage = signal(ITEMS_PER_PAGE);
-  page = signal(0);
+export class UserManagement implements OnInit {
+  readonly currentAccount = inject(AccountService).account;
+  readonly users = signal<IUserManagement[] | null>(null);
+  readonly isLoading = signal(false);
+  readonly totalItems = signal(0);
+  readonly itemsPerPage = signal(ITEMS_PER_PAGE);
+  readonly page = signal(0);
   sortState = sortStateSignal({});
 
   private readonly userService = inject(UserManagementService);
@@ -56,17 +57,17 @@ export default class UserManagement implements OnInit {
     this.handleNavigation();
   }
 
-  setActive(user: User, isActivated: boolean): void {
-    this.userService.update({ ...user, activated: isActivated }).subscribe(() => this.loadAll());
+  setActive(userManagement: IUserManagement, isActivated: boolean): void {
+    this.userService.update({ ...userManagement, activated: isActivated }).subscribe(() => this.loadAll());
   }
 
-  trackIdentity(item: User): number {
+  trackIdentity(item: IUserManagement): number {
     return item.id!;
   }
 
-  deleteUser(user: User): void {
+  deleteUser(userManagement: IUserManagement): void {
     const modalRef = this.modalService.open(UserManagementDeleteDialog, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.user = user;
+    modalRef.componentInstance.userManagement = userManagement;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
@@ -84,7 +85,7 @@ export default class UserManagement implements OnInit {
         sort: this.sortService.buildSortParam(this.sortState(), 'id'),
       })
       .subscribe({
-        next: (res: HttpResponse<User[]>) => {
+        next: (res: HttpResponse<IUserManagement[]>) => {
           this.isLoading.set(false);
           this.onSuccess(res.body, res.headers);
         },
@@ -111,7 +112,7 @@ export default class UserManagement implements OnInit {
     });
   }
 
-  private onSuccess(users: User[] | null, headers: HttpHeaders): void {
+  private onSuccess(users: IUserManagement[] | null, headers: HttpHeaders): void {
     this.totalItems.set(Number(headers.get(TOTAL_COUNT_RESPONSE_HEADER)));
     this.users.set(users);
   }

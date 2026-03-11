@@ -17,11 +17,11 @@ import { ConfigurationService } from './configuration.service';
   imports: [FontAwesomeModule, FormsModule, SortDirective, SortByDirective, KeyValuePipe, JsonPipe, TranslateDirective, TranslateModule],
 })
 export default class Configuration implements OnInit {
-  allBeans = signal<Bean[] | undefined>(undefined);
-  beansFilter = signal<string>('');
-  propertySources = signal<PropertySource[]>([]);
+  readonly allBeans = signal<Bean[] | undefined>(undefined);
+  readonly beansFilter = signal<string>('');
+  readonly propertySources = signal<PropertySource[]>([]);
   sortState = sortStateSignal({ predicate: 'prefix', order: 'asc' });
-  beans = computed(() => {
+  readonly beans = computed(() => {
     let data = this.allBeans() ?? [];
     const beansFilter = this.beansFilter();
     if (beansFilter) {

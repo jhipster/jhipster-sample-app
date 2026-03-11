@@ -1,7 +1,6 @@
 import { Component, input } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { Alert } from 'app/shared/alert/alert';
@@ -12,10 +11,10 @@ import { IAuthority } from '../authority.model';
 @Component({
   selector: 'jhi-authority-detail',
   templateUrl: './authority-detail.html',
-  imports: [FontAwesomeModule, NgbModule, Alert, AlertError, TranslateDirective, TranslateModule],
+  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslateModule],
 })
 export class AuthorityDetail {
-  authority = input<IAuthority | null>(null);
+  readonly authority = input<IAuthority | null>(null);
 
   previousState(): void {
     globalThis.history.back();

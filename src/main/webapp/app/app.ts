@@ -3,7 +3,7 @@ import locale from '@angular/common/locales/en';
 import { Component, inject } from '@angular/core';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import dayjs from 'dayjs/esm';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';

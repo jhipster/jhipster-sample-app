@@ -1,5 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
 
 import dayjs from 'dayjs/esm';
 import { Observable, map } from 'rxjs';
@@ -21,56 +21,74 @@ export type NewRestOperation = RestOf<NewOperation>;
 
 export type PartialUpdateRestOperation = RestOf<PartialUpdateOperation>;
 
-export type EntityResponseType = HttpResponse<IOperation>;
-export type EntityArrayResponseType = HttpResponse<IOperation[]>;
+@Injectable()
+export class OperationsService {
+  readonly operationsParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(
+    undefined,
+  );
+  readonly operationsResource = httpResource<RestOperation[]>(() => {
+    const params = this.operationsParams();
+    if (!params) {
+      return undefined;
+    }
+    return { url: this.resourceUrl, params };
+  });
+  /**
+   * This signal holds the list of operation that have been fetched. It is updated when the operationsResource emits a new value.
+   * In case of error while fetching the operations, the signal is set to an empty array.
+   */
+  readonly operations = computed(() =>
+    (this.operationsResource.hasValue() ? this.operationsResource.value() : []).map(item => this.convertValueFromServer(item)),
+  );
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
+  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/operations');
+
+  protected convertValueFromServer(restOperation: RestOperation): IOperation {
+    return {
+      ...restOperation,
+      date: restOperation.date ? dayjs(restOperation.date) : undefined,
+    };
+  }
+}
 
 @Injectable({ providedIn: 'root' })
-export class OperationService {
+export class OperationService extends OperationsService {
   protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/operations');
+  create(operation: NewOperation): Observable<IOperation> {
+    const copy = this.convertValueFromClient(operation);
+    return this.http.post<RestOperation>(this.resourceUrl, copy).pipe(map(res => this.convertResponseFromServer(res)));
+  }
 
-  create(operation: NewOperation): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(operation);
+  update(operation: IOperation): Observable<IOperation> {
+    const copy = this.convertValueFromClient(operation);
     return this.http
-      .post<RestOperation>(this.resourceUrl, copy, { observe: 'response' })
+      .put<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy)
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  update(operation: IOperation): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(operation);
+  partialUpdate(operation: PartialUpdateOperation): Observable<IOperation> {
+    const copy = this.convertValueFromClient(operation);
     return this.http
-      .put<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy, {
-        observe: 'response',
-      })
+      .patch<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy)
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  partialUpdate(operation: PartialUpdateOperation): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(operation);
+  find(id: number): Observable<IOperation> {
     return this.http
-      .patch<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy, {
-        observe: 'response',
-      })
+      .get<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(id)}`)
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' })
-      .pipe(map(res => this.convertResponseFromServer(res)));
-  }
-
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(req?: any): Observable<HttpResponse<IOperation[]>> {
     const options = createRequestOption(req);
     return this.http
       .get<RestOperation[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+      .pipe(map(res => res.clone({ body: this.convertResponseArrayFromServer(res.body!) })));
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
+  delete(id: number): Observable<undefined> {
+    return this.http.delete<undefined>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
   getOperationIdentifier(operation: Pick<IOperation, 'id'>): number {
@@ -101,29 +119,18 @@ export class OperationService {
     return operationCollection;
   }
 
-  protected convertDateFromClient<T extends IOperation | NewOperation | PartialUpdateOperation>(operation: T): RestOf<T> {
+  protected convertValueFromClient<T extends IOperation | NewOperation | PartialUpdateOperation>(operation: T): RestOf<T> {
     return {
       ...operation,
       date: operation.date?.toJSON() ?? null,
     };
   }
 
-  protected convertDateFromServer(restOperation: RestOperation): IOperation {
-    return {
-      ...restOperation,
-      date: restOperation.date ? dayjs(restOperation.date) : undefined,
-    };
+  protected convertResponseFromServer(res: RestOperation): IOperation {
+    return this.convertValueFromServer(res);
   }
 
-  protected convertResponseFromServer(res: HttpResponse<RestOperation>): HttpResponse<IOperation> {
-    return res.clone({
-      body: res.body ? this.convertDateFromServer(res.body) : null,
-    });
-  }
-
-  protected convertResponseArrayFromServer(res: HttpResponse<RestOperation[]>): HttpResponse<IOperation[]> {
-    return res.clone({
-      body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
-    });
+  protected convertResponseArrayFromServer(res: RestOperation[]): IOperation[] {
+    return res.map(item => this.convertValueFromServer(item));
   }
 }

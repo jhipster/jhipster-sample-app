@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
-import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +12,6 @@ describe('Metrics', () => {
   let comp: Metrics;
   let fixture: ComponentFixture<Metrics>;
   let service: MetricsService;
-  let changeDetector: ChangeDetectorRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,7 +23,6 @@ describe('Metrics', () => {
     fixture = TestBed.createComponent(Metrics);
     comp = fixture.componentInstance;
     service = TestBed.inject(MetricsService);
-    changeDetector = fixture.debugElement.injector.get(ChangeDetectorRef);
   });
 
   describe('refresh', () => {
@@ -47,7 +44,6 @@ describe('Metrics', () => {
 
       vitest.spyOn(service, 'getMetrics').mockReturnValue(of(metrics));
       vitest.spyOn(service, 'threadDump').mockReturnValue(of(threadDump));
-      vitest.spyOn(changeDetector.constructor.prototype, 'markForCheck');
 
       // WHEN
       comp.ngOnInit();
@@ -57,7 +53,6 @@ describe('Metrics', () => {
       expect(comp.metrics()).toEqual(metrics);
       expect(comp.threads()).toEqual(threadDump.threads);
       expect(comp.updatingMetrics()).toBeFalsy();
-      expect(changeDetector.constructor.prototype.markForCheck).toHaveBeenCalled();
     });
   });
 

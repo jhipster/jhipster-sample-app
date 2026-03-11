@@ -138,10 +138,10 @@ public class BankAccountResource {
     }
 
     /**
-     * {@code GET  /bank-accounts} : get all the bankAccounts.
+     * {@code GET  /bank-accounts} : get all the Bank Accounts.
      *
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Bank Accounts in body.
      */
     @GetMapping("")
     public List<BankAccount> getAllBankAccounts(

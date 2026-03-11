@@ -1,11 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable, Subscription, combineLatest, filter, finalize, tap } from 'rxjs';
+import { Subscription, combineLatest, filter, tap } from 'rxjs';
 
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { Alert } from 'app/shared/alert/alert';
@@ -14,7 +14,7 @@ import { TranslateDirective } from 'app/shared/language';
 import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
 import { IAuthority } from '../authority.model';
 import { AuthorityDeleteDialog } from '../delete/authority-delete-dialog';
-import { AuthorityService, EntityArrayResponseType } from '../service/authority.service';
+import { AuthorityService } from '../service/authority.service';
 
 @Component({
   selector: 'jhi-authority',
@@ -23,7 +23,6 @@ import { AuthorityService, EntityArrayResponseType } from '../service/authority.
     RouterLink,
     FormsModule,
     FontAwesomeModule,
-    NgbModule,
     AlertError,
     Alert,
     SortDirective,
@@ -34,16 +33,23 @@ import { AuthorityService, EntityArrayResponseType } from '../service/authority.
 })
 export class Authority implements OnInit {
   subscription: Subscription | null = null;
-  authorities = signal<IAuthority[]>([]);
-  isLoading = signal(false);
+  readonly authorities = signal<IAuthority[]>([]);
 
   sortState = sortStateSignal({});
 
   readonly router = inject(Router);
   protected readonly authorityService = inject(AuthorityService);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  readonly isLoading = this.authorityService.authoritiesResource.isLoading;
   protected readonly activatedRoute = inject(ActivatedRoute);
   protected readonly sortService = inject(SortService);
   protected modalService = inject(NgbModal);
+
+  constructor() {
+    effect(() => {
+      this.authorities.set(this.fillComponentAttributesFromResponseBody([...this.authorityService.authorities()]));
+    });
+  }
 
   trackName = (item: IAuthority): string => this.authorityService.getAuthorityIdentifier(item);
 
@@ -54,8 +60,6 @@ export class Authority implements OnInit {
         tap(() => {
           if (this.authorities().length === 0) {
             this.load();
-          } else {
-            this.authorities.set(this.refineData(this.authorities()));
           }
         }),
       )
@@ -75,7 +79,7 @@ export class Authority implements OnInit {
   }
 
   load(): void {
-    this.queryBackend().subscribe((res: EntityArrayResponseType) => this.onResponseSuccess(res));
+    this.queryBackend();
   }
 
   navigateToWithComponentValues(event: SortState): void {
@@ -86,26 +90,20 @@ export class Authority implements OnInit {
     this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
   }
 
-  protected onResponseSuccess(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.authorities.set(this.refineData(dataFromBody));
-  }
-
   protected refineData(data: IAuthority[]): IAuthority[] {
     const { predicate, order } = this.sortState();
     return predicate && order ? data.sort(this.sortService.startSort({ predicate, order })) : data;
   }
 
-  protected fillComponentAttributesFromResponseBody(data: IAuthority[] | null): IAuthority[] {
-    return data ?? [];
+  protected fillComponentAttributesFromResponseBody(data: IAuthority[]): IAuthority[] {
+    return this.refineData(data);
   }
 
-  protected queryBackend(): Observable<EntityArrayResponseType> {
-    this.isLoading.set(true);
+  protected queryBackend(): void {
     const queryObject: any = {
       sort: this.sortService.buildSortParam(this.sortState()),
     };
-    return this.authorityService.query(queryObject).pipe(finalize(() => this.isLoading.set(false)));
+    this.authorityService.authoritiesParams.set(queryObject);
   }
 
   protected handleNavigation(sortState: SortState): void {

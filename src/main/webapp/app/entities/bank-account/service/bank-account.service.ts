@@ -1,5 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -10,47 +10,60 @@ import { IBankAccount, NewBankAccount } from '../bank-account.model';
 
 export type PartialUpdateBankAccount = Partial<IBankAccount> & Pick<IBankAccount, 'id'>;
 
-export type EntityResponseType = HttpResponse<IBankAccount>;
-export type EntityArrayResponseType = HttpResponse<IBankAccount[]>;
+@Injectable()
+export class BankAccountsService {
+  readonly bankAccountsParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(
+    undefined,
+  );
+  readonly bankAccountsResource = httpResource<IBankAccount[]>(() => {
+    const params = this.bankAccountsParams();
+    if (!params) {
+      return undefined;
+    }
+    return { url: this.resourceUrl, params };
+  });
+  /**
+   * This signal holds the list of bankAccount that have been fetched. It is updated when the bankAccountsResource emits a new value.
+   * In case of error while fetching the bankAccounts, the signal is set to an empty array.
+   */
+  readonly bankAccounts = computed(() => (this.bankAccountsResource.hasValue() ? this.bankAccountsResource.value() : []));
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
+  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
+}
 
 @Injectable({ providedIn: 'root' })
-export class BankAccountService {
+export class BankAccountService extends BankAccountsService {
   protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
-
-  create(bankAccount: NewBankAccount): Observable<EntityResponseType> {
-    return this.http.post<IBankAccount>(this.resourceUrl, bankAccount, { observe: 'response' });
+  create(bankAccount: NewBankAccount): Observable<IBankAccount> {
+    return this.http.post<IBankAccount>(this.resourceUrl, bankAccount);
   }
 
-  update(bankAccount: IBankAccount): Observable<EntityResponseType> {
+  update(bankAccount: IBankAccount): Observable<IBankAccount> {
     return this.http.put<IBankAccount>(
       `${this.resourceUrl}/${encodeURIComponent(this.getBankAccountIdentifier(bankAccount))}`,
       bankAccount,
-      { observe: 'response' },
     );
   }
 
-  partialUpdate(bankAccount: PartialUpdateBankAccount): Observable<EntityResponseType> {
+  partialUpdate(bankAccount: PartialUpdateBankAccount): Observable<IBankAccount> {
     return this.http.patch<IBankAccount>(
       `${this.resourceUrl}/${encodeURIComponent(this.getBankAccountIdentifier(bankAccount))}`,
       bankAccount,
-      { observe: 'response' },
     );
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IBankAccount>(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
+  find(id: number): Observable<IBankAccount> {
+    return this.http.get<IBankAccount>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(req?: any): Observable<HttpResponse<IBankAccount[]>> {
     const options = createRequestOption(req);
     return this.http.get<IBankAccount[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
+  delete(id: number): Observable<undefined> {
+    return this.http.delete<undefined>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
   getBankAccountIdentifier(bankAccount: Pick<IBankAccount, 'id'>): number {

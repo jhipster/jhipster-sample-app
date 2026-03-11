@@ -60,9 +60,9 @@ public class AuthorityResource {
     }
 
     /**
-     * {@code GET  /authorities} : get all the authorities.
+     * {@code GET  /authorities} : get all the Authorities.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authorities in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Authorities in body.
      */
     @GetMapping("")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")

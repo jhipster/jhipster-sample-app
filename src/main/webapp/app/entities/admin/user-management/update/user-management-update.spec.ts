@@ -7,9 +7,9 @@ import { of } from 'rxjs';
 
 import { Authority } from 'app/shared/jhipster/constants';
 import { UserManagementService } from '../service/user-management.service';
-import { User } from '../user-management.model';
+import { IUserManagement } from '../user-management.model';
 
-import UserManagementUpdate from './user-management-update';
+import { UserManagementUpdate } from './user-management-update';
 
 describe('User Management Update Component', () => {
   let comp: UserManagementUpdate;
@@ -23,7 +23,19 @@ describe('User Management Update Component', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            data: of({ user: new User(123, 'user', 'first', 'last', 'first@last.com', true, 'en', [Authority.USER], 'admin') }),
+            data: of({
+              user: {
+                id: 123,
+                login: 'user',
+                firstName: 'first',
+                lastName: 'last',
+                email: 'first@last.com',
+                activated: true,
+                langKey: 'en',
+                authorities: [Authority.USER],
+                createdBy: 'admin',
+              } as IUserManagement,
+            }),
           },
         },
       ],
@@ -36,24 +48,10 @@ describe('User Management Update Component', () => {
     service = TestBed.inject(UserManagementService);
   });
 
-  describe('OnInit', () => {
-    it('should load authorities and language on init', inject([], () => {
-      // GIVEN
-      vitest.spyOn(service, 'authorities').mockReturnValue(of(['USER']));
-
-      // WHEN
-      comp.ngOnInit();
-
-      // THEN
-      expect(service.authorities).toHaveBeenCalled();
-      expect(comp.authorities()).toEqual(['USER']);
-    }));
-  });
-
   describe('save', () => {
     it('should call update service on save for existing user', inject([], () => {
       // GIVEN
-      const entity = { id: 123 };
+      const entity = { id: 123 } as IUserManagement;
       vitest.spyOn(service, 'update').mockReturnValue(of(entity));
       comp.editForm.patchValue(entity);
       // WHEN
@@ -66,7 +64,7 @@ describe('User Management Update Component', () => {
 
     it('should call create service on save for new user', inject([], () => {
       // GIVEN
-      const entity = { login: 'foo' } as User;
+      const entity = { login: 'foo' } as IUserManagement;
       vitest.spyOn(service, 'create').mockReturnValue(of(entity));
       comp.editForm.patchValue(entity);
       // WHEN
