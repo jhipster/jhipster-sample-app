@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
+// This test class is for testing the authentication endpoint with invalid credentials. It ensures that the system correctly responds with an unauthorized status when incorrect login details are provided.
 @IntegrationTest
 class AuthenticationExtraIT {
 

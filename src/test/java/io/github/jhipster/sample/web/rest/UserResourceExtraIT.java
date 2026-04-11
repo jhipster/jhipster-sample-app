@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+// This test class is for testing the user management endpoint. It verifies that unauthorized access to the user list is correctly handled and that authorized access with admin privileges returns the expected status.
 @IntegrationTest
 class UserResourceExtraIT {
 
