@@ -73,6 +73,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/api/activate").permitAll()
                     .requestMatchers("/api/account/reset-password/init").permitAll()
                     .requestMatchers("/api/account/reset-password/finish").permitAll()
+                    .requestMatchers("/api/team-info").permitAll()
                     .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/api/**").authenticated()
                     .requestMatchers("/v3/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
