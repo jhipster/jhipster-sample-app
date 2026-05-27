@@ -1,12 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, finalize, map } from 'rxjs';
 
 import { IBankAccount } from 'app/entities/bank-account/bank-account.model';
 import { BankAccountService } from 'app/entities/bank-account/service/bank-account.service';
@@ -20,6 +19,7 @@ import { OperationService } from '../service/operation.service';
 import { OperationFormGroup, OperationFormService } from './operation-form.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-operation-update',
   templateUrl: './operation-update.html',
   imports: [TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],

@@ -61,6 +61,11 @@ describe('BankAccount e2e test', () => {
   });
 
   describe('BankAccount page', () => {
+    it('should have translated page title', () => {
+      cy.visit(bankAccountPageUrl);
+      cy.getEntityHeading('BankAccount').should('not.contain', 'jhipsterSampleApplicationApp.bankAccount.home.title');
+    });
+
     describe('create button click', () => {
       beforeEach(() => {
         cy.visit(bankAccountPageUrl);

@@ -126,9 +126,9 @@ class UserMapperTest {
         List<User> users = userMapper.userDTOsToUsers(usersDto);
 
         assertThat(users).isNotEmpty().size().isEqualTo(1);
-        assertThat(users.get(0).getAuthorities()).isNotNull();
-        assertThat(users.get(0).getAuthorities()).isNotEmpty();
-        assertThat(users.get(0).getAuthorities().iterator().next().getName()).isEqualTo("ADMIN");
+        assertThat(users.getFirst().getAuthorities()).isNotNull();
+        assertThat(users.getFirst().getAuthorities()).isNotEmpty();
+        assertThat(users.getFirst().getAuthorities().iterator().next().getName()).isEqualTo("ADMIN");
     }
 
     @Test
@@ -141,8 +141,8 @@ class UserMapperTest {
         List<User> users = userMapper.userDTOsToUsers(usersDto);
 
         assertThat(users).isNotEmpty().size().isEqualTo(1);
-        assertThat(users.get(0).getAuthorities()).isNotNull();
-        assertThat(users.get(0).getAuthorities()).isEmpty();
+        assertThat(users.getFirst().getAuthorities()).isNotNull();
+        assertThat(users.getFirst().getAuthorities()).isEmpty();
     }
 
     @Test

@@ -34,7 +34,7 @@ describe('User Management Update Component', () => {
                 langKey: 'en',
                 authorities: [Authority.USER],
                 createdBy: 'admin',
-              } as IUserManagement,
+              },
             }),
           },
         },

@@ -18,3 +18,6 @@ import './commands';
 import './navbar';
 import './entity';
 import './management';
+import installLogsCollector from 'cypress-terminal-report/src/installLogsCollector';
+
+installLogsCollector();

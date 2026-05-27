@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { DOCUMENT } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Router, TitleStrategy } from '@angular/router';
 
-import { InterpolatableTranslationObject, LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, of } from 'rxjs';
 
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
@@ -57,7 +57,7 @@ describe('Main', () => {
     const defaultPageTitle = 'global.title';
     const parentRoutePageTitle = 'parentTitle';
     const childRoutePageTitle = 'childTitle';
-    const langChangeEvent: LangChangeEvent = { lang: 'en', translations: {} as InterpolatableTranslationObject };
+    const langChangeEvent: LangChangeEvent = { lang: 'en', translations: {} };
 
     beforeEach(() => {
       routerState.snapshot.root = { data: {} };
@@ -212,13 +212,13 @@ describe('Main', () => {
       comp.ngOnInit();
 
       // WHEN
-      langChangeSubject.next({ lang: 'lang1', translations: {} as InterpolatableTranslationObject });
+      langChangeSubject.next({ lang: 'lang1', translations: {} });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang1');
 
       // WHEN
-      langChangeSubject.next({ lang: 'lang2', translations: {} as InterpolatableTranslationObject });
+      langChangeSubject.next({ lang: 'lang2', translations: {} });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang2');
@@ -227,6 +227,7 @@ describe('Main', () => {
 });
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
 })
 export class Blank {}

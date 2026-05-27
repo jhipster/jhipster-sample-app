@@ -3,8 +3,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { IUserManagement } from '../user-management.model';
-
 import { UserManagementService } from './user-management.service';
 
 describe('User Service', () => {
@@ -33,7 +31,7 @@ describe('User Service', () => {
       });
 
       const req = httpMock.expectOne({ method: 'GET' });
-      req.flush({ id: 123, login: 'user' } as IUserManagement);
+      req.flush({ id: 123, login: 'user' });
       expect(expectedResult).toEqual('user');
     });
 

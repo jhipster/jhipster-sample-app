@@ -5,8 +5,8 @@ import io.github.jhipster.sample.config.CRLFLogConverter;
 import jakarta.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class JhipsterSampleApplicationApp {
      */
     @PostConstruct
     public void initApplication() {
-        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        Collection<String> activeProfiles = List.of(env.getActiveProfiles());
         if (
             activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) &&
             activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)

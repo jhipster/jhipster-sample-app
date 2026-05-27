@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');

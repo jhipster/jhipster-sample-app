@@ -3,8 +3,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
-import { catchError, shareReplay, tap } from 'rxjs/operators';
+import { Observable, catchError, of, shareReplay, tap } from 'rxjs';
 
 import { Account } from 'app/core/auth/account.model';
 import { StateStorageService } from 'app/core/auth/state-storage.service';

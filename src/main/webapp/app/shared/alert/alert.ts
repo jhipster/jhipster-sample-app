@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap/alert';
 
@@ -6,6 +6,7 @@ import { AlertModel, AlertService } from 'app/core/util/alert.service';
 
 @Component({
   selector: 'jhi-alert',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './alert.html',
   imports: [NgbAlert],
 })

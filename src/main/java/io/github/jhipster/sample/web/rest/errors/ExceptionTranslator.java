@@ -4,7 +4,6 @@ import static org.springframework.core.annotation.AnnotatedElementUtils.findMerg
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +78,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
         HttpStatusCode statusCode,
         WebRequest request
     ) {
-        body = body == null ? wrapAndCustomizeProblem((Throwable) ex, (NativeWebRequest) request) : body;
+        body = body == null ? wrapAndCustomizeProblem(ex, (NativeWebRequest) request) : body;
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 
@@ -178,7 +177,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     }
 
     private ResponseStatus extractResponseStatus(final Throwable throwable) {
-        return Optional.ofNullable(resolveResponseStatus(throwable)).orElse(null);
+        return resolveResponseStatus(throwable);
     }
 
     private ResponseStatus resolveResponseStatus(final Throwable type) {
@@ -206,7 +205,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     }
 
     private String getCustomizedErrorDetails(Throwable err) {
-        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        Collection<String> activeProfiles = List.of(env.getActiveProfiles());
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
             if (err instanceof HttpMessageConversionException) return "Unable to convert http message";
             if (err instanceof DataAccessException) return "Failure during data access";

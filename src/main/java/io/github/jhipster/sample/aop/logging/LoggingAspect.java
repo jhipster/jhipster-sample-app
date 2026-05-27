@@ -31,9 +31,11 @@ public class LoggingAspect {
      * Pointcut that matches all repositories, services and Web REST endpoints.
      */
     @Pointcut(
-        "within(@org.springframework.stereotype.Repository *)" +
-            " || within(@org.springframework.stereotype.Service *)" +
-            " || within(@org.springframework.web.bind.annotation.RestController *)"
+        """
+        within(@org.springframework.stereotype.Repository *)
+        || within(@org.springframework.stereotype.Service *)
+        || within(@org.springframework.web.bind.annotation.RestController *)
+        """
     )
     public void springBeanPointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -43,9 +45,11 @@ public class LoggingAspect {
      * Pointcut that matches all Spring beans in the application's main packages.
      */
     @Pointcut(
-        "within(io.github.jhipster.sample.repository..*)" +
-            " || within(io.github.jhipster.sample.service..*)" +
-            " || within(io.github.jhipster.sample.web.rest..*)"
+        """
+        within(io.github.jhipster.sample.repository..*)
+        || within(io.github.jhipster.sample.service..*)
+        || within(io.github.jhipster.sample.web.rest..*)
+        """
     )
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.

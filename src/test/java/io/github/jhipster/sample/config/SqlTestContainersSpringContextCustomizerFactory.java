@@ -1,6 +1,5 @@
 package io.github.jhipster.sample.config;
 
-import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import tech.jhipster.config.JHipsterConstants;
 
 public class SqlTestContainersSpringContextCustomizerFactory implements ContextCustomizerFactory {
 
-    private Logger log = LoggerFactory.getLogger(SqlTestContainersSpringContextCustomizerFactory.class);
+    private final Logger log = LoggerFactory.getLogger(SqlTestContainersSpringContextCustomizerFactory.class);
 
     private static SqlTestContainer prodTestcontainer;
 
@@ -28,7 +27,7 @@ public class SqlTestContainersSpringContextCustomizerFactory implements ContextC
                 ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
                 TestPropertyValues testValues = TestPropertyValues.empty();
                 EmbeddedSQL sqlAnnotation = AnnotatedElementUtils.findMergedAnnotation(testClass, EmbeddedSQL.class);
-                boolean usingTestProdProfile = Arrays.asList(context.getEnvironment().getActiveProfiles()).contains(
+                boolean usingTestProdProfile = List.of(context.getEnvironment().getActiveProfiles()).contains(
                     "test" + JHipsterConstants.SPRING_PROFILE_PRODUCTION
                 );
                 if (null != sqlAnnotation && usingTestProdProfile) {
@@ -36,9 +35,9 @@ public class SqlTestContainersSpringContextCustomizerFactory implements ContextC
                     log.info("Warming up the sql database");
                     if (null == prodTestcontainer) {
                         try {
-                            Class<? extends SqlTestContainer> containerClass = (Class<? extends SqlTestContainer>) Class.forName(
+                            Class<? extends SqlTestContainer> containerClass = Class.forName(
                                 this.getClass().getPackageName() + ".DatabaseTestcontainer"
-                            );
+                            ).asSubclass(SqlTestContainer.class);
                             prodTestcontainer = beanFactory.createBean(containerClass);
                             beanFactory.registerSingleton(containerClass.getName(), prodTestcontainer);
                             /**

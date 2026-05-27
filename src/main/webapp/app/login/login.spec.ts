@@ -93,7 +93,7 @@ describe('Login', () => {
       const node = {
         focus: vitest.fn(),
       };
-      comp.username = signal<ElementRef>(new ElementRef(node));
+      comp.username = signal(new ElementRef(node));
 
       // WHEN
       comp.ngAfterViewInit();

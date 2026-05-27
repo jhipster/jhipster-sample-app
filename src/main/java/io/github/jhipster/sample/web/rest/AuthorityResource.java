@@ -96,6 +96,8 @@ public class AuthorityResource {
     public ResponseEntity<Void> deleteAuthority(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Authority : {}", id);
         authorityRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id))
+            .build();
     }
 }

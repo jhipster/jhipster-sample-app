@@ -1,11 +1,11 @@
 import eslint from '@eslint/js';
-// For a detailed explanation, visit: https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_FLAT_CONFIG.md
 import angular from 'angular-eslint';
 import { defineConfig } from 'eslint/config';
 import cypress from 'eslint-plugin-cypress';
 import prettier from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+// For a detailed explanation, visit: https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_FLAT_CONFIG.md
 // jhipster-needle-eslint-add-import - JHipster will add additional import here
 
 export default defineConfig(
@@ -87,6 +87,7 @@ export default defineConfig(
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-shadow': ['error'],
       '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/no-unnecessary-type-arguments': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
@@ -119,7 +120,7 @@ export default defineConfig(
     },
   },
   {
-    files: ['**/*.html'],
+    files: ['src/main/webapp/**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {
       '@angular-eslint/template/click-events-have-key-events': 'off',

@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, mergeMap } from 'rxjs';
 
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';

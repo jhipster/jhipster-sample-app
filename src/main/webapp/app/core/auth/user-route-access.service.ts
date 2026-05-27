@@ -1,7 +1,7 @@
 import { inject, isDevMode } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 

@@ -2,12 +2,12 @@ import { IUser } from './user.model';
 
 export const sampleWithRequiredData: IUser = {
   id: 24814,
-  login: 'Mae36',
+  login: 'Mac36',
 };
 
 export const sampleWithPartialData: IUser = {
   id: 966,
-  login: 'Jacob_Senger',
+  login: 'Isaac_Senger',
 };
 
 export const sampleWithFullData: IUser = {

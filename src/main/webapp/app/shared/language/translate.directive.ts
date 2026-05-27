@@ -1,8 +1,7 @@
 import { Directive, ElementRef, OnChanges, OnDestroy, OnInit, inject, input } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 
 import { translationNotFoundMessage } from 'app/config/translation.config';
 

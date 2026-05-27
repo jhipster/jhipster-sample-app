@@ -47,7 +47,7 @@ export class LabelFormService {
   }
 
   getLabel(form: LabelFormGroup): ILabel | NewLabel {
-    return form.getRawValue() as ILabel | NewLabel;
+    return form.getRawValue();
   }
 
   resetForm(form: LabelFormGroup, label: LabelFormGroupInput): void {

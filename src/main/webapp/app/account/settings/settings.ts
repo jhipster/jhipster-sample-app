@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ const initialAccount: Account = {} as Account;
 
 @Component({
   selector: 'jhi-settings',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateDirective, TranslateModule, FindLanguageFromKeyPipe, AlertError, ReactiveFormsModule],
   templateUrl: './settings.html',
 })

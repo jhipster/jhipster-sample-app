@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { TranslateDirective } from 'app/shared/language';
 import { IAuthority } from '../authority.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-authority-detail',
   templateUrl: './authority-detail.html',
   imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslateModule],

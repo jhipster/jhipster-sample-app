@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -10,6 +10,7 @@ import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-login',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateDirective, TranslateModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
 })

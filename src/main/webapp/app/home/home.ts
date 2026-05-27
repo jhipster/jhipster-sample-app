@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-home',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.html',
   styleUrl: './home.scss',
   imports: [TranslateDirective, TranslateModule, RouterLink],

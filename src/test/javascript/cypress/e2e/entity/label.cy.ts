@@ -61,6 +61,11 @@ describe('Label e2e test', () => {
   });
 
   describe('Label page', () => {
+    it('should have translated page title', () => {
+      cy.visit(labelPageUrl);
+      cy.getEntityHeading('Label').should('not.contain', 'jhipsterSampleApplicationApp.label.home.title');
+    });
+
     describe('create button click', () => {
       beforeEach(() => {
         cy.visit(labelPageUrl);

@@ -80,8 +80,8 @@ class PublicUserResourceIT {
             .perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath(String.format("$.[?(@.id == %d)].login", user.getId())).value(user.getLogin()))
-            .andExpect(jsonPath(String.format("$.[?(@.id == %d)].keys()", user.getId())).value(Set.of("id", "login")))
+            .andExpect(jsonPath("$.[?(@.id == %d)].login".formatted(user.getId())).value(user.getLogin()))
+            .andExpect(jsonPath("$.[?(@.id == %d)].keys()".formatted(user.getId())).value(Set.of("id", "login")))
             .andExpect(jsonPath("$.[*].email").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].imageUrl").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].langKey").doesNotHaveJsonPath());

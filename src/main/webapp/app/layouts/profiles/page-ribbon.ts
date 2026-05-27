@@ -1,9 +1,8 @@
-import { Component, Injector, OnInit, Signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 import { TranslateDirective } from 'app/shared/language';
 
@@ -11,6 +10,7 @@ import { ProfileService } from './profile.service';
 
 @Component({
   selector: 'jhi-page-ribbon',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (ribbonEnvSignal?.(); as ribbonEnv) {
       <div class="ribbon">

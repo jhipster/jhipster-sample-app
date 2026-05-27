@@ -44,9 +44,9 @@ class WebConfigurerTest {
 
     @Test
     void shouldCorsFilterOnApiPath() throws Exception {
-        props.getCors().setAllowedOrigins(Collections.singletonList("other.domain.com"));
-        props.getCors().setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        props.getCors().setAllowedHeaders(Collections.singletonList("*"));
+        props.getCors().setAllowedOrigins(List.of("other.domain.com"));
+        props.getCors().setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        props.getCors().setAllowedHeaders(List.of("*"));
         props.getCors().setMaxAge(1800L);
         props.getCors().setAllowCredentials(true);
 
@@ -73,9 +73,9 @@ class WebConfigurerTest {
 
     @Test
     void shouldCorsFilterOnOtherPath() throws Exception {
-        props.getCors().setAllowedOrigins(Collections.singletonList("*"));
-        props.getCors().setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        props.getCors().setAllowedHeaders(Collections.singletonList("*"));
+        props.getCors().setAllowedOrigins(List.of("*"));
+        props.getCors().setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        props.getCors().setAllowedHeaders(List.of("*"));
         props.getCors().setMaxAge(1800L);
         props.getCors().setAllowCredentials(true);
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -21,6 +21,7 @@ const newUser: IUserManagement = {
 
 @Component({
   selector: 'jhi-user-management-update',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-management-update.html',
   imports: [FindLanguageFromKeyPipe, TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })

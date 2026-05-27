@@ -2,14 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { EMPTY, Observable, catchError, of } from 'rxjs';
 
 import { IOperation } from '../operation.model';
 import { OperationService } from '../service/operation.service';
 
 const operationResolve = (route: ActivatedRouteSnapshot): Observable<null | IOperation> => {
-  const id = route.params.id;
+  const { id } = route.params;
   if (id) {
     const router = inject(Router);
     const service = inject(OperationService);

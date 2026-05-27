@@ -81,7 +81,7 @@ describe('UserManagement routing resolve service', () => {
 
       // WHEN
       await TestBed.runInInjectionContext(async () => {
-        await expect(lastValueFrom(userManagementResolve(mockActivatedRouteSnapshot))).rejects.toThrowError('no elements in sequence');
+        await expect(lastValueFrom(userManagementResolve(mockActivatedRouteSnapshot))).rejects.toThrow('no elements in sequence');
         // THEN
         expect(service.find).toHaveBeenCalledWith('ABC');
         expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
@@ -97,7 +97,7 @@ describe('UserManagement routing resolve service', () => {
 
       // WHEN
       await TestBed.runInInjectionContext(async () => {
-        await expect(lastValueFrom(userManagementResolve(mockActivatedRouteSnapshot))).rejects.toThrowError('no elements in sequence');
+        await expect(lastValueFrom(userManagementResolve(mockActivatedRouteSnapshot))).rejects.toThrow('no elements in sequence');
         // THEN
         expect(service.find).toHaveBeenCalledWith('ABC');
         expect(mockRouter.navigate).toHaveBeenCalledWith(['error']);

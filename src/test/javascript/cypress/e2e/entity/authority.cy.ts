@@ -60,6 +60,11 @@ describe('Authority e2e test', () => {
   });
 
   describe('Authority page', () => {
+    it('should have translated page title', () => {
+      cy.visit(authorityPageUrl);
+      cy.getEntityHeading('Authority').should('not.contain', 'jhipsterSampleApplicationApp.adminAuthority.home.title');
+    });
+
     describe('create button click', () => {
       beforeEach(() => {
         cy.visit(authorityPageUrl);

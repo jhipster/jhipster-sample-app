@@ -3,6 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 
 import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
+import { AUTHENTICATION_TOKEN_KEY } from 'app/shared/jhipster/constants';
 
 import { StateStorageService } from './state-storage.service';
 
@@ -28,13 +29,13 @@ describe('Auth JWT', () => {
     });
 
     it('should return token from session storage if local storage is empty', () => {
-      sessionStorage.setItem('jhi-authenticationToken', JSON.stringify('sessionStorageToken'));
+      sessionStorage.setItem(AUTHENTICATION_TOKEN_KEY, JSON.stringify('sessionStorageToken'));
       const result = service.getToken();
       expect(result).toEqual('sessionStorageToken');
     });
 
     it('should return token from localstorage storage', () => {
-      localStorage.setItem('jhi-authenticationToken', JSON.stringify('localStorageToken'));
+      localStorage.setItem(AUTHENTICATION_TOKEN_KEY, JSON.stringify('localStorageToken'));
       const result = service.getToken();
       expect(result).toEqual('localStorageToken');
     });

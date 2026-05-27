@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,6 +20,7 @@ import ActiveMenuDirective from './active-menu.directive';
 
 @Component({
   selector: 'jhi-navbar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   imports: [

@@ -40,7 +40,7 @@ describe('PasswordResetFinish', () => {
     const node = {
       focus: vitest.fn(),
     };
-    comp.newPassword = signal<ElementRef>(new ElementRef(node));
+    comp.newPassword = signal(new ElementRef(node));
 
     comp.ngAfterViewInit();
 

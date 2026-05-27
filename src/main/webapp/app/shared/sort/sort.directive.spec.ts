@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
-import { Component, DebugElement, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -7,6 +7,7 @@ import { SortState, sortStateSignal } from './sort-state';
 import { SortDirective } from './sort.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SortDirective],
   template: `
     <table>

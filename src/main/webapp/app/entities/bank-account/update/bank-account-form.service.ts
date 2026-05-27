@@ -51,7 +51,7 @@ export class BankAccountFormService {
   }
 
   getBankAccount(form: BankAccountFormGroup): IBankAccount | NewBankAccount {
-    return form.getRawValue() as IBankAccount | NewBankAccount;
+    return form.getRawValue();
   }
 
   resetForm(form: BankAccountFormGroup, bankAccount: BankAccountFormGroupInput): void {

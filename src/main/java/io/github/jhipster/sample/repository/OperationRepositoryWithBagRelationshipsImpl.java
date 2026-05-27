@@ -3,7 +3,6 @@ package io.github.jhipster.sample.repository;
 import io.github.jhipster.sample.domain.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
 
     @Override
     public List<Operation> fetchBagRelationships(List<Operation> operations) {
-        return Optional.of(operations).map(this::fetchLabels).orElse(Collections.emptyList());
+        return Optional.of(operations).map(this::fetchLabels).orElse(List.of());
     }
 
     Operation fetchLabels(Operation result) {
@@ -57,7 +56,7 @@ public class OperationRepositoryWithBagRelationshipsImpl implements OperationRep
             )
             .setParameter(OPERATIONS_PARAMETER, operations)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        result.sort((o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
         return result;
     }
 }

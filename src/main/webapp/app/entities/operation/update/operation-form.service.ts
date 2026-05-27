@@ -69,7 +69,7 @@ export class OperationFormService {
   }
 
   getOperation(form: OperationFormGroup): IOperation | NewOperation {
-    return this.convertOperationRawValueToOperation(form.getRawValue() as OperationFormRawValue | NewOperationFormRawValue);
+    return this.convertOperationRawValueToOperation(form.getRawValue());
   }
 
   resetForm(form: OperationFormGroup, operation: OperationFormGroupInput): void {

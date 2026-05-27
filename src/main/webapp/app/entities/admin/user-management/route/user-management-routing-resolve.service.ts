@@ -2,14 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { EMPTY, Observable, catchError, of } from 'rxjs';
 
 import { UserManagementService } from '../service/user-management.service';
 import { IUserManagement } from '../user-management.model';
 
 const userManagementResolve = (route: ActivatedRouteSnapshot): Observable<null | IUserManagement> => {
-  const login = route.params.login;
+  const { login } = route.params;
   if (login) {
     const router = inject(Router);
     const service = inject(UserManagementService);
