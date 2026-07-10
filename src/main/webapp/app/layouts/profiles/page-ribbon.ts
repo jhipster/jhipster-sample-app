@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Injector, OnInit, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { TranslateModule } from '@ngx-translate/core';
 import { Observable, map } from 'rxjs';
 
 import { TranslateDirective } from 'app/shared/language';
@@ -19,7 +18,7 @@ import { ProfileService } from './profile.service';
     }
   `,
   styleUrl: './page-ribbon.scss',
-  imports: [TranslateDirective, TranslateModule],
+  imports: [TranslateDirective],
 })
 export default class PageRibbon implements OnInit {
   ribbonEnvSignal?: Signal<string | undefined>;

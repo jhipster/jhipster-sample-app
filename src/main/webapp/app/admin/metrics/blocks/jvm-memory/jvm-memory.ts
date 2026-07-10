@@ -2,7 +2,6 @@ import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap/progressbar';
-import { TranslateModule } from '@ngx-translate/core';
 
 import { JvmMetrics } from 'app/admin/metrics/metrics.model';
 import { TranslateDirective } from 'app/shared/language';
@@ -11,7 +10,7 @@ import { TranslateDirective } from 'app/shared/language';
   selector: 'jhi-jvm-memory',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './jvm-memory.html',
-  imports: [NgbProgressbar, KeyValuePipe, DecimalPipe, TranslateDirective, TranslateModule],
+  imports: [NgbProgressbar, KeyValuePipe, DecimalPipe, TranslateDirective],
 })
 export class JvmMemory {
   /**

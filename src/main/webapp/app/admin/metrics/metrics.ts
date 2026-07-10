@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 
 import { TranslateDirective } from 'app/shared/language';
@@ -23,7 +22,6 @@ import { MetricsService } from './metrics.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslateDirective,
-    TranslateModule,
     FontAwesomeModule,
     JvmMemory,
     JvmThreads,

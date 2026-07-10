@@ -3,7 +3,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
@@ -30,8 +30,7 @@ describe('User Management Component', () => {
       }),
     );
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      providers: [AccountService, { provide: ActivatedRoute, useValue: { data, queryParamMap } }],
+      providers: [provideTranslateService(), AccountService, { provide: ActivatedRoute, useValue: { data, queryParamMap } }],
     });
   });
 

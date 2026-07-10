@@ -25,10 +25,10 @@
           <input type="text" class="form-control" name="label" id="field_label" data-cy="label" formControlName="label" />
           @if (labelRef.invalid && (labelRef.dirty || labelRef.touched)) {
             <div>
-              @if (editForm.get('label')?.errors?.required) {
+              @if (labelRef.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
-              @if (editForm.get('label')?.errors?.minlength) {
+              @if (labelRef.errors?.minlength) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '3' }"
                   >This field is required to be at least 3 characters.</small
                 >

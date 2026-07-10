@@ -32,6 +32,7 @@ export class BankAccountFormService {
       ...this.getFormDefaults(),
       ...(bankAccount ?? { id: null }),
     };
+
     return new FormGroup<BankAccountFormGroupContent>({
       id: new FormControl(
         { value: bankAccountRawValue.id, disabled: true },

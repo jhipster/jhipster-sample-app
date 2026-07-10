@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { Authority } from 'app/shared/jhipster/constants';
@@ -18,8 +18,8 @@ describe('User Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
+        provideTranslateService(),
         {
           provide: ActivatedRoute,
           useValue: {

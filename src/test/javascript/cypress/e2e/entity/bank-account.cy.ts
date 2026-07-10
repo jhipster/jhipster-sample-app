@@ -12,7 +12,6 @@ import {
 
 describe('BankAccount e2e test', () => {
   const bankAccountPageUrl = '/bank-account';
-  const bankAccountPageUrlPattern = new RegExp('/bank-account(\\?.*)?$');
   let username: string;
   let password: string;
   const bankAccountSample = { name: 'pfft truly psst', balance: 23331.08 };
@@ -57,7 +56,7 @@ describe('BankAccount e2e test', () => {
       }
     });
     cy.getEntityHeading('BankAccount').should('exist');
-    cy.url().should('match', bankAccountPageUrlPattern);
+    cy.location('pathname').should('eq', bankAccountPageUrl);
   });
 
   describe('BankAccount page', () => {
@@ -74,14 +73,14 @@ describe('BankAccount e2e test', () => {
 
       it('should load create BankAccount page', () => {
         cy.get(entityCreateButtonSelector).click();
-        cy.url().should('match', new RegExp('/bank-account/new$'));
+        cy.location('pathname').should('eq', `${bankAccountPageUrl}/new`);
         cy.getEntityCreateUpdateHeading('BankAccount');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', bankAccountPageUrlPattern);
+        cy.location('pathname').should('eq', bankAccountPageUrl);
       });
     });
 
@@ -119,7 +118,7 @@ describe('BankAccount e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', bankAccountPageUrlPattern);
+        cy.location('pathname').should('eq', bankAccountPageUrl);
       });
 
       it('edit button click should load edit BankAccount page and go back', () => {
@@ -130,7 +129,7 @@ describe('BankAccount e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', bankAccountPageUrlPattern);
+        cy.location('pathname').should('eq', bankAccountPageUrl);
       });
 
       it('edit button click should load edit BankAccount page and save', () => {
@@ -140,7 +139,7 @@ describe('BankAccount e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', bankAccountPageUrlPattern);
+        cy.location('pathname').should('eq', bankAccountPageUrl);
       });
 
       it('last delete button click should delete instance of BankAccount', () => {
@@ -153,7 +152,7 @@ describe('BankAccount e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', bankAccountPageUrlPattern);
+        cy.location('pathname').should('eq', bankAccountPageUrl);
 
         bankAccount = undefined;
       });
@@ -183,7 +182,7 @@ describe('BankAccount e2e test', () => {
       cy.wait('@entitiesRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(200);
       });
-      cy.url().should('match', bankAccountPageUrlPattern);
+      cy.location('pathname').should('eq', bankAccountPageUrl);
     });
   });
 });

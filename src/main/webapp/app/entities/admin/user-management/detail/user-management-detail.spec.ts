@@ -5,7 +5,7 @@ import { RouterTestingHarness } from '@angular/router/testing';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { Authority } from 'app/shared/jhipster/constants';
@@ -15,8 +15,8 @@ import { UserManagementDetail } from './user-management-detail';
 describe('User Management Detail Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
+        provideTranslateService(),
         provideRouter(
           [
             {

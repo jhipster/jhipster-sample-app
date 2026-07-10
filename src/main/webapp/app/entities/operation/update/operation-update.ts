@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Observable, finalize, map } from 'rxjs';
 
 import { IBankAccount } from 'app/entities/bank-account/bank-account.model';
@@ -22,7 +22,7 @@ import { OperationFormGroup, OperationFormService } from './operation-form.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-operation-update',
   templateUrl: './operation-update.html',
-  imports: [TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
+  imports: [TranslateDirective, TranslatePipe, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class OperationUpdate implements OnInit {
   readonly isSaving = signal(false);

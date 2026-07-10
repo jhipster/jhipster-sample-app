@@ -11,7 +11,6 @@ import {
 
 describe('Authority e2e test', () => {
   const authorityPageUrl = '/authority';
-  const authorityPageUrlPattern = new RegExp('/authority(\\?.*)?$');
   let username: string;
   let password: string;
   const authoritySample = { name: '429cbbda-ec4c-4f2a-81e6-6efefaf84e57' };
@@ -56,7 +55,7 @@ describe('Authority e2e test', () => {
       }
     });
     cy.getEntityHeading('Authority').should('exist');
-    cy.url().should('match', authorityPageUrlPattern);
+    cy.location('pathname').should('eq', authorityPageUrl);
   });
 
   describe('Authority page', () => {
@@ -73,14 +72,14 @@ describe('Authority e2e test', () => {
 
       it('should load create Authority page', () => {
         cy.get(entityCreateButtonSelector).click();
-        cy.url().should('match', new RegExp('/authority/new$'));
+        cy.location('pathname').should('eq', `${authorityPageUrl}/new`);
         cy.getEntityCreateUpdateHeading('Authority');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', authorityPageUrlPattern);
+        cy.location('pathname').should('eq', authorityPageUrl);
       });
     });
 
@@ -118,7 +117,7 @@ describe('Authority e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', authorityPageUrlPattern);
+        cy.location('pathname').should('eq', authorityPageUrl);
       });
 
       it('last delete button click should delete instance of Authority', () => {
@@ -131,7 +130,7 @@ describe('Authority e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', authorityPageUrlPattern);
+        cy.location('pathname').should('eq', authorityPageUrl);
 
         authority = undefined;
       });
@@ -158,7 +157,7 @@ describe('Authority e2e test', () => {
       cy.wait('@entitiesRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(200);
       });
-      cy.url().should('match', authorityPageUrlPattern);
+      cy.location('pathname').should('eq', authorityPageUrl);
     });
   });
 });

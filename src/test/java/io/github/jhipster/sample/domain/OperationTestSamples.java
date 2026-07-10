@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class OperationTestSamples {
 
     private static final Random random = new Random();
-    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
+    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + 2L * Integer.MAX_VALUE);
 
     public static Operation getOperationSample1() {
         return new Operation().id(1L).description("description1");

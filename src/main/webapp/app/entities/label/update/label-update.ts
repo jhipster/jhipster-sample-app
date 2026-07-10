@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Observable, finalize, map } from 'rxjs';
 
 import { IOperation } from 'app/entities/operation/operation.model';
@@ -20,7 +20,7 @@ import { LabelFormGroup, LabelFormService } from './label-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-label-update',
   templateUrl: './label-update.html',
-  imports: [TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
+  imports: [TranslateDirective, TranslatePipe, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class LabelUpdate implements OnInit {
   readonly isSaving = signal(false);

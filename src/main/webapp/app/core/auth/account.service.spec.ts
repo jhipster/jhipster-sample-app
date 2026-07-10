@@ -3,7 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 
 import { Account } from 'app/core/auth/account.model';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
@@ -37,8 +37,8 @@ describe('Account Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
+        provideTranslateService(),
         provideHttpClientTesting(),
         {
           provide: StateStorageService,
@@ -98,7 +98,7 @@ describe('Account Service', () => {
       service.identity().subscribe();
       // Then there is only request
       const requests = httpMock.match({ method: 'GET' });
-      expect(requests.length).toBe(1);
+      expect(requests).toHaveLength(1);
     });
 
     it('should call /account only once if not logged out after first authentication and should call /account again if user has logged out', () => {
@@ -119,7 +119,7 @@ describe('Account Service', () => {
 
       // Then there is a new request
       const requests = httpMock.match({ method: 'GET' });
-      expect(requests.length).toBe(1);
+      expect(requests).toHaveLength(1);
     });
 
     describe('should change the language on authentication if necessary', () => {

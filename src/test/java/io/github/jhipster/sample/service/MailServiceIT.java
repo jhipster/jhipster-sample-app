@@ -1,6 +1,7 @@
 package io.github.jhipster.sample.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -190,11 +191,7 @@ class MailServiceIT {
     @Test
     void testSendEmailWithException() {
         doThrow(MailSendException.class).when(javaMailSender).send(any(MimeMessage.class));
-        try {
-            mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, false);
-        } catch (Exception e) {
-            fail("Exception shouldn't have been thrown");
-        }
+        assertDoesNotThrow(() -> mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, false));
     }
 
     @Test

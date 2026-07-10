@@ -66,7 +66,7 @@ describe('Authority routing resolve service', () => {
             next(result) {
               // THEN
               expect(service.find).not.toHaveBeenCalled();
-              expect(result).toEqual(null);
+              expect(result).toBeNull();
               resolve();
             },
           });

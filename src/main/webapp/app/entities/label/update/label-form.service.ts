@@ -31,6 +31,7 @@ export class LabelFormService {
       ...this.getFormDefaults(),
       ...(label ?? { id: null }),
     };
+
     return new FormGroup<LabelFormGroupContent>({
       id: new FormControl(
         { value: labelRawValue.id, disabled: true },

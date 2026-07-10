@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 
 import { TranslateDirective } from 'app/shared/language';
@@ -16,7 +15,7 @@ import { LogsService } from './logs.service';
   selector: 'jhi-logs',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './logs.html',
-  imports: [TranslateDirective, TranslateModule, FontAwesomeModule, FormsModule, SortDirective, SortByDirective, SlicePipe],
+  imports: [TranslateDirective, FontAwesomeModule, FormsModule, SortDirective, SortByDirective, SlicePipe],
 })
 export default class Logs implements OnInit {
   readonly loggers = signal<Log[] | undefined>(undefined);

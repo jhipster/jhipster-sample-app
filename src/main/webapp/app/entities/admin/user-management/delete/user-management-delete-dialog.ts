@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { TranslateModule } from '@ngx-translate/core';
 
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { AlertError } from 'app/shared/alert/alert-error';
@@ -14,7 +13,7 @@ import { IUserManagement } from '../user-management.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-management-delete-dialog.html',
-  imports: [TranslateDirective, TranslateModule, FormsModule, FontAwesomeModule, AlertError],
+  imports: [TranslateDirective, FormsModule, FontAwesomeModule, AlertError],
 })
 export class UserManagementDeleteDialog {
   userManagement?: IUserManagement;

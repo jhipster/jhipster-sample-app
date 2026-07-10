@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/jhipster/error.constants';
 import { TranslateDirective } from 'app/shared/language';
@@ -14,7 +14,7 @@ import { RegisterService } from './register.service';
 @Component({
   selector: 'jhi-register',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslateDirective, TranslateModule, RouterLink, ReactiveFormsModule, PasswordStrengthBar],
+  imports: [TranslateDirective, TranslatePipe, RouterLink, ReactiveFormsModule, PasswordStrengthBar],
   templateUrl: './register.html',
 })
 export default class Register implements AfterViewInit {
@@ -67,7 +67,7 @@ export default class Register implements AfterViewInit {
     if (password === confirmPassword) {
       const { login, email } = this.registerForm.getRawValue();
       this.registerService
-        .save({ login, email, password, langKey: this.translateService.getCurrentLang() })
+        .save({ login, email, password, langKey: this.translateService.getCurrentLang() ?? 'en' })
         .subscribe({ next: () => this.success.set(true), error: response => this.processError(response) });
     } else {
       this.doNotMatch.set(true);

@@ -5,7 +5,7 @@ import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/rou
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Subscription, combineLatest, filter, tap } from 'rxjs';
 
@@ -34,7 +34,7 @@ import { OperationService } from '../service/operation.service';
     SortDirective,
     SortByDirective,
     TranslateDirective,
-    TranslateModule,
+    TranslatePipe,
     FormatMediumDatetimePipe,
     InfiniteScrollDirective,
   ],

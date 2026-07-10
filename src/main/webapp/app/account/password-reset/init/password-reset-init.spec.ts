@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 
 import PasswordResetInit from './password-reset-init';
@@ -15,7 +15,7 @@ describe('PasswordResetInit', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      providers: [provideTranslateService()],
     });
     fixture = TestBed.createComponent(PasswordResetInit);
     comp = fixture.componentInstance;

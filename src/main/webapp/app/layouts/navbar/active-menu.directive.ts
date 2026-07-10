@@ -20,7 +20,7 @@ export default class ActiveMenuDirective implements OnInit {
     this.updateActiveFlag(this.translateService.getCurrentLang());
   }
 
-  updateActiveFlag(selectedLanguage: string): void {
+  updateActiveFlag(selectedLanguage: string | null): void {
     if (this.jhiActiveMenu() === selectedLanguage) {
       this.renderer.addClass(this.el.nativeElement, 'active');
     } else {

@@ -25,7 +25,7 @@
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
             <div>
-              @if (editForm.get('name')?.errors?.required) {
+              @if (nameRef.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
             </div>
@@ -38,13 +38,10 @@
           <input type="number" class="form-control" name="balance" id="field_balance" data-cy="balance" formControlName="balance" />
           @if (balanceRef.invalid && (balanceRef.dirty || balanceRef.touched)) {
             <div>
-              @if (editForm.get('balance')?.errors?.required) {
+              @if (balanceRef.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('balance')?.errors?.number"
-                jhiTranslate="entity.validation.number"
+              <small class="form-text text-danger" [hidden]="!balanceRef.errors?.number" jhiTranslate="entity.validation.number"
                 >This field should be a number.</small
               >
             </div>

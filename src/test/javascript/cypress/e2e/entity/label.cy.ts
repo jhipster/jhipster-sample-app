@@ -12,7 +12,6 @@ import {
 
 describe('Label e2e test', () => {
   const labelPageUrl = '/label';
-  const labelPageUrlPattern = new RegExp('/label(\\?.*)?$');
   let username: string;
   let password: string;
   const labelSample = { label: 'a bliss what' };
@@ -57,7 +56,7 @@ describe('Label e2e test', () => {
       }
     });
     cy.getEntityHeading('Label').should('exist');
-    cy.url().should('match', labelPageUrlPattern);
+    cy.location('pathname').should('eq', labelPageUrl);
   });
 
   describe('Label page', () => {
@@ -74,14 +73,14 @@ describe('Label e2e test', () => {
 
       it('should load create Label page', () => {
         cy.get(entityCreateButtonSelector).click();
-        cy.url().should('match', new RegExp('/label/new$'));
+        cy.location('pathname').should('eq', `${labelPageUrl}/new`);
         cy.getEntityCreateUpdateHeading('Label');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', labelPageUrlPattern);
+        cy.location('pathname').should('eq', labelPageUrl);
       });
     });
 
@@ -119,7 +118,7 @@ describe('Label e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', labelPageUrlPattern);
+        cy.location('pathname').should('eq', labelPageUrl);
       });
 
       it('edit button click should load edit Label page and go back', () => {
@@ -130,7 +129,7 @@ describe('Label e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', labelPageUrlPattern);
+        cy.location('pathname').should('eq', labelPageUrl);
       });
 
       it('edit button click should load edit Label page and save', () => {
@@ -140,7 +139,7 @@ describe('Label e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', labelPageUrlPattern);
+        cy.location('pathname').should('eq', labelPageUrl);
       });
 
       it('last delete button click should delete instance of Label', () => {
@@ -153,7 +152,7 @@ describe('Label e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', labelPageUrlPattern);
+        cy.location('pathname').should('eq', labelPageUrl);
 
         label = undefined;
       });
@@ -180,7 +179,7 @@ describe('Label e2e test', () => {
       cy.wait('@entitiesRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(200);
       });
-      cy.url().should('match', labelPageUrlPattern);
+      cy.location('pathname').should('eq', labelPageUrl);
     });
   });
 });

@@ -44,7 +44,7 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true,
@@ -103,6 +103,7 @@
             "runnerConfig": true,
             "coverageReporters": ["text", "lcov"],
             "reporters": ["default", ["vitest-sonar-reporter", { "outputFile": "./target/test-results/TESTS-results-sonar-vitest.xml" }]],
+            "watch": false,
             "tsConfig": "tsconfig.spec.json"
           }
         }

@@ -151,3 +151,10 @@ Desktop.ini
 ######################
 coverage/
 .nyc_output/
+
+######################
+# added by angular:
+# Swagger UI assets
+######################
+/src/main/webapp/swagger-ui/*
+!/src/main/webapp/swagger-ui/index.html

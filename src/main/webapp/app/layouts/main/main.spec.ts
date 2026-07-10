@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Router, TitleStrategy } from '@angular/router';
 
-import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { Subject, of } from 'rxjs';
 
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
@@ -25,8 +25,8 @@ describe('Main', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
+        provideTranslateService(),
         Title,
         {
           provide: AccountService,

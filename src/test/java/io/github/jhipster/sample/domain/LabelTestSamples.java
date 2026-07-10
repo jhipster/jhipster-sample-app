@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class LabelTestSamples {
 
     private static final Random random = new Random();
-    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
+    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + 2L * Integer.MAX_VALUE);
 
     public static Label getLabelSample1() {
         return new Label().id(1L).label("label1");

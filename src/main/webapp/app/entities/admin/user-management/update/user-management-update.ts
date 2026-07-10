@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslateModule } from '@ngx-translate/core';
 
 import { LANGUAGES } from 'app/config/language.constants';
 import { AlertError } from 'app/shared/alert/alert-error';
@@ -23,7 +22,7 @@ const newUser: IUserManagement = {
   selector: 'jhi-user-management-update',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-management-update.html',
-  imports: [FindLanguageFromKeyPipe, TranslateDirective, TranslateModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
+  imports: [FindLanguageFromKeyPipe, TranslateDirective, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class UserManagementUpdate implements OnInit {
   languages = LANGUAGES;

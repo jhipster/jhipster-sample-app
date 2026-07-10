@@ -47,12 +47,8 @@ class PublicUserResourceIT {
     private Long numberOfUsers;
 
     @BeforeEach
-    void countUsers() {
-        numberOfUsers = userRepository.count();
-    }
-
-    @BeforeEach
     void initTest() {
+        numberOfUsers = userRepository.count();
         user = UserResourceIT.initTestUser();
     }
 

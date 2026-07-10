@@ -91,7 +91,7 @@ describe('Operation Service', () => {
       service.delete(123).subscribe();
 
       const requests = httpMock.match({ method: 'DELETE' });
-      expect(requests.length).toBe(1);
+      expect(requests).toHaveLength(1);
     });
 
     describe('addOperationToCollectionIfMissing', () => {

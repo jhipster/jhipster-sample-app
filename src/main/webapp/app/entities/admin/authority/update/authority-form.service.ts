@@ -29,6 +29,7 @@ export class AuthorityFormService {
       ...this.getFormDefaults(),
       ...(authority ?? { name: null }),
     };
+
     return new FormGroup<AuthorityFormGroupContent>({
       name: new FormControl(
         { value: authorityRawValue.name, disabled: authorityRawValue.name !== null },

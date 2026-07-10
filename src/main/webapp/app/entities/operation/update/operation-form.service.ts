@@ -48,6 +48,7 @@ export class OperationFormService {
       ...this.getFormDefaults(),
       ...(operation ?? { id: null }),
     });
+
     return new FormGroup<OperationFormGroupContent>({
       id: new FormControl(
         { value: operationRawValue.id, disabled: true },

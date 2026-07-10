@@ -12,7 +12,6 @@ import {
 
 describe('UserManagement e2e test', () => {
   const userManagementPageUrl = '/user-management';
-  const userManagementPageUrlPattern = new RegExp('/user-management(\\?.*)?$');
   let username: string;
   let password: string;
   const userManagementSample = { login: 'Georgianna79', email: 'Rosalinda_Pagac93@gmail.com' };
@@ -57,7 +56,7 @@ describe('UserManagement e2e test', () => {
       }
     });
     cy.getEntityHeading('UserManagement').should('exist');
-    cy.url().should('match', userManagementPageUrlPattern);
+    cy.location('pathname').should('eq', userManagementPageUrl);
   });
 
   describe('UserManagement page', () => {
@@ -74,14 +73,14 @@ describe('UserManagement e2e test', () => {
 
       it('should load create UserManagement page', () => {
         cy.get(entityCreateButtonSelector).click();
-        cy.url().should('match', new RegExp('/user-management/new$'));
+        cy.location('pathname').should('eq', `${userManagementPageUrl}/new`);
         cy.getEntityCreateUpdateHeading('UserManagement');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', userManagementPageUrlPattern);
+        cy.location('pathname').should('eq', userManagementPageUrl);
       });
     });
 
@@ -122,7 +121,7 @@ describe('UserManagement e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', userManagementPageUrlPattern);
+        cy.location('pathname').should('eq', userManagementPageUrl);
       });
 
       it('edit button click should load edit UserManagement page and go back', () => {
@@ -133,7 +132,7 @@ describe('UserManagement e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', userManagementPageUrlPattern);
+        cy.location('pathname').should('eq', userManagementPageUrl);
       });
 
       it('edit button click should load edit UserManagement page and save', () => {
@@ -143,7 +142,7 @@ describe('UserManagement e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', userManagementPageUrlPattern);
+        cy.location('pathname').should('eq', userManagementPageUrl);
       });
 
       it('last delete button click should delete instance of UserManagement', () => {
@@ -156,7 +155,7 @@ describe('UserManagement e2e test', () => {
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode).to.equal(200);
         });
-        cy.url().should('match', userManagementPageUrlPattern);
+        cy.location('pathname').should('eq', userManagementPageUrl);
 
         userManagement = undefined;
       });
@@ -198,7 +197,7 @@ describe('UserManagement e2e test', () => {
       cy.wait('@entitiesRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(200);
       });
-      cy.url().should('match', userManagementPageUrlPattern);
+      cy.location('pathname').should('eq', userManagementPageUrl);
     });
   });
 });
