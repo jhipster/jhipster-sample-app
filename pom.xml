@@ -1065,10 +1065,13 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>npm install</id>
+                                <id>npm ci</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
+                                <configuration>
+                                    <arguments>ci</arguments>
+                                </configuration>
                             </execution>
                             <execution>
                                 <id>webapp build test</id>
@@ -1216,10 +1219,13 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>npm install</id>
+                                <id>npm ci</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
+                                <configuration>
+                                    <arguments>ci</arguments>
+                                </configuration>
                             </execution>
                             <execution>
                                 <id>webapp build dev</id>
