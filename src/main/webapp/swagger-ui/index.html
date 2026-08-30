@@ -89,7 +89,7 @@
           presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
           plugins: [SwaggerUIBundle.plugins.DownloadUrl, AlwaysEnableTryItOutPlugin],
           tryItOutEnabled: true,
-          requestInterceptor: function (req) {
+          requestInterceptor(req) {
             req.headers['Authorization'] = getBearerToken();
             // Remove the sample Swagger UI request body if present
             if (req.method === 'GET' && req.body === '{"additionalProp1":"string","additionalProp2":"string","additionalProp3":"string"}') {

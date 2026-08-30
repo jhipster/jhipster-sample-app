@@ -1,18 +1,19 @@
-import { beforeEach, describe, expect, it } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
-import { Authority } from 'app/shared/jhipster/constants';
-
 import { UserManagementDetail } from './user-management-detail';
 
-describe('User Management Detail Component', () => {
+describe('UserManagement Management Detail Component', () => {
+  let comp: UserManagementDetail;
+  let fixture: ComponentFixture<UserManagementDetail>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -22,51 +23,38 @@ describe('User Management Detail Component', () => {
             {
               path: '**',
               loadComponent: () => import('./user-management-detail').then(m => m.UserManagementDetail),
-              resolve: {
-                userManagement: () =>
-                  of({
-                    id: 123,
-                    login: 'user',
-                    firstName: 'first',
-                    lastName: 'last',
-                    email: 'first@last.com',
-                    activated: true,
-                    langKey: 'en',
-                    authorities: [Authority.USER],
-                    createdBy: 'admin',
-                  }),
-              },
+              resolve: { userManagement: () => of({ login: 'Ozella.Kertzmann' }) },
             },
           ],
           withComponentInputBinding(),
         ),
       ],
     });
-
     const library = TestBed.inject(FaIconLibrary);
     library.addIcons(faArrowLeft);
+    library.addIcons(faPencilAlt);
   });
 
-  describe('Construct', () => {
-    it('should call load all on construct', async () => {
-      // WHEN
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserManagementDetail);
+    comp = fixture.componentInstance;
+  });
+
+  describe('OnInit', () => {
+    it('should load userManagement on init', async () => {
       const harness = await RouterTestingHarness.create();
       const instance = await harness.navigateByUrl('/', UserManagementDetail);
 
       // THEN
-      expect(instance.userManagement()).toEqual(
-        expect.objectContaining({
-          id: 123,
-          login: 'user',
-          firstName: 'first',
-          lastName: 'last',
-          email: 'first@last.com',
-          activated: true,
-          langKey: 'en',
-          authorities: [Authority.USER],
-          createdBy: 'admin',
-        }),
-      );
+      expect(instance.userManagement()).toEqual(expect.objectContaining({ login: 'Ozella.Kertzmann' }));
+    });
+  });
+
+  describe('PreviousState', () => {
+    it('should navigate to previous state', () => {
+      vi.spyOn(globalThis.history, 'back');
+      comp.previousState();
+      expect(globalThis.history.back).toHaveBeenCalled();
     });
   });
 });

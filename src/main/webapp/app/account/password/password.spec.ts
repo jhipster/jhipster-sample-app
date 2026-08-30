@@ -1,10 +1,10 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of, throwError } from 'rxjs';
 
-import { AccountService } from 'app/core/auth/account.service';
+import { AccountService } from 'app/core/auth';
 
 import Password from './password';
 import { PasswordService } from './password.service';
@@ -20,7 +20,7 @@ describe('Password', () => {
         {
           provide: AccountService,
           useValue: {
-            isAuthenticated: vitest.fn(),
+            isAuthenticated: vi.fn(),
           },
         },
       ],
@@ -54,7 +54,7 @@ describe('Password', () => {
       newPassword: 'myPassword',
     };
 
-    vitest.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
+    vi.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
 
     comp.passwordForm.patchValue({
       currentPassword: passwordValues.currentPassword,
@@ -71,7 +71,7 @@ describe('Password', () => {
 
   it('should set success to true upon success', () => {
     // GIVEN
-    vitest.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
+    vi.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
     comp.passwordForm.patchValue({
       newPassword: 'myPassword',
       confirmPassword: 'myPassword',
@@ -88,7 +88,7 @@ describe('Password', () => {
 
   it('should notify of error if change password fails', () => {
     // GIVEN
-    vitest.spyOn(service, 'save').mockReturnValue(throwError(Error));
+    vi.spyOn(service, 'save').mockReturnValue(throwError(Error));
     comp.passwordForm.patchValue({
       newPassword: 'myPassword',
       confirmPassword: 'myPassword',

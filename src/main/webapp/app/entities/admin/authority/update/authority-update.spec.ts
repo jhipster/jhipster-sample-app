@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
@@ -57,9 +57,9 @@ describe('Authority Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IAuthority>();
       const authority = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };
-      vitest.spyOn(authorityFormService, 'getAuthority').mockReturnValue({ name: null });
-      vitest.spyOn(authorityService, 'create').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(authorityFormService, 'getAuthority').mockReturnValue({ name: null });
+      vi.spyOn(authorityService, 'create').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ authority: null });
       comp.ngOnInit();
 

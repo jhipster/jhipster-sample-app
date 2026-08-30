@@ -30,7 +30,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api/operations")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class OperationResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(OperationResource.class);

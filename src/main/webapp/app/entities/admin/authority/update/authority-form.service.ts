@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IAuthority, NewAuthority } from '../authority.model';
@@ -22,7 +22,7 @@ type AuthorityFormGroupContent = {
 
 export type AuthorityFormGroup = FormGroup<AuthorityFormGroupContent>;
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AuthorityFormService {
   createAuthorityFormGroup(authority?: AuthorityFormGroupInput): AuthorityFormGroup {
     const authorityRawValue = {
@@ -31,13 +31,10 @@ export class AuthorityFormService {
     };
 
     return new FormGroup<AuthorityFormGroupContent>({
-      name: new FormControl(
-        { value: authorityRawValue.name, disabled: authorityRawValue.name !== null },
-        {
-          nonNullable: true,
-          validators: [Validators.required, Validators.maxLength(50)],
-        },
-      ),
+      name: new FormControl(authorityRawValue.name, {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(50)],
+      }),
     });
   }
 

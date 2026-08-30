@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslatePipe } from '@ngx-translate/core';
 
-import { AccountService } from 'app/core/auth/account.service';
+import { AccountService } from 'app/core/auth';
 import { TranslateDirective } from 'app/shared/language';
 
 import PasswordStrengthBar from './password-strength-bar/password-strength-bar';
@@ -11,7 +11,6 @@ import { PasswordService } from './password.service';
 
 @Component({
   selector: 'jhi-password',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateDirective, TranslatePipe, ReactiveFormsModule, PasswordStrengthBar],
   templateUrl: './password.html',
 })

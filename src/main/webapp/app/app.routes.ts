@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { userRouteAccessService } from 'app/core/auth';
 import { Authority } from 'app/shared/jhipster/constants';
 
 import { errorRoute } from './layouts/error/error.route';
@@ -21,7 +21,7 @@ const routes: Routes = [
     data: {
       authorities: [Authority.ADMIN],
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
     loadChildren: () => import('./admin/admin.routes'),
   },
   {

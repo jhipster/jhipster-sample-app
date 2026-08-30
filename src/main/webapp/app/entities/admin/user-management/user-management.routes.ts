@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { userRouteAccessService } from 'app/core/auth';
 
 import UserManagementResolve from './route/user-management-routing-resolve.service';
 
@@ -11,7 +11,7 @@ const userManagementRoute: Routes = [
     data: {
       authorities: ['ROLE_ADMIN'],
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: ':login/view',
@@ -22,7 +22,7 @@ const userManagementRoute: Routes = [
     data: {
       authorities: ['ROLE_ADMIN'],
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: 'new',
@@ -33,7 +33,7 @@ const userManagementRoute: Routes = [
     data: {
       authorities: ['ROLE_ADMIN'],
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: ':login/edit',
@@ -44,7 +44,7 @@ const userManagementRoute: Routes = [
     data: {
       authorities: ['ROLE_ADMIN'],
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
 ];
 

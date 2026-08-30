@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 import { SortState } from './sort-state';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class SortService {
   private readonly collator = new Intl.Collator(undefined, {
     numeric: true,

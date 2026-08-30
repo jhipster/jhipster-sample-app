@@ -3,7 +3,7 @@ import { Directive, ElementRef, OnChanges, OnDestroy, OnInit, inject, input } fr
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { translationNotFoundMessage } from 'app/config/translation.config';
+import { translationNotFoundMessage } from 'app/config';
 
 /**
  * A wrapper directive on top of the translation pipe as the inbuilt translation directive from ngx-translate is too verbose and buggy

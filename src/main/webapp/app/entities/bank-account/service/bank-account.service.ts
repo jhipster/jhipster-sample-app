@@ -1,16 +1,15 @@
 import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Service, computed, inject, signal } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { createRequestOption } from 'app/core/request/request-util';
-import { isPresent } from 'app/core/util/operators';
+import { serverApiUrl } from 'app/config';
+import { createRequestOption } from 'app/core/request';
 import { IBankAccount, NewBankAccount } from '../bank-account.model';
 
 export type PartialUpdateBankAccount = Partial<IBankAccount> & Pick<IBankAccount, 'id'>;
 
-@Injectable()
+@Service()
 export class BankAccountsService {
   readonly bankAccountsParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(
     undefined,
@@ -27,11 +26,10 @@ export class BankAccountsService {
    * In case of error while fetching the bankAccounts, the signal is set to an empty array.
    */
   readonly bankAccounts = computed(() => (this.bankAccountsResource.hasValue() ? this.bankAccountsResource.value() : []));
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/bank-accounts');
+  protected readonly resourceUrl = `${serverApiUrl}api/bank-accounts`;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class BankAccountService extends BankAccountsService {
   protected readonly http = inject(HttpClient);
 
@@ -78,7 +76,7 @@ export class BankAccountService extends BankAccountsService {
     bankAccountCollection: Type[],
     ...bankAccountsToCheck: (Type | null | undefined)[]
   ): Type[] {
-    const bankAccounts: Type[] = bankAccountsToCheck.filter(isPresent);
+    const bankAccounts: Type[] = bankAccountsToCheck.filter(bankAccountItem => bankAccountItem !== null && bankAccountItem !== undefined);
     if (bankAccounts.length > 0) {
       const bankAccountCollectionIdentifiers = bankAccountCollection.map(bankAccountItem => this.getBankAccountIdentifier(bankAccountItem));
       const bankAccountsToAdd = bankAccounts.filter(bankAccountItem => {

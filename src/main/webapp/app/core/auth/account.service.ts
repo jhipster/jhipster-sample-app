@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Service, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, catchError, of, shareReplay, tap } from 'rxjs';
 
-import { Account } from 'app/core/auth/account.model';
-import { StateStorageService } from 'app/core/auth/state-storage.service';
-import { ApplicationConfigService } from '../config/application-config.service';
+import { serverApiUrl } from 'app/config';
 
-@Injectable({ providedIn: 'root' })
+import { Account } from './account.model';
+import { StateStorageService } from './state-storage.service';
+
+@Service()
 export class AccountService {
   private readonly userIdentity = signal<Account | null>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -20,10 +21,9 @@ export class AccountService {
   private readonly http = inject(HttpClient);
   private readonly stateStorageService = inject(StateStorageService);
   private readonly router = inject(Router);
-  private readonly applicationConfigService = inject(ApplicationConfigService);
 
   save(account: Account): Observable<{}> {
-    return this.http.post(this.applicationConfigService.getEndpointFor('api/account'), account);
+    return this.http.post(`${serverApiUrl}api/account`, account);
   }
 
   authenticate(identity: Account | null): void {
@@ -70,7 +70,7 @@ export class AccountService {
   }
 
   private fetch(): Observable<Account> {
-    return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
+    return this.http.get<Account>(`${serverApiUrl}api/account`);
   }
 
   private navigateToStoredUrl(): void {

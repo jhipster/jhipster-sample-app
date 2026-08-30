@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Router, TitleStrategy } from '@angular/router';
@@ -9,7 +9,7 @@ import { LangChangeEvent, TranslateService, provideTranslateService } from '@ngx
 import { Subject, of } from 'rxjs';
 
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
-import { AccountService } from 'app/core/auth/account.service';
+import { AccountService } from 'app/core/auth';
 
 import Main from './main';
 
@@ -19,7 +19,6 @@ describe('Main', () => {
   let titleService: Title;
   let translateService: TranslateService;
   let langChangeSubject: Subject<LangChangeEvent>;
-  const routerState: any = { snapshot: { root: { data: {} } } };
   let router: Router;
   let document: Document;
 
@@ -31,7 +30,7 @@ describe('Main', () => {
         {
           provide: AccountService,
           useValue: {
-            identity: vitest.fn(() => of(null)),
+            identity: vi.fn(() => of(null)),
           },
         },
         { provide: TitleStrategy, useClass: AppPageTitleStrategy },
@@ -60,10 +59,9 @@ describe('Main', () => {
     const langChangeEvent: LangChangeEvent = { lang: 'en', translations: {} };
 
     beforeEach(() => {
-      routerState.snapshot.root = { data: {} };
-      vitest.spyOn(translateService, 'get').mockImplementation((key: string | string[]) => of(`${key as string} translated`));
-      vitest.spyOn(translateService, 'getCurrentLang').mockReturnValue('en');
-      vitest.spyOn(titleService, 'setTitle');
+      vi.spyOn(translateService, 'get').mockImplementation((key: string | string[]) => of(`${key as string} translated`));
+      vi.spyOn(translateService, 'getCurrentLang').mockReturnValue('en');
+      vi.spyOn(titleService, 'setTitle');
       comp.ngOnInit();
     });
 
@@ -133,7 +131,6 @@ describe('Main', () => {
 
       it('should set page title to root route pageTitle if there is no child routes', async () => {
         // GIVEN
-        routerState.snapshot.root.data = { pageTitle: parentRoutePageTitle };
         router.resetConfig([{ path: '', title: parentRoutePageTitle, component: Blank }]);
 
         // WHEN
@@ -227,7 +224,6 @@ describe('Main', () => {
 });
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
 })
 export class Blank {}

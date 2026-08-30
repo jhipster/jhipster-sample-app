@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { Bean, ConfigProps, Env, PropertySource } from './configuration.model';
 import { ConfigurationService } from './configuration.service';
 
-describe('Logs Service', () => {
+describe('Configuration Service', () => {
   let service: ConfigurationService;
   let httpMock: HttpTestingController;
   let expectedResult: Bean[] | PropertySource[] | null;

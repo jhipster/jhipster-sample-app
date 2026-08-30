@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideTranslateService } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ describe('Metrics', () => {
     service = TestBed.inject(MetricsService);
   });
 
-  describe('refresh', () => {
+  describe('ngOnInit', () => {
     it('should call refresh on init', () => {
       // GIVEN
       const metrics = {
@@ -42,8 +42,8 @@ describe('Metrics', () => {
       } as unknown as MetricsModel;
       const threadDump = { threads: [{ threadName: 'thread 1' } as Thread] };
 
-      vitest.spyOn(service, 'getMetrics').mockReturnValue(of(metrics));
-      vitest.spyOn(service, 'threadDump').mockReturnValue(of(threadDump));
+      vi.spyOn(service, 'getMetrics').mockReturnValue(of(metrics));
+      vi.spyOn(service, 'threadDump').mockReturnValue(of(threadDump));
 
       // WHEN
       comp.ngOnInit();

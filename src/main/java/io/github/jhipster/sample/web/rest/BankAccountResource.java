@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api/bank-accounts")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class BankAccountResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(BankAccountResource.class);

@@ -1,14 +1,13 @@
 import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Service, computed, inject, signal } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { createRequestOption } from 'app/core/request/request-util';
-import { isPresent } from 'app/core/util/operators';
+import { serverApiUrl } from 'app/config';
+import { createRequestOption } from 'app/core/request';
 import { IAuthority, NewAuthority } from '../authority.model';
 
-@Injectable()
+@Service()
 export class AuthoritiesService {
   readonly authoritiesParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(
     undefined,
@@ -25,11 +24,10 @@ export class AuthoritiesService {
    * In case of error while fetching the authorities, the signal is set to an empty array.
    */
   readonly authorities = computed(() => (this.authoritiesResource.hasValue() ? this.authoritiesResource.value() : []));
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/authorities');
+  protected readonly resourceUrl = `${serverApiUrl}api/authorities`;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AuthorityService extends AuthoritiesService {
   protected readonly http = inject(HttpClient);
 
@@ -62,7 +60,7 @@ export class AuthorityService extends AuthoritiesService {
     authorityCollection: Type[],
     ...authoritiesToCheck: (Type | null | undefined)[]
   ): Type[] {
-    const authorities: Type[] = authoritiesToCheck.filter(isPresent);
+    const authorities: Type[] = authoritiesToCheck.filter(authorityItem => authorityItem !== null && authorityItem !== undefined);
     if (authorities.length > 0) {
       const authorityCollectionIdentifiers = authorityCollection.map(authorityItem => this.getAuthorityIdentifier(authorityItem));
       const authoritiesToAdd = authorities.filter(authorityItem => {

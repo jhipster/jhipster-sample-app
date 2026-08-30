@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the BankAccount entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v9.2.0/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v9.3.0/generators/gatling#logging-tips">Logging tips</a>
  */
 public class BankAccountGatlingTest extends Simulation {
 
@@ -34,7 +34,7 @@ public class BankAccountGatlingTest extends Simulation {
         .acceptLanguageHeader("fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3")
         .connectionHeader("keep-alive")
         .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:33.0) Gecko/20100101 Firefox/33.0")
-        .silentResources(); // Silence all resources like css or css so they don't clutter the results
+        .silentResources(); // Silence all resources like css or js so they don't clutter the results
 
     Map<String, String> headersHttp = Map.of("Accept", "application/json");
 

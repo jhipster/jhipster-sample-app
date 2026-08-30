@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -33,6 +34,16 @@ class SecurityUtilsUnitTest {
         SecurityContextHolder.setContext(securityContext);
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
         assertThat(login).contains("admin");
+    }
+
+    @Test
+    void testGetCurrentUserLoginForAnonymousUser() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        var authorities = List.of(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+        securityContext.setAuthentication(new AnonymousAuthenticationToken("key", "anonymousUser", authorities));
+        SecurityContextHolder.setContext(securityContext);
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        assertThat(login).isEmpty();
     }
 
     @Test

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, convertToParamMap } from '@angular/router';
@@ -28,7 +28,7 @@ describe('Authority routing resolve service', () => {
       ],
     });
     mockRouter = TestBed.inject(Router);
-    vitest.spyOn(mockRouter, 'navigate');
+    vi.spyOn(mockRouter, 'navigate');
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
     service = TestBed.inject(AuthorityService);
   });
@@ -36,7 +36,7 @@ describe('Authority routing resolve service', () => {
   describe('resolve', () => {
     it('should return IAuthority returned by find', async () => {
       // GIVEN
-      service.find = vitest.fn(name => of({ name }));
+      service.find = vi.fn(name => of({ name }));
       mockActivatedRouteSnapshot.params = { name: 'ABC' };
 
       // WHEN
@@ -56,7 +56,7 @@ describe('Authority routing resolve service', () => {
 
     it('should return null if id is not provided', async () => {
       // GIVEN
-      service.find = vitest.fn();
+      service.find = vi.fn();
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
@@ -76,7 +76,7 @@ describe('Authority routing resolve service', () => {
 
     it('should route to 404 page if data not found in server', async () => {
       // GIVEN
-      vitest.spyOn(service, 'find').mockReturnValue(throwError(() => new HttpErrorResponse({ status: 404, statusText: 'Not Found' })));
+      vi.spyOn(service, 'find').mockReturnValue(throwError(() => new HttpErrorResponse({ status: 404, statusText: 'Not Found' })));
       mockActivatedRouteSnapshot.params = { name: 'ABC' };
 
       // WHEN
@@ -90,9 +90,9 @@ describe('Authority routing resolve service', () => {
 
     it('should route to error page if server returns an error other than 404', async () => {
       // GIVEN
-      vitest
-        .spyOn(service, 'find')
-        .mockReturnValue(throwError(() => new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' })));
+      vi.spyOn(service, 'find').mockReturnValue(
+        throwError(() => new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' })),
+      );
       mockActivatedRouteSnapshot.params = { name: 'ABC' };
 
       // WHEN

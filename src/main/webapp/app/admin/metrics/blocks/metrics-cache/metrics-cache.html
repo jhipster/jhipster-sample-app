@@ -1,6 +1,7 @@
-<h3 id="cacheMetrics()" jhiTranslate="metrics.cache.title">Cache statistics</h3>
+<h3 id="cacheMetrics" jhiTranslate="metrics.cache.title">Cache statistics</h3>
 
-@if (!updating() && cacheMetrics()) {
+@let cacheMetricsRef = cacheMetrics();
+@if (!updating() && cacheMetricsRef) {
   <div class="table-responsive">
     <table class="table table-striped" aria-describedby="cacheMetrics">
       <thead>
@@ -17,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (entry of cacheMetrics() | keyvalue; track entry.key) {
+        @for (entry of cacheMetricsRef | keyvalue; track entry.key) {
           <tr>
             <td>{{ entry.key }}</td>
             <td class="text-end">{{ entry.value['cache.gets.hit'] }}</td>

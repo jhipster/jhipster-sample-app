@@ -1,6 +1,6 @@
-import { MockInstance, afterEach, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { MockInstance, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -14,7 +14,7 @@ import { BankAccountService } from '../service/bank-account.service';
 
 import { BankAccount } from './bank-account';
 
-vitest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('BankAccount Management Component', () => {
   let httpMock: HttpTestingController;
@@ -57,7 +57,7 @@ describe('BankAccount Management Component', () => {
     fixture = TestBed.createComponent(BankAccount);
     comp = fixture.componentInstance;
     service = TestBed.inject(BankAccountService);
-    routerNavigateSpy = vitest.spyOn(comp.router, 'navigate');
+    routerNavigateSpy = vi.spyOn(comp.router, 'navigate');
 
     const library = TestBed.inject(FaIconLibrary);
     library.addIcons(faEye, faPencilAlt, faPlus, faSort, faSortDown, faSortUp, faSync, faTimes);
@@ -74,7 +74,7 @@ describe('BankAccount Management Component', () => {
     TestBed.tick();
     const req = httpMock.expectOne({ method: 'GET' });
     req.flush([{ id: 22720 }], { headers: { link: '<http://localhost/api/foo?page=1&size=20>; rel="next"' } });
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     // THEN
     expect(comp.isLoading()).toEqual(false);
@@ -84,7 +84,7 @@ describe('BankAccount Management Component', () => {
   describe('trackId', () => {
     it('should forward to bankAccountService', () => {
       const entity = { id: 22720 };
-      vitest.spyOn(service, 'getBankAccountIdentifier');
+      vi.spyOn(service, 'getBankAccountIdentifier');
       const id = comp.trackId(entity);
       expect(service.getBankAccountIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
@@ -112,7 +112,7 @@ describe('BankAccount Management Component', () => {
     httpMock.expectOne({ method: 'GET' });
 
     // THEN
-    expect(service.bankAccountsParams()).toMatchObject(expect.objectContaining({ sort: ['id,desc'] }));
+    expect(service.bankAccountsParams()).toMatchObject({ sort: ['id,desc'] });
   });
 
   describe('delete', () => {
@@ -123,13 +123,13 @@ describe('BankAccount Management Component', () => {
       deleteModalMock = { componentInstance: {}, closed: new Subject() };
       // NgbModal is not a singleton using TestBed.inject.
       // ngbModal = TestBed.inject(NgbModal);
-      ngbModal = (comp as any).modalService;
-      vitest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
+      ngbModal = (comp as unknown as { modalService: NgbModal }).modalService;
+      vi.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
     });
 
-    it('on confirm should call load', inject([], () => {
+    it('on confirm should call load', () => {
       // GIVEN
-      vitest.spyOn(comp, 'load');
+      vi.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -138,11 +138,11 @@ describe('BankAccount Management Component', () => {
       // THEN
       expect(ngbModal.open).toHaveBeenCalled();
       expect(comp.load).toHaveBeenCalled();
-    }));
+    });
 
-    it('on dismiss should call load', inject([], () => {
+    it('on dismiss should call load', () => {
       // GIVEN
-      vitest.spyOn(comp, 'load');
+      vi.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -151,6 +151,6 @@ describe('BankAccount Management Component', () => {
       // THEN
       expect(ngbModal.open).toHaveBeenCalled();
       expect(comp.load).not.toHaveBeenCalled();
-    }));
+    });
   });
 });

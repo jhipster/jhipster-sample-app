@@ -2,7 +2,7 @@
 name: jhipstersampleapplication
 services:
   prometheus:
-    image: prom/prometheus:v3.13.0
+    image: prom/prometheus:v3.14.0
     volumes:
       - ./prometheus/:/etc/prometheus/
     command:
@@ -11,11 +11,11 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:9090:9090
-    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
+    # On macOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
     network_mode: 'host' # to test locally running service
   grafana:
-    image: grafana/grafana:13.1.0
+    image: grafana/grafana:13.2.0
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:
@@ -26,6 +26,6 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:3000:3000
-    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
+    # On macOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
     network_mode: 'host' # to test locally running service

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -57,10 +57,10 @@ describe('Operation Management Update Component', () => {
       operation.bankAccount = bankAccount;
 
       const bankAccountCollection: IBankAccount[] = [{ id: 22720 }];
-      vitest.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
+      vi.spyOn(bankAccountService, 'query').mockReturnValue(of(new HttpResponse({ body: bankAccountCollection })));
       const additionalBankAccounts = [bankAccount];
       const expectedCollection: IBankAccount[] = [...additionalBankAccounts, ...bankAccountCollection];
-      vitest.spyOn(bankAccountService, 'addBankAccountToCollectionIfMissing').mockReturnValue(expectedCollection);
+      vi.spyOn(bankAccountService, 'addBankAccountToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
@@ -79,10 +79,10 @@ describe('Operation Management Update Component', () => {
       operation.labels = labels;
 
       const labelCollection: ILabel[] = [{ id: 4199 }];
-      vitest.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
+      vi.spyOn(labelService, 'query').mockReturnValue(of(new HttpResponse({ body: labelCollection })));
       const additionalLabels = [...labels];
       const expectedCollection: ILabel[] = [...additionalLabels, ...labelCollection];
-      vitest.spyOn(labelService, 'addLabelToCollectionIfMissing').mockReturnValue(expectedCollection);
+      vi.spyOn(labelService, 'addLabelToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
@@ -116,9 +116,9 @@ describe('Operation Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
-      vitest.spyOn(operationFormService, 'getOperation').mockReturnValue(operation);
-      vitest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(operationFormService, 'getOperation').mockReturnValue(operation);
+      vi.spyOn(operationService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
 
@@ -139,9 +139,9 @@ describe('Operation Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
-      vitest.spyOn(operationFormService, 'getOperation').mockReturnValue({ id: null });
-      vitest.spyOn(operationService, 'create').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(operationFormService, 'getOperation').mockReturnValue({ id: null });
+      vi.spyOn(operationService, 'create').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ operation: null });
       comp.ngOnInit();
 
@@ -162,8 +162,8 @@ describe('Operation Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IOperation>();
       const operation = { id: 13822 };
-      vitest.spyOn(operationService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(operationService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ operation });
       comp.ngOnInit();
 
@@ -184,7 +184,7 @@ describe('Operation Management Update Component', () => {
       it('should forward to bankAccountService', () => {
         const entity = { id: 22720 };
         const entity2 = { id: 22583 };
-        vitest.spyOn(bankAccountService, 'compareBankAccount');
+        vi.spyOn(bankAccountService, 'compareBankAccount');
         comp.compareBankAccount(entity, entity2);
         expect(bankAccountService.compareBankAccount).toHaveBeenCalledWith(entity, entity2);
       });
@@ -194,7 +194,7 @@ describe('Operation Management Update Component', () => {
       it('should forward to labelService', () => {
         const entity = { id: 4199 };
         const entity2 = { id: 7351 };
-        vitest.spyOn(labelService, 'compareLabel');
+        vi.spyOn(labelService, 'compareLabel');
         comp.compareLabel(entity, entity2);
         expect(labelService.compareLabel).toHaveBeenCalledWith(entity, entity2);
       });

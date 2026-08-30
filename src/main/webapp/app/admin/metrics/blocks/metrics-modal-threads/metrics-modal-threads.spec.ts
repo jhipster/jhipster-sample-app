@@ -1,12 +1,14 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { provideTranslateService } from '@ngx-translate/core';
 
-import { ThreadState } from '../../metrics.model';
+import { Thread, ThreadState } from '../../metrics.model';
 
 import { MetricsModalThreads } from './metrics-modal-threads';
+
+const createThread = (threadState: ThreadState, threadId: number): Thread => ({ threadId, threadState }) as Thread;
 
 describe('MetricsModalThreads', () => {
   let comp: MetricsModalThreads;
@@ -17,9 +19,7 @@ describe('MetricsModalThreads', () => {
     TestBed.configureTestingModule({
       providers: [provideTranslateService(), NgbActiveModal],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MetricsModalThreads);
     comp = fixture.componentInstance;
     mockActiveModal = TestBed.inject(NgbActiveModal);
@@ -29,86 +29,10 @@ describe('MetricsModalThreads', () => {
     it('should count threads on init', () => {
       // GIVEN
       comp.threads = [
-        {
-          threadName: '',
-          threadId: 1,
-          blockedTime: 1,
-          blockedCount: 1,
-          waitedTime: 1,
-          waitedCount: 1,
-          lockName: 'lock1',
-          lockOwnerId: 1,
-          lockOwnerName: 'lock1',
-          daemon: true,
-          inNative: true,
-          suspended: true,
-          threadState: ThreadState.Blocked,
-          priority: 1,
-          stackTrace: [],
-          lockedMonitors: [],
-          lockedSynchronizers: [],
-          lockInfo: null,
-        },
-        {
-          threadName: '',
-          threadId: 2,
-          blockedTime: 2,
-          blockedCount: 2,
-          waitedTime: 2,
-          waitedCount: 2,
-          lockName: 'lock2',
-          lockOwnerId: 2,
-          lockOwnerName: 'lock2',
-          daemon: false,
-          inNative: false,
-          suspended: false,
-          threadState: ThreadState.Runnable,
-          priority: 2,
-          stackTrace: [],
-          lockedMonitors: [],
-          lockedSynchronizers: [],
-          lockInfo: null,
-        },
-        {
-          threadName: '',
-          threadId: 3,
-          blockedTime: 3,
-          blockedCount: 3,
-          waitedTime: 3,
-          waitedCount: 3,
-          lockName: 'lock3',
-          lockOwnerId: 3,
-          lockOwnerName: 'lock3',
-          daemon: false,
-          inNative: false,
-          suspended: false,
-          threadState: ThreadState.TimedWaiting,
-          priority: 3,
-          stackTrace: [],
-          lockedMonitors: [],
-          lockedSynchronizers: [],
-          lockInfo: null,
-        },
-        {
-          threadName: '',
-          threadId: 4,
-          blockedTime: 4,
-          blockedCount: 4,
-          waitedTime: 4,
-          waitedCount: 4,
-          lockName: 'lock4',
-          lockOwnerId: 4,
-          lockOwnerName: 'lock4',
-          daemon: false,
-          inNative: false,
-          suspended: false,
-          threadState: ThreadState.Waiting,
-          priority: 4,
-          stackTrace: [],
-          lockedMonitors: [],
-          lockedSynchronizers: [],
-          lockInfo: null,
-        },
+        createThread(ThreadState.Blocked, 1),
+        createThread(ThreadState.Runnable, 2),
+        createThread(ThreadState.TimedWaiting, 3),
+        createThread(ThreadState.Waiting, 4),
       ];
 
       // WHEN
@@ -146,7 +70,7 @@ describe('MetricsModalThreads', () => {
       expect(badgeClass).toEqual('bg-info');
     });
 
-    it('should return a warning badge class for time waiting thread state', () => {
+    it('should return a warning badge class for timed waiting thread state', () => {
       // GIVEN
       const threadState = ThreadState.TimedWaiting;
 
@@ -182,57 +106,19 @@ describe('MetricsModalThreads', () => {
 
   describe('getThreads', () => {
     // GIVEN
-    const thread1 = {
-      threadName: '',
-      threadId: 1,
-      blockedTime: 1,
-      blockedCount: 1,
-      waitedTime: 1,
-      waitedCount: 1,
-      lockName: 'lock1',
-      lockOwnerId: 1,
-      lockOwnerName: 'lock1',
-      daemon: true,
-      inNative: true,
-      suspended: true,
-      threadState: ThreadState.Blocked,
-      priority: 1,
-      stackTrace: [],
-      lockedMonitors: [],
-      lockedSynchronizers: [],
-      lockInfo: null,
-    };
+    const blockedThread = createThread(ThreadState.Blocked, 1);
+    const runnableThread = createThread(ThreadState.Runnable, 2);
 
     it('should return blocked threads', () => {
       // GIVEN
-      const thread2 = {
-        threadName: '',
-        threadId: 2,
-        blockedTime: 2,
-        blockedCount: 2,
-        waitedTime: 2,
-        waitedCount: 2,
-        lockName: 'lock2',
-        lockOwnerId: 1,
-        lockOwnerName: 'lock2',
-        daemon: false,
-        inNative: false,
-        suspended: false,
-        threadState: ThreadState.Runnable,
-        priority: 2,
-        stackTrace: [],
-        lockedMonitors: [],
-        lockedSynchronizers: [],
-        lockInfo: null,
-      };
-      comp.threads = [thread1, thread2];
+      comp.threads = [blockedThread, runnableThread];
       comp.threadStateFilter = ThreadState.Blocked;
 
       // WHEN
       const threadsFiltered = comp.getThreads();
 
       // THEN
-      expect(threadsFiltered).toEqual([thread1]);
+      expect(threadsFiltered).toEqual([blockedThread]);
     });
 
     it('should return an empty array of threads', () => {
@@ -249,27 +135,7 @@ describe('MetricsModalThreads', () => {
 
     it('should return all threads if there is no filter', () => {
       // GIVEN
-      const thread2 = {
-        threadName: '',
-        threadId: 2,
-        blockedTime: 2,
-        blockedCount: 2,
-        waitedTime: 2,
-        waitedCount: 2,
-        lockName: 'lock2',
-        lockOwnerId: 1,
-        lockOwnerName: 'lock2',
-        daemon: false,
-        inNative: false,
-        suspended: false,
-        threadState: ThreadState.Runnable,
-        priority: 2,
-        stackTrace: [],
-        lockedMonitors: [],
-        lockedSynchronizers: [],
-        lockInfo: null,
-      };
-      comp.threads = [thread1, thread2];
+      comp.threads = [blockedThread, runnableThread];
       comp.threadStateFilter = undefined;
 
       // WHEN
@@ -295,7 +161,7 @@ describe('MetricsModalThreads', () => {
   describe('dismiss', () => {
     it('should call dismiss function for modal on dismiss', () => {
       // GIVEN
-      vitest.spyOn(mockActiveModal, 'dismiss');
+      vi.spyOn(mockActiveModal, 'dismiss');
 
       // WHEN
       comp.dismiss();

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { serverApiUrl } from 'app/config';
 
 import { Registration } from './register.model';
 import { RegisterService } from './register.service';
@@ -10,7 +10,6 @@ import { RegisterService } from './register.service';
 describe('RegisterService Service', () => {
   let service: RegisterService;
   let httpMock: HttpTestingController;
-  let applicationConfigService: ApplicationConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,7 +17,6 @@ describe('RegisterService Service', () => {
     });
 
     service = TestBed.inject(RegisterService);
-    applicationConfigService = TestBed.inject(ApplicationConfigService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -40,7 +38,7 @@ describe('RegisterService Service', () => {
 
       const testRequest = httpMock.expectOne({
         method: 'POST',
-        url: applicationConfigService.getEndpointFor('api/register'),
+        url: `${serverApiUrl}api/register`,
       });
 
       // THEN

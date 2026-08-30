@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 
 import { DataUtils } from './data-util.service';
@@ -22,8 +22,8 @@ describe('Data Utils Service Test', () => {
   describe('openFile', () => {
     it('should open the file in the new window', () => {
       const newWindow = { ...window };
-      window.open = vitest.fn(() => newWindow);
-      window.URL.createObjectURL = vitest.fn();
+      window.open = vi.fn(() => newWindow);
+      window.URL.createObjectURL = vi.fn();
       // 'JHipster' in base64 is 'SkhpcHN0ZXI='
       const data = 'SkhpcHN0ZXI=';
       const contentType = 'text/plain';

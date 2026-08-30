@@ -1,16 +1,15 @@
 import { HttpClient, HttpResponse, httpResource } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Service, computed, inject, signal } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { createRequestOption } from 'app/core/request/request-util';
-import { isPresent } from 'app/core/util/operators';
+import { serverApiUrl } from 'app/config';
+import { createRequestOption } from 'app/core/request';
 import { ILabel, NewLabel } from '../label.model';
 
 export type PartialUpdateLabel = Partial<ILabel> & Pick<ILabel, 'id'>;
 
-@Injectable()
+@Service()
 export class LabelsService {
   readonly labelsParams = signal<Record<string, string | number | boolean | readonly (string | number | boolean)[]> | undefined>(undefined);
   readonly labelsResource = httpResource<ILabel[]>(() => {
@@ -25,11 +24,10 @@ export class LabelsService {
    * In case of error while fetching the labels, the signal is set to an empty array.
    */
   readonly labels = computed(() => (this.labelsResource.hasValue() ? this.labelsResource.value() : []));
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-  protected readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/labels');
+  protected readonly resourceUrl = `${serverApiUrl}api/labels`;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LabelService extends LabelsService {
   protected readonly http = inject(HttpClient);
 
@@ -70,7 +68,7 @@ export class LabelService extends LabelsService {
     labelCollection: Type[],
     ...labelsToCheck: (Type | null | undefined)[]
   ): Type[] {
-    const labels: Type[] = labelsToCheck.filter(isPresent);
+    const labels: Type[] = labelsToCheck.filter(labelItem => labelItem !== null && labelItem !== undefined);
     if (labels.length > 0) {
       const labelCollectionIdentifiers = labelCollection.map(labelItem => this.getLabelIdentifier(labelItem));
       const labelsToAdd = labels.filter(labelItem => {

@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jhipster.sample.IntegrationTest;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
@@ -27,12 +26,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Integration tests for the {@link BankAccountResource} REST controller.
@@ -199,16 +198,16 @@ class BankAccountResourceIT {
 
     @SuppressWarnings({ "unchecked" })
     void getAllBankAccountsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(bankAccountRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(bankAccountRepositoryMock.findAllWithEagerRelationships()).thenReturn(new ArrayList<>());
 
         restBankAccountMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
-        verify(bankAccountRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+        verify(bankAccountRepositoryMock, times(1)).findAllWithEagerRelationships();
     }
 
     @SuppressWarnings({ "unchecked" })
     void getAllBankAccountsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(bankAccountRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(bankAccountRepositoryMock.findAllWithEagerRelationships()).thenReturn(new ArrayList<>());
 
         restBankAccountMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
         verify(bankAccountRepositoryMock, times(1)).findAll(any(Pageable.class));

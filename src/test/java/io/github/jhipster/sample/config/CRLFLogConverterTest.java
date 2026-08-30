@@ -74,7 +74,7 @@ class CRLFLogConverterTest {
         ILoggingEvent event = mock(ILoggingEvent.class);
         List<Marker> markers = List.of();
         when(event.getMarkerList()).thenReturn(markers);
-        when(event.getLoggerName()).thenReturn("com.mycompany.myapp.example.Logger");
+        when(event.getLoggerName()).thenReturn("io.github.jhipster.sample.example.Logger");
         String input = "Test\ninput\rstring";
         CRLFLogConverter converter = new CRLFLogConverter();
 
@@ -88,7 +88,7 @@ class CRLFLogConverterTest {
         ILoggingEvent event = mock(ILoggingEvent.class);
         List<Marker> markers = List.of();
         when(event.getMarkerList()).thenReturn(markers);
-        when(event.getLoggerName()).thenReturn("com.mycompany.myapp.example.Logger");
+        when(event.getLoggerName()).thenReturn("io.github.jhipster.sample.example.Logger");
         String input = "Test\ninput\rstring";
         CRLFLogConverter converter = new CRLFLogConverter();
         converter.setOptionList(List.of("red"));
@@ -112,7 +112,7 @@ class CRLFLogConverterTest {
     @Test
     void isLoggerSafeShouldReturnFalseWhenLoggerNameDoesNotStartWithSafeLogger() {
         ILoggingEvent event = mock(ILoggingEvent.class);
-        when(event.getLoggerName()).thenReturn("com.mycompany.myapp.example.Logger");
+        when(event.getLoggerName()).thenReturn("io.github.jhipster.sample.example.Logger");
         CRLFLogConverter converter = new CRLFLogConverter();
 
         boolean result = converter.isLoggerSafe(event);

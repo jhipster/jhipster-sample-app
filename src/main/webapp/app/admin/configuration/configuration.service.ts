@@ -1,19 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 import { Observable, map } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { serverApiUrl } from 'app/config';
 
 import { Bean, Beans, ConfigProps, Env, PropertySource } from './configuration.model';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ConfigurationService {
   private readonly http = inject(HttpClient);
-  private readonly applicationConfigService = inject(ApplicationConfigService);
 
   getBeans(): Observable<Bean[]> {
-    return this.http.get<ConfigProps>(this.applicationConfigService.getEndpointFor('management/configprops')).pipe(
+    return this.http.get<ConfigProps>(`${serverApiUrl}management/configprops`).pipe(
       map(configProps =>
         Object.values(
           Object.values(configProps.contexts)
@@ -25,6 +24,6 @@ export class ConfigurationService {
   }
 
   getPropertySources(): Observable<PropertySource[]> {
-    return this.http.get<Env>(this.applicationConfigService.getEndpointFor('management/env')).pipe(map(env => env.propertySources));
+    return this.http.get<Env>(`${serverApiUrl}management/env`).pipe(map(env => env.propertySources));
   }
 }

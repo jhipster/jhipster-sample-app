@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -53,10 +53,10 @@ describe('Label Management Update Component', () => {
       label.operations = operations;
 
       const operationCollection: IOperation[] = [{ id: 13822 }];
-      vitest.spyOn(operationService, 'query').mockReturnValue(of(new HttpResponse({ body: operationCollection })));
+      vi.spyOn(operationService, 'query').mockReturnValue(of(new HttpResponse({ body: operationCollection })));
       const additionalOperations = [...operations];
       const expectedCollection: IOperation[] = [...additionalOperations, ...operationCollection];
-      vitest.spyOn(operationService, 'addOperationToCollectionIfMissing').mockReturnValue(expectedCollection);
+      vi.spyOn(operationService, 'addOperationToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ label });
       comp.ngOnInit();
@@ -87,9 +87,9 @@ describe('Label Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<ILabel>();
       const label = { id: 4199 };
-      vitest.spyOn(labelFormService, 'getLabel').mockReturnValue(label);
-      vitest.spyOn(labelService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(labelFormService, 'getLabel').mockReturnValue(label);
+      vi.spyOn(labelService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ label });
       comp.ngOnInit();
 
@@ -110,9 +110,9 @@ describe('Label Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<ILabel>();
       const label = { id: 4199 };
-      vitest.spyOn(labelFormService, 'getLabel').mockReturnValue({ id: null });
-      vitest.spyOn(labelService, 'create').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(labelFormService, 'getLabel').mockReturnValue({ id: null });
+      vi.spyOn(labelService, 'create').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ label: null });
       comp.ngOnInit();
 
@@ -133,8 +133,8 @@ describe('Label Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<ILabel>();
       const label = { id: 4199 };
-      vitest.spyOn(labelService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(labelService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ label });
       comp.ngOnInit();
 
@@ -155,7 +155,7 @@ describe('Label Management Update Component', () => {
       it('should forward to operationService', () => {
         const entity = { id: 13822 };
         const entity2 = { id: 5986 };
-        vitest.spyOn(operationService, 'compareOperation');
+        vi.spyOn(operationService, 'compareOperation');
         comp.compareOperation(entity, entity2);
         expect(operationService.compareOperation).toHaveBeenCalledWith(entity, entity2);
       });

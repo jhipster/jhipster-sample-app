@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ParamMap, Params, convertToParamMap } from '@angular/router';
 
 import { FilterOption, FilterOptions } from './filter.model';
@@ -79,7 +79,7 @@ describe('FilterModel Tests', () => {
     describe('clear', () => {
       it("removes empty filters and doesn't emit next element", () => {
         const filters = new FilterOptions([new FilterOption('foo'), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         filters.clear();
 
@@ -88,7 +88,7 @@ describe('FilterModel Tests', () => {
       });
       it('removes empty filters and emits next element', () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         filters.clear();
 
@@ -100,7 +100,7 @@ describe('FilterModel Tests', () => {
     describe('addFilter', () => {
       it('adds a non existing FilterOption, returns true and emit next element', () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.addFilter('addedFilter', 'addedValue');
 
@@ -113,7 +113,7 @@ describe('FilterModel Tests', () => {
       });
       it('adds a non existing value to FilterOption, returns true and emit next element', () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.addFilter('foo', 'addedValue1', 'addedValue2');
 
@@ -125,7 +125,7 @@ describe('FilterModel Tests', () => {
       });
       it("doesn't add FilterOption values already added, returns false and doesn't emit next element", () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.addFilter('foo', 'existingFoo1', 'existingFoo2');
 
@@ -138,7 +138,7 @@ describe('FilterModel Tests', () => {
     describe('removeFilter', () => {
       it('removes an existing FilterOptions and returns true', () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.removeFilter('foo', 'existingFoo1');
 
@@ -148,7 +148,7 @@ describe('FilterModel Tests', () => {
       });
       it("doesn't remove a non existing FilterOptions values returns false", () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.removeFilter('foo', 'nonExisting1');
 
@@ -158,7 +158,7 @@ describe('FilterModel Tests', () => {
       });
       it("doesn't remove a non existing FilterOptions returns false", () => {
         const filters = new FilterOptions([new FilterOption('foo', ['existingFoo1', 'existingFoo2']), new FilterOption('bar')]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const result = filters.removeFilter('nonExisting', 'nonExisting1');
 
@@ -193,7 +193,7 @@ describe('FilterModel Tests', () => {
 
       it('should parse from Params if there are any and not emit next element', () => {
         const filters: FilterOptions = new FilterOptions([new FilterOption('foo', ['bar'])]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
         const paramMap: ParamMap = convertToParamMap(oneValidParam);
 
         filters.initializeFromParams(paramMap);
@@ -205,7 +205,7 @@ describe('FilterModel Tests', () => {
       it('should parse from Params and have none if there are none', () => {
         const filters: FilterOptions = new FilterOptions();
         const paramMap: ParamMap = convertToParamMap(noValidParam);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         filters.initializeFromParams(paramMap);
 
@@ -215,7 +215,7 @@ describe('FilterModel Tests', () => {
 
       it('should parse from Params and have a parameter with 2 values and one additional value', () => {
         const filters: FilterOptions = new FilterOptions([new FilterOption('hello.in', ['world'])]);
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const paramMap: ParamMap = convertToParamMap(paramWithTwoValues);
 
@@ -227,7 +227,7 @@ describe('FilterModel Tests', () => {
 
       it('should parse from Params and have a parameter with 2 keys', () => {
         const filters: FilterOptions = new FilterOptions();
-        vitest.spyOn(filters.filterChanges, 'next');
+        vi.spyOn(filters.filterChanges, 'next');
 
         const paramMap: ParamMap = convertToParamMap(paramWithTwoKeys);
 

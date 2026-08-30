@@ -1,6 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "src/main/webapp/",
+    "paths": {
+      "app/config": ["./src/main/webapp/app/config/index.ts"],
+      "app/core/auth": ["./src/main/webapp/app/core/auth/index.ts"],
+      "app/core/request": ["./src/main/webapp/app/core/request/index.ts"],
+      "app/core/util": ["./src/main/webapp/app/core/util/index.ts"],
+      "app/shared/alert": ["./src/main/webapp/app/shared/alert/index.ts"],
+      "app/shared/auth": ["./src/main/webapp/app/shared/auth/index.ts"],
+      "app/shared/date": ["./src/main/webapp/app/shared/date/index.ts"],
+      "app/shared/language": ["./src/main/webapp/app/shared/language/index.ts"],
+      "app/shared/pagination": ["./src/main/webapp/app/shared/pagination/index.ts"],
+      "app/shared/sort": ["./src/main/webapp/app/shared/sort/index.ts"],
+      "*": ["./src/main/webapp/*"]
+    },
     "outDir": "./target/out-tsc/root",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -9,7 +21,6 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
@@ -30,7 +41,6 @@
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
     "preserveWhitespaces": true
   }
 }

@@ -12,13 +12,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Authenticate a user from the database.
  */
-@Component("userDetailsService")
+@Service("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DomainUserDetailsService.class);

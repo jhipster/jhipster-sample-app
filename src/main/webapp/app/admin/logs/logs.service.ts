@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { serverApiUrl } from 'app/config';
 
 import { Level, LoggersResponse } from './log.model';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LogsService {
   private readonly http = inject(HttpClient);
-  private readonly applicationConfigService = inject(ApplicationConfigService);
 
   changeLevel(name: string, configuredLevel: Level): Observable<{}> {
-    return this.http.post(this.applicationConfigService.getEndpointFor(`management/loggers/${name}`), { configuredLevel });
+    return this.http.post(`${serverApiUrl}management/loggers/${name}`, { configuredLevel });
   }
 
   findAll(): Observable<LoggersResponse> {
-    return this.http.get<LoggersResponse>(this.applicationConfigService.getEndpointFor('management/loggers'));
+    return this.http.get<LoggersResponse>(`${serverApiUrl}management/loggers`);
   }
 }

@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 
@@ -8,7 +8,6 @@ import { HealthDetails, HealthKey } from '../health.model';
 
 @Component({
   selector: 'jhi-health-modal',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './health-modal.html',
   imports: [TranslateDirective, KeyValuePipe],
 })

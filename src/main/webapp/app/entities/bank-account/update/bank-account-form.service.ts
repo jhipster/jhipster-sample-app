@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IBankAccount, NewBankAccount } from '../bank-account.model';
@@ -25,7 +25,7 @@ type BankAccountFormGroupContent = {
 
 export type BankAccountFormGroup = FormGroup<BankAccountFormGroupContent>;
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class BankAccountFormService {
   createBankAccountFormGroup(bankAccount?: BankAccountFormGroupInput): BankAccountFormGroup {
     const bankAccountRawValue = {

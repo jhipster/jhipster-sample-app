@@ -1,6 +1,6 @@
-import { MockInstance, afterEach, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { MockInstance, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -14,7 +14,7 @@ import { AuthorityService } from '../service/authority.service';
 
 import { Authority } from './authority';
 
-vitest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('Authority Management Component', () => {
   let httpMock: HttpTestingController;
@@ -57,7 +57,7 @@ describe('Authority Management Component', () => {
     fixture = TestBed.createComponent(Authority);
     comp = fixture.componentInstance;
     service = TestBed.inject(AuthorityService);
-    routerNavigateSpy = vitest.spyOn(comp.router, 'navigate');
+    routerNavigateSpy = vi.spyOn(comp.router, 'navigate');
 
     const library = TestBed.inject(FaIconLibrary);
     library.addIcons(faEye, faPencilAlt, faPlus, faSort, faSortDown, faSortUp, faSync, faTimes);
@@ -76,7 +76,7 @@ describe('Authority Management Component', () => {
     req.flush([{ name: '572a7ecc-bf76-43f4-8026-46b42fba586d' }], {
       headers: { link: '<http://localhost/api/foo?page=1&size=20>; rel="next"' },
     });
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     // THEN
     expect(comp.isLoading()).toEqual(false);
@@ -86,7 +86,7 @@ describe('Authority Management Component', () => {
   describe('trackName', () => {
     it('should forward to authorityService', () => {
       const entity = { name: '572a7ecc-bf76-43f4-8026-46b42fba586d' };
-      vitest.spyOn(service, 'getAuthorityIdentifier');
+      vi.spyOn(service, 'getAuthorityIdentifier');
       const name = comp.trackName(entity);
       expect(service.getAuthorityIdentifier).toHaveBeenCalledWith(entity);
       expect(name).toBe(entity.name);
@@ -114,7 +114,7 @@ describe('Authority Management Component', () => {
     httpMock.expectOne({ method: 'GET' });
 
     // THEN
-    expect(service.authoritiesParams()).toMatchObject(expect.objectContaining({ sort: ['name,desc'] }));
+    expect(service.authoritiesParams()).toMatchObject({ sort: ['name,desc'] });
   });
 
   describe('delete', () => {
@@ -125,13 +125,13 @@ describe('Authority Management Component', () => {
       deleteModalMock = { componentInstance: {}, closed: new Subject() };
       // NgbModal is not a singleton using TestBed.inject.
       // ngbModal = TestBed.inject(NgbModal);
-      ngbModal = (comp as any).modalService;
-      vitest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
+      ngbModal = (comp as unknown as { modalService: NgbModal }).modalService;
+      vi.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
     });
 
-    it('on confirm should call load', inject([], () => {
+    it('on confirm should call load', () => {
       // GIVEN
-      vitest.spyOn(comp, 'load');
+      vi.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -140,11 +140,11 @@ describe('Authority Management Component', () => {
       // THEN
       expect(ngbModal.open).toHaveBeenCalled();
       expect(comp.load).toHaveBeenCalled();
-    }));
+    });
 
-    it('on dismiss should call load', inject([], () => {
+    it('on dismiss should call load', () => {
       // GIVEN
-      vitest.spyOn(comp, 'load');
+      vi.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -153,6 +153,6 @@ describe('Authority Management Component', () => {
       // THEN
       expect(ngbModal.open).toHaveBeenCalled();
       expect(comp.load).not.toHaveBeenCalled();
-    }));
+    });
   });
 });

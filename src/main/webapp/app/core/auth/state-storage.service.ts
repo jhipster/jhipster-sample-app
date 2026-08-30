@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 import { AUTHENTICATION_TOKEN_KEY } from 'app/shared/jhipster/constants';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class StateStorageService {
   private readonly previousUrlKey = 'previousUrl';
   private readonly authenticationKey = AUTHENTICATION_TOKEN_KEY;

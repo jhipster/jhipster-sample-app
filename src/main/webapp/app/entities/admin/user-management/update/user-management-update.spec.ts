@@ -1,79 +1,122 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { provideTranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { Authority } from 'app/shared/jhipster/constants';
 import { UserManagementService } from '../service/user-management.service';
 import { IUserManagement } from '../user-management.model';
 
+import { UserManagementFormService } from './user-management-form.service';
 import { UserManagementUpdate } from './user-management-update';
 
-describe('User Management Update Component', () => {
+describe('UserManagement Management Update Component', () => {
   let comp: UserManagementUpdate;
   let fixture: ComponentFixture<UserManagementUpdate>;
-  let service: UserManagementService;
+  let activatedRoute: ActivatedRoute;
+  let userManagementFormService: UserManagementFormService;
+  let userManagementService: UserManagementService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         provideTranslateService(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {
-            data: of({
-              user: {
-                id: 123,
-                login: 'user',
-                firstName: 'first',
-                lastName: 'last',
-                email: 'first@last.com',
-                activated: true,
-                langKey: 'en',
-                authorities: [Authority.USER],
-                createdBy: 'admin',
-              },
-            }),
+            params: from([{}]),
           },
         },
       ],
     });
+
+    fixture = TestBed.createComponent(UserManagementUpdate);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    userManagementFormService = TestBed.inject(UserManagementFormService);
+    userManagementService = TestBed.inject(UserManagementService);
+
+    comp = fixture.componentInstance;
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserManagementUpdate);
-    comp = fixture.componentInstance;
-    service = TestBed.inject(UserManagementService);
+  describe('ngOnInit', () => {
+    it('should update editForm', () => {
+      const userManagement: IUserManagement = { login: 'Anya.Schiller33' };
+
+      activatedRoute.data = of({ userManagement });
+      comp.ngOnInit();
+
+      expect(comp.userManagement).toEqual(userManagement);
+    });
   });
 
   describe('save', () => {
-    it('should call update service on save for existing user', inject([], () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
-      const entity = { id: 123 } as IUserManagement;
-      vitest.spyOn(service, 'update').mockReturnValue(of(entity));
-      comp.editForm.patchValue(entity);
+      const saveSubject = new Subject<IUserManagement>();
+      const userManagement = { login: 'Ozella.Kertzmann' };
+      vi.spyOn(userManagementFormService, 'getUserManagement').mockReturnValue(userManagement);
+      vi.spyOn(userManagementService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userManagement });
+      comp.ngOnInit();
+
       // WHEN
       comp.save();
+      expect(comp.isSaving()).toEqual(true);
+      saveSubject.next(userManagement);
+      saveSubject.complete();
 
       // THEN
-      expect(service.update).toHaveBeenCalledWith(expect.objectContaining(entity));
+      expect(userManagementFormService.getUserManagement).toHaveBeenCalled();
+      expect(comp.previousState).toHaveBeenCalled();
+      expect(userManagementService.update).toHaveBeenCalledWith(expect.objectContaining(userManagement));
       expect(comp.isSaving()).toEqual(false);
-    }));
+    });
 
-    it('should call create service on save for new user', inject([], () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
-      const entity = { login: 'foo' } as IUserManagement;
-      vitest.spyOn(service, 'create').mockReturnValue(of(entity));
-      comp.editForm.patchValue(entity);
+      const saveSubject = new Subject<IUserManagement>();
+      const userManagement = { login: 'Ozella.Kertzmann' };
+      vi.spyOn(userManagementFormService, 'getUserManagement').mockReturnValue({ id: null, login: null });
+      vi.spyOn(userManagementService, 'create').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userManagement: null });
+      comp.ngOnInit();
+
       // WHEN
       comp.save();
+      expect(comp.isSaving()).toEqual(true);
+      saveSubject.next(userManagement);
+      saveSubject.complete();
 
       // THEN
-      expect(comp.editForm.getRawValue().id).toBeNull();
-      expect(service.create).toHaveBeenCalledWith(expect.objectContaining(entity));
+      expect(userManagementFormService.getUserManagement).toHaveBeenCalled();
+      expect(userManagementService.create).toHaveBeenCalled();
       expect(comp.isSaving()).toEqual(false);
-    }));
+      expect(comp.previousState).toHaveBeenCalled();
+    });
+
+    it('should set isSaving to false on error', () => {
+      // GIVEN
+      const saveSubject = new Subject<IUserManagement>();
+      const userManagement = { id: 123, login: 'Ozella.Kertzmann' };
+      vi.spyOn(userManagementService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userManagement });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving()).toEqual(true);
+      saveSubject.error('This is an error!');
+
+      // THEN
+      expect(userManagementService.update).toHaveBeenCalled();
+      expect(comp.isSaving()).toEqual(false);
+      expect(comp.previousState).not.toHaveBeenCalled();
+    });
   });
 });

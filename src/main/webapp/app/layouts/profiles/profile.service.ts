@@ -1,18 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 import { Observable, map, shareReplay } from 'rxjs';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { serverApiUrl } from 'app/config';
 
 import { InfoResponse, ProfileInfo } from './profile-info.model';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ProfileService {
   private readonly http = inject(HttpClient);
-  private readonly applicationConfigService = inject(ApplicationConfigService);
 
-  private readonly infoUrl = this.applicationConfigService.getEndpointFor('management/info');
+  private readonly infoUrl = `${serverApiUrl}management/info`;
   private profileInfo$?: Observable<ProfileInfo>;
 
   getProfileInfo(): Observable<ProfileInfo> {

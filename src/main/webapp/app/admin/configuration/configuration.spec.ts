@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
@@ -47,8 +47,8 @@ describe('Configuration', () => {
           },
         },
       ];
-      vitest.spyOn(service, 'getBeans').mockReturnValue(of(beans));
-      vitest.spyOn(service, 'getPropertySources').mockReturnValue(of(propertySources));
+      vi.spyOn(service, 'getBeans').mockReturnValue(of(beans));
+      vi.spyOn(service, 'getPropertySources').mockReturnValue(of(propertySources));
 
       // WHEN
       comp.ngOnInit();

@@ -1,17 +1,16 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, OnInit, Renderer2, RendererFactory2, inject } from '@angular/core';
+import { Component, DOCUMENT, OnInit, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
-import { AccountService } from 'app/core/auth/account.service';
+import { AccountService } from 'app/core/auth';
 import Footer from '../footer/footer';
 import PageRibbon from '../profiles/page-ribbon';
 
 @Component({
   selector: 'jhi-main',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './main.html',
   providers: [AppPageTitleStrategy],
   imports: [RouterOutlet, Footer, PageRibbon],

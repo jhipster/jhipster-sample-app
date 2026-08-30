@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -53,10 +53,10 @@ describe('BankAccount Management Update Component', () => {
       bankAccount.user = user;
 
       const userCollection: IUser[] = [{ id: 3944 }];
-      vitest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      vi.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
       const additionalUsers = [user];
       const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
-      vitest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+      vi.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ bankAccount });
       comp.ngOnInit();
@@ -87,9 +87,9 @@ describe('BankAccount Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IBankAccount>();
       const bankAccount = { id: 22720 };
-      vitest.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue(bankAccount);
-      vitest.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue(bankAccount);
+      vi.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ bankAccount });
       comp.ngOnInit();
 
@@ -110,9 +110,9 @@ describe('BankAccount Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IBankAccount>();
       const bankAccount = { id: 22720 };
-      vitest.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue({ id: null });
-      vitest.spyOn(bankAccountService, 'create').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(bankAccountFormService, 'getBankAccount').mockReturnValue({ id: null });
+      vi.spyOn(bankAccountService, 'create').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ bankAccount: null });
       comp.ngOnInit();
 
@@ -133,8 +133,8 @@ describe('BankAccount Management Update Component', () => {
       // GIVEN
       const saveSubject = new Subject<IBankAccount>();
       const bankAccount = { id: 22720 };
-      vitest.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
-      vitest.spyOn(comp, 'previousState');
+      vi.spyOn(bankAccountService, 'update').mockReturnValue(saveSubject);
+      vi.spyOn(comp, 'previousState');
       activatedRoute.data = of({ bankAccount });
       comp.ngOnInit();
 
@@ -155,7 +155,7 @@ describe('BankAccount Management Update Component', () => {
       it('should forward to userService', () => {
         const entity = { id: 3944 };
         const entity2 = { id: 6275 };
-        vitest.spyOn(userService, 'compareUser');
+        vi.spyOn(userService, 'compareUser');
         comp.compareUser(entity, entity2);
         expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });

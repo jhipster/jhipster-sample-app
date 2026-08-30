@@ -100,7 +100,7 @@
                   >
                 }
 
-                @if (emailRef?.errors?.invalid) {
+                @if (emailRef?.errors?.email) {
                   <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.invalid">Your email is invalid.</small>
                 }
 

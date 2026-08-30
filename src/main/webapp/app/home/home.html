@@ -9,13 +9,11 @@
     <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
     <div>
-      @if (account() !== null) {
+      @if (account(); as accountRef) {
         <div class="alert alert-success">
-          @if (account(); as accountRef) {
-            <span id="home-logged-message" jhiTranslate="home.logged.message" [translateValues]="{ username: accountRef.login }"
-              >You are logged in as user &quot;{{ accountRef.login }}&quot;.</span
-            >
-          }
+          <span id="home-logged-message" jhiTranslate="home.logged.message" [translateValues]="{ username: accountRef.login }"
+            >You are logged in as user &quot;{{ accountRef.login }}&quot;.</span
+          >
         </div>
       } @else {
         <div class="alert alert-warning">

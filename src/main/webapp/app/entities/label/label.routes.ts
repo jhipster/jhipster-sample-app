@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { ASC } from 'app/config/navigation.constants';
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ASC } from 'app/config';
+import { userRouteAccessService } from 'app/core/auth';
 
 import LabelResolve from './route/label-routing-resolve.service';
 
@@ -12,7 +12,7 @@ const labelRoute: Routes = [
     data: {
       defaultSort: `id,${ASC}`,
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: ':id/view',
@@ -20,7 +20,7 @@ const labelRoute: Routes = [
     resolve: {
       label: LabelResolve,
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: 'new',
@@ -28,7 +28,7 @@ const labelRoute: Routes = [
     resolve: {
       label: LabelResolve,
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
   {
     path: ':id/edit',
@@ -36,7 +36,7 @@ const labelRoute: Routes = [
     resolve: {
       label: LabelResolve,
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [userRouteAccessService],
   },
 ];
 

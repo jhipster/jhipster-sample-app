@@ -1,17 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 
-import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
-import { AlertError } from 'app/shared/alert/alert-error';
+import { ITEM_DELETED_EVENT } from 'app/config';
+import { AlertError } from 'app/shared/alert';
 import { TranslateDirective } from 'app/shared/language';
 import { UserManagementService } from '../service/user-management.service';
 import { IUserManagement } from '../user-management.model';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-management-delete-dialog.html',
   imports: [TranslateDirective, FormsModule, FontAwesomeModule, AlertError],
 })

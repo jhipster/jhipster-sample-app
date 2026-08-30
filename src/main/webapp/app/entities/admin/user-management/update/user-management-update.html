@@ -1,146 +1,151 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="myUserLabel" data-cy="UserManagementCreateUpdateHeading" jhiTranslate="userManagement.home.createOrEditLabel">
+      <h2 id="jhi-user-management-heading" data-cy="UserManagementCreateUpdateHeading" jhiTranslate="userManagement.home.createOrEditLabel">
         Create or edit a user
       </h2>
 
-      <jhi-alert-error />
-
-      <div class="mb-3" [hidden]="!editForm.value.id">
-        <label class="form-label" for="field_id" jhiTranslate="global.field.id">ID</label>
-        <input type="text" id="field_id" class="form-control" name="id" formControlName="id" readonly />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="field_login" jhiTranslate="userManagement.login">Login</label>
-        <input type="text" id="field_login" class="form-control" name="login" formControlName="login" data-cy="login" />
+      <div>
+        <jhi-alert-error />
 
         @let loginRef = editForm.get('login')!;
-        @if (loginRef.invalid && (loginRef.dirty || loginRef.touched)) {
-          <div>
-            @if (loginRef?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
-
-            @if (loginRef?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
-                >This field cannot be longer than 50 characters.</small
-              >
-            }
-
-            @if (loginRef?.errors?.pattern) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.patternLogin"
-                >This field can only contain letters, digits and e-mail addresses.</small
-              >
-            }
-          </div>
-        }
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="field_firstName" jhiTranslate="userManagement.firstName">First name</label>
-        <input type="text" id="field_firstName" class="form-control" name="firstName" formControlName="firstName" data-cy="firstName" />
+        <div class="mb-3">
+          <label class="form-label" for="field_login" jhiTranslate="userManagement.login">Login</label>
+          <input type="text" class="form-control" name="login" id="field_login" data-cy="login" formControlName="login" />
+          @if (loginRef.invalid && (loginRef.dirty || loginRef.touched)) {
+            <div>
+              @if (loginRef.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (loginRef.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
+                  >This field cannot be longer than 50 characters.</small
+                >
+              }
+              @if (loginRef.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.patternLogin"
+                  >This field can only contain letters, digits and e-mail addresses.</small
+                >
+              }
+            </div>
+          }
+        </div>
 
         @let firstNameRef = editForm.get('firstName')!;
-        @if (firstNameRef.invalid && (firstNameRef.dirty || firstNameRef.touched)) {
-          <div>
-            @if (firstNameRef?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
-                >This field cannot be longer than 50 characters.</small
-              >
-            }
-          </div>
-        }
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="field_lastName" jhiTranslate="userManagement.lastName">Last name</label>
-        <input type="text" id="field_lastName" class="form-control" name="lastName" formControlName="lastName" data-cy="lastName" />
+        <div class="mb-3">
+          <label class="form-label" for="field_firstName" jhiTranslate="userManagement.firstName">First name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+          @if (firstNameRef.invalid && (firstNameRef.dirty || firstNameRef.touched)) {
+            <div>
+              @if (firstNameRef.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
+                  >This field cannot be longer than 50 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
 
         @let lastNameRef = editForm.get('lastName')!;
-        @if (lastNameRef.invalid && (lastNameRef.dirty || lastNameRef.touched)) {
-          <div>
-            @if (lastNameRef?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
-                >This field cannot be longer than 50 characters.</small
-              >
-            }
-          </div>
-        }
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="field_email" jhiTranslate="userManagement.email">Email</label>
-        <input type="email" id="field_email" class="form-control" name="email" formControlName="email" data-cy="email" />
+        <div class="mb-3">
+          <label class="form-label" for="field_lastName" jhiTranslate="userManagement.lastName">Last name</label>
+          <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+          @if (lastNameRef.invalid && (lastNameRef.dirty || lastNameRef.touched)) {
+            <div>
+              @if (lastNameRef.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
+                  >This field cannot be longer than 50 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
 
         @let emailRef = editForm.get('email')!;
-        @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
-          <div>
-            @if (emailRef?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="userManagement.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+            <div>
+              @if (emailRef.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (emailRef.errors?.minlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '5' }"
+                  >This field is required to be at least 5 characters.</small
+                >
+              }
+              @if (emailRef.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '191' }"
+                  >This field cannot be longer than 191 characters.</small
+                >
+              }
+              @if (emailRef.errors?.email) {
+                <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.invalid">Your email is invalid.</small>
+              }
+            </div>
+          }
+        </div>
 
-            @if (emailRef?.errors?.maxlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '100' }"
-                >This field cannot be longer than 100 characters.</small
-              >
-            }
-
-            @if (emailRef?.errors?.minlength) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '5' }"
-                >This field is required to be at least 5 characters.</small
-              >
-            }
-
-            @if (emailRef?.errors?.email) {
-              <small class="form-text text-danger" jhiTranslate="global.messages.validate.email.invalid">Your email is invalid.</small>
-            }
+        @if (editForm.controls.activated.value !== null) {
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              name="activated"
+              id="field_activated"
+              data-cy="activated"
+              formControlName="activated"
+            />
+            <label class="form-check-label" for="field_activated" jhiTranslate="userManagement.activated">Activated</label>
           </div>
         }
-      </div>
 
-      <div class="form-check">
-        <label class="form-check-label" for="activated">
-          <input
-            class="form-check-input"
-            [attr.disabled]="editForm.value.id === undefined ? 'disabled' : null"
-            type="checkbox"
-            id="activated"
-            name="activated"
-            formControlName="activated"
-            data-cy="activated"
-          />
-          <span jhiTranslate="userManagement.activated">Activated</span>
-        </label>
-      </div>
-
-      @if (languages && languages.length > 0) {
+        @let langKeyRef = editForm.get('langKey')!;
         <div class="mb-3">
-          <label class="form-label" for="langKey" jhiTranslate="userManagement.langKey">Language</label>
-          <select class="form-control" id="langKey" name="langKey" formControlName="langKey" data-cy="langKey">
-            @for (language of languages; track $index) {
-              <option [value]="language">{{ language | findLanguageFromKey }}</option>
+          <label class="form-label" for="field_langKey" jhiTranslate="userManagement.langKey">Language</label>
+          <select class="form-control" name="langKey" formControlName="langKey" id="field_langKey" data-cy="langKey">
+            <option [ngValue]="null"></option>
+            @for (langKey of langKeyValues; track $index) {
+              <option [value]="langKey">{{ langKey | findLanguageFromKey }}</option>
+            }
+          </select>
+          @if (langKeyRef.invalid && (langKeyRef.dirty || langKeyRef.touched)) {
+            <div>
+              @if (langKeyRef.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '10' }"
+                  >This field cannot be longer than 10 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_authority" jhiTranslate="userManagement.profiles">Profiles</label>
+          <select class="form-control" id="field_authority" multiple name="authority" formControlName="authorities">
+            @for (authority of authorities(); track $index) {
+              <option [value]="authority">{{ authority }}</option>
             }
           </select>
         </div>
-      }
-
-      <div class="mb-3">
-        <label class="form-label" for="field_authority" jhiTranslate="userManagement.profiles">Profiles</label>
-        <select class="form-control" id="field_authority" multiple name="authority" formControlName="authorities">
-          @for (authority of authorities(); track $index) {
-            <option [value]="authority">{{ authority }}</option>
-          }
-        </select>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="previousState()" data-cy="entityCreateCancelButton">
-        <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-      </button>
 
-      <button type="submit" [disabled]="editForm.invalid || isSaving()" class="btn btn-primary" data-cy="entityCreateSaveButton">
-        <fa-icon icon="save" />&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-      </button>
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving()"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save" />&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
     </form>
   </div>
 </div>

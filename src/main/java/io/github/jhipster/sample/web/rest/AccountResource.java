@@ -89,7 +89,7 @@ public class AccountResource {
     public void activateAccount(@RequestParam(value = "key") String key) {
         LOG.debug("REST request to activate account");
         Optional<User> user = userService.activateRegistration(key);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
     }
@@ -127,7 +127,7 @@ public class AccountResource {
             throw new EmailAlreadyUsedException();
         }
         Optional<User> user = userRepository.findOneByLogin(userLogin);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new AccountResourceException("User could not be found");
         }
         userService.updateUser(
@@ -186,7 +186,7 @@ public class AccountResource {
         }
         Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             // Dummy hash to prevent reset-key enumeration via response-time timing attack:
             // mirrors the bcrypt cost of a successful path so both branches take equal time.
             passwordEncoder.encode(keyAndPassword.getNewPassword());

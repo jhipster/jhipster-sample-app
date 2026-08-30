@@ -2,7 +2,6 @@ package io.github.jhipster.sample;
 
 import io.github.jhipster.sample.config.AsyncSyncConfiguration;
 import io.github.jhipster.sample.config.EmbeddedSQL;
-import io.github.jhipster.sample.config.JacksonConfiguration;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(
     classes = {
         JhipsterSampleApplicationApp.class,
-        JacksonConfiguration.class,
         AsyncSyncConfiguration.class,
         io.github.jhipster.sample.config.JacksonHibernateConfiguration.class,
     }

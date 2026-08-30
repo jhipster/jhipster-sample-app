@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api/labels")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class LabelResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(LabelResource.class);

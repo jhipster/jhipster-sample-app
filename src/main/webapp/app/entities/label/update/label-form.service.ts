@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ILabel, NewLabel } from '../label.model';
@@ -24,7 +24,7 @@ type LabelFormGroupContent = {
 
 export type LabelFormGroup = FormGroup<LabelFormGroupContent>;
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LabelFormService {
   createLabelFormGroup(label?: LabelFormGroupInput): LabelFormGroup {
     const labelRawValue = {

@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideTranslateService } from '@ngx-translate/core';
 
-import { AlertModel, AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
+import { AlertModel, AlertService, EventManager } from 'app/core/util';
 import { MESSAGE_ERROR_HEADER_NAME, MESSAGE_PARAM_HEADER_NAME } from 'app/shared/jhipster/constants';
 import { ProblemWithMessageType } from 'app/shared/jhipster/problem-details';
 
@@ -28,10 +28,8 @@ describe('Alert Error Component', () => {
     comp = fixture.componentInstance;
     eventManager = TestBed.inject(EventManager);
     alertService = TestBed.inject(AlertService);
-    alertService.addAlert = (alert: AlertModel, alerts?: AlertModel[]) => {
-      if (alerts) {
-        alerts.push(alert);
-      }
+    alertService.addAlert = (alert: AlertModel, alerts?: WritableSignal<AlertModel[]>) => {
+      alerts?.update(current => [...current, alert]);
       return alert;
     };
   });

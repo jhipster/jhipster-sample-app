@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap/progressbar';
 
@@ -8,7 +8,6 @@ import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-metrics-garbagecollector',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './metrics-garbagecollector.html',
   imports: [NgbProgressbar, DecimalPipe, TranslateDirective],
 })

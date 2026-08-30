@@ -1,21 +1,19 @@
-import { type Mock, beforeEach, describe, expect, it, vitest } from 'vitest';
-import { ChangeDetectionStrategy, Component, ElementRef, WritableSignal, signal, viewChild } from '@angular/core';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Component, ElementRef, WritableSignal, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { provideTranslateService } from '@ngx-translate/core';
 
-import { Account } from 'app/core/auth/account.model';
-import { AccountService } from 'app/core/auth/account.service';
+import { Account, AccountService } from 'app/core/auth';
 
 import HasAnyAuthorityDirective from './has-any-authority.directive';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HasAnyAuthorityDirective],
   template: `<div *jhiHasAnyAuthority="'ROLE_ADMIN'" #content></div>`,
 })
 class TestHasAnyAuthorityDirective {
-  content = viewChild<ElementRef>('content');
+  readonly content = viewChild<ElementRef>('content');
 }
 
 describe('HasAnyAuthorityDirective tests', () => {
@@ -24,7 +22,7 @@ describe('HasAnyAuthorityDirective tests', () => {
 
   beforeEach(() => {
     currentAccount = signal<Account | null>({ activated: true, authorities: [] } as any);
-    hasAnyAuthority = vitest.fn((): boolean => Boolean(currentAccount()));
+    hasAnyAuthority = vi.fn((): boolean => Boolean(currentAccount()));
 
     TestBed.configureTestingModule({
       providers: [
@@ -50,7 +48,7 @@ describe('HasAnyAuthorityDirective tests', () => {
       fixture.detectChanges();
 
       // THEN
-      expect(comp.content).toBeDefined();
+      expect(comp.content()).toBeDefined();
     });
 
     it('should not show restricted content to user if user has not required role', () => {
@@ -93,7 +91,7 @@ describe('HasAnyAuthorityDirective tests', () => {
       fixture.detectChanges();
 
       // THEN
-      expect(comp.content).toBeDefined();
+      expect(comp.content()).toBeDefined();
     });
   });
 });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,6 @@ import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-error',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateDirective],
   templateUrl: './error.html',
 })

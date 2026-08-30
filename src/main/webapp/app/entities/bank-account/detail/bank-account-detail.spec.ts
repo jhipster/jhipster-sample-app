@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
@@ -52,7 +52,7 @@ describe('BankAccount Management Detail Component', () => {
 
   describe('PreviousState', () => {
     it('should navigate to previous state', () => {
-      vitest.spyOn(globalThis.history, 'back');
+      vi.spyOn(globalThis.history, 'back');
       comp.previousState();
       expect(globalThis.history.back).toHaveBeenCalled();
     });

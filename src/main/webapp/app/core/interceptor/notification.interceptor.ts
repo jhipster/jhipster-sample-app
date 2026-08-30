@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 
 import { tap } from 'rxjs';
 
-import { AlertService } from 'app/core/util/alert.service';
+import { AlertService } from 'app/core/util';
 import { getMessageFromHeaders } from 'app/shared/jhipster/headers';
 
 export const notificationInterceptor: HttpInterceptorFn = (req, next) => {

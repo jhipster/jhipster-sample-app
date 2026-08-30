@@ -22,7 +22,7 @@ import { errorHandlerInterceptor } from 'app/core/interceptor/error-handler.inte
 import { notificationInterceptor } from 'app/core/interceptor/notification.interceptor';
 
 import './config/dayjs';
-import { provideTranslation } from 'app/shared/language/translation.provider';
+import { provideTranslation } from 'app/shared/language';
 
 import { AppPageTitleStrategy } from './app-page-title-strategy';
 import routes from './app.routes';

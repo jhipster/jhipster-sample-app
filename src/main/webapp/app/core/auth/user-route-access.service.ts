@@ -3,11 +3,10 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 
 import { map } from 'rxjs';
 
-import { AccountService } from 'app/core/auth/account.service';
-
+import { AccountService } from './account.service';
 import { StateStorageService } from './state-storage.service';
 
-export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const userRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const accountService = inject(AccountService);
   const router = inject(Router);
   const stateStorageService = inject(StateStorageService);
@@ -16,7 +15,7 @@ export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapsh
       if (account) {
         const { authorities } = next.data;
 
-        if (!authorities || authorities.length === 0 || accountService.hasAnyAuthority(authorities)) {
+        if (!authorities?.length || accountService.hasAnyAuthority(authorities)) {
           return true;
         }
 

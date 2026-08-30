@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -7,20 +7,17 @@ import { NgbDropdown, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/n
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'environments/environment';
 
-import { LANGUAGES } from 'app/config/language.constants';
-import { AccountService } from 'app/core/auth/account.service';
-import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { LANGUAGES } from 'app/config';
+import { AccountService, StateStorageService } from 'app/core/auth';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { LoginService } from 'app/login/login.service';
-import HasAnyAuthorityDirective from 'app/shared/auth/has-any-authority.directive';
-import { TranslateDirective } from 'app/shared/language';
-import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
+import { HasAnyAuthorityDirective } from 'app/shared/auth';
+import { FindLanguageFromKeyPipe, TranslateDirective } from 'app/shared/language';
 
 import ActiveMenuDirective from './active-menu.directive';
 
 @Component({
   selector: 'jhi-navbar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   imports: [
