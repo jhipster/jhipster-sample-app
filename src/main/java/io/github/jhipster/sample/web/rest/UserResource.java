@@ -155,7 +155,7 @@ public class UserResource {
     }
 
     /**
-     * {@code GET /admin/users} : get all users with all the details - calling this are only allowed for the administrators.
+     * {@code GET /admin/users} : get all users with all the details - calling this is only allowed for the administrators.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.

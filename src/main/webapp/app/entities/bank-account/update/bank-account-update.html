@@ -50,7 +50,7 @@
 
         <div class="mb-3">
           <label class="form-label" for="field_user" jhiTranslate="jhipsterSampleApplicationApp.bankAccount.user">User</label>
-          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+          <select class="form-select" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
             @for (userOption of usersSharedCollection(); track $index) {
               <option [ngValue]="userOption">{{ userOption.login }}</option>

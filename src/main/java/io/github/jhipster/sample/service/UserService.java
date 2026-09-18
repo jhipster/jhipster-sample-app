@@ -225,7 +225,7 @@ public class UserService {
      *
      * @param firstName first name of user.
      * @param lastName  last name of user.
-     * @param email     email id of user.
+     * @param email     email of user.
      * @param langKey   language key.
      * @param imageUrl  image URL of user.
      */

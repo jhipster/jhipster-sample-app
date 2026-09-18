@@ -1,6 +1,6 @@
 # jhipsterSampleApplication
 
-This application was generated using JHipster 9.3.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.3.0](https://www.jhipster.tech/documentation-archive/v9.3.0).
+This application was generated using JHipster 9.4.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.4.0](https://www.jhipster.tech/documentation-archive/v9.4.0).
 
 ## Project Structure
 
@@ -31,7 +31,7 @@ You will only need to run this command when dependencies change in [package.json
 ./npmw install
 ```
 
-We use npm scripts and [Angular CLI](https://angular.dev/tools/cli) with Webpack as our build system.
+We use npm scripts and [Angular CLI](https://angular.dev/tools/cli) with esbuild as our build system.
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
@@ -71,7 +71,7 @@ To benefit from TypeScript type definitions from [DefinitelyTyped](https://defin
 ./npmw install --save-dev --save-exact @types/leaflet
 ```
 
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
+Then you would import the JS and CSS files specified in library's installation instructions so that [esbuild][] knows about them:
 Edit [src/main/webapp/app/app.config.ts](src/main/webapp/app/app.config.ts) file:
 
 ```typescript
@@ -273,27 +273,25 @@ Then run:
 docker compose -f src/main/docker/app.yml up -d
 ```
 
-For more information refer to [Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.3.0/docker-compose/), this page also contains information on the Docker Compose sub-generator (`jhipster docker-compose`), which is able to generate Docker configurations for one or several JHipster applications.
+For more information refer to [Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.4.0/docker-compose/), this page also contains information on the Docker Compose sub-generator (`jhipster docker-compose`), which is able to generate Docker configurations for one or several JHipster applications.
 
 ## Continuous Integration (optional)
 
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.3.0/setting-up-ci/) page for more information.
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.4.0/setting-up-ci/) page for more information.
 
 ## References
 
 - [JHipster Homepage and latest documentation](https://www.jhipster.tech/)
-- [JHipster 9.3.0 archive](https://www.jhipster.tech/documentation-archive/v9.3.0)
-- [Using JHipster in development](https://www.jhipster.tech/documentation-archive/v9.3.0/development/)
-- [Using Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.3.0/docker-compose)
-- [Using JHipster in production](https://www.jhipster.tech/documentation-archive/v9.3.0/production/)
-- [Running tests page](https://www.jhipster.tech/documentation-archive/v9.3.0/running-tests/)
-- [Code quality page](https://www.jhipster.tech/documentation-archive/v9.3.0/code-quality/)
-- [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.3.0/setting-up-ci/)
+- [JHipster 9.4.0 archive](https://www.jhipster.tech/documentation-archive/v9.4.0)
+- [Using JHipster in development](https://www.jhipster.tech/documentation-archive/v9.4.0/development/)
+- [Using Docker and Docker-Compose](https://www.jhipster.tech/documentation-archive/v9.4.0/docker-compose)
+- [Using JHipster in production](https://www.jhipster.tech/documentation-archive/v9.4.0/production/)
+- [Running tests page](https://www.jhipster.tech/documentation-archive/v9.4.0/running-tests/)
+- [Code quality page](https://www.jhipster.tech/documentation-archive/v9.4.0/code-quality/)
+- [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.4.0/setting-up-ci/)
 - [Node.js](https://nodejs.org/)
 - [NPM](https://www.npmjs.com/)
 - [Gatling](https://gatling.io/)
-- [Webpack](https://webpack.js.org/)
-- [BrowserSync](https://www.browsersync.io/)
 - [Jest](https://jestjs.io)
 - [Leaflet](https://leafletjs.com/)
 - [DefinitelyTyped](https://definitelytyped.org/)

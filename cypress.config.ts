@@ -10,7 +10,6 @@ export default defineConfig({
   viewportWidth: 1200,
   viewportHeight: 720,
   retries: 2,
-  allowCypressEnv: false,
   expose: {
     adminUsername: 'admin',
     adminPassword: 'admin',

@@ -45,7 +45,7 @@ public class LabelResource {
      * {@code POST  /labels} : Create a new label.
      *
      * @param label the label to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new label, or with status {@code 400 (Bad Request)} if the label has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new label, or with status {@code 400 (Bad Request)} if the label already has an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -107,7 +107,7 @@ public class LabelResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Label label
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update Label partially : {}, {}", id, label);
+        LOG.debug("REST request to partially update Label : {}, {}", id, label);
         if (label.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }

@@ -1,10 +1,9 @@
 import { Component, DOCUMENT, OnInit, Renderer2, RendererFactory2, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, TitleStrategy } from '@angular/router';
 
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
-import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
 import { AccountService } from 'app/core/auth';
 import Footer from '../footer/footer';
 import PageRibbon from '../profiles/page-ribbon';
@@ -12,7 +11,6 @@ import PageRibbon from '../profiles/page-ribbon';
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.html',
-  providers: [AppPageTitleStrategy],
   imports: [RouterOutlet, Footer, PageRibbon],
 })
 export default class Main implements OnInit {
@@ -20,7 +18,7 @@ export default class Main implements OnInit {
   private readonly htmlElement: HTMLElement;
 
   private readonly router = inject(Router);
-  private readonly appPageTitleStrategy = inject(AppPageTitleStrategy);
+  private readonly titleStrategy = inject(TitleStrategy);
   private readonly accountService = inject(AccountService);
   private readonly document = inject(DOCUMENT);
   private readonly translateService = inject(TranslateService);
@@ -36,7 +34,7 @@ export default class Main implements OnInit {
     this.accountService.identity().subscribe();
 
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.appPageTitleStrategy.updateTitle(this.router.routerState.snapshot);
+      this.titleStrategy.updateTitle(this.router.routerState.snapshot);
       dayjs.locale(langChangeEvent.lang);
       this.renderer.setAttribute(this.htmlElement, 'lang', langChangeEvent.lang);
     });

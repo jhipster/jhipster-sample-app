@@ -104,7 +104,7 @@
         @let langKeyRef = editForm.get('langKey')!;
         <div class="mb-3">
           <label class="form-label" for="field_langKey" jhiTranslate="userManagement.langKey">Language</label>
-          <select class="form-control" name="langKey" formControlName="langKey" id="field_langKey" data-cy="langKey">
+          <select class="form-select" name="langKey" formControlName="langKey" id="field_langKey" data-cy="langKey">
             <option [ngValue]="null"></option>
             @for (langKey of langKeyValues; track $index) {
               <option [value]="langKey">{{ langKey | findLanguageFromKey }}</option>
@@ -123,7 +123,7 @@
 
         <div class="mb-3">
           <label class="form-label" for="field_authority" jhiTranslate="userManagement.profiles">Profiles</label>
-          <select class="form-control" id="field_authority" multiple name="authority" formControlName="authorities">
+          <select class="form-select" id="field_authority" multiple name="authority" formControlName="authorities">
             @for (authority of authorities(); track $index) {
               <option [value]="authority">{{ authority }}</option>
             }

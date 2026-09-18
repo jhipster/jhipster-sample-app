@@ -45,7 +45,7 @@ public class BankAccountResource {
      * {@code POST  /bank-accounts} : Create a new bankAccount.
      *
      * @param bankAccount the bankAccount to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankAccount, or with status {@code 400 (Bad Request)} if the bankAccount has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankAccount, or with status {@code 400 (Bad Request)} if the bankAccount already has an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -109,7 +109,7 @@ public class BankAccountResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BankAccount bankAccount
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update BankAccount partially : {}, {}", id, bankAccount);
+        LOG.debug("REST request to partially update BankAccount : {}, {}", id, bankAccount);
         if (bankAccount.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }

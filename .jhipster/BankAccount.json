@@ -2,7 +2,6 @@
   "annotations": {
     "changelogDate": "20150805124838"
   },
-  "changelogDate": "20150805124838",
   "dto": "no",
   "entityTableName": "bank_account",
   "fields": [

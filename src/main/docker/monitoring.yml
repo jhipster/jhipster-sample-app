@@ -15,7 +15,7 @@ services:
     # grafana/provisioning/datasources/datasource.yml
     network_mode: 'host' # to test locally running service
   grafana:
-    image: grafana/grafana:13.2.0
+    image: grafana/grafana:13.2.2
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:

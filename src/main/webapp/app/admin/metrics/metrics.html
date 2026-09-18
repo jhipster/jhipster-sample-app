@@ -25,7 +25,7 @@
   }
 
   @if (updatingMetrics()) {
-    <div class="well well-lg" jhiTranslate="metrics.updating">Updating...</div>
+    <div class="alert alert-info" jhiTranslate="metrics.updating">Updating...</div>
   }
 
   @if (metricsRef?.['http.server.requests']; as metricsRefHttpServerRequests) {

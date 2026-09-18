@@ -134,7 +134,7 @@
                   </a>
 
                   <button
-                    type="submit"
+                    type="button"
                     (click)="delete(userManagement)"
                     class="btn btn-danger btn-sm"
                     [disabled]="!currentAccount() || currentAccount()?.login === userManagement.login"

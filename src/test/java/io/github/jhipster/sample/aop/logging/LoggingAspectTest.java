@@ -87,7 +87,7 @@ class LoggingAspectTest {
         aspect.logAfterThrowing(joinPoint, new IllegalStateException("failed"));
 
         assertThat(messages()).containsExactly("Exception in loggedMethod() with cause = 'NULL' and exception = 'failed'");
-        assertThat(appender.list.get(0).getThrowableProxy()).isNotNull();
+        assertThat(appender.list.getFirst().getThrowableProxy()).isNotNull();
     }
 
     @Test
@@ -97,6 +97,6 @@ class LoggingAspectTest {
         aspect.logAfterThrowing(joinPoint, new IllegalStateException("failed", new RuntimeException("root")));
 
         assertThat(messages()).containsExactly("Exception in loggedMethod() with cause = java.lang.RuntimeException: root");
-        assertThat(appender.list.get(0).getThrowableProxy()).isNull();
+        assertThat(appender.list.getFirst().getThrowableProxy()).isNull();
     }
 }
